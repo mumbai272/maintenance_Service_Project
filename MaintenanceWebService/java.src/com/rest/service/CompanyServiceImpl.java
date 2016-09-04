@@ -39,11 +39,15 @@ public class CompanyServiceImpl {
      * 
      * @param companyId
      * @param clientId
-     * @param fetchAddress 
+     * @param fetchAddress
      * @return
      */
     public List<CompanyDTO> getCompanyDeatils(Long companyId, Long clientId, Boolean fetchAddress) {
+        Boolean fetchCompany = false;
         List<Company> companys = new ArrayList<Company>();
+        if (clientId != null && companyId.equals(clientId)) {
+            fetchCompany = true;
+        }
         if (clientId != null) {
             Company company = companyRepository.findOne(clientId);
             if (company == null) {
@@ -56,23 +60,26 @@ public class CompanyServiceImpl {
         if (CollectionUtils.isEmpty(companys)) {
             throw new RuntimeException("No client found for the company id: " + companyId);
         }
-        List<CompanyDTO> companyDTOs=buidComapnyDTO(companys, fetchAddress);
-        
+        List<CompanyDTO> companyDTOs = buidComapnyDTO(companys, fetchAddress, fetchCompany);
+
         return companyDTOs;
 
     }
 
-    private List<CompanyDTO> buidComapnyDTO(List<Company> companys, Boolean fetchAddress) {
-        Map<Long,CompanyDTO> companyDTOmap=new HashMap<Long,CompanyDTO>();
-        List<Long> clinetIds=new ArrayList<Long>();
+    private List<CompanyDTO> buidComapnyDTO(List<Company> companys, Boolean fetchAddress,
+            Boolean fetchCompany) {
+        Map<Long, CompanyDTO> companyDTOmap = new HashMap<Long, CompanyDTO>();
+        List<Long> clinetIds = new ArrayList<Long>();
         for (Company company : companys) {
-            CompanyDTO companyDTO =
-                    new CompanyDTO(company.getCompanyId(), company.getClientId(), company.getShortDesc(),
-                        company.getDescription(), null);
-            clinetIds.add(company.getClientId());
-            companyDTOmap.put(company.getClientId(),companyDTO);
+            if (fetchCompany || !company.getCompanyId().equals(company.getClientId())) {
+                CompanyDTO companyDTO =
+                    new CompanyDTO(company.getCompanyId(), company.getClientId(),
+                        company.getShortDesc(), company.getDescription(), null);
+                clinetIds.add(company.getClientId());
+                companyDTOmap.put(company.getClientId(), companyDTO);
+            }
         }
-        if(fetchAddress){
+        if (fetchAddress) {
             List<Address> addresses =
                 addressRepository.findByLinkedIdInAndLinkedType(clinetIds,
                     EntityType.COMPANY.getValue());
@@ -110,5 +117,5 @@ public class CompanyServiceImpl {
         return null;
     }
 
-  
+
 }

@@ -41,7 +41,6 @@ public class ComapanyRestServiceImpl {
      * @param fetchAddress
      * @return
      */
-
     @Path(value = "/company/{companyId}")
     @GET
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
