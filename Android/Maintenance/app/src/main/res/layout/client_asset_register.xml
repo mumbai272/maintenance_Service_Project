@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ClientAssetRegister">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Client Id"
+        android:id="@+id/cleint_id"
+        android:textStyle="bold"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="28dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Asset Type"
+        android:id="@+id/asset_type"
+        android:textStyle="bold"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/cleint_id"
+        android:layout_alignStart="@+id/cleint_id" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Make Id"
+        android:id="@+id/Make_id"
+        android:textStyle="bold"
+        android:layout_below="@+id/asset_type"
+        android:layout_alignStart="@+id/asset_type"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Model Id"
+        android:id="@+id/model_id"
+        android:layout_below="@+id/Make_id"
+        android:textStyle="bold"
+        android:layout_alignStart="@+id/Make_id"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Asset No"
+        android:id="@+id/asset_no"
+        android:textStyle="bold"
+        android:layout_below="@+id/model_id"
+        android:layout_alignStart="@+id/model_id"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Asset Description"
+        android:id="@+id/asset_desc"
+        android:textStyle="bold"
+        android:layout_below="@+id/asset_no"
+        android:layout_alignStart="@+id/asset_no"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="MFG SL No"
+        android:id="@+id/mfg_sf_no"
+        android:textStyle="bold"
+        android:layout_below="@+id/asset_desc"
+        android:layout_alignStart="@+id/asset_desc"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="INST SL NO"
+        android:textStyle="bold"
+        android:id="@+id/inst_sl_no"
+        android:layout_below="@+id/mfg_sf_no"
+        android:layout_alignStart="@+id/mfg_sf_no"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Date MFG"
+        android:id="@+id/date_mfg"
+        android:textStyle="bold"
+        android:layout_below="@+id/inst_sl_no"
+        android:layout_alignStart="@+id/inst_sl_no"
+        android:layout_marginTop="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Date Install"
+        android:id="@+id/date_install"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/editText_date_install"
+        android:layout_alignStart="@+id/date_mfg" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText_date_mfg"
+        android:layout_alignBottom="@+id/date_mfg"
+        android:layout_toEndOf="@+id/asset_desc" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText_date_install"
+        android:layout_below="@+id/date_mfg"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/asset_desc" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/editText_asset_desc"
+        android:layout_above="@+id/mfg_sf_no"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/asset_desc" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_alignBottom="@+id/inst_sl_no"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/asset_desc"
+        android:id="@+id/editText_inst_sl_no" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editText_mfg_sl_no"
+        android:layout_above="@+id/inst_sl_no"
+        android:layout_alignStart="@+id/editText_asset_desc" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editText_asset_no"
+        android:layout_above="@+id/editText_asset_desc"
+        android:layout_alignStart="@+id/editText_asset_desc" />
+
+    <Spinner
+        android:id="@+id/spinner_client_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/asset_desc"
+        android:layout_above="@+id/asset_type"
+        android:layout_alignParentTop="true" />
+
+    <Spinner
+        android:id="@+id/spinner_asset_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/asset_desc"
+        android:layout_below="@+id/spinner_client_id"
+        android:layout_above="@+id/Make_id" />
+
+    <Spinner
+        android:id="@+id/spinner_make_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/model_id"
+        android:layout_toEndOf="@+id/asset_desc"
+        android:layout_below="@+id/spinner_asset_type" />
+
+    <Spinner
+        android:id="@+id/spinner_model_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editText_asset_no"
+        android:layout_toEndOf="@+id/asset_desc"
+        android:layout_below="@+id/spinner_make_id" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD"
+        android:id="@+id/registerbtn"
+        android:color="#3F51B5"
+        android:layout_below="@+id/date_install"
+        android:layout_alignEnd="@+id/editText_date_install"
+        android:layout_alignStart="@+id/date_install" />
+
+
+</RelativeLayout>
