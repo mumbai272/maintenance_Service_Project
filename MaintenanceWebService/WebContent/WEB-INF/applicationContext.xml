@@ -59,10 +59,10 @@
 		<property name="provider" ref="validationProvider" />
 	</bean>
 
-	<bean id="validationOutInterceptor"
-		class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor">
-		<property name="provider" ref="validationProvider" />
-	</bean>
+<!-- 	<bean id="validationOutInterceptor" -->
+<!-- 		class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor"> -->
+<!-- 		<property name="provider" ref="validationProvider" /> -->
+<!-- 	</bean> -->
 
 
 	<!--Aop xml config -->

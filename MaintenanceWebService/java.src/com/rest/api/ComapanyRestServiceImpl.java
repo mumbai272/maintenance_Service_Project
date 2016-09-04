@@ -3,8 +3,11 @@
 //============================================================
 package com.rest.api;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,6 +38,7 @@ public class ComapanyRestServiceImpl {
      * 
      * @param companyId
      * @param clientId
+     * @param fetchAddress
      * @return
      */
 
@@ -43,19 +47,25 @@ public class ComapanyRestServiceImpl {
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response getCompanyDetails(@PathParam("companyId") Long companyId,
-            @QueryParam("clientId") Long clientId) {
+            @QueryParam("clientId") Long clientId,
+            @DefaultValue("false") @QueryParam(value = "fetchAddress") boolean fetchAddress) {
+        BaseResponse<List<CompanyDTO>> response = new BaseResponse<List<CompanyDTO>>();
         try {
-            CompanyDTO companyDTO = companyServiceImpl.getCompanyDeatils(companyId, clientId);
-            return Response.ok(companyDTO).build();
+            List<CompanyDTO> companyDTOs =
+                companyServiceImpl.getCompanyDeatils(companyId, clientId, fetchAddress);
+            response.setMsg("SUCCESS");
+            response.setStatusCode(1);
+            response.setData(companyDTOs);
+            return Response.ok(response).build();
         } catch (Exception ex) {
-            BaseResponse response = new BaseResponse();
+
             response.setMsg(ex.getMessage());
             response.setStatusCode(-1);
             return Response.ok(response).build();
         }
     }
 
-    @Path(value = "/comapany")
+    @Path(value = "/company")
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -70,6 +80,6 @@ public class ComapanyRestServiceImpl {
             response.setStatusCode(-1);
 
         }
-        return Response.ok(companyDTO).build();
+        return Response.ok(response).build();
     }
 }

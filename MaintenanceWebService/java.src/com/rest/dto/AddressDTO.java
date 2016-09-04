@@ -3,11 +3,13 @@
 //============================================================
 package com.rest.dto;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 
 
-public class AddressDTO {
+public class AddressDTO implements Serializable {
 
     private Long addressId;
 

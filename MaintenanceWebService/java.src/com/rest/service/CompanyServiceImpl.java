@@ -3,13 +3,17 @@
 //============================================================
 package com.rest.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import javax.transaction.Transactional;
-
+import org.apache.cxf.common.util.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rest.common.EntityType;
 import com.rest.common.StatusType;
@@ -35,29 +39,50 @@ public class CompanyServiceImpl {
      * 
      * @param companyId
      * @param clientId
+     * @param fetchAddress 
      * @return
      */
-    public CompanyDTO getCompanyDeatils(Long companyId, Long clientId) {
-        Company company = companyRepository.findOne(clientId);
-        if (company == null) {
-            throw new RuntimeException("Entity not found for client id :" + clientId);
+    public List<CompanyDTO> getCompanyDeatils(Long companyId, Long clientId, Boolean fetchAddress) {
+        List<Company> companys = new ArrayList<Company>();
+        if (clientId != null) {
+            Company company = companyRepository.findOne(clientId);
+            if (company == null) {
+                throw new RuntimeException("Entity not found for client id :" + clientId);
+            }
+            companys.add(company);
+        } else {
+            companys = companyRepository.findByCompanyId(companyId);
         }
-        Address address =
-            addressRepository.findByLinkedIdAndLinkedType(clientId, EntityType.COMPANY.getValue());
-        CompanyDTO companyDTO = buidComapnyDTO(company);
-        if (address != null) {
-            AddressDTO addressDTO = buildAddressDTO(address);
-            companyDTO.setAddress(addressDTO);
+        if (CollectionUtils.isEmpty(companys)) {
+            throw new RuntimeException("No client found for the company id: " + companyId);
         }
-        return companyDTO;
+        List<CompanyDTO> companyDTOs=buidComapnyDTO(companys, fetchAddress);
+        
+        return companyDTOs;
 
     }
 
-    private CompanyDTO buidComapnyDTO(Company company) {
-        CompanyDTO comapanyDTO =
-            new CompanyDTO(company.getCompanyId(), company.getClientId(), company.getShortDesc(),
-                company.getDescription(), null);
-        return comapanyDTO;
+    private List<CompanyDTO> buidComapnyDTO(List<Company> companys, Boolean fetchAddress) {
+        Map<Long,CompanyDTO> companyDTOmap=new HashMap<Long,CompanyDTO>();
+        List<Long> clinetIds=new ArrayList<Long>();
+        for (Company company : companys) {
+            CompanyDTO companyDTO =
+                    new CompanyDTO(company.getCompanyId(), company.getClientId(), company.getShortDesc(),
+                        company.getDescription(), null);
+            clinetIds.add(company.getClientId());
+            companyDTOmap.put(company.getClientId(),companyDTO);
+        }
+        if(fetchAddress){
+            List<Address> addresses =
+                addressRepository.findByLinkedIdInAndLinkedType(clinetIds,
+                    EntityType.COMPANY.getValue());
+            for (Address address : addresses) {
+                AddressDTO addressDTO = buildAddressDTO(address);
+                CompanyDTO companyDTO = companyDTOmap.get(address.getLinkedId());
+                companyDTO.setAddress(addressDTO);
+            }
+        }
+        return new ArrayList<CompanyDTO>(companyDTOmap.values());
     }
 
     private AddressDTO buildAddressDTO(Address address) {
@@ -71,16 +96,19 @@ public class CompanyServiceImpl {
      * @param companyDTO
      * @return
      */
+    @Transactional(readOnly = false)
     public CompanyDTO createCompanyDeatils(CompanyDTO companyDTO) {
         Company company =
             new Company(companyDTO.getClientName(), companyDTO.getDescription(),
                 companyDTO.getCompanyId(), StatusType.ACTIVE.getValue(), null, new Date());
         companyRepository.save(company);
-        Address address=new Address();
+        Address address = new Address();
         BeanUtils.copyProperties(companyDTO.getAddress(), address);
         address.setLinkedId(company.getClientId());
         address.setLinkedType(EntityType.COMPANY.getValue());
         addressRepository.save(address);
         return null;
     }
+
+  
 }

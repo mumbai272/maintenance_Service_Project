@@ -3,14 +3,17 @@
 //============================================================
 package com.rest.dto;
 
+import java.io.Serializable;
+
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 
-public class CompanyDTO {
+public class CompanyDTO implements Serializable {
 
-    @NotBlank
+    @NotNull
     private Long companyId;
 
     private Long clientId;
@@ -22,6 +25,9 @@ public class CompanyDTO {
 
     @Valid
     private AddressDTO address;
+    public CompanyDTO(){
+        super();
+    }
 
     public CompanyDTO(Long companyId, Long clientId, String clientName, String description,
             AddressDTO address) {

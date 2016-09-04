@@ -44,6 +44,11 @@ public class Company {
     private Date entryDate;
 
 
+    public Company() {
+        super();
+    }
+
+
     public Company(String shortDesc, String description, Long companyId, String status,
             String entryBy, Date entryDate) {
         super();

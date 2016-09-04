@@ -1,5 +1,7 @@
 package com.rest.request;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 
@@ -10,10 +12,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement(name = "response")
-public class BaseResponse {
+public class BaseResponse<T> implements Serializable {
 
 	private Integer statusCode;
 	private String msg;
+	private T data;
 	
 
 	public BaseResponse(final Integer status, final String msg) {
@@ -41,6 +44,17 @@ public class BaseResponse {
 	public void setMsg(final String msg) {
 		this.msg = msg;
 	}
+
+    
+    public T getData() {
+        return data;
+    }
+
+    
+    public void setData(T data) {
+        this.data = data;
+    }
+	
 
 
 
