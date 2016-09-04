@@ -34,7 +34,7 @@
 
 		<jaxrs:serviceBeans>
 		<!-- rest api service config -->
-			<ref bean="comapanyRestServiceImpl"/>
+			<ref bean="clientRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>
