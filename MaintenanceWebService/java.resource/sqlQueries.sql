@@ -1,1 +1,1 @@
-create database socialMediaDB;
+create database troserv;

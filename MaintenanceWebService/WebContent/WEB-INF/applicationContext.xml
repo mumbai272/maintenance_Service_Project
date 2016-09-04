@@ -26,15 +26,15 @@
 
 
 	<!--jAX-RS config -->
-	<jaxrs:server id="socialMediaRestService" address="/restServices">
+	<jaxrs:server id="maintenanceWebService" address="/api">
 		<jaxrs:inInterceptors>
-			        
-			<ref bean="validationInInterceptor" />
-			    
+		<!-- DTO annotation validation config -->
+			<ref bean="validationInInterceptor" />			    
 		</jaxrs:inInterceptors>
 
 		<jaxrs:serviceBeans>
-			<ref bean="socialMediaRestImpl" />
+		<!-- rest api service config -->
+			<ref bean="comapanyRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>
