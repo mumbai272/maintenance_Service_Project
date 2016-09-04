@@ -1,14 +1,16 @@
 //============================================================
 //Copyright 2016, Drona, Inc. All rights reserved.
 //============================================================
-package com.rest.dto;
+package com.maintenance.Common.DTO;
 
 import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-
-
+/**
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
+ * Created on Sep 5, 2016
+ */
 public class AddressDTO implements Serializable {
 
     private Long addressId;

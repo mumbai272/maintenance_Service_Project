@@ -1,7 +1,7 @@
 //============================================================
 //Copyright 2016, Drona, Inc. All rights reserved.
 //============================================================
-package com.rest.common;
+package com.maintenance.Common;
 
 
 /**

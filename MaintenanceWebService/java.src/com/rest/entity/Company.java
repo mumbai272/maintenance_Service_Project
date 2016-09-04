@@ -33,7 +33,7 @@ public class Company {
     @Column(name = "COMPANY_ID", nullable=false)
     private Long companyId;
 
-    @Column(name = "REC_STATUS",length=50)
+    @Column(name = "REC_STATUS",length=1)
     private String status;
 
     @Column(name = "ENTRY_BY", length=50)

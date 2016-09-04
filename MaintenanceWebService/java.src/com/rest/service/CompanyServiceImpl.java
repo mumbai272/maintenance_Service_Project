@@ -15,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rest.common.EntityType;
-import com.rest.common.StatusType;
-import com.rest.dto.AddressDTO;
-import com.rest.dto.CompanyDTO;
+import com.maintenance.Common.EntityType;
+import com.maintenance.Common.StatusType;
+import com.maintenance.Common.DTO.AddressDTO;
+import com.maintenance.Common.DTO.CompanyDTO;
 import com.rest.entity.Address;
 import com.rest.entity.Company;
 import com.rest.repository.AddressRepository;

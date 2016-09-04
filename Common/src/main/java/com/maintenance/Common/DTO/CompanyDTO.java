@@ -1,7 +1,7 @@
 //============================================================
 //Copyright 2016, Drona, Inc. All rights reserved.
 //============================================================
-package com.rest.dto;
+package com.maintenance.Common.DTO;
 
 import java.io.Serializable;
 

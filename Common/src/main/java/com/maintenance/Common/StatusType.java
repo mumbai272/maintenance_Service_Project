@@ -1,7 +1,7 @@
 //============================================================
 //Copyright 2016, Drona, Inc. All rights reserved.
 //============================================================
-package com.rest.common;
+package com.maintenance.Common;
 
 /**
  * 
@@ -9,7 +9,7 @@ package com.rest.common;
  * Created on Sep 4, 2016
  */
 public enum StatusType {
-    NEW(1L, "NEW"), ACTIVE(2L, "ACTIVE"), DELETED(3L, "DELETED");
+    NEW(1L, "N"), ACTIVE(2L, "A"), DELETED(3L, "D");
 
     private Long id;
 
