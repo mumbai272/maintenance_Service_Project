@@ -23,6 +23,7 @@
 	<!-- importing other resources -->
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="applicationJpa.xml" />
+	<import resource="application-utils.xml" />
 
 
 	<!--jAX-RS config -->
@@ -35,6 +36,7 @@
 		<jaxrs:serviceBeans>
 		<!-- rest api service config -->
 			<ref bean="clientRestServiceImpl"/>
+			<ref bean="machineRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>

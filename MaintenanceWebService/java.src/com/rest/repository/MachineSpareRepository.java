@@ -3,12 +3,11 @@
 //============================================================
 package com.rest.repository;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.rest.entity.MachineSpare;
 
 @Repository
-public interface MachineSpareRepository extends CrudRepository<MachineSpare, Long> {
+public interface MachineSpareRepository extends MachineCommonRepository<MachineSpare, Long> {
 
 }
