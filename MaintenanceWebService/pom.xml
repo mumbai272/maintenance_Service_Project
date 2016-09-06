@@ -30,7 +30,6 @@
 		<spring_verson>4.2.4.RELEASE</spring_verson>
 		<aspectj.version>1.7.4</aspectj.version>
 		<apache_cxf>3.1.4</apache_cxf>
-		<jason_version>1.9.13</jason_version>
 		<hibernate.version>4.3.11.Final</hibernate.version>
 	</properties>
 	<dependencies>
@@ -142,17 +141,8 @@
 			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 			<version>${apache_cxf}</version>
 		</dependency>
-		<!-- Jackson The JSON Producer dependency -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-			<version>${jason_version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.xml</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.1</version>
-		</dependency>
+		
+		
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>

@@ -7,10 +7,11 @@ import java.io.Serializable;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-
+@XmlRootElement(name="company")
 public class CompanyDTO implements Serializable {
 
     @NotNull

@@ -37,6 +37,7 @@
 		<!-- rest api service config -->
 			<ref bean="clientRestServiceImpl"/>
 			<ref bean="machineRestServiceImpl"/>
+			<ref bean="assetRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>

@@ -5,12 +5,15 @@ package com.maintenance.Common.DTO;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
  * Created on Sep 5, 2016
  */
+@XmlRootElement(name="address")
 public class AddressDTO implements Serializable {
 
     private Long addressId;

@@ -5,11 +5,14 @@ package com.maintenance.machine.DTO;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
  * Created on Sep 5, 2016
  */
+@XmlRootElement(name="machine")
 public class MachineDTO implements Serializable  {
     private Long companyId;
     private Long machineId;      
