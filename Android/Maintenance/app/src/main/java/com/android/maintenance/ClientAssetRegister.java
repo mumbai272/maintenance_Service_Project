@@ -1,4 +1,4 @@
-package com.maintenance.maintenance;
+package com.android.maintenance;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
