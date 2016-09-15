@@ -19,10 +19,13 @@ public class AssetServiceImpl {
 
     @Autowired
     private AssetMasterRepository assetMasterRepository;
+
     @Autowired
     private MachineMakeRepository machineMakeRepository;
+
     @Autowired
     private MachineModelRepository machineModelRepository;
+
     @Autowired
     private MachineTypeRepository machineTypeRepository;
 
@@ -30,9 +33,9 @@ public class AssetServiceImpl {
         AssetMaster asset = new AssetMaster();
         BeanUtils.copyProperties(assetDto, asset);
         asset.setMachineMake(machineMakeRepository.findOne(assetDto.getMachineMake()));
-       asset.setMachineModel(machineModelRepository.findOne(assetDto.getMachineModel()));
-       asset.setMachineType(machineTypeRepository.findOne(assetDto.getMachineType()));
-       assetMasterRepository.save(asset);
+        asset.setMachineModel(machineModelRepository.findOne(assetDto.getMachineModel()));
+        asset.setMachineType(machineTypeRepository.findOne(assetDto.getMachineType()));
+        assetMasterRepository.save(asset);
     }
 
 }

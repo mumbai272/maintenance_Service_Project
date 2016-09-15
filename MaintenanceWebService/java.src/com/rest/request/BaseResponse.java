@@ -14,47 +14,60 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "response")
 public class BaseResponse<T> implements Serializable {
 
-	private Integer statusCode;
-	private String msg;
-	private T data;
-	
+    private Integer statusCode;
 
-	public BaseResponse(final Integer status, final String msg) {
-		super();
-		this.statusCode = status;
-		this.msg = msg;
-	}
+    private String msg;
 
-	public BaseResponse() {
-		super();
-	}
+    private T data;
 
-	public Integer getStatusCode() {
-		return statusCode;
-	}
+    public static final String SUCCESS = "SUCCESS";
 
-	public void setStatusCode(final Integer status) {
-		this.statusCode = status;
-	}
+    public static final Integer SUCCESS_CODE = 1;;
 
-	public String getMsg() {
-		return msg;
-	}
+    public static final String FAILED = "FAILED";
 
-	public void setMsg(final String msg) {
-		this.msg = msg;
-	}
+    public static final Integer FAILED_CODE = -1;
 
-    
+
+
+    public BaseResponse(final Integer status, final String msg) {
+        super();
+        this.statusCode = status;
+        this.msg = msg;
+    }
+
+    public BaseResponse() {
+        super();
+        this.statusCode = SUCCESS_CODE;
+        this.msg = SUCCESS;
+    }
+
+    public Integer getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(final Integer status) {
+        this.statusCode = status;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(final String msg) {
+        this.msg = msg;
+    }
+
+
     public T getData() {
         return data;
     }
 
-    
+
     public void setData(T data) {
         this.data = data;
     }
-	
+
 
 
 

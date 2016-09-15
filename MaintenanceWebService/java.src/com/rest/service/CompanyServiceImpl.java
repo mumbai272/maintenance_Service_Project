@@ -92,6 +92,18 @@ public class CompanyServiceImpl {
         return new ArrayList<CompanyDTO>(companyDTOmap.values());
     }
 
+    /**
+     * 
+     * @param company
+     * @return
+     */
+    public CompanyDTO buildCompanyDTO(Company company) {
+        CompanyDTO companyDTO =
+            new CompanyDTO(company.getCompanyId(), company.getClientId(), company.getShortDesc(),
+                company.getDescription(), null);
+        return companyDTO;
+    }
+
     private AddressDTO buildAddressDTO(Address address) {
         AddressDTO addressDTO = new AddressDTO();
         BeanUtils.copyProperties(address, addressDTO);
