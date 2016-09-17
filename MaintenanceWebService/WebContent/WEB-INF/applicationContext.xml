@@ -38,6 +38,7 @@
 			<ref bean="clientRestServiceImpl"/>
 			<ref bean="machineRestServiceImpl"/>
 			<ref bean="assetRestServiceImpl"/>
+			<ref bean="loginRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>

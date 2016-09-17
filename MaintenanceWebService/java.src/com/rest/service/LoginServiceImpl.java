@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maintenance.Common.Constants;
+import com.maintenance.Common.StatusType;
 import com.maintenance.login.requestResponse.LoginResponse;
 import com.rest.entity.SessionImpl;
 import com.rest.entity.UserImpl;
@@ -38,6 +39,8 @@ public class LoginServiceImpl {
     private static final int START_INDEX = 0;
 
     private static final int END_INDEX = 5;
+
+    private static final String UNDER_SCORE = "_";
 
     @Autowired
     private UserServiceImpl userServiceImpl;
@@ -68,7 +71,8 @@ public class LoginServiceImpl {
         logger.info("validating the User:" + userName);
         LoginResponse loginResponse = new LoginResponse();
         UserImpl user = userRepository.findByUserName(userName);
-        if (user.getPassword().equals(password)) {
+        if (user.getPassword().equals(password)
+            && StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getAuditData().getStatus())) {
             HttpSession session = httpRequest.getSession(true);
             session.setAttribute(Constants.USERID, user.getUserId());
             String token = generateToken(session.getId(), user.getUserId());
@@ -107,14 +111,15 @@ public class LoginServiceImpl {
     //
     // }
 
-    private String generateToken(String id, long userid) {
+    private String generateToken(String sessionId, long userid) {
+      
         Calendar calendar = new GregorianCalendar();
         String userId = String.valueOf(userid);
         String time = String.valueOf(calendar.getTimeInMillis());
-        String sessionId = id.substring(START_INDEX, END_INDEX);
-        String token = userId + time + sessionId + "==";
-        SessionImpl session = new SessionImpl(userid, id, token);
+        StringBuilder token=new StringBuilder(userId);
+        token.append(UNDER_SCORE).append(time).append(UNDER_SCORE).append(sessionId);
+        SessionImpl session = new SessionImpl(userid, sessionId, token.toString());
         sessionRepository.save(session);
-        return token;
+        return token.toString();
     }
 }

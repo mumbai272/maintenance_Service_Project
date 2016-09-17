@@ -7,9 +7,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +29,7 @@ import com.rest.service.LoginServiceImpl;
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Mar 21, 2015
  */
 @Component
-public class LoginRestServiceImpl extends BaseRestServiceImpl {
+public class LoginRestServiceImpl{
 
     private static final Logger logger = Logger.getLogger(LoginRestServiceImpl.class);
 
@@ -47,7 +49,7 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response login(LoginRequest request) {
+    public Response login(LoginRequest request, @Context MessageContext context) {
         logger.info("Login api is hit!");
         BaseResponse<LoginResponse> response = new BaseResponse<LoginResponse>();
         try {
