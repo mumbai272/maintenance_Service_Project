@@ -1,4 +1,4 @@
-package com.maintenance.maintenance;
+package com.android.maintenance;
 
 import org.junit.Test;
 

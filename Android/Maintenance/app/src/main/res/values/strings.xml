@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">Maintenance</string>
+    <string name="client_id">Client Id</string>
+    <string name="asset_type">Asset Type</string>
+    <string name="make_id">Make Id</string>
+    <string name="asset_no">Asset No</string>
+    <string name="model_id">Model Id</string>
+    <string name="date_install">Date Install</string>
+    <string name="date_mfg">Date MFG</string>
+    <string name="inst_sl_no">INST SL NO</string>
+    <string name="mfg_sl_no">MFG SL NO</string>
+    <string name="asset_description">Asset Description</string>
+    <string name="client_asset_registration">Client Asset Registration</string>
+    <string name="add">ADD</string>
+    <string name="client_registration">Client Registration</string>
+    <string name="client_name">Client Name</string>
+    <string name="description">Description</string>
+    <string name="country">Country</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
+    <string name="location">Location</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="phone_no">Phone NO</string>
+    <string name="mobile_no">Mobile NO</string>
+    <string name="fax">Fax</string>
+    <string name="addess">Addess</string>
+    <string name="street_1">Street 1</string>
+    <string name="street_2">Street 2</string>
+    <string name="street_3">Street 3</string>
+    <string name="client_register">Client Register</string>
+    <string name="sign_in">Sign In</string>
+    <string name="login">Login</string>
+    <string name="signup">Register</string>
+    <string name="register_header_text">Signup</string>
 </resources>

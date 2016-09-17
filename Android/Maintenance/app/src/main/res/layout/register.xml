@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        android:id="@+id/register_header_txt"
+        android:textAlignment="center"
+        android:text="@string/register_header_text" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="15"
+        android:id="@+id/user_name"
+        android:hint="User Name"
+        android:layout_below="@+id/register_header_txt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="15"
+        android:id="@+id/clientname"
+        android:hint="Client Name"
+        android:layout_below="@+id/user_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="15"
+        android:id="@+id/client_email"
+        android:hint="Email"
+        android:layout_below="@+id/clientname"
+        android:layout_alignStart="@+id/password"
+        android:layout_marginTop="25dp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="15"
+        android:id="@+id/password"
+        android:hint="Password"
+        android:layout_below="@+id/client_email"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="15"
+        android:hint="Phone number"
+        android:id="@+id/client_phone"
+        android:layout_below="@+id/password"
+        android:layout_alignEnd="@+id/password"
+        android:layout_marginTop="25dp" />
+
+
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/signup"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:background="#3F51B5"
+        android:layout_below="@+id/client_phone"
+        android:layout_alignStart="@+id/client_phone"
+        android:layout_alignEnd="@+id/client_phone" />
+
+
+</RelativeLayout>

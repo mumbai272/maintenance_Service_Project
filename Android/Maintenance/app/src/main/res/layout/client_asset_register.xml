@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/client_asset_registerScrollScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,25 +12,24 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ClientAssetRegister">
+    tools:context=".activities.ClientAssetRegister">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Client Id"
+        android:text="@string/client_id"
         android:id="@+id/cleint_id"
         android:textStyle="bold"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="28dp"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/login_header_txt"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Asset Type"
+        android:text="@string/asset_type"
         android:id="@+id/asset_type"
         android:textStyle="bold"
         android:layout_marginTop="22dp"
@@ -36,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Make Id"
+        android:text="@string/make_id"
         android:id="@+id/Make_id"
         android:textStyle="bold"
         android:layout_below="@+id/asset_type"
@@ -47,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Model Id"
+        android:text="@string/model_id"
         android:id="@+id/model_id"
         android:layout_below="@+id/Make_id"
         android:textStyle="bold"
@@ -58,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Asset No"
+        android:text="@string/asset_no"
         android:id="@+id/asset_no"
         android:textStyle="bold"
         android:layout_below="@+id/model_id"
@@ -69,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Asset Description"
+        android:text="@string/asset_description"
         android:id="@+id/asset_desc"
         android:textStyle="bold"
         android:layout_below="@+id/asset_no"
@@ -80,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="MFG SL No"
+        android:text="@string/mfg_sl_no"
         android:id="@+id/mfg_sf_no"
         android:textStyle="bold"
         android:layout_below="@+id/asset_desc"
@@ -91,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="INST SL NO"
+        android:text="@string/inst_sl_no"
         android:textStyle="bold"
         android:id="@+id/inst_sl_no"
         android:layout_below="@+id/mfg_sf_no"
@@ -102,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Date MFG"
+        android:text="@string/date_mfg"
         android:id="@+id/date_mfg"
         android:textStyle="bold"
         android:layout_below="@+id/inst_sl_no"
@@ -113,27 +117,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Date Install"
+        android:text="@string/date_install"
         android:id="@+id/date_install"
         android:textStyle="bold"
-        android:layout_alignBottom="@+id/editText_date_install"
+        android:layout_alignBottom="@+id/datePicker_date_install"
         android:layout_alignStart="@+id/date_mfg" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editText_date_mfg"
+        android:layout_weight=".5"
+        android:id="@+id/datePicker_date_mfg"
         android:layout_alignBottom="@+id/date_mfg"
-        android:layout_toEndOf="@+id/asset_desc" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/datePicker_date_install" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editText_date_install"
+        android:layout_weight=".5"
+        android:id="@+id/datePicker_date_install"
         android:layout_below="@+id/date_mfg"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/asset_desc" />
@@ -151,7 +154,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
+        android:inputType="text"
         android:ems="10"
         android:layout_alignBottom="@+id/inst_sl_no"
         android:layout_alignParentEnd="true"
@@ -161,62 +164,102 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/hidden_client_id"
         android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editText_mfg_sl_no"
-        android:layout_above="@+id/inst_sl_no"
-        android:layout_alignStart="@+id/editText_asset_desc" />
+        android:visibility="gone" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/hidden_machineType"
         android:inputType="number"
+        android:visibility="gone" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hidden_machineMake"
+        android:inputType="number"
+        android:visibility="gone" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hidden_machinemodel"
+        android:inputType="number"
+        android:visibility="gone" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/editText_mfg_sl_no"
+        android:layout_above="@+id/inst_sl_no"
+        android:layout_alignStart="@+id/editText_asset_desc"
+        android:layout_alignEnd="@+id/editText_asset_desc" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
         android:ems="10"
         android:id="@+id/editText_asset_no"
         android:layout_above="@+id/editText_asset_desc"
-        android:layout_alignStart="@+id/editText_asset_desc" />
+        android:layout_alignStart="@+id/editText_asset_desc"
+        android:layout_alignEnd="@+id/editText_asset_desc" />
 
     <Spinner
         android:id="@+id/spinner_client_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/asset_desc"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/editText_asset_no"
         android:layout_above="@+id/asset_type"
-        android:layout_alignParentTop="true" />
+        android:textAlignment="center"/>
 
     <Spinner
         android:id="@+id/spinner_asset_type"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/asset_desc"
-        android:layout_below="@+id/spinner_client_id"
-        android:layout_above="@+id/Make_id" />
+        android:layout_above="@+id/Make_id"
+        android:layout_alignStart="@+id/spinner_client_id" />
 
     <Spinner
         android:id="@+id/spinner_make_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/model_id"
-        android:layout_toEndOf="@+id/asset_desc"
-        android:layout_below="@+id/spinner_asset_type" />
+        android:layout_alignStart="@+id/spinner_asset_type" />
 
     <Spinner
         android:id="@+id/spinner_model_no"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editText_asset_no"
-        android:layout_toEndOf="@+id/asset_desc"
-        android:layout_below="@+id/spinner_make_id" />
+        android:layout_above="@+id/asset_no"
+        android:layout_alignStart="@+id/spinner_make_id" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ADD"
+        android:text="@string/add"
         android:id="@+id/registerbtn"
-        android:color="#3F51B5"
-        android:layout_below="@+id/date_install"
-        android:layout_alignEnd="@+id/editText_date_install"
-        android:layout_alignStart="@+id/date_install" />
+        android:background="#3F51B5"
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/datePicker_date_install"
+        android:layout_alignStart="@+id/date_install"
+        android:layout_alignEnd="@+id/datePicker_date_install" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/client_asset_registration"
+        android:id="@+id/login_header_txt"
+        android:layout_below="@+id/hidden_client_id"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
+</ScrollView>
