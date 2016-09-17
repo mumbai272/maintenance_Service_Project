@@ -6,7 +6,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
 import org.apache.cxf.validation.ResponseConstraintViolationException;
-import com.rest.request.ValidationResponse;
+
+import com.maintenance.request.ValidationResponse;
 
 public class ValidationExceprionHandler implements ExceptionMapper<ValidationException> {
 

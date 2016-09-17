@@ -3,7 +3,7 @@ package com.rest.api.exception;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-import com.rest.request.BaseResponse;
+import com.maintenance.request.BaseResponse;
 
 /**
  * Runtime exception handler

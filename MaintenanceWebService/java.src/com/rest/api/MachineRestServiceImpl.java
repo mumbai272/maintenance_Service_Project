@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
 
 import com.maintenance.Common.MachineTypeEnum;
 import com.maintenance.machine.DTO.MachineDTO;
+import com.maintenance.request.BaseResponse;
 import com.rest.api.exception.ValidationException;
 import com.rest.machine.service.MachineServiceImpl;
-import com.rest.request.BaseResponse;
 
 @Component
 public class MachineRestServiceImpl {

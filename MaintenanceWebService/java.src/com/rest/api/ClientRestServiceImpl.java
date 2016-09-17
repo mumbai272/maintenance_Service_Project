@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.Common.DTO.CompanyDTO;
-import com.rest.request.BaseResponse;
+import com.maintenance.request.BaseResponse;
 import com.rest.service.CompanyServiceImpl;
 
 /**

@@ -1,4 +1,4 @@
-package com.rest.request;
+package com.maintenance.request;
 
 import java.util.HashMap;
 import java.util.Map;

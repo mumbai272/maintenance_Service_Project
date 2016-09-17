@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.maintenance.login.requestResponse.LoginRequest;
 import com.maintenance.login.requestResponse.LoginResponse;
-import com.rest.request.BaseResponse;
+import com.maintenance.request.BaseResponse;
 import com.rest.service.LoginServiceImpl;
 
 

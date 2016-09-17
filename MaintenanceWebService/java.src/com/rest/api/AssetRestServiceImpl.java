@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.asset.DTO.AssetCreateDTO;
-import com.rest.request.BaseResponse;
+import com.maintenance.request.BaseResponse;
 import com.rest.service.AssetServiceImpl;
 /**
  * 
