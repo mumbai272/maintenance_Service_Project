@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 public class AuditData {
 
     @Column(name = "STATUS", length = 1, nullable = false)
-    private int status;
+    private String status;
 
     @Column(name = "CREATED_BY")
     private Long createdBy;
@@ -47,18 +47,18 @@ public class AuditData {
         super();
     }
 
-    private AuditData(int status, long createdBy, Calendar createdDate) {
+    private AuditData(String status, long createdBy, Calendar createdDate) {
         super();
         this.status = status;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
      }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

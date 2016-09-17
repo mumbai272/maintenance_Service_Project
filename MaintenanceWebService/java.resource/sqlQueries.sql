@@ -50,3 +50,6 @@ insert into GM_ADDBOOK_STATCOMP(company_id,client_id,stat_comp_id,eff_date,st_va
 (1,3,1,NULL,"AKHPM7237L","A"),
 (1,4,1,NULL,"AKHPM7237M","A");
 
+
+Insert into Users(USER_ID,USER_NAME,PASSWORD,EMAIL_ID,FIRST_NAME,LAST_NAME,GENDER,PHONE_NO,ROLE_TYPE_Id,COMPANY_ID,STATUS) values
+(1,"vinayak123","password123","vinayak.s.mumbai@gmail.com","vinayak","mumbai","M","97420256792",1,1,"A");

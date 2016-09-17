@@ -12,14 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @Table(name = "USERS")
 public class UserImpl {
 
     @Id
-    @Column(name = "USER_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "userId_Next_Value", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
+    @Column(name="USER_ID")
     private Long userId;
     
     @Column(name = "USER_NAME", length = 50, nullable = false, unique=true)
