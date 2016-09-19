@@ -22,7 +22,9 @@ public class UserDTO {
 
     private String role;
 
-    private String gender;
+    private String gender;    
+    
+    private String emailId; 
 
     public Long getUserId() {
         return userId;
@@ -86,6 +88,16 @@ public class UserDTO {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    
+    public String getEmailId() {
+        return emailId;
+    }
+
+    
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
 

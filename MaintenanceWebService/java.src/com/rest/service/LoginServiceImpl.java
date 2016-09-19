@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.maintenance.Common.Constants;
 import com.maintenance.Common.StatusType;
 import com.maintenance.login.requestResponse.LoginResponse;
+import com.maintenance.request.BaseResponse;
 import com.rest.entity.SessionImpl;
 import com.rest.entity.UserImpl;
 import com.rest.repository.SessionRepository;
@@ -41,6 +42,10 @@ public class LoginServiceImpl {
     private static final int END_INDEX = 5;
 
     private static final String UNDER_SCORE = "_";
+
+    public static final String FAILED_LOGOUT = "Logout Failed";
+
+    public static final String SUCCESSFUL_LOGOUT = "Logout SuccessFull";
 
     @Autowired
     private UserServiceImpl userServiceImpl;
@@ -75,6 +80,7 @@ public class LoginServiceImpl {
             && StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getAuditData().getStatus())) {
             HttpSession session = httpRequest.getSession(true);
             session.setAttribute(Constants.USERID, user.getUserId());
+            session.setMaxInactiveInterval(60*60);
             String token = generateToken(session.getId(), user.getUserId());
             loginResponse.setToken(token);
             loginResponse.setUser(userServiceImpl.buildUserDTO(user));
@@ -93,23 +99,24 @@ public class LoginServiceImpl {
      * @return JsonResponse
      * @throws ServiceException
      */
-    // public JsonResponse logout(long userId) throws ServiceException {
-    // logger.info("invalidating the session for UserId:" + userId);
-    // JsonResponse response = new JsonResponse();
-    // SessionQueryImpl query = new SessionQueryImpl();
-    // query.filterByUserId(userId);
-    // try {
-    // genericRepository.deleteSingle(query.getQuery());
-    // response.setMessage(Constants.SUCCESS);
-    // response.setHttpStatus(HttpStatus.OK.toString());
-    // } catch (PersistanceException e) {
-    // response.setMessage(Constants.FAIlED);
-    // response.setHttpStatus(HttpStatus.OK.toString());
-    // throw new ServiceException(MESSAGE, e);
-    // }
-    // return response;
-    //
-    // }
+    public BaseResponse logout(long userId) throws Exception {
+        logger.info("invalidating the session for UserId:" + userId);
+        BaseResponse<String> response = new BaseResponse<String>();
+        if(userRepository.findOne(userId)==null){
+            throw new Exception(MESSAGE);
+        }
+        try {
+            sessionRepository.delete(userId); 
+            response.setData(SUCCESSFUL_LOGOUT);
+
+        } catch (Exception e) {
+            response.setMsg(e.getMessage());
+            response.setStatusCode(BaseResponse.FAILED_CODE); 
+            response.setData(FAILED_LOGOUT);
+        }
+        return response;
+
+    }
 
     private String generateToken(String sessionId, long userid) {
       
