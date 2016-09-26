@@ -47,9 +47,12 @@ public class UserImpl {
 
     @Column(name = "PHONE_NO", length = 15, nullable = false)
     private String phoneno;
+   
+    @Column(name = "COMPANY_ID")
+    private Long companyId;
 
     @ManyToOne()
-    @JoinColumn(name = "COMPANY_ID")
+    @JoinColumn(name = "COMPANY_ID", insertable = false, updatable = false)
     private Company company;
 
     @Column(name = "ROLE_TYPE_Id", length = 1)
@@ -63,7 +66,10 @@ public class UserImpl {
 
     @Column(name = "USER_LOCALE", length = 1)
     private Integer userLocale;
-
+    
+    @Column(name = "STATUS", length = 1, nullable = false)
+    private String status;
+    
     @Embedded
     private AuditData auditData;
 
@@ -204,6 +210,14 @@ public class UserImpl {
     public void setUserLocale(Integer userLocale) {
         this.userLocale = userLocale;
     }
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 
     public AuditData getAuditData() {
@@ -213,6 +227,18 @@ public class UserImpl {
 
     public void setAuditData(AuditData auditData) {
         this.auditData = auditData;
+    }
+
+
+    
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+
+    
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
 

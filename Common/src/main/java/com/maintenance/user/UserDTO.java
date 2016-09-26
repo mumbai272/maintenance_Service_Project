@@ -1,30 +1,36 @@
 //============================================================
 //Copyright 2016, Drona, Inc. All rights reserved.
 //============================================================
-package com.maintenance.login.requestResponse;
+package com.maintenance.user;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @XmlRootElement
 public class UserDTO {
 
     private Long userId;
 
+    @NotBlank
     private String userName;
 
+    @NotBlank
     private String firstName;
 
     private String middleName;
 
     private String lastName;
 
+    @NotBlank
     private String phoneno;
 
     private String role;
 
-    private String gender;    
-    
-    private String emailId; 
+    private String gender;
+
+    @NotBlank
+    private String emailId;
 
     public Long getUserId() {
         return userId;
@@ -90,12 +96,12 @@ public class UserDTO {
         this.gender = gender;
     }
 
-    
+
     public String getEmailId() {
         return emailId;
     }
 
-    
+
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }

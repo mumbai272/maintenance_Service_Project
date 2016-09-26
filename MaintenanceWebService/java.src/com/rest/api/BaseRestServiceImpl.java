@@ -3,13 +3,14 @@
 //============================================================
 package com.rest.api;
 
-import javax.ws.rs.core.Context;
-
-import org.apache.cxf.jaxrs.ext.MessageContext;
 
 
 public abstract class BaseRestServiceImpl {
-    
-    @Context 
-    protected MessageContext context;
+//    
+//    @Context 
+//    protected MessageContext context;
+//    protected UserImpl getLoggedinUser(){
+//        Session session=context.getHttpServletRequest().getSession(false)
+//        return 
+//    }
 }

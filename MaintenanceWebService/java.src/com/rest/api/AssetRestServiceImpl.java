@@ -5,6 +5,7 @@ package com.rest.api;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -38,6 +39,22 @@ public class AssetRestServiceImpl {
             assetServiceImpl.saveAsset(asset);
             response.setMsg("Successfully created");
             response.setStatusCode(1);
+        } catch (Exception ex) {
+            response.setMsg(ex.getMessage());
+            response.setStatusCode(-1);
+        }
+        return Response.ok(response).build();
+    
+    }
+    
+    @Path(value = "/asset/{companyId}")
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response getAsset(){
+        BaseResponse response = new BaseResponse();
+        try {
+          
         } catch (Exception ex) {
             response.setMsg(ex.getMessage());
             response.setStatusCode(-1);

@@ -17,10 +17,7 @@ import javax.persistence.TemporalType;
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Mar 17, 2015
  */
 @Embeddable
-public class AuditData {
-
-    @Column(name = "STATUS", length = 1, nullable = false)
-    private String status;
+public class AuditData {   
 
     @Column(name = "CREATED_BY")
     private Long createdBy;
@@ -47,22 +44,13 @@ public class AuditData {
         super();
     }
 
-    private AuditData(String status, long createdBy, Calendar createdDate) {
+    public AuditData(Long createdBy, Calendar createdDate) {
         super();
-        this.status = status;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
      }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getCreatedBy() {
+   public Long getCreatedBy() {
         return createdBy;
     }
 

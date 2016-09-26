@@ -13,5 +13,6 @@ import com.rest.entity.Company;
 @Repository
 public interface CompanyRepository extends CrudRepository<Company, Long> {
     List<Company> findByCompanyId(Long companyId);
+    
 
 }

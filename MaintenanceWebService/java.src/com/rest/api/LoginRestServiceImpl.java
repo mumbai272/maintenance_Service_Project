@@ -32,7 +32,7 @@ import com.rest.service.LoginServiceImpl;
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Mar 21, 2015
  */
 @Component
-public class LoginRestServiceImpl {
+public class LoginRestServiceImpl extends BaseRestServiceImpl{
 
     private static final Logger logger = Logger.getLogger(LoginRestServiceImpl.class);
 

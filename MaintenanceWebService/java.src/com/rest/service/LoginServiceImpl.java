@@ -77,9 +77,9 @@ public class LoginServiceImpl {
         LoginResponse loginResponse = new LoginResponse();
         UserImpl user = userRepository.findByUserName(userName);
         if (user.getPassword().equals(password)
-            && StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getAuditData().getStatus())) {
+            && StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getStatus())) {
             HttpSession session = httpRequest.getSession(true);
-            session.setAttribute(Constants.USERID, user.getUserId());
+            session.setAttribute(Constants.USER, user);
             session.setMaxInactiveInterval(60*60);
             String token = generateToken(session.getId(), user.getUserId());
             loginResponse.setToken(token);

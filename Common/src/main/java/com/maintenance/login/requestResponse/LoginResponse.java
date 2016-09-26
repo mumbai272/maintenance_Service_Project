@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.maintenance.Common.DTO.CompanyDTO;
+import com.maintenance.user.UserDTO;
 
 
 /**

@@ -3,6 +3,8 @@
 //============================================================
 package com.rest.repository;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +14,8 @@ import com.rest.entity.UserImpl;
 public interface UserRepository extends CrudRepository<UserImpl, Long> {
 
     UserImpl findByUserName(String userName);
+
+    UserImpl findByEmailId(String emailId);
+
+    List<UserImpl> findByCompanyIdAndStatus(Long companyId, String status);
 }
