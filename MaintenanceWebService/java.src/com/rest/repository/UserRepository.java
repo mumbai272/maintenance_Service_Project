@@ -13,6 +13,8 @@ import com.rest.entity.UserImpl;
 @Repository
 public interface UserRepository extends CrudRepository<UserImpl, Long> {
 
+    UserImpl findByUserIdAndStatus(Long userId, String status);
+
     UserImpl findByUserName(String userName);
 
     UserImpl findByEmailId(String emailId);

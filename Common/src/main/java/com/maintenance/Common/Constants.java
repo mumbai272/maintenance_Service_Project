@@ -8,5 +8,7 @@ public interface Constants {
 
     String USERID = "userId";
     String USER = "user";
+    String TOKEN_HEADER="token";
+    String COMPANYID = "companyId";
 
 }

@@ -28,4 +28,13 @@ public enum StatusType {
         return value;
     }
 
+    public static StatusType getStatusOfValue(String value) {
+        for (StatusType statusType : StatusType.values()) {
+            if (statusType.getValue().equalsIgnoreCase(value)) {
+                return statusType;
+            }
+        }
+        return null;
+    }
+
 }

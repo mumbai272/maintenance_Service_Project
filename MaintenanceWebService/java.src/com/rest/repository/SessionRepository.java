@@ -11,5 +11,7 @@ import com.rest.entity.SessionImpl;
 @Repository
 public interface SessionRepository extends CrudRepository<SessionImpl, Long> {
 
+    SessionImpl findByToken(String token);
+
     
 }

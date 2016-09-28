@@ -31,6 +31,7 @@
 		<aspectj.version>1.7.4</aspectj.version>
 		<apache_cxf>3.1.4</apache_cxf>
 		<hibernate.version>4.3.11.Final</hibernate.version>
+		<servlet.version>2.5</servlet.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -141,8 +142,8 @@
 			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 			<version>${apache_cxf}</version>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
@@ -155,24 +156,18 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
-
-<!-- logging -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.7</version>
-		</dependency>
-
-		<dependency>
-		  <groupId>com.maintenance</groupId>
-		  <artifactId>Common</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.maintenance</groupId>
+			<artifactId>Common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 </project>

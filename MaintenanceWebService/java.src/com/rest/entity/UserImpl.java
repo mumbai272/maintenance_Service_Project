@@ -50,6 +50,9 @@ public class UserImpl {
    
     @Column(name = "COMPANY_ID")
     private Long companyId;
+    
+    @Column(name = "COMPANY_Desc", length=50)
+    private String companyDesc;
 
     @ManyToOne()
     @JoinColumn(name = "COMPANY_ID", insertable = false, updatable = false)
@@ -239,6 +242,18 @@ public class UserImpl {
     
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
+    }
+
+
+    
+    public String getCompanyDesc() {
+        return companyDesc;
+    }
+
+
+    
+    public void setCompanyDesc(String companyDesc) {
+        this.companyDesc = companyDesc;
     }
 
 

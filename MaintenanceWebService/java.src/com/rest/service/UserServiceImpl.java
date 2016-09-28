@@ -6,7 +6,9 @@ package com.rest.service;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import javax.validation.ValidationException;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.common.util.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.maintenance.Common.RoleType;
 import com.maintenance.Common.StatusType;
+import com.maintenance.Common.UserContext;
+import com.maintenance.Common.UserContextRetriver;
 import com.maintenance.user.UserDTO;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
 import com.maintenance.user.requestResponse.UserResponse;
@@ -55,11 +59,12 @@ public class UserServiceImpl {
         UserImpl user = new UserImpl();
 
         BeanUtils.copyProperties(registrationRequest, user);
-        user.setFirstName(registrationRequest.getName());
-        user.setUserName(RandomStringUtils.randomAlphanumeric(registrationRequest.getName()
-                .length()));
-        user.setPassword(RandomStringUtils.randomAlphanumeric(8));
+//        user.setFirstName(registrationRequest.getName());
+//        user.setUserName(RandomStringUtils.randomAlphanumeric(registrationRequest.getName()
+//                .length()));
+//        user.setPassword(RandomStringUtils.randomAlphanumeric(8));
         user.setStatus(StatusType.REGISTERED.getValue());
+        user.setCompanyDesc(registrationRequest.getClient());
         user = userRepository.save(user);
         AuditData auditData = new AuditData(user.getUserId(), Calendar.getInstance());
         user.setAuditData(auditData);
@@ -72,6 +77,14 @@ public class UserServiceImpl {
             return true;
         }
         return false;
+    }
+    
+    public UserContext getUserContext(Long userId) {
+        UserImpl user = userRepository.findByUserIdAndStatus(userId, StatusType.ACTIVE.getValue());
+        if (null != user) {
+            throw new RuntimeException("User not found");
+        }
+       return new UserContext(user.getUserId(), user.getUserName(), user.getEmailId(), user.getCompanyId());
     }
 
     public UserResponse getUser(Long companyId, String status) {
@@ -89,7 +102,16 @@ public class UserServiceImpl {
     }
 
     private boolean validRequest(Long companyId, String status) {
-        
-        return false;
+        if (UserContextRetriver.getUsercontext().getCompanyId() != companyId) {
+            throw new ValidationException("invalid companyId is passed");
+        }
+        if (StringUtils.isBlank(status)) {
+            status = StatusType.ACTIVE.getValue();
+        }
+        StatusType statusType = StatusType.getStatusOfValue(status);
+        if (statusType == null) {
+            throw new ValidationException("invalid status is passed");
+        }
+        return true;
     }
 }
