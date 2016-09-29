@@ -16,18 +16,18 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<!-- Session validation filter -->
-	<filter>
-		<filter-name>sessionValidationFilter</filter-name>
-		<filter-class>com.rest.filter.SessionValidationFilter</filter-class>
-		<init-param>
-			<param-name>excludeUrl</param-name>
-			<param-value>/login</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>sessionValidationFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+<!-- 	<filter> -->
+<!-- 		<filter-name>sessionValidationFilter</filter-name> -->
+<!-- 		<filter-class>com.rest.filter.SessionValidationFilter</filter-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>excludeUrl</param-name> -->
+<!-- 			<param-value>/login</param-value> -->
+<!-- 		</init-param> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>sessionValidationFilter</filter-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
 	<servlet>
 		<servlet-name>CXFServlet</servlet-name>
 		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>

@@ -29,32 +29,37 @@
 	<!--jAX-RS config -->
 	<jaxrs:server id="maintenanceWebService" address="/api">
 		<jaxrs:inInterceptors>
-		<!-- DTO annotation validation config -->
-			<ref bean="validationInInterceptor" />			    
+			<!-- DTO annotation validation config -->
+			<ref bean="validationInInterceptor" />
+			    
 		</jaxrs:inInterceptors>
 
 		<jaxrs:serviceBeans>
-		<!-- rest api service config -->
-			<ref bean="clientRestServiceImpl"/>
-			<ref bean="machineRestServiceImpl"/>
-			<ref bean="assetRestServiceImpl"/>
-			<ref bean="loginRestServiceImpl"/>
-	        <ref bean="userRestServiceImpl" />
+			<!-- rest api service config -->
+			<ref bean="clientRestServiceImpl" />
+			<ref bean="machineRestServiceImpl" />
+			<ref bean="assetRestServiceImpl" />
+			<ref bean="loginRestServiceImpl" />
+			<ref bean="userRestServiceImpl" />
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
-<!-- 			<bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" /> -->
+			<ref bean="sessionValidator" />
+			<!-- <bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" /> -->
 			<bean class="com.rest.api.exception.ValidationExceprionHandler" />
-			<!-- <ref bean="exceptionMapper" /> -->
+			<bean class="com.rest.api.exception.ExceptionHandler" />
+
 		</jaxrs:providers>
 
 		<jaxrs:extensionMappings>
-			<entry key="xml" value="application/xml" />
 			<entry key="json" value="application/json" />
+<!-- 			<entry key="xml" value="application/xml" /> -->
 		</jaxrs:extensionMappings>
 
 	</jaxrs:server>
+
+	<!-- bean validation example -->
 	<bean id="exceptionMapper"
 		class="org.apache.cxf.jaxrs.validation.ValidationExceptionMapper" />
 	<bean id="validationProvider" class="org.apache.cxf.validation.BeanValidationProvider" />
@@ -64,21 +69,21 @@
 		<property name="provider" ref="validationProvider" />
 	</bean>
 
-<!-- 	<bean id="validationOutInterceptor" -->
-<!-- 		class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor"> -->
-<!-- 		<property name="provider" ref="validationProvider" /> -->
-<!-- 	</bean> -->
+	<!-- <bean id="validationOutInterceptor" -->
+	<!-- class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor"> -->
+	<!-- <property name="provider" ref="validationProvider" /> -->
+	<!-- </bean> -->
 
 
 	<!--Aop xml config -->
-	<aop:config>
-		<aop:aspect ref="socialMediaAdvice">
-			<aop:pointcut expression="execution(* com.rest.*.*.*(..))"
-				id="pointCut" />
-			<aop:around pointcut-ref="pointCut" method="logMethodCall"
-				arg-names="points" />
-		</aop:aspect>
-	</aop:config>
+	<!-- <aop:config> -->
+	<!-- <aop:aspect ref="socialMediaAdvice"> -->
+	<!-- <aop:pointcut expression="execution(* com.rest.*.*.*(..))" -->
+	<!-- id="pointCut" /> -->
+	<!-- <aop:around pointcut-ref="pointCut" method="logMethodCall" -->
+	<!-- arg-names="points" /> -->
+	<!-- </aop:aspect> -->
+	<!-- </aop:config> -->
 
 	<!-- Property palce holder -->
 	<bean

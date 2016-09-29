@@ -37,7 +37,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * @return
      */
     @POST
-    @Path("/request")
+    @Path("/register")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response userRegistrationRequest(@Valid UserRegistrationRequest registrationRequest) {
