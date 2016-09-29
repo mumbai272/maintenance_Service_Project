@@ -32,6 +32,7 @@
 		<apache_cxf>3.1.4</apache_cxf>
 		<hibernate.version>4.3.11.Final</hibernate.version>
 		<servlet.version>2.5</servlet.version>
+		<version>0.0.1-SNAPSHOT</version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -178,7 +179,7 @@
 		<dependency>
 			<groupId>com.maintenance</groupId>
 			<artifactId>Common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${version}</version>
 		</dependency>
 
 	</dependencies>
