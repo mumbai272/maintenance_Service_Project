@@ -16,6 +16,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,10 +29,13 @@ import com.rest.service.UserServiceImpl;
 @Component
 public class UserRestServiceImpl extends BaseRestServiceImpl {
 
+    private static final Logger logger = Logger.getLogger(UserRestServiceImpl.class);
+
     @Autowired
     private UserServiceImpl userServiceImpl;
 
     /**
+     * Registration request is made.
      * 
      * @param registrationRequest
      * @return
@@ -41,9 +45,11 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response userRegistrationRequest(@Valid UserRegistrationRequest registrationRequest) {
+        logger.info("Requesting for registration for email:" + registrationRequest.getEmailId());
         BaseResponse<Serializable> response = new BaseResponse<Serializable>();
         try {
             userServiceImpl.saveRegistrationRequest(registrationRequest);
+            response.setMsg("User registration is successful");
         } catch (Exception ex) {
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
@@ -52,10 +58,11 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     }
 
     /**
+     * get user of company for the passed status
      * 
      * @param companyId
      * @param status
-     * @return
+     * @return list of user
      */
     @GET
     @Path("/{companyId}")
@@ -64,6 +71,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     public Response userRegistrationRequest(@PathParam("companyId") Long companyId,
             @QueryParam("status") String status) {
         BaseResponse<Serializable> response = new BaseResponse<Serializable>();
+        logger.info("getting users for the companyId:" + companyId);
         try {
             UserResponse userResponse = userServiceImpl.getUser(companyId, status);
             response.setData(userResponse);

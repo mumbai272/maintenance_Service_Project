@@ -54,16 +54,13 @@ public class UserServiceImpl {
      * @param registrationRequest
      * @throws Exception
      */
-    @Transactional
+    @Transactional(rollbackFor = { Exception.class })
     public void saveRegistrationRequest(UserRegistrationRequest registrationRequest) {
         validateRegistrationRequest(registrationRequest);
         UserImpl user = new UserImpl();
 
         BeanUtils.copyProperties(registrationRequest, user);
-        // user.setFirstName(registrationRequest.getName());
-        // user.setUserName(RandomStringUtils.randomAlphanumeric(registrationRequest.getName()
-        // .length()));
-        // user.setPassword(RandomStringUtils.randomAlphanumeric(8));
+        user.setFirstName(registrationRequest.getName());
         user.setStatus(StatusType.REGISTERED.getValue());
         user.setCompanyDesc(registrationRequest.getClient());
         user = userRepository.save(user);

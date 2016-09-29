@@ -23,12 +23,16 @@ import com.rest.entity.SessionImpl;
 import com.rest.repository.SessionRepository;
 import com.rest.service.UserServiceImpl;
 
+/**
+ * 
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Sep 29, 2016
+ */
 @Component
 public class SessionValidator implements ContainerRequestFilter, ContainerResponseFilter {
 
     private static final Logger logger = Logger.getLogger(SessionValidator.class);
 
-    private String excludeUrl = "/login,/register";
+    private String excludeUrl = "/login,/user/register";
 
     @Autowired
     private SessionRepository sessionRepository;
@@ -39,20 +43,28 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
     @Context
     private HttpServletRequest httpRequest;
 
-
+    /**
+     * executes before the rest layer
+     */
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         if (!excludeUrl.contains(requestContext.getUriInfo().getPath())) {
 
             String token = requestContext.getHeaderString(Constants.TOKEN_HEADER);
             if (token == null) {
-                throw new RuntimeException("Invalid token is passed");
+                throw new RuntimeException("Authentication token is not passed");
             }
             validateSession(token, httpRequest);
         }
 
     }
 
+    /**
+     * validates the passed token
+     * 
+     * @param token
+     * @param request
+     */
     private void validateSession(String token, HttpServletRequest request) {
         logger.info("validating the token " + token);
         SessionImpl session = sessionRepository.findByToken(token);
@@ -74,6 +86,9 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
 
     }
 
+    /**
+     * this executes after the excecution of rest layer
+     */
     @Override
     public void filter(ContainerRequestContext requestContext,
             ContainerResponseContext responseContext) throws IOException {
