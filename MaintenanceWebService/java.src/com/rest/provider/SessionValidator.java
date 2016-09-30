@@ -54,7 +54,9 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
             if (token == null) {
                 throw new RuntimeException("Authentication token is not passed");
             }
-            validateSession(token, httpRequest);
+            if (!validateSession(token, httpRequest)) {
+                throw new RuntimeException("Invalid token");
+            }
         }
 
     }
@@ -65,7 +67,7 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
      * @param token
      * @param request
      */
-    private void validateSession(String token, HttpServletRequest request) {
+    private boolean validateSession(String token, HttpServletRequest request) {
         logger.info("validating the token " + token);
         SessionImpl session = sessionRepository.findByToken(token);
         HttpSession httpSession = request.getSession();
@@ -73,16 +75,16 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
             sessionRepository.delete(session);
             throw new RuntimeException("Session expired");
         }
-        if (httpSession != null && session != null
-            && session.getSessionId().equals(httpSession.getId())) {
-
+        if (httpSession != null && session != null) {
             Long userId = (Long) httpSession.getAttribute(Constants.USERID);
-            logger.info("valid token:" + token);
-            httpSession.setMaxInactiveInterval(60 * 60);
-            UserContextRetriver.setUsercontext(userServiceImpl.getUserContext(userId));
-        } else {
-            throw new RuntimeException("Invalid Token");
+            if (userId.equals(session.getUserId())) {
+                logger.info("valid token:" + token);
+                httpSession.setMaxInactiveInterval(60 * 60);
+                UserContextRetriver.setUsercontext(userServiceImpl.getUserContext(userId));
+                return true;
+            }
         }
+        return false;
 
     }
 
