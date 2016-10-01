@@ -201,10 +201,14 @@ public class UserServiceImpl {
             if (user == null) {
                 throw new RuntimeException(Constants.USER_NOT_FOUND);
             }
-
+            /*
+             * changing status from REGISTERED to New
+             */
             user.setStatus(StatusType.NEW.getValue());
             user.getAuditData().setLastModifiedBy(UserContextRetriver.getUsercontext().getUserId());
             user.getAuditData().setLastModifiedDate(Calendar.getInstance());
+            user.getAuditData().setAuthenticatedBy(UserContextRetriver.getUsercontext().getUserId());
+            user.getAuditData().setAuthenticatedDate(Calendar.getInstance());
             user.setCompanyId(approvalRequest.getClientId());
             userRepository.save(user);
             // TODO:send email with user creadential details.
@@ -213,8 +217,7 @@ public class UserServiceImpl {
 
     /**
      * Update the user profile.
-     * 1. Admin can change the role, status and companyId of user.
-     * 2. client Admin can change the status of user.
+     * 1. Admin can change the role and companyId of user.
      * 
      * @param updateRequest
      */
@@ -229,7 +232,10 @@ public class UserServiceImpl {
           throw new RuntimeException(Constants.USER_NOT_ACTIVE);
       }
 //      validateUpdateRequest()
-      BeanUtils.copyProperties(updateRequest.getUser(), user, "role");
+      BeanUtils.copyProperties(updateRequest.getUser(), user, "companyId");
+        if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN ) {
+      //    user.setRoleTypeId(StatusType.getStatusOfValue(updateRequest.getUser().getRole()));
+      }
 
     }
 }

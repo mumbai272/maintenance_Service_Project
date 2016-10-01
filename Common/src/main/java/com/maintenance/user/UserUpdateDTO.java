@@ -6,32 +6,26 @@ package com.maintenance.user;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 @XmlRootElement
 public class UserUpdateDTO {
     
     @NotNull
     private Long userId;
 
-    @NotBlank
     private String userName;
 
-    @NotBlank
     private String firstName;
 
     private String middleName;
 
     private String lastName;
 
-    @NotBlank
-    private String phoneno;
+   private String phoneno;
 
     private String role;
 
     private String gender;
 
-    @NotBlank
     private String emailId;    
     
     private String companyId;
