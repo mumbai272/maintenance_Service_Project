@@ -5,7 +5,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/java.test"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/java.resource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/java.src"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <dependent-module archiveName="Common-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Common/Common">
             <dependency-type>uses</dependency-type>
         </dependent-module>

@@ -17,31 +17,31 @@ public class ValidationException extends RuntimeException {
 		super();
 	}
 
-	public ValidationException(final String fieldName, final String fieldType, final String arg0, final Throwable arg1,
+	public ValidationException(final String fieldName, final String fieldValue, final String arg0, final Throwable arg1,
 			final boolean arg2, final boolean arg3) {
 		super(arg0, arg1, arg2, arg3);
 		this.fieldName = fieldName;
-		this.fieldValue = fieldType;
+		this.fieldValue = fieldValue;
 
 	}
 
-	public ValidationException(final String fieldName, final String fieldType, final String arg0, final Throwable arg1) {
+	public ValidationException(final String fieldName, final String fieldValue, final String arg0, final Throwable arg1) {
 		super(arg0, arg1);
 		this.fieldName = fieldName;
-		this.fieldValue = fieldType;
+		this.fieldValue = fieldValue;
 		// TODO Auto-generated constructor stub
 	}
 
-	public ValidationException(final String fieldName, final String fieldType, final String arg0) {
+	public ValidationException(final String fieldName, final String fieldValue, final String arg0) {
 		super(arg0);
 		this.fieldName = fieldName;
-		this.fieldValue = fieldType;
+		this.fieldValue = fieldValue;
 	}
 
-	public ValidationException(final String fieldName, final String fieldType,final Throwable arg0) {
+	public ValidationException(final String fieldName, final String fieldValue,final Throwable arg0) {
 		super(arg0);
 		this.fieldName = fieldName;
-		this.fieldValue = fieldType;
+		this.fieldValue = fieldValue;
 	}
 
 	public String getFieldName() {
@@ -56,8 +56,8 @@ public class ValidationException extends RuntimeException {
 		return fieldValue;
 	}
 
-	public void setFieldValue(final String fieldType) {
-		this.fieldValue = fieldType;
+	public void setFieldValue(final String fieldValue) {
+		this.fieldValue = fieldValue;
 	}
 
 }

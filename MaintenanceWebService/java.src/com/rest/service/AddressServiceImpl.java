@@ -3,9 +3,13 @@
 //============================================================
 package com.rest.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.maintenance.Common.DTO.AddressDTO;
+import com.rest.entity.Address;
 import com.rest.repository.AddressRepository;
 /**
  * 
@@ -13,8 +17,15 @@ import com.rest.repository.AddressRepository;
  * Created on Sep 4, 2016
  */
 @Component
+@Transactional
 public class AddressServiceImpl {
 
     @Autowired
     private AddressRepository addressRepository;
+    
+    public AddressDTO buildAddressDTO(Address address) {
+        AddressDTO addressDTO = new AddressDTO();
+        BeanUtils.copyProperties(address, addressDTO);
+        return addressDTO;
+    }
 }

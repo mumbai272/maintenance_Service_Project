@@ -55,17 +55,17 @@ public class Address {
     @Column(name = "FAX_NO", length = 50)
     private String faxNo;
 
-    @Column(name = "WEBSITE", length = 50)
+    @Column(name = "WEBSITE", length = 50,unique=true)
     private String website;
 
-    @Column(name = "MAIL_ID", length = 300)
+    @Column(name = "MAIL_ID", length = 300, unique=true)
     private String mailId;
 
-    @Column(name = "Linke_Id")
-    private Long linkedId;
-
-    @Column(name = "Linke_Type", length = 50)
-    private String linkedType;
+//    @Column(name = "Linke_Id")
+//    private Long linkedId;
+//
+//    @Column(name = "Linke_Type", length = 50)
+//    private String linkedType;
 
 
     public Long getAddressId() {
@@ -215,28 +215,28 @@ public class Address {
         this.mailId = mailId;
     }
 
-
-
-    public Long getLinkedId() {
-        return linkedId;
-    }
-
-
-
-    public void setLinkedId(Long linkedId) {
-        this.linkedId = linkedId;
-    }
-
-
-
-    public String getLinkedType() {
-        return linkedType;
-    }
-
-
-
-    public void setLinkedType(String linkedType) {
-        this.linkedType = linkedType;
-    }
+//
+//
+//    public Long getLinkedId() {
+//        return linkedId;
+//    }
+//
+//
+//
+//    public void setLinkedId(Long linkedId) {
+//        this.linkedId = linkedId;
+//    }
+//
+//
+//
+//    public String getLinkedType() {
+//        return linkedType;
+//    }
+//
+//
+//
+//    public void setLinkedType(String linkedType) {
+//        this.linkedType = linkedType;
+//    }
 
 }

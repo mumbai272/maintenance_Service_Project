@@ -25,6 +25,7 @@ public class CompanyDTO implements Serializable {
     private String description;
 
     @Valid
+    @NotNull
     private AddressDTO address;
     public CompanyDTO(){
         super();

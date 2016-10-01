@@ -7,9 +7,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -42,6 +45,13 @@ public class Company {
     @Column(name = "ENTRY_DATE")
     @Temporal(TemporalType.DATE)
     private Date entryDate;
+
+    @Column(name = "ADDRESS_ID")
+    private Long addressId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ADDRESS_ID", insertable = false, updatable = false)
+    private Address address;
 
 
     public Company() {
@@ -132,6 +142,30 @@ public class Company {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    
+    public Long getAddressId() {
+        return addressId;
+    }
+
+
+    
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+
+    
+    public Address getAddress() {
+        return address;
+    }
+
+
+    
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
 

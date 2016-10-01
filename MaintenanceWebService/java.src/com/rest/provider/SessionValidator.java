@@ -4,7 +4,9 @@
 package com.rest.provider;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -32,7 +34,8 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
 
     private static final Logger logger = Logger.getLogger(SessionValidator.class);
 
-    private String excludeUrl = "/login,/user/register";
+    @Resource
+    private List<String> excludeUrlList;
 
     @Autowired
     private SessionRepository sessionRepository;
@@ -48,7 +51,7 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
      */
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        if (!excludeUrl.contains(requestContext.getUriInfo().getPath())) {
+        if (!excludeUrlList.contains(requestContext.getUriInfo().getPath())) {
 
             String token = requestContext.getHeaderString(Constants.TOKEN_HEADER);
             if (token == null) {

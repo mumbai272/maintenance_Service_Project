@@ -6,6 +6,7 @@ package com.rest.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.maintenance.asset.DTO.AssetCreateDTO;
 import com.rest.entity.AssetMaster;
@@ -15,6 +16,7 @@ import com.rest.repository.MachineModelRepository;
 import com.rest.repository.MachineTypeRepository;
 
 @Component
+@Transactional
 public class AssetServiceImpl {
 
     @Autowired

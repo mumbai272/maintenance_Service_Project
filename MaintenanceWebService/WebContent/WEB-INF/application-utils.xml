@@ -15,5 +15,9 @@
 		<entry key="MACHINEMAKE" value-ref="machineMakeRepository" />
 		<entry key="MACHINESPARE" value-ref="machineSpareRepository" />
 	</util:map>
+	<util:list id="excludeUrlList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>login</value>
+		<value>user/register</value>
+	</util:list>
 
 </beans>

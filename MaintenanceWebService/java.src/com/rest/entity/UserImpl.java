@@ -6,6 +6,7 @@ package com.rest.entity;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,10 +22,10 @@ public class UserImpl {
     @Id
     @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "userId_Next_Value", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
-    @Column(name="USER_ID")
+    @Column(name = "USER_ID")
     private Long userId;
-    
-    @Column(name = "USER_NAME", length = 50, nullable = false, unique=true)
+
+    @Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
     private String userName;
 
     @Column(name = "PASSWORD", length = 50, nullable = false)
@@ -47,11 +48,11 @@ public class UserImpl {
 
     @Column(name = "PHONE_NO", length = 15, nullable = false)
     private String phoneno;
-   
+
     @Column(name = "COMPANY_ID")
     private Long companyId;
-    
-    @Column(name = "COMPANY_Desc", length=50)
+
+    @Column(name = "COMPANY_Desc", length = 50)
     private String companyDesc;
 
     @ManyToOne()
@@ -69,12 +70,21 @@ public class UserImpl {
 
     @Column(name = "USER_LOCALE", length = 1)
     private Integer userLocale;
-    
+
     @Column(name = "STATUS", length = 1, nullable = false)
     private String status;
-    
+
+    @Column(name = "ADDRESS_ID")
+    private Long addressId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ADDRESS_ID", insertable = false, updatable = false)
+    private Address address;
+
     @Embedded
     private AuditData auditData;
+
+
 
 
     public Long getUserId() {
@@ -213,7 +223,7 @@ public class UserImpl {
     public void setUserLocale(Integer userLocale) {
         this.userLocale = userLocale;
     }
-    
+
     public String getStatus() {
         return status;
     }
@@ -233,27 +243,51 @@ public class UserImpl {
     }
 
 
-    
+
     public Long getCompanyId() {
         return companyId;
     }
 
 
-    
+
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 
 
-    
+
     public String getCompanyDesc() {
         return companyDesc;
     }
 
 
-    
+
     public void setCompanyDesc(String companyDesc) {
         this.companyDesc = companyDesc;
+    }
+
+
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+
+
+    public Address getAddress() {
+        return address;
+    }
+
+
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
 

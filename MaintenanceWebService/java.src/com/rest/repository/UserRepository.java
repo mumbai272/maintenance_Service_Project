@@ -20,4 +20,8 @@ public interface UserRepository extends CrudRepository<UserImpl, Long> {
     UserImpl findByEmailId(String emailId);
 
     List<UserImpl> findByCompanyIdAndStatus(Long companyId, String status);
+    
+    List<UserImpl> findByUserNameOrEmailId(String userName,String emailId);
+
+    List<UserImpl> findByStatus(String status);
 }

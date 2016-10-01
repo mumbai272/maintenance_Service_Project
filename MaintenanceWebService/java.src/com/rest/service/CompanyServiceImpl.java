@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.common.util.CollectionUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maintenance.Common.EntityType;
 import com.maintenance.Common.StatusType;
 import com.maintenance.Common.DTO.AddressDTO;
 import com.maintenance.Common.DTO.CompanyDTO;
@@ -27,12 +27,16 @@ import com.rest.repository.CompanyRepository;
 @Component
 @Transactional
 public class CompanyServiceImpl {
+    private static final Logger logger = Logger.getLogger(CompanyServiceImpl.class);
 
     @Autowired
     private CompanyRepository companyRepository;
 
     @Autowired
     private AddressRepository addressRepository;
+    
+    @Autowired
+    private AddressServiceImpl addressServiceImpl;
 
     /**
      * get the company details for passed client id and company id
@@ -68,28 +72,28 @@ public class CompanyServiceImpl {
 
     private List<CompanyDTO> buidComapnyDTO(List<Company> companys, Boolean fetchAddress,
             Boolean fetchCompany) {
-        Map<Long, CompanyDTO> companyDTOmap = new HashMap<Long, CompanyDTO>();
-        List<Long> clinetIds = new ArrayList<Long>();
+        Map<Long, CompanyDTO> addressToCompanyDTOmap = new HashMap<Long, CompanyDTO>();
+        List<Long> addressIds = new ArrayList<Long>();
         for (Company company : companys) {
             if (fetchCompany || !company.getCompanyId().equals(company.getClientId())) {
                 CompanyDTO companyDTO =
                     new CompanyDTO(company.getCompanyId(), company.getClientId(),
                         company.getShortDesc(), company.getDescription(), null);
-                clinetIds.add(company.getClientId());
-                companyDTOmap.put(company.getClientId(), companyDTO);
+                if (company.getAddressId() != null) {
+                    addressIds.add(company.getAddressId());
+                    addressToCompanyDTOmap.put(company.getAddressId(), companyDTO);
+                }
             }
         }
         if (fetchAddress) {
-            List<Address> addresses =
-                addressRepository.findByLinkedIdInAndLinkedType(clinetIds,
-                    EntityType.COMPANY.getValue());
+            List<Address> addresses = (List<Address>) addressRepository.findAll(addressIds);
             for (Address address : addresses) {
-                AddressDTO addressDTO = buildAddressDTO(address);
-                CompanyDTO companyDTO = companyDTOmap.get(address.getLinkedId());
+                AddressDTO addressDTO = addressServiceImpl.buildAddressDTO(address);
+                CompanyDTO companyDTO = addressToCompanyDTOmap.get(address.getAddressId());
                 companyDTO.setAddress(addressDTO);
             }
         }
-        return new ArrayList<CompanyDTO>(companyDTOmap.values());
+        return new ArrayList<CompanyDTO>(addressToCompanyDTOmap.values());
     }
 
     /**
@@ -104,11 +108,7 @@ public class CompanyServiceImpl {
         return companyDTO;
     }
 
-    private AddressDTO buildAddressDTO(Address address) {
-        AddressDTO addressDTO = new AddressDTO();
-        BeanUtils.copyProperties(address, addressDTO);
-        return addressDTO;
-    }
+   
 
     /**
      * 
@@ -120,13 +120,28 @@ public class CompanyServiceImpl {
         Company company =
             new Company(companyDTO.getClientName(), companyDTO.getDescription(),
                 companyDTO.getCompanyId(), StatusType.ACTIVE.getValue(), null, new Date());
-        companyRepository.save(company);
         Address address = new Address();
-        BeanUtils.copyProperties(companyDTO.getAddress(), address);
-        address.setLinkedId(company.getClientId());
-        address.setLinkedType(EntityType.COMPANY.getValue());
+        BeanUtils.copyProperties(companyDTO.getAddress(), address);     
         addressRepository.save(address);
+        
+        company.setAddressId(address.getAddressId());
+        companyRepository.save(company);
         return null;
+    }
+    /**
+     * 
+     * @param companyId
+     * @return
+     */
+    public boolean validateCompany(Long companyId) {
+        logger.info("validating the company for companyId:" + companyId);
+        Company company = companyRepository.findOne(companyId);
+        if (company == null) {
+            throw new RuntimeException("Company does not exist");
+        }
+        
+        return true;
+
     }
 
 

@@ -31,6 +31,10 @@ public class UserResponse implements Serializable {
     public void addUsers(UserDTO user) {
         this.users.add(user);
     }
+    
+    public void addAllUsers(List<UserDTO> users) {
+        this.users.addAll(users);
+    }
 
 
 }

@@ -14,15 +14,15 @@ public class UserContext {
 
     private Long companyId;
 
-//    private String name;
+    private RoleType role;
 
-    public UserContext(Long userId, String userName, String email, Long companyId) {
+    public UserContext(Long userId, String userName, String email, Long companyId, RoleType role) {
         super();
         this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.companyId = companyId;
-      //  this.name = name;
+        this.role = role;
     }
 
     public UserContext() {
@@ -61,12 +61,15 @@ public class UserContext {
         this.companyId = companyId;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+    
+    public RoleType getRole() {
+        return role;
+    }
+
+    
+    public void setRole(RoleType role) {
+        this.role = role;
+    }
+
 
 }

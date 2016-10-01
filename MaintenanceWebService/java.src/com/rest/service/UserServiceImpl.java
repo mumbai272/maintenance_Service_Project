@@ -3,10 +3,11 @@
 //============================================================
 package com.rest.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.validation.ValidationException;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.common.util.CollectionUtils;
@@ -16,15 +17,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maintenance.Common.Constants;
 import com.maintenance.Common.RoleType;
 import com.maintenance.Common.StatusType;
+import com.maintenance.Common.UserAction;
 import com.maintenance.Common.UserContext;
 import com.maintenance.Common.UserContextRetriver;
+import com.maintenance.Common.DTO.AddressDTO;
+import com.maintenance.Common.exception.AuthorizationException;
 import com.maintenance.user.UserDTO;
+import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
 import com.maintenance.user.requestResponse.UserResponse;
+import com.maintenance.user.requestResponse.UserUpdateRequest;
+import com.rest.api.exception.ValidationException;
+import com.rest.entity.Address;
 import com.rest.entity.AuditData;
 import com.rest.entity.UserImpl;
+import com.rest.repository.AddressRepository;
 import com.rest.repository.UserRepository;
 
 
@@ -39,6 +49,15 @@ public class UserServiceImpl {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CompanyServiceImpl companyServiceImpl;
+    
+    @Autowired
+    private AddressRepository addressRepository;
+    
+    @Autowired
+    private AddressServiceImpl addressServiceImpl;
 
     public UserDTO buildUserDTO(UserImpl user) {
         UserDTO userDTO = new UserDTO();
@@ -70,9 +89,11 @@ public class UserServiceImpl {
     }
 
     private void validateRegistrationRequest(UserRegistrationRequest registrationRequest) {
-        UserImpl user = userRepository.findByUserName(registrationRequest.getUserName());
-        if (user != null) {
-            throw new RuntimeException("Username id is already registered");
+        List<UserImpl> users =
+            userRepository.findByUserNameOrEmailId(registrationRequest.getUserName(),
+                registrationRequest.getEmailId());
+        if (!CollectionUtils.isEmpty(users)) {
+            throw new RuntimeException("Username  or Emailid is already registered");
         }
     }
 
@@ -92,7 +113,7 @@ public class UserServiceImpl {
             throw new RuntimeException("User not found or not activated");
         }
         return new UserContext(user.getUserId(), user.getUserName(), user.getEmailId(),
-            user.getCompanyId());
+            user.getCompanyId(), RoleType.getRoleType(user.getRoleTypeId()));
     }
 
     /**
@@ -100,41 +121,115 @@ public class UserServiceImpl {
      * 
      * @param companyId
      * @param status
+     * @param fetchAddress
      * @return
      */
-    public UserResponse getUser(Long companyId, String status) {
+    public UserResponse getUser(Long companyId, String status, boolean fetchAddress) {
         UserResponse userResponse = new UserResponse();
-        validRequest(companyId, status);
-        if (StringUtils.isBlank(status)) {
-            status = StatusType.ACTIVE.getValue();
+        List<Long> addressIds = null;
+        Map<Long,UserDTO> addressIdToUserDTO=new HashMap<Long,UserDTO>();
+        validRequest(status);
+        if (companyId == null) {
+            companyId = UserContextRetriver.getUsercontext().getCompanyId();
         }
-        List<UserImpl> users = userRepository.findByCompanyIdAndStatus(companyId, status);
-        if (!CollectionUtils.isEmpty(users)) {
-            for (UserImpl userImpl : users) {
-                userResponse.addUsers(buildUserDTO(userImpl));
+        if (StatusType.REGISTERED.getValue().equalsIgnoreCase(status)) {
+            if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
+                companyId = null;
+            } else {
+                throw new AuthorizationException(UserAction.GET_REGISTED_USER.getValue(),
+                    UserContextRetriver.getUsercontext().getUserName());
             }
         }
 
+        List<UserImpl> users = null;
+        if (companyId != null) {
+            users = userRepository.findByCompanyIdAndStatus(companyId, status);
+        } else {
+            users = userRepository.findByStatus(status);
+        }
+        if (!CollectionUtils.isEmpty(users)) {
+            addressIds = new ArrayList<Long>();
+            for (UserImpl userImpl : users) {
+                UserDTO user = buildUserDTO(userImpl);
+                if (userImpl.getAddressId() != null) {
+                    addressIds.add(userImpl.getAddressId());
+                    addressIdToUserDTO.put(userImpl.getAddressId(), user);
+                }
+            }
+        }
+        if(fetchAddress){
+            List<Address> addresses = (List<Address>) addressRepository.findAll(addressIds);
+            for (Address address : addresses) {
+                AddressDTO addressDTO = addressServiceImpl.buildAddressDTO(address);
+                UserDTO userDto = addressIdToUserDTO.get(address.getAddressId());
+                userDto.setAddress(addressDTO);
+            }
+        }
+        userResponse.setUsers(new ArrayList<UserDTO>(addressIdToUserDTO.values()));
         return userResponse;
     }
 
     /**
      * validate the get user request
-     * 
-     * @param companyId
      * @param status
      */
-    private void validRequest(Long companyId, String status) {
+    private void validRequest(String status) {
         logger.info("Validating the get user request");
-        if (!UserContextRetriver.getUsercontext().getCompanyId().equals(companyId)) {
-            throw new ValidationException("invalid companyId is passed");
-        }
         if (StringUtils.isNoneBlank(status)) {
             StatusType statusType = StatusType.getStatusOfValue(status);
             if (statusType == null) {
-                throw new ValidationException("invalid status is passed");
+                throw new ValidationException("status", "null", "invalid status is passed");
             }
         }
+    }
+
+    /**
+     * Approving the user. In Approval process user role and company id is assigned and status is
+     * changed to NEW("N").
+     * 
+     * @param approvalRequest
+     */
+    @Transactional(rollbackFor = { Exception.class })
+    public void approveRegistration(UserRegistrationApprovalRequest approvalRequest) {
+        logger.info("Validating the get user request");
+        if (!UserContextRetriver.getUsercontext().getRole().equals(RoleType.ADMIN)) {
+            throw new AuthorizationException(UserAction.USER_APPROVAL.getValue(),
+                UserContextRetriver.getUsercontext().getUserName());
+        }
+        if (companyServiceImpl.validateCompany(approvalRequest.getClientId())) {
+            UserImpl user = userRepository.findOne(approvalRequest.getUserId());
+            if (user == null) {
+                throw new RuntimeException(Constants.USER_NOT_FOUND);
+            }
+
+            user.setStatus(StatusType.NEW.getValue());
+            user.getAuditData().setLastModifiedBy(UserContextRetriver.getUsercontext().getUserId());
+            user.getAuditData().setLastModifiedDate(Calendar.getInstance());
+            user.setCompanyId(approvalRequest.getClientId());
+            userRepository.save(user);
+            // TODO:send email with user creadential details.
+        }
+    }
+
+    /**
+     * Update the user profile.
+     * 1. Admin can change the role, status and companyId of user.
+     * 2. client Admin can change the status of user.
+     * 
+     * @param updateRequest
+     */
+    @Transactional(rollbackFor = { Exception.class })
+    public void updateUser(UserUpdateRequest updateRequest) {
+       if(updateRequest.getUser().getUserId()==null){
+            throw new ValidationException("userId","null", "cannot be null");
+        }
+        UserImpl user = userRepository.findOne(updateRequest.getUser().getUserId());
+      if(!StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getStatus()) || !StatusType.NEW
+              .getValue().equalsIgnoreCase(user.getStatus())){
+          throw new RuntimeException(Constants.USER_NOT_ACTIVE);
+      }
+//      validateUpdateRequest()
+      BeanUtils.copyProperties(updateRequest.getUser(), user, "role");
 
     }
 }

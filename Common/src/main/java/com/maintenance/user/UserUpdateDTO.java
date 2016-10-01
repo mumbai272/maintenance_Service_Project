@@ -3,15 +3,15 @@
 //============================================================
 package com.maintenance.user;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.maintenance.Common.DTO.AddressDTO;
-
 @XmlRootElement
-public class UserDTO {
+public class UserUpdateDTO {
     
+    @NotNull
     private Long userId;
 
     @NotBlank
@@ -32,10 +32,10 @@ public class UserDTO {
     private String gender;
 
     @NotBlank
-    private String emailId;
+    private String emailId;    
     
-    private AddressDTO address;
-    
+    private String companyId;
+
     public Long getUserId() {
         return userId;
     }
@@ -110,15 +110,6 @@ public class UserDTO {
         this.emailId = emailId;
     }
 
-    
-    public AddressDTO getAddress() {
-        return address;
-    }
 
-    
-    public void setAddress(AddressDTO address) {
-        this.address = address;
-    }
 
-  
 }
