@@ -12,7 +12,7 @@
 
 	<modules>
 		<module>Common</module>
-		<module>CommonEmail</module>
+		<!--<module>CommonEmail</module>-->
 		<module>MaintenanceWebService</module>		
 	</modules>
 </project>
