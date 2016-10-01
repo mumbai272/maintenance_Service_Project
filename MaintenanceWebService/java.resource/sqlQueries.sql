@@ -8,10 +8,9 @@ insert into gm_addbook(clientId,company_Id,short_id,add_desc,rec_status) values
 Insert into Users(USER_ID,USER_NAME,PASSWORD,EMAIL_ID,FIRST_NAME,LAST_NAME,GENDER,PHONE_NO,ROLE_TYPE_Id,COMPANY_ID,STATUS) values
 (1,"vinayak123","password123","vinayak.s.mumbai@gmail.com","vinayak","mumbai","M","97420256792",1,1,"A");
 
-
-insert into address(ADD_DESC,STREET1,STREET2,STREET3,CITY,STATE,ZIP_CODE,COUNTRY,WEBSITE,MOBILE_NO,LOCATION,MAIL_ID,FAX_NO) values
-("UPN MAIN OFFICE","no.1876 6th main","KSL-II stage","Penya","Bangalore","Karnataka","560078","India","","9448123456","Peny","test@test.com","080-2111111111"),
-("Trolion OFFICE","no 29 SVS","KSL-II stage","Hebbal","Bangalore","Karnataka","560021","India","","9448123456","Hebbal","test@test.com","080-3111111111");
+INSERT INTO address(ADD_DESC,STREET1,STREET2,STREET3,CITY,STATE,ZIP_CODE,COUNTRY,WEBSITE,MOBILE_NO,LOCATION,MAIL_ID,FAX_NO) VALUES
+("UPN MAIN OFFICE","no.1876 6th main","KSL-II stage","Penya","Bangalore","Karnataka","560078","India","test2.org","9448123456","Peny","test@test.com","080-2111111111"),
+("Trolion OFFICE","no 29 SVS","KSL-II stage","Hebbal","Bangalore","Karnataka","560021","India","test.rg","9448123956","Hebbal","test1@test.com","080-3111111111");
 
 insert into GM_DEPARTMENT(company_id,dept_id,dept_name,rec_status) values
 (1,1,"HR","A"),
