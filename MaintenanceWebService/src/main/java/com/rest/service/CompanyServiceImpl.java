@@ -47,6 +47,7 @@ public class CompanyServiceImpl {
      * @return
      */
     public List<CompanyDTO> getCompanyDeatils(Long companyId, Long clientId, Boolean fetchAddress) {
+        logger.info("inside getCompanyDeatils for companyId:"+companyId);
         Boolean fetchCompany = false;
         List<Company> companys = new ArrayList<Company>();
         if (clientId != null && companyId.equals(clientId)) {
@@ -72,6 +73,7 @@ public class CompanyServiceImpl {
 
     private List<CompanyDTO> buidComapnyDTO(List<Company> companys, Boolean fetchAddress,
             Boolean fetchCompany) {
+        logger.info("building company DTO");
         Map<Long, CompanyDTO> addressToCompanyDTOmap = new HashMap<Long, CompanyDTO>();
         List<Long> addressIds = new ArrayList<Long>();
         for (Company company : companys) {

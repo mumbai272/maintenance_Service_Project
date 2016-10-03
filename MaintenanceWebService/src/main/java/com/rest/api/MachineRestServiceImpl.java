@@ -38,7 +38,7 @@ public class MachineRestServiceImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response getMachineDetail(@PathParam("type") String type,
             @NotNull @QueryParam("companyId") Long companyId) {
-
+        logger.info("**** inside get machine ");
         MachineTypeEnum machineTypeEnum = validateType(type);
         BaseResponse<List<MachineDTO>> response = new BaseResponse<List<MachineDTO>>();
         try {
@@ -49,7 +49,7 @@ public class MachineRestServiceImpl {
             response.setData(machineDTO);
             return Response.ok(response).build();
         } catch (Exception ex) {
-            logger.error("Exceptipon occured:"+ ex.getStackTrace());
+            logger.info("Exceptipon occured:"+ ex.getStackTrace());
             response.setMsg(ex.getMessage());
             response.setStatusCode(-1);
             return Response.ok(response).build();

@@ -17,6 +17,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,8 @@ import com.rest.service.CompanyServiceImpl;
  */
 @Component
 public class ClientRestServiceImpl {
+
+    private static final Logger logger = Logger.getLogger(ClientRestServiceImpl.class);
 
     @Autowired
     private CompanyServiceImpl companyServiceImpl;
@@ -50,6 +53,7 @@ public class ClientRestServiceImpl {
             @DefaultValue("false") @QueryParam(value = "fetchAddress") boolean fetchAddress) {
         BaseResponse<List<CompanyDTO>> response = new BaseResponse<List<CompanyDTO>>();
         try {
+            logger.info("**** inside getCompanyDetails");
             List<CompanyDTO> companyDTOs =
                 companyServiceImpl.getCompanyDeatils(companyId, clientId, fetchAddress);
             response.setMsg("SUCCESS");
@@ -57,7 +61,7 @@ public class ClientRestServiceImpl {
             response.setData(companyDTOs);
             return Response.ok(response).build();
         } catch (Exception ex) {
-
+            logger.info("Exception:" + ex);
             response.setMsg(ex.getMessage());
             response.setStatusCode(-1);
             return Response.ok(response).build();
@@ -75,6 +79,7 @@ public class ClientRestServiceImpl {
             response.setMsg("Successfully created");
             response.setStatusCode(1);
         } catch (Exception ex) {
+            logger.info("Exception:" + ex);
             response.setMsg(ex.getMessage());
             response.setStatusCode(-1);
 
