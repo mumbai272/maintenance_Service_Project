@@ -55,6 +55,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
             userServiceImpl.saveRegistrationRequest(registrationRequest);
             response.setMsg("User registration is successful");
         } catch (Exception ex) {
+            logger.error("Exceptipon occured:"+ ex.getStackTrace());
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }
@@ -72,24 +73,25 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response userRegistrationRequest(@QueryParam("companyId") Long companyId,
-            @QueryParam("status") String status, @QueryParam("fetchAddress")boolean fetchAddress) {
+            @QueryParam("status") String status, @QueryParam("fetchAddress") boolean fetchAddress) {
         BaseResponse<Serializable> response = new BaseResponse<Serializable>();
         logger.info("getting users for the companyId:" + companyId);
         try {
-            if(StringUtils.isBlank(status)){
+            if (StringUtils.isBlank(status)) {
                 status = StatusType.ACTIVE.getValue();
-            }            
+            }
             UserResponse userResponse = userServiceImpl.getUser(companyId, status, fetchAddress);
             response.setData(userResponse);
         } catch (Exception ex) {
-
+            logger.error("Exceptipon occured:"+ ex.getStackTrace());
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }
         return Response.ok(response).build();
     }
-   
+
     /**
+     * approve user registration
      * 
      * @param approvalRequest
      * @return
@@ -105,11 +107,19 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
             userServiceImpl.approveRegistration(approvalRequest);
             response.setMsg("User approval is successful");
         } catch (Exception ex) {
+            logger.error("Exceptipon occured:"+ ex.getStackTrace());
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }
         return Response.ok(response).build();
     }
+
+    /**
+     * update the user profile
+     * 
+     * @param updateRequest
+     * @return
+     */
     @PUT
     @Path("/update")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -121,6 +131,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
             userServiceImpl.updateUser(updateRequest);
             response.setMsg("User profile update is successful");
         } catch (Exception ex) {
+            logger.error("Exceptipon occured:"+ ex.getStackTrace());
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }
