@@ -155,17 +155,22 @@ public class UserServiceImpl {
                     addressIds.add(userImpl.getAddressId());
                     addressIdToUserDTO.put(userImpl.getAddressId(), user);
                 }
+                else{
+                    userResponse.addUsers(user);
+                }
             }
         }
-        if(fetchAddress){
+        if(fetchAddress && !addressIds.isEmpty()){
             List<Address> addresses = (List<Address>) addressRepository.findAll(addressIds);
             for (Address address : addresses) {
                 AddressDTO addressDTO = addressServiceImpl.buildAddressDTO(address);
                 UserDTO userDto = addressIdToUserDTO.get(address.getAddressId());
                 userDto.setAddress(addressDTO);
+               
             }
         }
-        userResponse.setUsers(new ArrayList<UserDTO>(addressIdToUserDTO.values()));
+        userResponse.getUsers().addAll(addressIdToUserDTO.values());
+      
         return userResponse;
     }
 

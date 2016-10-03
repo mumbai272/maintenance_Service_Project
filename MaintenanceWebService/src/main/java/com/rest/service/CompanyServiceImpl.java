@@ -76,6 +76,7 @@ public class CompanyServiceImpl {
         logger.info("building company DTO");
         Map<Long, CompanyDTO> addressToCompanyDTOmap = new HashMap<Long, CompanyDTO>();
         List<Long> addressIds = new ArrayList<Long>();
+        List<CompanyDTO> companyDTOList=new ArrayList<CompanyDTO>();
         for (Company company : companys) {
             if (fetchCompany || !company.getCompanyId().equals(company.getClientId())) {
                 CompanyDTO companyDTO =
@@ -84,16 +85,19 @@ public class CompanyServiceImpl {
                 if (company.getAddressId() != null) {
                     addressIds.add(company.getAddressId());
                     addressToCompanyDTOmap.put(company.getAddressId(), companyDTO);
+                }else{
+                    companyDTOList.add(companyDTO);
                 }
             }
         }
-        if (fetchAddress) {
+        if (fetchAddress && !addressIds.isEmpty()) {
             List<Address> addresses = (List<Address>) addressRepository.findAll(addressIds);
             for (Address address : addresses) {
                 AddressDTO addressDTO = addressServiceImpl.buildAddressDTO(address);
                 CompanyDTO companyDTO = addressToCompanyDTOmap.get(address.getAddressId());
                 companyDTO.setAddress(addressDTO);
             }
+            companyDTOList.addAll(addressToCompanyDTOmap.values());
         }
         return new ArrayList<CompanyDTO>(addressToCompanyDTOmap.values());
     }

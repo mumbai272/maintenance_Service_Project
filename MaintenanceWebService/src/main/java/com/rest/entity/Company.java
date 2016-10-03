@@ -17,9 +17,10 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "GM_ADDBOOK")
+@Table(name = "GM_ADDBOOK" ,uniqueConstraints=@UniqueConstraint(columnNames={"ADDRESS_ID"}, name="GM_ADDBOOK_ADDRESS_ID_UNIQUE"))
 public class Company {
 
     @Id
@@ -46,7 +47,7 @@ public class Company {
     @Temporal(TemporalType.DATE)
     private Date entryDate;
 
-    @Column(name = "ADDRESS_ID")
+    @Column(name = "ADDRESS_ID", unique = true)
     private Long addressId;
 
     @ManyToOne(fetch = FetchType.LAZY)

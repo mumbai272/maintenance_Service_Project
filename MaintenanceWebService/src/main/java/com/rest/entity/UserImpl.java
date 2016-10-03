@@ -14,9 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "USERS",uniqueConstraints=@UniqueConstraint(columnNames={"ADDRESS_ID"},name="ADDRESS_ID_unique"))
 public class UserImpl {
 
     @Id
@@ -74,7 +75,7 @@ public class UserImpl {
     @Column(name = "STATUS", length = 1, nullable = false)
     private String status;
 
-    @Column(name = "ADDRESS_ID")
+    @Column(name = "ADDRESS_ID", unique = true)
     private Long addressId;
 
     @ManyToOne(fetch = FetchType.LAZY)
