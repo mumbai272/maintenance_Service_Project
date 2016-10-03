@@ -63,7 +63,7 @@ public class LoginServiceImpl {
         logger.info("validating the User:" + userName);
         LoginResponse loginResponse = new LoginResponse();
         UserImpl user = userRepository.findByUserName(userName);
-        if(user==null){
+        if (user == null) {
             throw new RuntimeException(Constants.INVALID_USER);
         }
         if (user.getPassword().equals(password)
@@ -79,8 +79,11 @@ public class LoginServiceImpl {
             if (null != user.getCompany()) {
                 loginResponse.setCompany(companyServiceImpl.buildCompanyDTO(user.getCompany()));
             }
-        } else {
+        } else if (user.getPassword().equals(password)
+            && StatusType.REGISTERED.getValue().equalsIgnoreCase(user.getStatus())) {
             throw new RuntimeException(Constants.USER_NOT_ACTIVE);
+        } else {
+            throw new RuntimeException(Constants.INVALID_USER);
         }
 
         return loginResponse;
@@ -116,7 +119,8 @@ public class LoginServiceImpl {
         String userId = String.valueOf(userid);
         String time = String.valueOf(calendar.getTimeInMillis());
         StringBuilder token = new StringBuilder(userId);
-        token.append(Constants.UNDER_SCORE).append(time).append(Constants.UNDER_SCORE).append(sessionId);
+        token.append(Constants.UNDER_SCORE).append(time).append(Constants.UNDER_SCORE)
+                .append(sessionId);
         SessionImpl session = new SessionImpl(userid, sessionId, token.toString());
         sessionRepository.save(session);
         return token.toString();
