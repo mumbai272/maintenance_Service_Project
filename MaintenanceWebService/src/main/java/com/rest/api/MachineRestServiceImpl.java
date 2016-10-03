@@ -15,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,7 @@ import com.rest.machine.service.MachineServiceImpl;
 
 @Component
 public class MachineRestServiceImpl {
+    private static final Logger logger = Logger.getLogger(MachineRestServiceImpl.class);
 
     @Autowired
     private MachineServiceImpl machineServiceImpl;
@@ -47,7 +49,7 @@ public class MachineRestServiceImpl {
             response.setData(machineDTO);
             return Response.ok(response).build();
         } catch (Exception ex) {
-
+            logger.error("Exceptipon occured:"+ ex.getStackTrace());
             response.setMsg(ex.getMessage());
             response.setStatusCode(-1);
             return Response.ok(response).build();
