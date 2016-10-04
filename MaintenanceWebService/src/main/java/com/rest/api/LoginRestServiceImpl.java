@@ -91,6 +91,7 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl{
                 throw new Exception("Invalid session");
             }
         } catch (Exception ex) {
+            logger.error("Exception occured", ex);
             response = new BaseResponse<String>(BaseResponse.FAILED_CODE, ex.getMessage());
         }
         return Response.ok(response).build();

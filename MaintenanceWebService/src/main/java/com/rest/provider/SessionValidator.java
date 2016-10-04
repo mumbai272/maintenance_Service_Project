@@ -78,7 +78,8 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
             sessionRepository.delete(session);
             throw new RuntimeException("Session expired");
         }
-        if (httpSession != null && session != null) {
+        if (httpSession != null && session != null
+            && session.getSessionId().equalsIgnoreCase(httpSession.getId())) {
             Long userId = (Long) httpSession.getAttribute(Constants.USERID);
             if (userId.equals(session.getUserId())) {
                 logger.info("valid token:" + token);
@@ -88,7 +89,6 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
             }
         }
         return false;
-
     }
 
     /**

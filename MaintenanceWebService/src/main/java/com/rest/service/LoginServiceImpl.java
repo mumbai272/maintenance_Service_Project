@@ -105,6 +105,7 @@ public class LoginServiceImpl {
             response.setData(Constants.SUCCESSFUL_LOGOUT);
 
         } catch (Exception e) {
+            logger.error("Exception occured", e);
             response.setMsg(e.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
             response.setData(Constants.FAILED_LOGOUT);
