@@ -72,9 +72,11 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
      */
     private boolean validateSession(String token, HttpServletRequest request) {
         logger.info("validating the token " + token);
+        System.out.println("validating the token " + token);
         SessionImpl session = sessionRepository.findByToken(token);
         HttpSession httpSession = request.getSession();
         if (httpSession == null && session != null) {
+        	System.out.println("Session expired " + token);
             sessionRepository.delete(session);
             throw new RuntimeException("Session expired");
         }
@@ -84,6 +86,7 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
             if (userId.equals(session.getUserId())) {
                 logger.info("valid token:" + token);
                 httpSession.setMaxInactiveInterval(60 * 60);
+                System.out.println("valid token:" + token);
                 UserContextRetriver.setUsercontext(userServiceImpl.getUserContext(userId));
                 return true;
             }

@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.AddressDTO;
+import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.ClientDTO;
-import com.android.maintenance.DTO.ClientOutputDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
@@ -100,18 +100,17 @@ public class ClientRegistration extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-           // super.onPostExecute(s);
             Log.e("result data",":"+s);
             //deserialize the data
             Gson gson = new GsonBuilder().create();
-            ClientOutputDTO clientoutput=gson.fromJson(s, ClientOutputDTO.class);
-            Log.e("result data",":"+clientoutput.toString());
-            if(clientoutput.getStatusCode()==1){
-                Log.e("Success :",""+clientoutput.getMsg());
-                Toast.makeText(getApplicationContext(),clientoutput.getMsg(), Toast.LENGTH_LONG).show();
+            BaseResponseDTO clientOutput=gson.fromJson(s, BaseResponseDTO.class);
+            Log.e("result data",":"+clientOutput.toString());
+            if(clientOutput.getStatusCode()==1){
+                Log.e("Success :",""+clientOutput.getMsg());
+                Toast.makeText(getApplicationContext(),clientOutput.getMsg(), Toast.LENGTH_LONG).show();
             }else{
-                Log.e("ERROR :",""+clientoutput.getMsg());
-                Toast.makeText(getApplicationContext(),clientoutput.getMsg(), Toast.LENGTH_LONG).show();
+                Log.e("ERROR :",""+clientOutput.getMsg());
+                Toast.makeText(getApplicationContext(),clientOutput.getMsg(), Toast.LENGTH_LONG).show();
             }
         }
     }

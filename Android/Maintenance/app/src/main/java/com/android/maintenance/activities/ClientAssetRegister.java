@@ -1,6 +1,7 @@
 package com.android.maintenance.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,16 +17,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.ClientAssetRegisterDTO;
-import com.android.maintenance.DTO.ClientOutputDTO;
-import com.android.maintenance.DTO.MachineDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.Utility;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
@@ -50,6 +49,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
     private static String machinemodelURL= url + "machine/machinemodel?companyId=" + ConfigConstant.company_id;
     private static String assetclientregisterURL= url+"asset";
     private static final String TAG = "Mymessage";
+    private static String token;
 
     private Map<Integer,String> clientAssetDTO;
     private Map<Integer,String> machine_type;
@@ -64,13 +64,17 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
     Button add_Btn;
     String client,e_machine_type,e_machine_made,e_machine_model;
     String asset_no,asset_desc,mfg_sl_no,inst_sl_no,inst_date,mfg_date;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        new GetClient().execute();
-        new GetMachineType().execute();
+        intent=getIntent();
+        token=intent.getStringExtra("token");
+        Log.e("Token data",""+token);
+       // new GetClient().execute();
+       // new GetMachineType().execute();
         new GetMachineMade().execute();
-        new GetMachineModel().execute();
+       // new GetMachineModel().execute();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_asset_register);
 
@@ -135,7 +139,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
 
             Log.e(TAG, "inside doInBackground");
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
-            String json = jsonParser.makeServiceGet(clientURL, ServiceHandlerWS.GET);
+            String json = jsonParser.makeServiceGet(clientURL,token);
 
             Log.e(" client Response: ", "> " + json);
 
@@ -166,7 +170,6 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
             } else {
                 Log.e("JSON Data", "Didn't receive any data from server!");
             }
-
             return null;
         }
 
@@ -281,7 +284,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
 
             Log.e(TAG, "inside for "+machintypeURL);
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
-            String json = jsonParser.makeServiceGet(machintypeURL, ServiceHandlerWS.GET);
+            String json = jsonParser.makeServiceGet(machintypeURL, token);
 
             Log.e("Machine type Response: ", "------- " + json);
 
@@ -373,7 +376,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
 
             Log.e(TAG, "inside doInBackground");
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
-            String json = jsonParser.makeServiceGet(machinemadeURL, ServiceHandlerWS.GET);
+            String json = jsonParser.makeServiceGet(machinemadeURL,token);
 
             Log.e("machine made Response: ", "****** " + json);
 
@@ -391,8 +394,6 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
 
                         for (int i = 0; i < clientData.length(); i++) {
                             JSONObject catObj = (JSONObject) clientData.get(i);
-                            MachineDTO cat = new MachineDTO(catObj.getInt("companyId"),catObj.getInt("machineId"),catObj.getString("machineName"),catObj.getString("type"),catObj.getString("description"),
-                                    catObj.getString("rate"));
                             machine_made.put(catObj.getInt("machineId"),catObj.getString("machineName"));
                         }
                         Log.e(TAG,"items:"+machine_made.size());
@@ -467,7 +468,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
 
             Log.e(TAG, "inside doInBackground");
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
-            String json = jsonParser.makeServiceGet(machinemodelURL, ServiceHandlerWS.GET);
+            String json = jsonParser.makeServiceGet(machinemodelURL,token);
 
             Log.e("Response: ", "$$$$$$$" + json);
 
@@ -560,17 +561,14 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
 
         @Override
         protected void onPostExecute(String result) {
-           // super.onPostExecute(result);
             Gson gson = new GsonBuilder().create();
-            ClientOutputDTO clientoutput=gson.fromJson(result, ClientOutputDTO.class);
-           // System.out.println(clientoutput.toString());
-           // Log.e("result data",":"+clientoutput.toString());
-           if(clientoutput.getStatusCode()==1){
-                Log.e("Success :",""+clientoutput.getMsg());
-                Toast.makeText(getApplicationContext(),clientoutput.getMsg(), Toast.LENGTH_LONG).show();
+            BaseResponseDTO clientResponse=gson.fromJson(result, BaseResponseDTO.class);
+           if(clientResponse.getStatusCode()==1){
+                Log.e("Success :",""+clientResponse.getMsg());
+                Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }else{
-                Log.e("ERROR :",""+clientoutput.getMsg());
-                Toast.makeText(getApplicationContext(),clientoutput.getMsg(), Toast.LENGTH_LONG).show();
+                Log.e("ERROR :",""+clientResponse.getMsg());
+                Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }
 

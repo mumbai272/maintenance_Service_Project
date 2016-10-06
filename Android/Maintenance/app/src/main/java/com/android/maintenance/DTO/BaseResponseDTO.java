@@ -1,13 +1,13 @@
 package com.android.maintenance.DTO;
 
 /**
- * Created by anand on 15-Sep-16.
+ * Created by anand on 30-Sep-16.
  */
-public class ClientOutputDTO {
+public class BaseResponseDTO<T> {
 
     private int statusCode;
     private String msg;
-    private String data;
+    private T data;
 
     public int getStatusCode() {
         return statusCode;
@@ -25,11 +25,11 @@ public class ClientOutputDTO {
         this.msg = msg;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

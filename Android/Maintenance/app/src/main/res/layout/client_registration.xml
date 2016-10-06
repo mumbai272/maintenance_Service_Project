@@ -19,307 +19,156 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/client_registration"
         android:id="@+id/client_register_header_text"
-        android:layout_marginTop="15dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/client_name"
-        android:id="@+id/client_name"
-        android:layout_below="@+id/client_register_header_text"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Email"
-        android:id="@+id/client_email"
-        android:layout_below="@+id/client_name"
-        android:layout_alignStart="@+id/client_name"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/description"
-        android:id="@+id/client_description"
-        android:layout_below="@+id/client_email"
-        android:layout_alignStart="@+id/client_email"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/addess"
-        android:id="@+id/client_address"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/edit_client_desc"
-        android:layout_alignStart="@+id/client_description" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/street_1"
-        android:id="@+id/client_street1"
-        android:layout_below="@+id/client_address"
-        android:layout_alignStart="@+id/client_address"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/street_2"
-        android:id="@+id/client_street2"
-        android:layout_below="@+id/client_street1"
-        android:layout_alignStart="@+id/client_street1"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/street_3"
-        android:id="@+id/client_street3"
-        android:layout_below="@+id/client_street2"
-        android:layout_alignStart="@+id/client_street2"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/country"
-        android:id="@+id/client_country"
-        android:layout_below="@+id/client_street3"
-        android:layout_alignStart="@+id/client_street3"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/state"
-        android:id="@+id/client_state"
-        android:layout_below="@+id/client_country"
-        android:layout_alignStart="@+id/client_country"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/city"
-        android:id="@+id/client_city"
-        android:layout_below="@+id/client_state"
-        android:layout_alignStart="@+id/client_state"
-        android:layout_marginTop="20dp" />
-
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:text="@string/location"
-         android:id="@+id/client_location"
-         android:layout_below="@+id/edit_client_city"
-         android:layout_alignStart="@+id/client_city"
-         android:layout_marginTop="20dp"/>
-
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:text="@string/zip_code"
-         android:id="@+id/client_zip"
-         android:layout_below="@+id/client_location"
-         android:layout_alignStart="@+id/client_location"
-         android:layout_marginTop="20dp"/>
-
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:text="@string/phone_no"
-         android:id="@+id/client_phone"
-         android:layout_below="@+id/client_zip"
-         android:layout_alignStart="@+id/client_zip"
-         android:layout_marginTop="20dp"/>
-
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:text="@string/mobile_no"
-         android:id="@+id/client_mobile"
-         android:layout_below="@+id/client_phone"
-         android:layout_alignStart="@+id/client_phone"
-         android:layout_marginTop="20dp"/>
-
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:layout_below="@+id/client_mobile"
-         android:layout_alignStart="@+id/client_phone"
-         android:layout_marginTop="20dp"
-         android:text="@string/fax"
-         android:id="@+id/client_fax" />
-
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:layout_below="@+id/client_fax"
-         android:layout_alignStart="@+id/client_phone"
-         android:layout_marginTop="20dp"
-         android:text="Website"
-         android:id="@+id/client_website" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_client_street3"
-        android:ems="10"
-        android:layout_above="@+id/client_country"
-        android:layout_alignEnd="@+id/edit_client_street2"
-        android:layout_alignStart="@+id/edit_client_email" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_client_country"
-        android:ems="10"
-        android:layout_above="@+id/client_state"
-        android:layout_alignEnd="@+id/edit_client_street3"
-        android:layout_alignStart="@+id/edit_client_street3" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_client_state"
-        android:ems="10"
-        android:layout_alignBottom="@+id/client_state"
-        android:layout_alignEnd="@+id/edit_client_country" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_client_city"
-        android:ems="10"
-        android:layout_alignBottom="@+id/client_city"
-        android:layout_alignEnd="@+id/edit_client_state" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:id="@+id/edit_client_name"
          android:ems="10"
-         android:layout_above="@+id/client_email"
-         android:layout_alignParentEnd="true"
-         android:layout_marginEnd="32dp"/>
+         android:hint="@string/client_name"
+         android:layout_below="@+id/client_register_header_text"
+         android:layout_centerHorizontal="true" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:id="@+id/edit_client_email"
+         android:hint="@string/client_email"
          android:ems="10"
-         android:layout_alignBottom="@+id/client_email"
-         android:layout_alignEnd="@+id/edit_client_name"/>
+         android:layout_below="@+id/edit_client_name"
+         android:layout_alignStart="@+id/edit_client_name" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:id="@+id/edit_client_desc"
          android:ems="10"
-         android:layout_alignBottom="@+id/client_description"
-         android:layout_alignEnd="@+id/edit_client_email" />
-
-     <EditText
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:id="@+id/edit_client_street2"
-         android:ems="10"
-         android:layout_alignStart="@+id/edit_client_desc"
-         android:layout_alignBottom="@+id/client_street2" />
-
-     <EditText
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:id="@+id/edit_client_street1"
-         android:ems="10"
-         android:layout_above="@+id/client_street2"
-         android:layout_alignEnd="@+id/edit_client_street2" />
+         android:hint="@string/description"
+         android:layout_below="@+id/edit_client_email"
+         android:layout_alignStart="@+id/edit_client_email" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:id="@+id/edit_client_address"
          android:ems="10"
-         android:layout_above="@+id/client_street1"
-         android:layout_alignEnd="@+id/edit_client_street1" />
+         android:hint="@string/addess"
+         android:layout_below="@+id/edit_client_desc"
+         android:layout_alignStart="@+id/edit_client_desc" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:inputType="number"
+         android:id="@+id/edit_client_street1"
          android:ems="10"
-         android:id="@+id/edit_client_zip"
-         android:layout_alignBottom="@+id/client_zip"
-         android:layout_alignEnd="@+id/edit_client_city" />
+         android:hint="@string/street_1"
+         android:layout_below="@+id/edit_client_address"
+         android:layout_alignStart="@+id/edit_client_address" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:inputType="phone"
+         android:id="@+id/edit_client_street2"
          android:ems="10"
-         android:id="@+id/edit_client_phone"
-         android:layout_alignBottom="@+id/client_phone"
-         android:layout_alignEnd="@+id/edit_client_zip" />
+         android:hint="@string/street_2"
+         android:layout_below="@+id/edit_client_street1"
+         android:layout_alignStart="@+id/edit_client_street1" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:inputType="phone"
+         android:id="@+id/edit_client_street3"
          android:ems="10"
-         android:id="@+id/edit_client_mobile"
-         android:layout_alignBottom="@+id/client_mobile"
-         android:layout_alignEnd="@+id/edit_client_phone" />
+         android:hint="@string/street_3"
+         android:layout_below="@+id/edit_client_street2"
+         android:layout_alignStart="@+id/edit_client_street2" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:inputType="phone"
+         android:id="@+id/edit_client_country"
          android:ems="10"
-         android:id="@+id/edit_client_fax"
-         android:layout_alignBottom="@+id/client_fax"
-         android:layout_alignEnd="@+id/edit_client_mobile" />
+         android:hint="@string/country"
+         android:layout_below="@+id/edit_client_street3"
+         android:layout_alignStart="@+id/edit_client_street3" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:id="@+id/edit_client_website"
+         android:id="@+id/edit_client_state"
          android:ems="10"
-         android:layout_below="@+id/edit_client_fax"
-         android:layout_alignEnd="@+id/edit_client_fax" />
+         android:hint="@string/state"
+         android:layout_below="@+id/edit_client_country"
+         android:layout_alignStart="@+id/edit_client_country" />
 
+     <EditText
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/edit_client_city"
+         android:ems="10"
+         android:hint="@string/city"
+         android:layout_below="@+id/edit_client_state"
+         android:layout_alignStart="@+id/edit_client_state" />
 
      <EditText
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:id="@+id/edit_client_location"
          android:ems="10"
+         android:hint="@string/location"
          android:layout_below="@+id/edit_client_city"
-         android:layout_alignEnd="@+id/edit_client_zip"
+         android:layout_alignStart="@+id/edit_client_city" />
+
+     <EditText
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:inputType="number"
+         android:ems="10"
+         android:hint="@string/zip_code"
+         android:id="@+id/edit_client_zip"
+         android:layout_below="@+id/edit_client_location"
+         android:layout_alignStart="@+id/edit_client_location" />
+
+     <EditText
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:inputType="phone"
+         android:ems="10"
+         android:hint="@string/phone_no"
+         android:id="@+id/edit_client_phone"
+         android:layout_below="@+id/edit_client_zip"
          android:layout_alignStart="@+id/edit_client_zip" />
+
+     <EditText
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:inputType="phone"
+         android:ems="10"
+         android:hint="@string/mobile_no"
+         android:id="@+id/edit_client_mobile"
+         android:layout_below="@+id/edit_client_phone"
+         android:layout_alignStart="@+id/edit_client_phone" />
+
+     <EditText
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:inputType="phone"
+         android:ems="10"
+         android:hint="@string/fax"
+         android:id="@+id/edit_client_fax"
+         android:layout_below="@+id/edit_client_mobile"
+         android:layout_alignStart="@+id/edit_client_mobile" />
+
+     <EditText
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/edit_client_website"
+         android:ems="10"
+         android:hint="@string/website"
+         android:layout_below="@+id/edit_client_fax"
+         android:layout_alignStart="@+id/edit_client_fax" />
 
      <Button
          android:layout_width="wrap_content"
@@ -331,8 +180,9 @@
          android:text="@string/client_register"
          android:id="@+id/client_register_btn"
          android:layout_below="@+id/edit_client_website"
-         android:layout_alignEnd="@+id/edit_client_website"
-         android:layout_alignStart="@+id/client_website" />
+         android:layout_alignStart="@+id/edit_client_website"
+         android:layout_alignEnd="@+id/edit_client_website" />
+
 
  </RelativeLayout>
 </ScrollView>

@@ -82,16 +82,21 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl{
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response logout(@PathParam(value = "userId") long userId, @Context MessageContext context) {
         BaseResponse<String> response = null;
+        logger.info("inside logout "+userId );
+        System.out.println("inside logout "+userId );
         try {
             HttpSession session = context.getHttpServletRequest().getSession(false);
             if (session != null) {
                 session.invalidate();
+                System.out.println("call logout loginServiceImpl");
                 response = loginServiceImpl.logout(userId);
             } else {
+            	 System.out.println("Invalid session");
                 throw new Exception("Invalid session");
             }
         } catch (Exception ex) {
             logger.error("Exception occured", ex);
+            System.out.println("Exception occured:"+ex);
             response = new BaseResponse<String>(BaseResponse.FAILED_CODE, ex.getMessage());
         }
         return Response.ok(response).build();

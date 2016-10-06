@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -12,8 +13,11 @@ import java.util.List;
  * Created by anand on 09-Sep-16.
  */
 
+import android.content.Context;
 import android.util.Log;
 
+
+import com.android.maintenance.Utilities.SessionManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,20 +30,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 
 public class ServiceHandlerWS {
 
     static InputStream is = null;
     static String response = null;
-    public final static int GET = 1;
-    public final static int POST = 2;
+    SessionManager sessionManager;
+    HashMap<String, String> user;
+    Context ctx;
     private static final String TAG = "WSMASSAGE";
     public ServiceHandlerWS() {
-
     }
 
     /**
@@ -47,9 +48,8 @@ public class ServiceHandlerWS {
      * @url - url to make request
      * @method - http request method
      * */
-    public String makeServiceGet(String url, int method) {
-        Log.e(TAG, "inside makeServiceCall");
-        return this.makeServiceCall(url, method,null);
+    public String makeServiceGet(String url, String token) {
+        return this.makeServiceCall(url,null,token);
     }
 
     /**
@@ -58,8 +58,7 @@ public class ServiceHandlerWS {
      * @method - http request method
      * @params - http request params
      * */
-    public String makeServiceCall(String url, int method,
-                                  List<NameValuePair> params) {
+    public String makeServiceCall(String url,List<NameValuePair> params, String token) {
         try {
             // http client
             Log.e(TAG, "inside makeServiceCall");
@@ -67,28 +66,18 @@ public class ServiceHandlerWS {
             HttpEntity httpEntity = null;
             HttpResponse httpResponse = null;
 
-            // Checking http request method type
-            if (method == POST) {
-                HttpPost httpPost = new HttpPost(url);
-                // adding post params
-                if (params != null) {
-                    httpPost.setEntity(new UrlEncodedFormEntity(params));
-                }
-
-                httpResponse = httpClient.execute(httpPost);
-
-            } else if (method == GET) {
-                // appending params to url
-                if (params != null) {
-                    String paramString = URLEncodedUtils
-                            .format(params, "utf-8");
-                    url += "?" + paramString;
-                }
-                HttpGet httpget = new HttpGet(url);
-                httpget.setHeader("Content-type", "application/json");
-                httpResponse = httpClient.execute(httpget);
-
+            // appending params to url
+            if (params != null) {
+                String paramString = URLEncodedUtils
+                        .format(params, "utf-8");
+                url += "?" + paramString;
             }
+            HttpGet httpget = new HttpGet(url);
+            httpget.setHeader("Content-type", "application/json");
+            //"Authorization", "Bearer "
+            httpget.addHeader("token", token);
+            httpResponse = httpClient.execute(httpget);
+
             httpEntity = httpResponse.getEntity();
             is = httpEntity.getContent();
 
@@ -113,7 +102,7 @@ public class ServiceHandlerWS {
         } catch (Exception e) {
             Log.e("Buffer Error", "Error: " + e.toString());
         }
-       // Log.e(TAG,"Response data"+response);
+        Log.e(TAG,"Response data"+response);
         return response;
 
     }
