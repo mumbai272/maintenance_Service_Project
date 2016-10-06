@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
@@ -74,22 +73,12 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
         logger.info("validating the token " + token);
         System.out.println("validating the token " + token);
         SessionImpl session = sessionRepository.findByToken(token);
-        HttpSession httpSession = request.getSession();
-        if (httpSession == null && session != null) {
-        	System.out.println("Session expired " + token);
-            sessionRepository.delete(session);
-            throw new RuntimeException("Session expired");
-        }
-        if (httpSession != null && session != null
-            && session.getSessionId().equalsIgnoreCase(httpSession.getId())) {
-            Long userId = (Long) httpSession.getAttribute(Constants.USERID);
-            if (userId.equals(session.getUserId())) {
-                logger.info("valid token:" + token);
-                httpSession.setMaxInactiveInterval(60 * 60);
-                System.out.println("valid token:" + token);
-                UserContextRetriver.setUsercontext(userServiceImpl.getUserContext(userId));
-                return true;
-            }
+
+        if (session != null) {
+            logger.info("valid token:" + token);
+            UserContextRetriver.setUsercontext(userServiceImpl.getUserContext(session.getUserId()));
+            return true;
+
         }
         return false;
     }

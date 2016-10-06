@@ -3,7 +3,6 @@
 //============================================================
 package com.rest.api;
 
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,7 +31,7 @@ import com.rest.service.LoginServiceImpl;
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Mar 21, 2015
  */
 @Component
-public class LoginRestServiceImpl extends BaseRestServiceImpl{
+public class LoginRestServiceImpl extends BaseRestServiceImpl {
 
     private static final Logger logger = Logger.getLogger(LoginRestServiceImpl.class);
 
@@ -82,21 +81,14 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl{
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response logout(@PathParam(value = "userId") long userId, @Context MessageContext context) {
         BaseResponse<String> response = null;
-        logger.info("inside logout "+userId );
-        System.out.println("inside logout "+userId );
+        logger.info("inside logout " + userId);
+        System.out.println("inside logout " + userId);
         try {
-            HttpSession session = context.getHttpServletRequest().getSession(false);
-            if (session != null) {
-                session.invalidate();
-                System.out.println("call logout loginServiceImpl");
-                response = loginServiceImpl.logout(userId);
-            } else {
-            	 System.out.println("Invalid session");
-                throw new Exception("Invalid session");
-            }
+            response = loginServiceImpl.logout(userId);
+
         } catch (Exception ex) {
             logger.error("Exception occured", ex);
-            System.out.println("Exception occured:"+ex);
+            System.out.println("Exception occured:" + ex);
             response = new BaseResponse<String>(BaseResponse.FAILED_CODE, ex.getMessage());
         }
         return Response.ok(response).build();

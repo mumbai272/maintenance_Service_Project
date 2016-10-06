@@ -14,14 +14,11 @@ public class SessionImpl {
     @Id
     private Long userId;
 
-    private String sessionId;
-
     private String token;
 
-    public SessionImpl(Long userId, String sessionId, String token) {
+    public SessionImpl(Long userId, String token) {
         super();
         this.userId = userId;
-        this.sessionId = sessionId;
         this.token = token;
     }
 
@@ -39,13 +36,6 @@ public class SessionImpl {
         this.userId = userId;
     }
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
 
     public String getToken() {
         return token;

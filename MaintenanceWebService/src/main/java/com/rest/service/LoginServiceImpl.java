@@ -7,8 +7,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.osgi.framework.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,11 +69,8 @@ public class LoginServiceImpl {
         if (user.getPassword().equals(password)
             && (StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getStatus()) || StatusType.NEW
                     .getValue().equalsIgnoreCase(user.getStatus()))) {
-            HttpSession session = httpRequest.getSession(true);
-            session.setAttribute(Constants.USERID, user.getUserId());
-            session.setAttribute(Constants.COMPANYID, user.getCompanyId());
-            session.setMaxInactiveInterval(60 * 60);
-            String token = generateToken(session.getId(), user.getUserId());
+       
+            String token = generateToken(user.getUserId());
             loginResponse.setToken(token);
             loginResponse.setUser(userServiceImpl.buildUserDTO(user));
             if (null != user.getCompany()) {
@@ -117,15 +114,15 @@ public class LoginServiceImpl {
 
     }
 
-    private String generateToken(String sessionId, long userid) {
+    private String generateToken(long userid) {
 
         Calendar calendar = new GregorianCalendar();
         String userId = String.valueOf(userid);
         String time = String.valueOf(calendar.getTimeInMillis());
         StringBuilder token = new StringBuilder(userId);
         token.append(Constants.UNDER_SCORE).append(time).append(Constants.UNDER_SCORE)
-                .append(sessionId);
-        SessionImpl session = new SessionImpl(userid, sessionId, token.toString());
+                .append(RandomStringUtils.randomAlphanumeric(12));
+        SessionImpl session = new SessionImpl(userid,token.toString());
         sessionRepository.save(session);
         return token.toString();
     }
