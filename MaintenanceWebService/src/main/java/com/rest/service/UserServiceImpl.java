@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.common.util.CollectionUtils;
 import org.apache.log4j.Logger;
+import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ import com.maintenance.Common.UserContextRetriver;
 import com.maintenance.Common.DTO.AddressDTO;
 import com.maintenance.Common.exception.AuthorizationException;
 import com.maintenance.user.UserDTO;
+import com.maintenance.user.UserUpdateDTO;
 import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
 import com.maintenance.user.requestResponse.UserResponse;
@@ -228,19 +230,63 @@ public class UserServiceImpl {
      */
     @Transactional(rollbackFor = { Exception.class })
     public void updateUser(UserUpdateRequest updateRequest) {
-       if(updateRequest.getUser().getUserId()==null){
-            throw new ValidationException("userId","null", "cannot be null");
+        if (updateRequest.getUser().getUserId() == null) {
+            throw new ValidationException("userId", "null", "cannot be null");
         }
         UserImpl user = userRepository.findOne(updateRequest.getUser().getUserId());
-      if(!StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getStatus()) || !StatusType.NEW
-              .getValue().equalsIgnoreCase(user.getStatus())){
-          throw new RuntimeException(Constants.USER_NOT_ACTIVE);
-      }
-//      validateUpdateRequest()
-      BeanUtils.copyProperties(updateRequest.getUser(), user, "companyId");
-        if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN ) {
-      //    user.setRoleTypeId(StatusType.getStatusOfValue(updateRequest.getUser().getRole()));
-      }
+        if (user == null) {
+            throw new RuntimeException(Constants.USER_NOT_FOUND);
+        }
+        if (!StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getStatus())
+            || !StatusType.NEW.getValue().equalsIgnoreCase(user.getStatus())) {
+            throw new RuntimeException(Constants.USER_NOT_ACTIVE);
+        }
+        validateUpdateRequest(user, updateRequest.getUser());
+        userRepository.save(user);
 
+    }
+
+    private void validateUpdateRequest(UserImpl user, UserUpdateDTO userDto) {
+        if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
+            if (StringUtil.isNotBlank(userDto.getRole())) {
+                RoleType role = RoleType.valueOf(userDto.getRole());
+                if (role != null) {
+                    user.setRoleTypeId(role.getId());
+                } else {
+                    throw new ValidationException("role", userDto.getRole(), "Invalid role");
+                }
+            }
+            if (userDto.getCompanyId() != null
+                && companyServiceImpl.validateCompany(userDto.getCompanyId())) {
+                user.setCompanyId(userDto.getCompanyId());
+            } else {
+                throw new ValidationException("companyId", userDto.getCompanyId().toString(),
+                    "Invalid company");
+
+            }
+        }
+
+        if (StringUtils.isNotBlank(userDto.getEmailId())
+            && !checkEmailIsRegisterd(userDto.getEmailId())) {
+            user.setEmailId(userDto.getEmailId());
+        } else {
+            throw new ValidationException("emailId", userDto.getEmailId(),
+                "Invalid Email id or may be registerd");
+        }
+        if (StringUtils.isNoneBlank(userDto.getFirstName())) {
+            user.setFirstName(userDto.getFirstName());
+        }
+        if (StringUtils.isNoneBlank(userDto.getMiddleName())) {
+            user.setMiddleName(userDto.getMiddleName());
+        }
+        if (StringUtils.isNoneBlank(userDto.getLastName())) {
+            user.setLastName(userDto.getLastName());
+        }
+        if (StringUtils.isNoneBlank(userDto.getPhoneno())) {
+            user.setPhoneno(userDto.getPhoneno());
+        }
+        if (StringUtils.isNoneBlank(userDto.getGender())) {
+            user.setGender(userDto.getGender());
+        }
     }
 }

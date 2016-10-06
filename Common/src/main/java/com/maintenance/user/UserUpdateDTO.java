@@ -12,7 +12,7 @@ public class UserUpdateDTO {
     @NotNull
     private Long userId;
 
-    private String userName;
+//    private String userName;
 
     private String firstName;
 
@@ -28,7 +28,7 @@ public class UserUpdateDTO {
 
     private String emailId;    
     
-    private String companyId;
+    private Long companyId;
 
     public Long getUserId() {
         return userId;
@@ -38,13 +38,13 @@ public class UserUpdateDTO {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+//    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName;
+//    }
 
     public String getFirstName() {
         return firstName;
@@ -102,6 +102,16 @@ public class UserUpdateDTO {
 
     public void setEmailId(String emailId) {
         this.emailId = emailId;
+    }
+
+    
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
 
