@@ -3,11 +3,17 @@
 //============================================================
 package com.rest.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.rest.entity.AssetMaster;
 
 
-public interface AssetMasterRepository extends CrudRepository<AssetMaster, Long> {
+public interface AssetMasterRepository extends PagingAndSortingRepository<AssetMaster, Long> {
+
+    List<AssetMaster> findByClientIdAndStatus(Long clientId, String status);
+
+    List<AssetMaster> findByCompanyIdAndStatus(Long companyId, String status);
 
 }

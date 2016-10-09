@@ -83,7 +83,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
             UserResponse userResponse = userServiceImpl.getUser(companyId, status, fetchAddress);
             response.setData(userResponse);
         } catch (Exception ex) {
-            logger.error("Exceptipon occured:"+ ex.getStackTrace());
+            logger.error("Exceptipon occured:"+ ex);
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }

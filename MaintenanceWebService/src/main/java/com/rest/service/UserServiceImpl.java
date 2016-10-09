@@ -32,6 +32,7 @@ import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
 import com.maintenance.user.requestResponse.UserResponse;
 import com.maintenance.user.requestResponse.UserUpdateRequest;
+import com.rest.api.BaseRestServiceImpl;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.Address;
 import com.rest.entity.AuditData;
@@ -45,7 +46,7 @@ import com.rest.repository.UserRepository;
  */
 @Component
 @Transactional
-public class UserServiceImpl {
+public class UserServiceImpl extends BaseRestServiceImpl {
 
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 
@@ -130,7 +131,7 @@ public class UserServiceImpl {
         UserResponse userResponse = new UserResponse();
         List<Long> addressIds = null;
         Map<Long,UserDTO> addressIdToUserDTO=new HashMap<Long,UserDTO>();
-        validRequest(status);
+        validStatus(status);
         if (companyId == null) {
             companyId = UserContextRetriver.getUsercontext().getCompanyId();
         }
@@ -176,19 +177,7 @@ public class UserServiceImpl {
         return userResponse;
     }
 
-    /**
-     * validate the get user request
-     * @param status
-     */
-    private void validRequest(String status) {
-        logger.info("Validating the get user request");
-        if (StringUtils.isNoneBlank(status)) {
-            StatusType statusType = StatusType.getStatusOfValue(status);
-            if (statusType == null) {
-                throw new ValidationException("status", "null", "invalid status is passed");
-            }
-        }
-    }
+  
 
     /**
      * Approving the user. In Approval process user role and company id is assigned and status is
@@ -241,12 +230,26 @@ public class UserServiceImpl {
             || !StatusType.NEW.getValue().equalsIgnoreCase(user.getStatus())) {
             throw new RuntimeException(Constants.USER_NOT_ACTIVE);
         }
-        validateUpdateRequest(user, updateRequest.getUser());
+        //updating the user.
+        UpdateUser(user, updateRequest.getUser());
+        if (updateRequest.getAddress() != null) {
+            AddressDTO addressDTO = null;
+            Address address = null;
+            if (user.getAddressId() != null) {
+                address = addressRepository.findOne(user.getAddressId());
+            } else {
+                address = new Address();
+            }
+            //updating the address.
+            addressServiceImpl.updateUserAddress(address, addressDTO);
+        }
         userRepository.save(user);
 
     }
 
-    private void validateUpdateRequest(UserImpl user, UserUpdateDTO userDto) {
+  
+
+    private void UpdateUser(UserImpl user, UserUpdateDTO userDto) {
         if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
             if (StringUtil.isNotBlank(userDto.getRole())) {
                 RoleType role = RoleType.valueOf(userDto.getRole());

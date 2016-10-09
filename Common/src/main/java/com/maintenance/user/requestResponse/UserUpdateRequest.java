@@ -22,8 +22,8 @@ public class UserUpdateRequest implements Serializable {
     private UserUpdateDTO user;
 
     @XmlElement
-    @Valid
-    @NotNull
+    //@Valid
+   // @NotNull
     private AddressDTO address;
 
 
