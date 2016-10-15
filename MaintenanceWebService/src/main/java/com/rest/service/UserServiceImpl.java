@@ -154,6 +154,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             addressIds = new ArrayList<Long>();
             for (UserImpl userImpl : users) {
                 UserDTO user = buildUserDTO(userImpl);
+                user.setClientName(userImpl.getCompanyDesc());
                 if (userImpl.getAddressId() != null) {
                     addressIds.add(userImpl.getAddressId());
                     addressIdToUserDTO.put(userImpl.getAddressId(), user);
@@ -206,6 +207,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             user.getAuditData().setAuthenticatedBy(UserContextRetriver.getUsercontext().getUserId());
             user.getAuditData().setAuthenticatedDate(Calendar.getInstance());
             user.setCompanyId(approvalRequest.getClientId());
+            user.setRoleTypeId(approvalRequest.getRoleTypeId());
             userRepository.save(user);
             // TODO:send email with user creadential details.
         }

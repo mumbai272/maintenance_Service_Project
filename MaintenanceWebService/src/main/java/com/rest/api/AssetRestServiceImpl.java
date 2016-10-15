@@ -58,7 +58,6 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }
         return Response.ok(response).build();
-
     }
 
     /**

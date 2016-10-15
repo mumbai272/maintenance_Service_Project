@@ -16,6 +16,8 @@ public class UserDTO {
 
     @NotBlank
     private String userName;
+    
+    private String clientName;
 
     @NotBlank
     private String firstName;
@@ -119,6 +121,17 @@ public class UserDTO {
     public void setAddress(AddressDTO address) {
         this.address = address;
     }
+
+    
+    public String getClientName() {
+        return clientName;
+    }
+
+    
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+    
 
   
 }
