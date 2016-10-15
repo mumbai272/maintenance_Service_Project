@@ -41,7 +41,6 @@
 			<ref bean="assetRestServiceImpl" />
 			<ref bean="loginRestServiceImpl" />
 			<ref bean="userRestServiceImpl" />
-			<ref bean="assetLogRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>

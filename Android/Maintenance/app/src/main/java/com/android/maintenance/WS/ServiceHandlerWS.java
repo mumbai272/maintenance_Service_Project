@@ -27,6 +27,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -36,7 +37,6 @@ public class ServiceHandlerWS {
 
     static InputStream is = null;
     static String response = null;
-    SessionManager sessionManager;
     HashMap<String, String> user;
     Context ctx;
     private static final String TAG = "WSMASSAGE";
@@ -118,6 +118,29 @@ public class ServiceHandlerWS {
             StringEntity se = new StringEntity(data);
             post.setEntity(se);
             HttpResponse httpResponse = httpclient.execute(post);
+            result=EntityUtils.toString(httpResponse.getEntity());
+            //inputStream = httpResponse.getEntity().getContent();
+            // convert inputstream to string
+        }catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+       /* Log.i("JSONPOSTEND", "End of JSON data post methos...");*/
+        Log.e(TAG,"Response====="+result);
+        return result;
+    }
+
+    public static String makeServicePut(String url, String data,String token){
+        String result = "";
+        try {
+            Log.e(TAG,"URL: "+url);
+            Log.e(TAG,"data: "+data);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPut put = new HttpPut(url);
+            put.setHeader("Content-type", "application/json");
+            put.addHeader("token", token);
+            StringEntity se = new StringEntity(data);
+            put.setEntity(se);
+            HttpResponse httpResponse = httpclient.execute(put);
             result=EntityUtils.toString(httpResponse.getEntity());
             //inputStream = httpResponse.getEntity().getContent();
             // convert inputstream to string

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.android.maintenance.activities.Login;
+import com.android.maintenance.activities.LoginActivity;
 
 import java.util.HashMap;
 
@@ -63,15 +63,15 @@ public class SessionManager {
     public void checkLogin(){
         // Check login status
         if(!this.isLoggedIn()){
-            // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(ctx, Login.class);
+            // user is not logged in redirect him to LoginActivity Activity
+            Intent i = new Intent(ctx, LoginActivity.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             // Add new Flag to start new Activity
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            // Staring Login Activity
+            // Staring LoginActivity Activity
             ctx.startActivity(i);
         }
 
@@ -103,21 +103,21 @@ public class SessionManager {
         editor.commit();
 
         // After logout redirect user to Loing Activity
-        Intent i = new Intent(ctx, Login.class);
+        Intent i = new Intent(ctx, LoginActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // Add new Flag to start new Activity
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        // Staring Login Activity
+        // Staring LoginActivity Activity
         ctx.startActivity(i);
     }
 
     /**
      * Quick check for login
      * **/
-    // Get Login State
+    // Get LoginActivity State
 
     public boolean isLoggedIn(){
         return prefs.getBoolean(IS_LOGIN, false);

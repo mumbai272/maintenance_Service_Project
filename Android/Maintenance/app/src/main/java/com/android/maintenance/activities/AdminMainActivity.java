@@ -16,14 +16,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
+import com.android.maintenance.DTO.UserDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AdminMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,6 +43,7 @@ public class AdminMainActivity extends AppCompatActivity
     Intent intent;
     public String token,userID;
     TextView tokenTxt;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +51,7 @@ public class AdminMainActivity extends AppCompatActivity
         setContentView(R.layout.admin_activity_main);
         session=new SessionManager(getApplicationContext());
 
-        Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "User LoginActivity Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -70,7 +82,7 @@ public class AdminMainActivity extends AppCompatActivity
     private void logOut( ) {
 
         new LogOut().execute();
-      //  session.logoutUser();
+        session.logoutUser();
 
     }
 
@@ -109,12 +121,10 @@ public class AdminMainActivity extends AppCompatActivity
         if (id == R.id.nav_profile) {
             showProfileActivity();
         }else if(id==R.id.nav_client_approval){
-            String tokenStr=tokenTxt.getText().toString();
-            showClientApprovalActivity(tokenStr);
+            showClientApprovalActivity();
         }
         else if(id==R.id.nav_machineRegister){
-            String tokenStr=tokenTxt.getText().toString();
-            showMachineRegisterActivity(tokenStr);
+            showMachineRegisterActivity();
         }else if (id == R.id.nav_log_out) {
             logOut();
         } else if(id == R.id.nav_machineMake){
@@ -136,10 +146,9 @@ public class AdminMainActivity extends AppCompatActivity
         return true;
     }
 
-    private void showClientApprovalActivity(String token) {
-        intent=new Intent(AdminMainActivity.this,ClientApprovalActivity.class);
-        intent.putExtra("token",token);
-        startActivity(intent);
+    private void showClientApprovalActivity() {
+        new GetClientApprovalList().execute();
+
     }
 
     private void showMachineTypeActivity() {
@@ -154,10 +163,8 @@ public class AdminMainActivity extends AppCompatActivity
         startActivity(new Intent(AdminMainActivity.this,MachineMakeActivity.class));
     }
 
-    private void showMachineRegisterActivity(String token) {
-        Log.e("Token is",""+token);
+    private void showMachineRegisterActivity() {
         intent= new Intent(AdminMainActivity.this,ClientAssetRegister.class );
-        intent.putExtra("token",token);
         startActivity(intent);
     }
 
@@ -184,7 +191,7 @@ public class AdminMainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(String result) {
-            Gson gson = new GsonBuilder().create();
+            gson = new GsonBuilder().create();
             BaseResponseDTO logoutResponse=gson.fromJson(result, BaseResponseDTO.class);
             if(logoutResponse.getStatusCode()==1){
                 Toast.makeText(getApplicationContext(),"Log out"+logoutResponse.getMsg(), Toast.LENGTH_LONG).show();
@@ -193,6 +200,52 @@ public class AdminMainActivity extends AppCompatActivity
             }
         }
 
+
+    }
+
+    public class GetClientApprovalList extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... param) {
+            String result = "";
+            ServiceHandlerWS servicepost = new ServiceHandlerWS();
+            Log.e("url",""+ConfigConstant.url+"user?status=r");
+            result = servicepost.makeServiceGet(ConfigConstant.url+"user?status=r",token);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            JSONObject obj;
+            JSONArray dataUsers = null;
+            gson = new GsonBuilder().create();
+            try {
+                obj = new JSONObject(result).getJSONObject("data");
+                dataUsers = obj.getJSONArray("users");
+              //  Log.e("users list",""+dataUsers);
+            }catch (Exception e){
+
+            }
+
+            BaseResponseDTO approvalResponse=gson.fromJson(result, BaseResponseDTO.class);
+            if(approvalResponse.getStatusCode()==1){
+                Toast.makeText(getApplicationContext(),approvalResponse.getMsg(), Toast.LENGTH_LONG).show();
+                navigateToApprovalList(dataUsers);
+            }else if(approvalResponse.getStatusCode()==-1){
+                Toast.makeText(getApplicationContext(),approvalResponse.getMsg(), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        private void navigateToApprovalList(JSONArray users) {
+            String userStr= users.toString();
+            gson=new Gson();
+            Type type = new TypeToken<ArrayList<UserDTO>>(){}.getType();
+            ArrayList<UserDTO> userList = gson.fromJson(userStr, type);
+            Log.e("","userdto"+userList.size());
+            intent=new Intent(AdminMainActivity.this,UserApprovalActivity.class);
+            intent.putExtra("arrayList",userList);
+            startActivity(intent);
+        }
 
     }
 }

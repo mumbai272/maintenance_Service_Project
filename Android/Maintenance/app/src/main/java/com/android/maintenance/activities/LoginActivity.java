@@ -34,7 +34,7 @@ import org.json.JSONObject;
 /**
  * Created by anand on 16-Sep-16.
  */
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static String signinURL = ConfigConstant.url + "login" ;
     private SessionManager session;
@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         loginBTN.setOnClickListener(this);
         forgot_password_text.setOnClickListener(this);
 
-        Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "User LoginActivity Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
 
         mProgress = new ProgressDialog(context);
         mProgress.setTitle("Processing...");
@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         mProgress.setIndeterminate(true);
 
         if(session.isLoggedIn()){
-            startActivity(new Intent(Login.this,AdminMainActivity.class));
+            startActivity(new Intent(LoginActivity.this,AdminMainActivity.class));
             finish();
         }
     }
@@ -87,7 +87,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         Log.e("userId:"+user.getUserId(),"token:"+token);
         session.createLoginSession(user.getUserId(),user.getUserName(),user.getFirstName(),user.getLastName(),user.getPhoneno(),user.getGender(),user.getRole(),token);
         Log.e("","created session");
-        intent=new Intent(Login.this,AdminMainActivity.class);
+        intent=new Intent(LoginActivity.this,AdminMainActivity.class);
         startActivity(intent);
         finish();
     }

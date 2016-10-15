@@ -13,12 +13,15 @@ import com.android.maintenance.DTO.AddressDTO;
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.ClientDTO;
 import com.android.maintenance.R;
+import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.codehaus.jackson.map.ObjectMapper;
+
+import java.util.HashMap;
 
 /**
  * Created by anand on 15-Sep-16.
@@ -28,6 +31,8 @@ public class ClientRegistration extends AppCompatActivity {
     EditText name,email,description,address,street1,street2,street3,country,state,city,location,zip,phone,mobile,fax,website;
     Button client_add;
     String strname,stremail,strdescription,straddress,strstreet1,strstreet2,strstreet3,strcountry,strstate,strcity,strlocation,strzip,strphone,strmobile,strfax,strwebsite;
+    private SessionManager session;
+    String token;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +55,10 @@ public class ClientRegistration extends AppCompatActivity {
         website=(EditText) findViewById(R.id.edit_client_website);
         client_add=(Button) findViewById(R.id.client_register_btn);
 
-
+        session=new SessionManager(getApplicationContext());
+        HashMap<String, String> user = session.getUserDetails();
+        token=user.get(SessionManager.KEY_TOKEN);
+        Log.e("","Token:"+token);
 
         client_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +102,7 @@ public class ClientRegistration extends AppCompatActivity {
         protected String doInBackground(String... param) {
             String result="";
             ServiceHandlerWS servicepost= new ServiceHandlerWS();
-            result= servicepost.makeServicePost(ConfigConstant.url+"client",param[0]);
+         //   result= servicepost.makeServicePost(ConfigConstant.url+"client",param[0],token);
             return result;
         }
 

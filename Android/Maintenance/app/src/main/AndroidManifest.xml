@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.Login">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,12 +23,12 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:label="@string/registerlable"
-            android:parentActivityName=".activities.Login"
+            android:parentActivityName=".activities.LoginActivity"
             android:theme="@style/navigatetheme" />
         <activity
             android:name=".activities.ForgotPasswordActivity"
             android:label="@string/forgotlable"
-            android:parentActivityName=".activities.Login"
+            android:parentActivityName=".activities.LoginActivity"
             android:theme="@style/navigatetheme" />
         <activity
             android:name=".activities.ClientRegistration"
@@ -60,7 +60,8 @@
             android:label="Profile"
             android:parentActivityName=".activities.AdminMainActivity"
             android:theme="@style/navigatetheme" />
-        <activity android:name=".activities.ClientApprovalActivity"/>
+        <activity android:name=".activities.UserApprovalActivity"/>
+        <activity android:name=".activities.UserApprovalDetailsActivity"/>
 
     </application>
 

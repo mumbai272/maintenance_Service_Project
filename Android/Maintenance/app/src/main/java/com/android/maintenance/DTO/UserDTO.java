@@ -1,9 +1,11 @@
 package com.android.maintenance.DTO;
 
+import java.io.Serializable;
+
 /**
  * Created by anand on 20-Sep-16.
  */
-public class UserDTO {
+public class UserDTO implements Serializable {
 
     private Long userId;
     private String userName;
@@ -14,6 +16,18 @@ public class UserDTO {
     private String role;
     private String gender;
     private String emailId;
+
+    public UserDTO(Long userId, String userName, String firstName, String middleName, String phoneno, String emailId, String lastName, String role, String gender) {
+        this.userId = userId;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.phoneno = phoneno;
+        this.emailId = emailId;
+        this.lastName = lastName;
+        this.role = role;
+        this.gender = gender;
+    }
 
     public Long getUserId() {
         return userId;
