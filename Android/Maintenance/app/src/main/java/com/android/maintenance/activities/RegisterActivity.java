@@ -114,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        Intent intent= new Intent(RegisterActivity.this,Login.class);
+                        Intent intent= new Intent(RegisterActivity.this,LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }

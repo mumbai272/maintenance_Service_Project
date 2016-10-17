@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="User Name :"
+            android:id="@+id/approval_user"
+            android:layout_below="@+id/approval_email"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=" Email :"
+            android:id="@+id/approval_email"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Mobile Number :"
+            android:id="@+id/approval_mobile_no"
+            android:layout_below="@+id/approval_user"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Client Name :"
+            android:id="@+id/approval_client"
+            android:layout_below="@+id/approval_mobile_no"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/approval_email_data"
+            android:textAlignment="textStart"
+            android:layout_alignTop="@+id/approval_email"
+            android:layout_alignStart="@+id/reject_button"
+            android:layout_alignBottom="@+id/approval_email"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/approval_user_data"
+            android:textAlignment="textStart"
+            android:layout_alignTop="@+id/approval_user"
+            android:layout_alignStart="@+id/reject_button"
+            android:layout_alignEnd="@+id/approval_email_data" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/approval_mobileno_data"
+            android:textAlignment="textStart"
+            android:layout_alignStart="@+id/reject_button"
+            android:layout_alignBottom="@+id/approval_mobile_no"
+            android:layout_alignTop="@+id/approval_mobile_no"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/approval_client_data"
+            android:textAlignment="textStart"
+            android:layout_alignStart="@+id/reject_button"
+            android:layout_alignTop="@+id/approval_client"
+            android:layout_alignParentEnd="true" />
+
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Reject"
+            android:textColor="@color/white_color"
+            android:background="@color/red_color"
+            android:id="@+id/reject_button"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="72dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/approve_button"
+            android:layout_marginStart="54dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approve"
+            android:textColor="@color/white_color"
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/approve_button"
+            android:layout_alignTop="@+id/reject_button"
+            android:layout_alignEnd="@+id/approval_mobile_no"
+            android:layout_alignStart="@+id/approval_client" />
+
+
+</RelativeLayout>

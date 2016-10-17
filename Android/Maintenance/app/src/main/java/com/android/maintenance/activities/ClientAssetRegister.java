@@ -71,10 +71,10 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
         intent=getIntent();
         token=intent.getStringExtra("token");
         Log.e("Token data",""+token);
-       // new GetClient().execute();
-       // new GetMachineType().execute();
+        new GetClient().execute();
+        new GetMachineType().execute();
         new GetMachineMade().execute();
-       // new GetMachineModel().execute();
+        new GetMachineModel().execute();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_asset_register);
 
@@ -555,7 +555,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
             String result="";
             ServiceHandlerWS servicepost= new ServiceHandlerWS();
             Log.e(TAG,"this input post"+param[0]);
-            result= servicepost.makeServicePost(ConfigConstant.url+"asset",param[0]);
+          //  result= servicepost.makeServicePost(ConfigConstant.url+"asset",param[0]);
             return result;
         }
 
