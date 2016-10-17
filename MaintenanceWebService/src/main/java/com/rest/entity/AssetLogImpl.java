@@ -44,8 +44,8 @@ public class AssetLogImpl {
     @Column(name = "LOG_DATETIME")
     private Calendar LogCreatedDate;
 
-    @Column(name = "MAINT_TYPE", length = 50)
-    private String maintainanceType;
+    @Column(name = "MAINT_TYPE_ID", nullable=false)
+    private Long maintainanceType;
 
     @Column(name = "ASSET_PROBLEM")
     private String assetProblem;
@@ -130,12 +130,12 @@ public class AssetLogImpl {
     }
 
     
-    public String getMaintainanceType() {
+    public Long getMaintainanceType() {
         return maintainanceType;
     }
 
     
-    public void setMaintainanceType(String maintainanceType) {
+    public void setMaintainanceType(Long maintainanceType) {
         this.maintainanceType = maintainanceType;
     }
 

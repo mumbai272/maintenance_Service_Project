@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import com.maintenance.Common.StatusType;
 import com.maintenance.request.BaseResponse;
+import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
 import com.maintenance.user.requestResponse.UserResponse;
@@ -38,6 +39,29 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
+    
+    /**
+     * Add user for client
+     * 
+     * @param registrationRequest
+     * @return
+     */
+    @POST    
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response addUser(@Valid UserCreateRequest request) {
+        logger.info("" );
+        BaseResponse<Serializable> response = new BaseResponse<Serializable>();
+        try {
+            userServiceImpl.addUser(request);
+            response.setMsg("User creation is successful");
+        } catch (Exception ex) {
+            logger.error("Exceptipon occured:"+ ex.getStackTrace());
+            response.setMsg(ex.getMessage());
+            response.setStatusCode(BaseResponse.FAILED_CODE);
+        }
+        return Response.ok(response).build();
+    }
     /**
      * Registration request is made.
      * 

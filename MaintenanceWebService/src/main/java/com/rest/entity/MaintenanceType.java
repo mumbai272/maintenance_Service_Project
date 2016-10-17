@@ -45,7 +45,7 @@ public class MaintenanceType {
     private String breakdown;
 
     @Column(name = "REC_STATUS", length = 1)
-    private String rec_status;
+    private String status;
 
     @Column(name = "ENTRY_BY", length = 50)
     private String entry_by;
@@ -130,15 +130,15 @@ public class MaintenanceType {
     public void setBreakdown(String breakdown) {
         this.breakdown = breakdown;
     }
-
-
-    public String getRec_status() {
-        return rec_status;
+    
+    public String getStatus() {
+        return status;
     }
 
 
-    public void setRec_status(String rec_status) {
-        this.rec_status = rec_status;
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 

@@ -43,6 +43,10 @@ insert into CS_M_SPARE(company_id,m_id,m_name,m_desc,rate,rec_status,mod_by,mod_
 (1,2,"CD","CD drive",100,"A",NULL,NULL,NULL,NULL),
 (1,3,"SDD","SD hard disk",200,"A",NULL,NULL,NULL,NULL);
 
+INSERT INTO cs_maint_type(TYPE_ID,AUTH_BY,AUTH_DATE,BREAKDOWN,COMPANY_ID,ENTRY_BY,ENTRY_DATE,MOD_BY,MOD_DATE,PLANNED_MAINT,REC_STATUS,TYPE_CODE,TYPE_DESC) VALUES 
+( 1,'vinayak123','2016-10-17','F','1','vinayak123','2016-10-17 22:30:57','vinayak123','2016-10-17','T','A','Planned','Planned Maintenance'),
+( 2,'vinayak123','2016-10-17','T','1','vinayak123','2016-10-17 22:30:57','vinayak123','2016-10-17','F','A','BreakDown','BreakDown Maintenance'); 
+
 insert into GM_STAT_COMP(company_id,stat_comp_id,stat_comp_name,show_in_report,sorting_order,rec_status) values
 (1,1,"VAT","YES",1,"A"),
 (1,2,"CIN","YES",2,"A"),

@@ -12,7 +12,7 @@ public class UserUpdateDTO {
     @NotNull
     private Long userId;
 
-//    private String userName;
+    private String userName;
 
     private String firstName;
 

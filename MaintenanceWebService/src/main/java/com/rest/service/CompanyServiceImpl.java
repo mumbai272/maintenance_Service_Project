@@ -22,16 +22,12 @@ import com.maintenance.Common.DTO.CompanyDTO;
 import com.rest.entity.Address;
 import com.rest.entity.Company;
 import com.rest.repository.AddressRepository;
-import com.rest.repository.CompanyRepository;
 
 @Component
 @Transactional
-public class CompanyServiceImpl {
+public class CompanyServiceImpl extends BaseServiceImpl{
     private static final Logger logger = Logger.getLogger(CompanyServiceImpl.class);
-
-    @Autowired
-    private CompanyRepository companyRepository;
-
+   
     @Autowired
     private AddressRepository addressRepository;
     
@@ -134,21 +130,7 @@ public class CompanyServiceImpl {
         companyRepository.save(company);
         return null;
     }
-    /**
-     * 
-     * @param companyId
-     * @return
-     */
-    public boolean validateCompany(Long companyId) {
-        logger.info("validating the company for companyId:" + companyId);
-        Company company = companyRepository.findOne(companyId);
-        if (company == null) {
-            throw new RuntimeException("Company does not exist");
-        }
-        
-        return true;
-
-    }
+   
 
 
 }

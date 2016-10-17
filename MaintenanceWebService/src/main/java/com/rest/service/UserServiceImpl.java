@@ -26,6 +26,7 @@ import com.maintenance.Common.UserContext;
 import com.maintenance.Common.UserContextRetriver;
 import com.maintenance.Common.DTO.AddressDTO;
 import com.maintenance.Common.exception.AuthorizationException;
+import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.UserDTO;
 import com.maintenance.user.UserUpdateDTO;
 import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
@@ -55,10 +56,10 @@ public class UserServiceImpl extends BaseRestServiceImpl {
 
     @Autowired
     private CompanyServiceImpl companyServiceImpl;
-    
+
     @Autowired
     private AddressRepository addressRepository;
-    
+
     @Autowired
     private AddressServiceImpl addressServiceImpl;
 
@@ -78,7 +79,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
      */
     @Transactional(rollbackFor = { Exception.class })
     public void saveRegistrationRequest(UserRegistrationRequest registrationRequest) {
-        validateRegistrationRequest(registrationRequest);
+        checkUserNameOrEmailId(registrationRequest.getUserName(), registrationRequest.getEmailId());
         UserImpl user = new UserImpl();
 
         BeanUtils.copyProperties(registrationRequest, user);
@@ -91,12 +92,10 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         userRepository.save(user);
     }
 
-    private void validateRegistrationRequest(UserRegistrationRequest registrationRequest) {
-        List<UserImpl> users =
-            userRepository.findByUserNameOrEmailId(registrationRequest.getUserName(),
-                registrationRequest.getEmailId());
+    private void checkUserNameOrEmailId(String userName, String emailId) {
+        List<UserImpl> users = userRepository.findByUserNameOrEmailId(userName, emailId);
         if (!CollectionUtils.isEmpty(users)) {
-            throw new RuntimeException("Username  or Emailid is already registered");
+            throw new RuntimeException("Username or Emailid is already registered");
         }
     }
 
@@ -130,7 +129,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
     public UserResponse getUser(Long companyId, String status, boolean fetchAddress) {
         UserResponse userResponse = new UserResponse();
         List<Long> addressIds = null;
-        Map<Long,UserDTO> addressIdToUserDTO=new HashMap<Long,UserDTO>();
+        Map<Long, UserDTO> addressIdToUserDTO = new HashMap<Long, UserDTO>();
         validStatus(status);
         if (companyId == null) {
             companyId = UserContextRetriver.getUsercontext().getCompanyId();
@@ -158,27 +157,26 @@ public class UserServiceImpl extends BaseRestServiceImpl {
                 if (userImpl.getAddressId() != null) {
                     addressIds.add(userImpl.getAddressId());
                     addressIdToUserDTO.put(userImpl.getAddressId(), user);
-                }
-                else{
+                } else {
                     userResponse.addUsers(user);
                 }
             }
         }
-        if(fetchAddress && !addressIds.isEmpty()){
+        if (fetchAddress && !addressIds.isEmpty()) {
             List<Address> addresses = (List<Address>) addressRepository.findAll(addressIds);
             for (Address address : addresses) {
                 AddressDTO addressDTO = addressServiceImpl.buildAddressDTO(address);
                 UserDTO userDto = addressIdToUserDTO.get(address.getAddressId());
                 userDto.setAddress(addressDTO);
-               
+
             }
         }
         userResponse.getUsers().addAll(addressIdToUserDTO.values());
-      
+
         return userResponse;
     }
 
-  
+
 
     /**
      * Approving the user. In Approval process user role and company id is assigned and status is
@@ -204,7 +202,8 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             user.setStatus(StatusType.NEW.getValue());
             user.getAuditData().setLastModifiedBy(UserContextRetriver.getUsercontext().getUserId());
             user.getAuditData().setLastModifiedDate(Calendar.getInstance());
-            user.getAuditData().setAuthenticatedBy(UserContextRetriver.getUsercontext().getUserId());
+            user.getAuditData()
+                    .setAuthenticatedBy(UserContextRetriver.getUsercontext().getUserId());
             user.getAuditData().setAuthenticatedDate(Calendar.getInstance());
             user.setCompanyId(approvalRequest.getClientId());
             user.setRoleTypeId(approvalRequest.getRoleTypeId());
@@ -214,8 +213,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
     }
 
     /**
-     * Update the user profile.
-     * 1. Admin can change the role and companyId of user.
+     * Update the user profile. 1. Admin can change the role and companyId of user.
      * 
      * @param updateRequest
      */
@@ -232,7 +230,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             || !StatusType.NEW.getValue().equalsIgnoreCase(user.getStatus())) {
             throw new RuntimeException(Constants.USER_NOT_ACTIVE);
         }
-        //updating the user.
+        // updating the user.
         UpdateUser(user, updateRequest.getUser());
         if (updateRequest.getAddress() != null) {
             AddressDTO addressDTO = null;
@@ -242,14 +240,14 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             } else {
                 address = new Address();
             }
-            //updating the address.
+            // updating the address.
             addressServiceImpl.updateUserAddress(address, addressDTO);
         }
         userRepository.save(user);
 
     }
 
-  
+
 
     private void UpdateUser(UserImpl user, UserUpdateDTO userDto) {
         if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
@@ -293,5 +291,30 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         if (StringUtils.isNoneBlank(userDto.getGender())) {
             user.setGender(userDto.getGender());
         }
+    }
+
+    @Transactional(readOnly = false, rollbackFor = { Exception.class })
+    public void addUser(UserCreateRequest request) {
+        if (checkEmailIsRegisterd(request.getEmailId())) {
+            throw new ValidationException("emailId", request.getEmailId(),
+                "Invalid Email id or may be registerd");
+        }
+        UserImpl user = new UserImpl();
+        BeanUtils.copyProperties(request, user);
+        user.setFirstName(request.getName());
+        user.setStatus(StatusType.NEW.getValue());
+        user.setCompanyId(request.getCompanyId());
+        user.setUserName(request.getEmailId());
+        user = userRepository.save(user);
+        AuditData auditData = new AuditData(user.getUserId(), Calendar.getInstance());
+        auditData.setLastModifiedBy(UserContextRetriver.getUsercontext().getUserId());
+        auditData.setLastModifiedDate(Calendar.getInstance());
+        auditData.setAuthenticatedBy(UserContextRetriver.getUsercontext().getUserId());
+        auditData.setAuthenticatedDate(Calendar.getInstance());
+        user.setRoleTypeId(request.getRoleTypeId());
+        user.setAuditData(auditData);
+        userRepository.save(user);
+       // TODO: send email
+
     }
 }

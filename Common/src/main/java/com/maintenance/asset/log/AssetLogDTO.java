@@ -29,8 +29,8 @@ public class AssetLogDTO implements Serializable {
     @NotNull
     private Date LogCreatedDate;
 
-    @NotBlank
-    private String maintainanceType;
+    @NotNull
+    private Long maintainanceType;
 
     @NotBlank
     private String assetProblem;
@@ -96,12 +96,12 @@ public class AssetLogDTO implements Serializable {
     }
 
 
-    public String getMaintainanceType() {
+    public Long getMaintainanceType() {
         return maintainanceType;
     }
 
 
-    public void setMaintainanceType(String maintainanceType) {
+    public void setMaintainanceType(Long maintainanceType) {
         this.maintainanceType = maintainanceType;
     }
 
