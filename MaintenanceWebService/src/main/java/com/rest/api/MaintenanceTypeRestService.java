@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.request.BaseResponse;
@@ -24,6 +25,7 @@ public class MaintenanceTypeRestService extends BaseRestServiceImpl {
 
     private static final Logger logger = Logger.getLogger(MaintenanceTypeRestService.class);
 
+    @Autowired
     private MaintenanceTypeServiceImpl maintenanceTypeServiceImpl;
 
     @GET
