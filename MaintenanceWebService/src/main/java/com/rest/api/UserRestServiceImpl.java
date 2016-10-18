@@ -41,27 +41,28 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
 
     
     /**
-     * Add user for client
+     * Add user
      * 
-     * @param registrationRequest
+     * @param request
      * @return
      */
-    @POST    
+    @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response addUser(@Valid UserCreateRequest request) {
-        logger.info("" );
+        logger.info("");
         BaseResponse<Serializable> response = new BaseResponse<Serializable>();
         try {
             userServiceImpl.addUser(request);
             response.setMsg("User creation is successful");
         } catch (Exception ex) {
-            logger.error("Exceptipon occured:"+ ex.getStackTrace());
+            logger.error("Exceptipon occured:" + ex);
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }
         return Response.ok(response).build();
     }
+    
     /**
      * Registration request is made.
      * 

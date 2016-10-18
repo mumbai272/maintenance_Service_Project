@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.common.util.CollectionUtils;
 import org.apache.log4j.Logger;
@@ -291,10 +292,19 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         if (StringUtils.isNoneBlank(userDto.getGender())) {
             user.setGender(userDto.getGender());
         }
+        if (getLoggedInUser().getUserId().equals(user.getUserId())
+            && StringUtils.isNotBlank(userDto.getUserName())) {
+            user.setUserName(userDto.getUserName());
+        }
     }
 
     @Transactional(readOnly = false, rollbackFor = { Exception.class })
     public void addUser(UserCreateRequest request) {
+        if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)
+            && !getLoggedInUser().getRole().equals(RoleType.CLIENT_ADMIN)) {
+            throw new AuthorizationException(UserAction.ADD_USER.getValue(), UserContextRetriver
+                    .getUsercontext().getUserName());
+        }
         if (checkEmailIsRegisterd(request.getEmailId())) {
             throw new ValidationException("emailId", request.getEmailId(),
                 "Invalid Email id or may be registerd");
@@ -303,18 +313,23 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         BeanUtils.copyProperties(request, user);
         user.setFirstName(request.getName());
         user.setStatus(StatusType.NEW.getValue());
-        user.setCompanyId(request.getCompanyId());
+        if (getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
+            user.setCompanyId(request.getCompanyId());
+        } else {
+            user.setCompanyId(getLoggedInUser().getCompanyId());
+        }
         user.setUserName(request.getEmailId());
+        user.setRoleTypeId(request.getRoleTypeId());        
+        user.setPassword(RandomStringUtils.randomAlphanumeric(6));
         user = userRepository.save(user);
         AuditData auditData = new AuditData(user.getUserId(), Calendar.getInstance());
         auditData.setLastModifiedBy(UserContextRetriver.getUsercontext().getUserId());
         auditData.setLastModifiedDate(Calendar.getInstance());
         auditData.setAuthenticatedBy(UserContextRetriver.getUsercontext().getUserId());
         auditData.setAuthenticatedDate(Calendar.getInstance());
-        user.setRoleTypeId(request.getRoleTypeId());
         user.setAuditData(auditData);
         userRepository.save(user);
-       // TODO: send email
+       // TODO: send email with user creadential
 
     }
 }

@@ -6,7 +6,9 @@ package com.maintenance.Common;
 
 public enum UserAction {
     USER_APPROVAL(1L, "User Approval"),
-    GET_REGISTED_USER(2L,"Getting Registered User");
+    GET_REGISTED_USER(2L,"Getting Registered User"),
+    ADD_USER(3L,"Adding User");
+    
 
     private Long id;
 

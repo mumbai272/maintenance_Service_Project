@@ -38,13 +38,13 @@ public class UserUpdateDTO {
         this.userId = userId;
     }
 
-//    public String getUserName() {
-//        return userName;
-//    }
-//
-//    public void setUserName(String userName) {
-//        this.userName = userName;
-//    }
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getFirstName() {
         return firstName;
