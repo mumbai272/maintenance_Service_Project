@@ -3,6 +3,7 @@
 //============================================================
 package com.rest.entity;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -59,7 +60,7 @@ public class AssetLogAssignment {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ENTRY_DATE")
-    private String entryDate;
+    private Calendar entryDate;
 
 
     public Long getAssignId() {
@@ -152,12 +153,12 @@ public class AssetLogAssignment {
     }
 
 
-    public String getEntryDate() {
+    public Calendar getEntryDate() {
         return entryDate;
     }
 
 
-    public void setEntryDate(String entryDate) {
+    public void setEntryDate(Calendar entryDate) {
         this.entryDate = entryDate;
     }
 
