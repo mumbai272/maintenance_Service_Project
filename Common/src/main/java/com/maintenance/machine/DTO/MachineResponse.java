@@ -16,21 +16,24 @@ public class MachineResponse extends BaseResponse {
 
     @XmlElement(name="machine")
     @XmlElementWrapper(name="machines")
-    private List<MachineDTO> machines = null;
+    private List<MachineDTO> data = null;
 
     public MachineResponse() {
         super();
     }
 
+    
+    public List<MachineDTO> getData() {
+        return data;
+    }
 
-    public List<MachineDTO> getMachines() {
-        return machines;
+    
+    public void setData(List<MachineDTO> data) {
+        this.data = data;
     }
 
 
-    public void setMachines(List<MachineDTO> machines) {
-        this.machines = machines;
-    }
+  
 
 
 }

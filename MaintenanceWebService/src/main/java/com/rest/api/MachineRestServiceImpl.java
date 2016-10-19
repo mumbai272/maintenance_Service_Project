@@ -46,7 +46,7 @@ public class MachineRestServiceImpl {
             List<MachineDTO> machineDTO =
                 machineServiceImpl.getMachineDetail(companyId, machineTypeEnum);
          
-            response.setMachines(machineDTO);
+            response.setData(machineDTO);
             return Response.ok(response).build();
         } catch (Exception ex) {
             logger.info("Exceptipon occured:"+ ex.getStackTrace());
