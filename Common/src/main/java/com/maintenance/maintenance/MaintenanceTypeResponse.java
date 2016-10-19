@@ -3,17 +3,25 @@
 //============================================================
 package com.maintenance.maintenance;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-public class MaintenanceTypeResponse implements Serializable {
+import com.maintenance.request.BaseResponse;
 
-    @XmlElement
+@XmlRootElement
+public class MaintenanceTypeResponse extends BaseResponse {
+
+    @XmlElement(name="machineType")
+    @XmlElementWrapper(name="machinesTypes")
     private List<MaintenanceTypeDTO> maintenanceTypes;
+
+
+    public MaintenanceTypeResponse() {
+        super();
+    }
 
 
     public List<MaintenanceTypeDTO> getMaintenanceTypes() {

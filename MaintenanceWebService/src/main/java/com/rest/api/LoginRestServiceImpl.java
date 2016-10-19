@@ -53,15 +53,14 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response login(LoginRequest request, @Context MessageContext context) {
         logger.info("Login api is hit!");
-        BaseResponse<LoginResponse> response = new BaseResponse<LoginResponse>();
+       LoginResponse response = new LoginResponse();
         try {
             // TODO: vaidate the request,
             // if valid send it to service class
-            LoginResponse loginResponse =
+            response =
                 loginServiceImpl.validateUser(request.getUsername(), request.getPassword(),
                     context.getHttpServletRequest());
-            response.setData(loginResponse);
-        } catch (Exception ex) {
+           } catch (Exception ex) {
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }
@@ -80,7 +79,7 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl {
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response logout(@PathParam(value = "userId") long userId, @Context MessageContext context) {
-        BaseResponse<String> response = null;
+        BaseResponse response = null;
         logger.info("inside logout " + userId);
         System.out.println("inside logout " + userId);
         try {
@@ -89,7 +88,7 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl {
         } catch (Exception ex) {
             logger.error("Exception occured", ex);
             System.out.println("Exception occured:" + ex);
-            response = new BaseResponse<String>(BaseResponse.FAILED_CODE, ex.getMessage());
+            response = new BaseResponse(BaseResponse.FAILED_CODE, ex.getMessage());
         }
         return Response.ok(response).build();
 

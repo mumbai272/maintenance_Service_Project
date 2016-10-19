@@ -25,15 +25,15 @@ public class ValidationException extends RuntimeException {
 
 	}
 
-	public ValidationException(final String fieldName, final String fieldValue, final String arg0, final Throwable arg1) {
-		super(arg0, arg1);
+	public ValidationException(final String fieldName, final String fieldValue, final String message, final Throwable arg1) {
+		super(message, arg1);
 		this.fieldName = fieldName;
 		this.fieldValue = fieldValue;
 		// TODO Auto-generated constructor stub
 	}
 
-	public ValidationException(final String fieldName, final String fieldValue, final String arg0) {
-		super(arg0);
+	public ValidationException(final String fieldName, final String fieldValue, final String message) {
+		super(message);
 		this.fieldName = fieldName;
 		this.fieldValue = fieldValue;
 	}

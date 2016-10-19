@@ -2,6 +2,8 @@ package com.maintenance.request;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
@@ -12,14 +14,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement(name = "response")
-public class BaseResponse<T> implements Serializable {
+@XmlAccessorType (XmlAccessType.FIELD)
+public class BaseResponse implements Serializable {
 
-    private Integer statusCode;
+    protected Integer statusCode;
 
-    private String msg;
-
-    private T data;
-
+    protected String msg;
+   
     public static final String SUCCESS = "SUCCESS";
 
     public static final Integer SUCCESS_CODE = 1;;
@@ -57,17 +58,6 @@ public class BaseResponse<T> implements Serializable {
     public void setMsg(final String msg) {
         this.msg = msg;
     }
-
-
-    public T getData() {
-        return data;
-    }
-
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
 
 
 

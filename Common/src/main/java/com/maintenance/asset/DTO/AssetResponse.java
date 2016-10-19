@@ -3,17 +3,20 @@
 //============================================================
 package com.maintenance.asset.DTO;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-public final class AssetResponse implements Serializable {
+import com.maintenance.request.BaseResponse;
 
-    @XmlElement
+@XmlRootElement
+public final class AssetResponse extends BaseResponse {
+
+    @XmlElement(name="asset")
+    @XmlElementWrapper(name="assets")
     private List<AssetDTO> assets;
 
 

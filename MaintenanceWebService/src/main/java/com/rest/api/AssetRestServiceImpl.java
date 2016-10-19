@@ -74,7 +74,7 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response getAsset(@QueryParam("status") String status) {
-        BaseResponse<AssetResponse> response = new BaseResponse<AssetResponse>();
+        AssetResponse response = new AssetResponse();
         try {
             // validating the request
             if (StringUtils.isBlank(status)) {
@@ -82,8 +82,8 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
             } else {
                 validStatus(status);
             }
-            AssetResponse serviceResponse = assetServiceImpl.getAssets(status);
-            response.setData(serviceResponse);
+            response = assetServiceImpl.getAssets(status);
+            
 
         } catch (Exception ex) {
             logger.error("Exceptipon occured:" + ex);

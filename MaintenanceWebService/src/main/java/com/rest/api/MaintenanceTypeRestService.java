@@ -3,8 +3,6 @@
 //============================================================
 package com.rest.api;
 
-import java.io.Serializable;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.maintenance.maintenance.MaintenanceTypeResponse;
 import com.maintenance.request.BaseResponse;
 import com.rest.service.MaintenanceTypeServiceImpl;
 
@@ -33,10 +32,10 @@ public class MaintenanceTypeRestService extends BaseRestServiceImpl {
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response userRegistrationRequest(@PathParam("companyId") Long companyId) {
-        BaseResponse<Serializable> response = new BaseResponse<Serializable>();
+        MaintenanceTypeResponse response = new MaintenanceTypeResponse();
         logger.info("getting maintenance type for the companyId:" + companyId);
         try {
-            response.setData(maintenanceTypeServiceImpl.getmaintenanceType(companyId));
+            response= maintenanceTypeServiceImpl.getmaintenanceType(companyId);
         } catch (Exception ex) {
             logger.error("Exceptipon occured:" + ex);
             response.setMsg(ex.getMessage());

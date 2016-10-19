@@ -21,11 +21,11 @@ public class EmploymentDetails {
     @Column(name = "USER_ID")
     private Long userId;
 
-    @Column(name = "DESIGNATION", nullable = false, length = 50)
-    private String designation;
+    @Column(name = "DESIGNATION", nullable = false)
+    private Long designation;
 
-    @Column(name = "DEPAERMENT", nullable = false, length = 50)
-    private String department;
+    @Column(name = "DEPAERMENT", nullable = false)
+    private Long department;
 
     @Column(name = "HOUR_RATE")
     private Double hourRate;
@@ -48,22 +48,22 @@ public class EmploymentDetails {
     }
 
     
-    public String getDesignation() {
+    public Long getDesignation() {
         return designation;
     }
 
     
-    public void setDesignation(String designation) {
+    public void setDesignation(Long designation) {
         this.designation = designation;
     }
 
     
-    public String getDepartment() {
+    public Long getDepartment() {
         return department;
     }
 
     
-    public void setDepartment(String department) {
+    public void setDepartment(Long department) {
         this.department = department;
     }
 

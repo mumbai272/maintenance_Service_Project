@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.maintenance.Common.DTO.CompanyDTO;
+import com.maintenance.request.BaseResponse;
 import com.maintenance.user.UserDTO;
 
 
@@ -15,7 +16,7 @@ import com.maintenance.user.UserDTO;
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Mar 21, 2015
  */
 @XmlRootElement
-public class LoginResponse {
+public class LoginResponse extends BaseResponse{
 
     @XmlElement
     private UserDTO user;

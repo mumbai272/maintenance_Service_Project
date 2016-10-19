@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.Common.DTO.CompanyDTO;
+import com.maintenance.Common.DTO.CompanyResponse;
 import com.maintenance.request.BaseResponse;
 import com.rest.service.CompanyServiceImpl;
 
@@ -51,14 +52,14 @@ public class ClientRestServiceImpl {
     public Response getCompanyDetails(@PathParam("companyId") Long companyId,
             @QueryParam("clientId") Long clientId,
             @DefaultValue("false") @QueryParam(value = "fetchAddress") boolean fetchAddress) {
-        BaseResponse<List<CompanyDTO>> response = new BaseResponse<List<CompanyDTO>>();
+        CompanyResponse response = new CompanyResponse();
         try {
             logger.info("**** inside getCompanyDetails");
             List<CompanyDTO> companyDTOs =
                 companyServiceImpl.getCompanyDeatils(companyId, clientId, fetchAddress);
             response.setMsg("SUCCESS");
             response.setStatusCode(1);
-            response.setData(companyDTOs);
+            response.setCompanys(companyDTOs);
             return Response.ok(response).build();
         } catch (Exception ex) {
             logger.info("Exception:" + ex);

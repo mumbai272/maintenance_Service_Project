@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.maintenance.Common.MachineTypeEnum;
 import com.maintenance.machine.DTO.MachineDTO;
+import com.maintenance.machine.DTO.MachineResponse;
 import com.maintenance.request.BaseResponse;
 import com.rest.api.exception.ValidationException;
 import com.rest.machine.service.MachineServiceImpl;
@@ -40,18 +41,17 @@ public class MachineRestServiceImpl {
             @NotNull @QueryParam("companyId") Long companyId) {
         logger.info("**** inside get machine ");
         MachineTypeEnum machineTypeEnum = validateType(type);
-        BaseResponse<List<MachineDTO>> response = new BaseResponse<List<MachineDTO>>();
+        MachineResponse response = new MachineResponse();
         try {
             List<MachineDTO> machineDTO =
                 machineServiceImpl.getMachineDetail(companyId, machineTypeEnum);
-            response.setMsg("SUCCESS");
-            response.setStatusCode(1);
-            response.setData(machineDTO);
+         
+            response.setMachines(machineDTO);
             return Response.ok(response).build();
         } catch (Exception ex) {
             logger.info("Exceptipon occured:"+ ex.getStackTrace());
             response.setMsg(ex.getMessage());
-            response.setStatusCode(-1);
+            response.setStatusCode(BaseResponse.FAILED_CODE);
             return Response.ok(response).build();
         }
 

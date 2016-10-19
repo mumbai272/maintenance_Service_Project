@@ -33,8 +33,8 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
     private AssetLogServiceImpl assetLogServiceImpl;
     
     @POST
-    @Consumes({MediaType.APPLICATION_ATOM_XML,MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_ATOM_XML,MediaType.APPLICATION_JSON})
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response createLog(@Valid AssetLogDTO request){
         BaseResponse response = new BaseResponse();
         try {

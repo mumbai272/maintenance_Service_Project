@@ -43,6 +43,7 @@
 			<ref bean="userRestServiceImpl" />
 			<ref bean="maintenanceTypeRestService"/>
 			<ref bean="assetLogRestServiceImpl"/>
+			<ref bean="companyAttributeRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>
@@ -56,7 +57,7 @@
 
 		<jaxrs:extensionMappings>
 			<entry key="json" value="application/json" />
-<!-- 			<entry key="xml" value="application/xml" /> -->
+			<entry key="xml" value="application/xml" />
 		</jaxrs:extensionMappings>
 
 	</jaxrs:server>

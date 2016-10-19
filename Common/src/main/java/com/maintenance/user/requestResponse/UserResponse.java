@@ -3,20 +3,27 @@
 //============================================================
 package com.maintenance.user.requestResponse;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.maintenance.request.BaseResponse;
 import com.maintenance.user.UserDTO;
 
 @XmlRootElement
-public class UserResponse implements Serializable {
+public class UserResponse extends BaseResponse {
 
-    @XmlElement
+    @XmlElement(name="user")
+    @XmlElementWrapper(name="users")
     List<UserDTO> users = new ArrayList<UserDTO>();
+
+
+    public UserResponse() {
+        super();
+    }
 
 
     public List<UserDTO> getUsers() {
