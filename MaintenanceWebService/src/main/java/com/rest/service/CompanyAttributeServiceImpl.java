@@ -45,7 +45,7 @@ public class CompanyAttributeServiceImpl extends BaseServiceImpl {
     }
 
     private void validateRequest(Long companyId, String attributeType) {
-        if (AttributeType.valueOf(attributeType) == null) {
+        if (AttributeType.valueOf(attributeType.toUpperCase()) == null) {
             throw new ValidationException("attributeType", attributeType, "Invalid attribute type");
         }
         validateCompany(companyId);
