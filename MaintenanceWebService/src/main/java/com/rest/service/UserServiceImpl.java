@@ -5,6 +5,7 @@ package com.rest.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import com.rest.api.BaseRestServiceImpl;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.Address;
 import com.rest.entity.AuditData;
+import com.rest.entity.EmploymentDetails;
 import com.rest.entity.UserImpl;
 import com.rest.repository.AddressRepository;
 import com.rest.repository.UserRepository;
@@ -328,8 +330,23 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         auditData.setAuthenticatedBy(UserContextRetriver.getUsercontext().getUserId());
         auditData.setAuthenticatedDate(Calendar.getInstance());
         user.setAuditData(auditData);
-        userRepository.save(user);
+        user=userRepository.save(user);
+        saveEmploymentDetails(user.getUserId(),request.getEmployment().getDepartment(),request.getEmployment().getDesignation(),request.getEmployment().getHourRate(),request.getEmployment().getJoiningDay(),auditData);
        // TODO: send email with user creadential
 
+    }
+
+    private void saveEmploymentDetails(Long userId, Long department, Long designation,
+            Double hourRate, Date joiningDay, AuditData auditData) {
+        EmploymentDetails employmentDetails=new EmploymentDetails();
+        employmentDetails.setAuditData(auditData);
+        employmentDetails.setUserId(userId);
+        employmentDetails.setDepartment(department);
+        employmentDetails.setDesignation(designation);
+        employmentDetails.setHourRate(hourRate);
+        Calendar joiningDate=Calendar.getInstance();
+        joiningDate.setTime(joiningDay);
+        employmentDetails.setJoiningDay(joiningDate);
+        
     }
 }
