@@ -95,7 +95,7 @@ public class CompanyServiceImpl extends BaseServiceImpl{
             }
             companyDTOList.addAll(addressToCompanyDTOmap.values());
         }
-        return new ArrayList<CompanyDTO>(addressToCompanyDTOmap.values());
+        return new ArrayList<CompanyDTO>(companyDTOList);
     }
 
     /**
