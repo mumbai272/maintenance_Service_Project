@@ -78,7 +78,7 @@ public class CompanyServiceImpl extends BaseServiceImpl{
                 CompanyDTO companyDTO =
                     new CompanyDTO(company.getCompanyId(), company.getClientId(),
                         company.getShortDesc(), company.getDescription(), null);
-                if (company.getAddressId() != null) {
+                if (fetchAddress && company.getAddressId() != null) {
                     addressIds.add(company.getAddressId());
                     addressToCompanyDTOmap.put(company.getAddressId(), companyDTO);
                 }else{
