@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.maintenance.email.EmailType;
+import com.maintenance.email.MailConfig;
 
 
 public class EmailContent {
@@ -28,11 +29,11 @@ public class EmailContent {
 
     private Map model;
 
-    public EmailContent(EmailType emailType, String from, Set<String> to, String subject,
+    public EmailContent(EmailType emailType, Set<String> to, String subject,
             Set<String> bcc, Set<String> cc, Map model) {
         super();
         this.emailType = emailType;
-        this.from = from;
+        this.from = MailConfig.getMailFrom();
         this.to = to;
         Subject = subject;
         this.bcc = bcc;

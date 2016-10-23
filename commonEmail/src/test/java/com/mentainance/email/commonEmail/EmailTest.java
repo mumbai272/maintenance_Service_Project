@@ -26,7 +26,7 @@ public class EmailTest{
     public void testEmail(){
         EmailContent emailContent=new EmailContent();
         emailContent.addTo("vinayak.s.mumbai@gmail.com");
-        emailContent.setFrom("emailfrommaintenance@gmail.com");
+        emailContent.setFrom("vinayak.s.mumbai@gmail.com");
         emailContent.setSubject("Testing mail");
         emailContent.setEmailType(EmailType.ADD_USER_HTML_EMAIL);
         emailContent.addModel("name", "testUser");

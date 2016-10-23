@@ -24,7 +24,8 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="applicationJpa.xml" />
 	<import resource="application-utils.xml" />
-
+    <import resource="classpath*:*.xml" />
+  
 
 	<!--jAX-RS config -->
 	<jaxrs:server id="maintenanceWebService" address="/api">
