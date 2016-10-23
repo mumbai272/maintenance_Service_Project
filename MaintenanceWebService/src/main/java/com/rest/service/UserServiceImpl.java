@@ -33,6 +33,7 @@ import com.maintenance.email.sender.EmailContent;
 import com.maintenance.email.sender.EmailSender;
 import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.UserDTO;
+import com.maintenance.user.UserEmploymentDTO;
 import com.maintenance.user.UserUpdateDTO;
 import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
@@ -243,8 +244,8 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             || !StatusType.NEW.getValue().equalsIgnoreCase(user.getStatus())) {
             throw new RuntimeException(Constants.USER_NOT_ACTIVE);
         }
-        // updating the user.
-        UpdateUser(user, updateRequest.getUser());
+        // updating the user entity.
+        updateUser(user, updateRequest.getUser());
         if (updateRequest.getAddress() != null) {
             AddressDTO addressDTO = null;
             Address address = null;
@@ -257,12 +258,44 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             addressServiceImpl.updateUserAddress(address, addressDTO);
         }
         userRepository.save(user);
+        if (updateRequest.getEmployment() != null) {
+            updateEmploymentDetails(user.getUserId(),updateRequest.getEmployment());
+        }
 
     }
 
 
 
-    private void UpdateUser(UserImpl user, UserUpdateDTO userDto) {
+    private void updateEmploymentDetails(Long userId, UserEmploymentDTO employment) {
+        boolean isUpdated = false;
+        EmploymentDetails employmentDetails = employmentDetailsRepository.findOne(userId);
+        if (employment != null) {
+            if (employment.getDepartment() != null) {
+                isUpdated = true;
+                employmentDetails.setDepartment(employment.getDepartment());
+            }
+            if (employment.getDesignation() != null) {
+                isUpdated = true;
+                employmentDetails.setDesignation(employment.getDesignation());
+            }
+            if (employment.getHourRate() != null) {
+                isUpdated = true;
+                employmentDetails.setHourRate(employment.getHourRate());
+            }
+            if (employment.getJoiningDay() != null) {
+                isUpdated = true;
+                Calendar joiningDate = Calendar.getInstance();
+                joiningDate.setTime(employment.getJoiningDay());
+                employmentDetails.setJoiningDay(joiningDate);
+            }
+            if (isUpdated) {
+                employmentDetailsRepository.save(employmentDetails);
+            }
+        }
+
+    }
+
+    private void updateUser(UserImpl user, UserUpdateDTO userDto) {
         if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
             if (StringUtil.isNotBlank(userDto.getRole())) {
                 RoleType role = RoleType.valueOf(userDto.getRole());
