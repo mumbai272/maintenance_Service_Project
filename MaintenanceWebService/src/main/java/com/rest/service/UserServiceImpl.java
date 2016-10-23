@@ -34,6 +34,7 @@ import com.maintenance.email.sender.EmailSender;
 import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.UserDTO;
 import com.maintenance.user.UserEmploymentDTO;
+import com.maintenance.user.UserPasswordRequest;
 import com.maintenance.user.UserUpdateDTO;
 import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
@@ -398,5 +399,19 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         joiningDate.setTime(joiningDay);
         employmentDetails.setJoiningDay(joiningDate);
         employmentDetailsRepository.save(employmentDetails);
+    }
+
+    public void forgotPassword(UserPasswordRequest request) {
+       UserImpl user=userRepository.findByEmailIdAndPhoneno(request.getEmailId(),request.getPhoneno());
+       if(user==null){
+           throw new RuntimeException("Invalid emailId or phoneno.");
+       }
+       EmailContent emailContent=new EmailContent(EmailType.FORGOT_PASSEORD_EMAIL);
+       emailContent.addTo(user.getEmailId());
+       emailContent.addModel("name", user.getFirstName());
+       emailContent.addModel("username", user.getUserName());
+       emailContent.addModel("password", user.getPassword());
+       emailSender.sendMailAsync(emailContent);
+        
     }
 }

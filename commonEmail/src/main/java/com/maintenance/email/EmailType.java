@@ -6,7 +6,7 @@ package com.maintenance.email;
 
 public enum EmailType {
     ADD_USER_HTML_EMAIL("Add user", "html", "Invitation to login into Maintenance application",
-            "/velocityTemplate/addUserHtml.vm");
+            "/velocityTemplate/addUserHtml.vm"), FORGOT_PASSEORD_EMAIL("forgot password","html","Forgot password","/velocityTemplate/forgotUserPasswordHtml.vm");
 
     private String name;
 

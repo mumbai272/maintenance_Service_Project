@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import com.maintenance.Common.StatusType;
 import com.maintenance.request.BaseResponse;
 import com.maintenance.user.UserCreateRequest;
+import com.maintenance.user.UserPasswordRequest;
 import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
 import com.maintenance.user.requestResponse.UserResponse;
@@ -154,6 +155,24 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
             response.setMsg("User profile update is successful");
         } catch (Exception ex) {
             logger.error("Exceptipon occured:" + ex.getStackTrace());
+            response.setMsg(ex.getMessage());
+            response.setStatusCode(BaseResponse.FAILED_CODE);
+        }
+        return Response.ok(response).build();
+    }
+    
+    @POST
+    @Path("/forgotPassword")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response forgotPassword(@Valid UserPasswordRequest request) {
+        logger.info("");
+        BaseResponse response = new BaseResponse();
+        try {
+            userServiceImpl.forgotPassword(request);
+            response.setMsg("New password is sent to yout emailId successful");
+        } catch (Exception ex) {
+            logger.error("Exceptipon occured:" + ex);
             response.setMsg(ex.getMessage());
             response.setStatusCode(BaseResponse.FAILED_CODE);
         }
