@@ -21,7 +21,7 @@ public class EmailContent {
 
     private Set<String> to;
 
-    private String Subject;
+    private String subject;
 
     private Set<String> bcc;
 
@@ -35,14 +35,21 @@ public class EmailContent {
         this.emailType = emailType;
         this.from = MailConfig.getMailFrom();
         this.to = to;
-        Subject = subject;
+        this.subject = subject;
         this.bcc = bcc;
         this.cc = cc;
         this.model = model;
     }
+    public EmailContent(EmailType emailType){
+        super();
+        this.emailType = emailType;
+        this.subject = emailType.getSubject();
+        this.from = MailConfig.getMailFrom();
+    }
 
     public EmailContent() {
         super();
+        this.from = MailConfig.getMailFrom();
     }
 
 
@@ -85,12 +92,12 @@ public class EmailContent {
     }
 
     public String getSubject() {
-        return Subject;
+        return this.subject;
     }
 
 
     public void setSubject(String subject) {
-        Subject = subject;
+        this.subject = subject;
     }
 
 

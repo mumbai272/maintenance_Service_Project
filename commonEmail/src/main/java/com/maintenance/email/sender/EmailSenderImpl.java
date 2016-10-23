@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
@@ -24,7 +25,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Oct 22, 2016
  */
 @Component
-public class EmailSenderImpl {
+public class EmailSenderImpl implements EmailSender {
 
     private static final Logger logger = Logger.getLogger(EmailSenderImpl.class);
 
@@ -80,4 +81,16 @@ public class EmailSenderImpl {
             sendMail(emailContent);
         }
     }
+    
+   @Async
+    public void sendMailAsync(List<EmailContent> emailContents) {
+        for (EmailContent emailContent : emailContents) {
+            sendMail(emailContent);
+        }
+    }
+   @Async
+    public void sendMailAsync(EmailContent emailContent) {        
+            sendMail(emailContent);
+    }
+    
 }

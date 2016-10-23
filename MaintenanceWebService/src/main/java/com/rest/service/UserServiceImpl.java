@@ -28,6 +28,9 @@ import com.maintenance.Common.UserContext;
 import com.maintenance.Common.UserContextRetriver;
 import com.maintenance.Common.DTO.AddressDTO;
 import com.maintenance.Common.exception.AuthorizationException;
+import com.maintenance.email.EmailType;
+import com.maintenance.email.sender.EmailContent;
+import com.maintenance.email.sender.EmailSender;
 import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.UserDTO;
 import com.maintenance.user.UserUpdateDTO;
@@ -42,6 +45,7 @@ import com.rest.entity.AuditData;
 import com.rest.entity.EmploymentDetails;
 import com.rest.entity.UserImpl;
 import com.rest.repository.AddressRepository;
+import com.rest.repository.EmploymentDetailsRepository;
 import com.rest.repository.UserRepository;
 
 
@@ -65,6 +69,12 @@ public class UserServiceImpl extends BaseRestServiceImpl {
 
     @Autowired
     private AddressServiceImpl addressServiceImpl;
+
+    @Autowired
+    private EmploymentDetailsRepository employmentDetailsRepository;
+
+    @Autowired
+    private EmailSender emailSender;
 
     public UserDTO buildUserDTO(UserImpl user) {
         UserDTO userDTO = new UserDTO();
@@ -332,7 +342,14 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         user.setAuditData(auditData);
         user=userRepository.save(user);
         saveEmploymentDetails(user.getUserId(),request.getEmployment().getDepartment(),request.getEmployment().getDesignation(),request.getEmployment().getHourRate(),request.getEmployment().getJoiningDay(),auditData);
-       // TODO: send email with user creadential
+       // send email with user creadential
+        EmailContent emailContent = new EmailContent(EmailType.ADD_USER_HTML_EMAIL);
+        emailContent.addTo(user.getEmailId());
+        emailContent.addModel("name", user.getFirstName());
+        emailContent.addModel("username", user.getUserName());
+        emailContent.addModel("password", user.getPassword());
+        emailSender.sendMailAsync(emailContent);
+        
 
     }
 
@@ -347,6 +364,6 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         Calendar joiningDate=Calendar.getInstance();
         joiningDate.setTime(joiningDay);
         employmentDetails.setJoiningDay(joiningDate);
-        
+        employmentDetailsRepository.save(employmentDetails);
     }
 }
