@@ -29,9 +29,15 @@ public interface EmailSender {
      */
     public void sendMail(List<EmailContent> emailContents);
 
+    /**
+     * @param emailContents
+     */
     @Async
     public void sendMailAsync(List<EmailContent> emailContents);
 
+    /**
+     * @param emailContent
+     */
     @Async
     public void sendMailAsync(EmailContent emailContent);
 }

@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.maintenance.Common.DTO.AddressDTO;
+import com.maintenance.user.UserEmploymentDTO;
 import com.maintenance.user.UserUpdateDTO;
 
 @XmlRootElement
@@ -25,6 +26,9 @@ public class UserUpdateRequest implements Serializable {
     // @Valid
     // @NotNull
     private AddressDTO address;
+    
+    @XmlElement
+    private UserEmploymentDTO employment;
 
 
     public UserUpdateDTO getUser() {
@@ -44,6 +48,18 @@ public class UserUpdateRequest implements Serializable {
 
     public void setAddress(AddressDTO address) {
         this.address = address;
+    }
+
+
+    
+    public UserEmploymentDTO getEmployment() {
+        return employment;
+    }
+
+
+    
+    public void setEmployment(UserEmploymentDTO employment) {
+        this.employment = employment;
     }
 
 

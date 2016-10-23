@@ -144,7 +144,6 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * @return
      */
     @PUT
-    @Path("/update")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response updateUser(@Valid UserUpdateRequest updateRequest) {

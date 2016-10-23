@@ -10,21 +10,22 @@
  	http://www.springframework.org/schema/context/spring-context-4.2.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<context:component-scan base-package="com.maintenance.*" />
+	<context:component-scan base-package="com.maintenance.email.*" />
 	
 	<task:annotation-driven executor="executor" />
 	<task:executor id="executor" pool-size="5-10"
 		queue-capacity="10" />
 	<!-- Edit 'mail.properties' to set a valid user and password for the mail 
 		sender. -->
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:mail.properties</value>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean  -->
+<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+<!-- 		<property name="locations"> -->
+<!-- 			<list> -->
+<!-- 				<value>classpath:mail.properties</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	 <property name="ignoreUnresolvablePlaceholders" value="true"/>  		 -->
+<!-- 	</bean> -->
 
 	<bean id="velocityEngine"
 		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
