@@ -309,7 +309,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
     }
 
     private void updateUser(UserImpl user, UserUpdateDTO userDto) {
-        if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
+       
             if (userDto.getRoleId()!=null) {
                 RoleType role = validateRoleTypeId(userDto.getRoleId());
                 if (role != null ) {
@@ -318,6 +318,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
                     throw new ValidationException("role",userDto.getRoleId().toString(), "Invalid role");
                 }
             }
+        if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
             if (userDto.getCompanyId() != null
                 && companyServiceImpl.validateCompany(userDto.getCompanyId())) {
                 user.setCompanyId(userDto.getCompanyId());
