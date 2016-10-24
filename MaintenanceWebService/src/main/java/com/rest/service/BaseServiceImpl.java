@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.maintenance.Common.UserContext;
 import com.maintenance.Common.UserContextRetriver;
+import com.rest.api.exception.ValidationException;
 import com.rest.entity.Company;
 import com.rest.repository.CompanyRepository;
 
@@ -29,7 +30,7 @@ public abstract class BaseServiceImpl {
         logger.info("validating the company for companyId:" + companyId);
         Company company = companyRepository.findOne(companyId);
         if (company == null) {
-            throw new RuntimeException("Company does not exist");
+          throw new ValidationException("companyId", companyId.toString(), "Invalid role");
         }
 
         return true;

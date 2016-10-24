@@ -16,9 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.maintenance.MaintenanceTypeResponse;
-import com.maintenance.request.BaseResponse;
 import com.rest.service.MaintenanceTypeServiceImpl;
-
+/**
+ * 
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
+ * Created on Oct 25, 2016
+ */
 @Component
 public class MaintenanceTypeRestService extends BaseRestServiceImpl {
 
@@ -27,6 +30,11 @@ public class MaintenanceTypeRestService extends BaseRestServiceImpl {
     @Autowired
     private MaintenanceTypeServiceImpl maintenanceTypeServiceImpl;
 
+    /**
+     * 
+     * @param companyId
+     * @return Response
+     */
     @GET
     @Path("/maintenaceType/{companyId}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -34,13 +42,7 @@ public class MaintenanceTypeRestService extends BaseRestServiceImpl {
     public Response userRegistrationRequest(@PathParam("companyId") Long companyId) {
         MaintenanceTypeResponse response = new MaintenanceTypeResponse();
         logger.info("getting maintenance type for the companyId:" + companyId);
-        try {
-            response= maintenanceTypeServiceImpl.getmaintenanceType(companyId);
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        response = maintenanceTypeServiceImpl.getmaintenanceType(companyId);
         return Response.ok(response).build();
     }
 

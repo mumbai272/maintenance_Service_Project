@@ -22,7 +22,7 @@ public class UserUpdateDTO {
 
    private String phoneno;
 
-    private String role;
+    private Long roleId;
 
     private String gender;
 
@@ -77,13 +77,14 @@ public class UserUpdateDTO {
     public void setPhoneno(String phoneno) {
         this.phoneno = phoneno;
     }
-
-    public String getRole() {
-        return role;
+   
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public String getGender() {

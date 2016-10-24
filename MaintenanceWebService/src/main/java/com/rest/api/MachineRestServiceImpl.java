@@ -22,10 +22,13 @@ import org.springframework.stereotype.Component;
 import com.maintenance.Common.MachineTypeEnum;
 import com.maintenance.machine.DTO.MachineDTO;
 import com.maintenance.machine.DTO.MachineResponse;
-import com.maintenance.request.BaseResponse;
 import com.rest.api.exception.ValidationException;
 import com.rest.machine.service.MachineServiceImpl;
-
+/**
+ * 
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
+ * Created on Oct 25, 2016
+ */
 @Component
 public class MachineRestServiceImpl {
     private static final Logger logger = Logger.getLogger(MachineRestServiceImpl.class);
@@ -33,6 +36,12 @@ public class MachineRestServiceImpl {
     @Autowired
     private MachineServiceImpl machineServiceImpl;
 
+    /**
+     * 
+     * @param type
+     * @param companyId
+     * @return Response
+     */
     @Path("/machine/{type}")
     @GET
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -42,19 +51,10 @@ public class MachineRestServiceImpl {
         logger.info("**** inside get machine ");
         MachineTypeEnum machineTypeEnum = validateType(type);
         MachineResponse response = new MachineResponse();
-        try {
-            List<MachineDTO> machineDTO =
-                machineServiceImpl.getMachineDetail(companyId, machineTypeEnum);
-         
-            response.setData(machineDTO);
-            return Response.ok(response).build();
-        } catch (Exception ex) {
-            logger.info("Exceptipon occured:"+ ex.getStackTrace());
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-            return Response.ok(response).build();
-        }
-
+        List<MachineDTO> machineDTO =
+            machineServiceImpl.getMachineDetail(companyId, machineTypeEnum);
+        response.setData(machineDTO);
+        return Response.ok(response).build();
     }
 
     private MachineTypeEnum validateType(String type) {

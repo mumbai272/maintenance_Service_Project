@@ -29,6 +29,10 @@ import com.maintenance.user.requestResponse.UserResponse;
 import com.maintenance.user.requestResponse.UserUpdateRequest;
 import com.rest.service.UserServiceImpl;
 
+/**
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
+ * Created on Oct 25, 2016
+ */
 @Path("/user")
 @Component
 public class UserRestServiceImpl extends BaseRestServiceImpl {
@@ -43,22 +47,16 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * Add user
      * 
      * @param request
-     * @return
+     * @return Response
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response addUser(@Valid UserCreateRequest request) {
-        logger.info("");
+        logger.info("add new user");
         BaseResponse response = new BaseResponse();
-        try {
-            userServiceImpl.addUser(request);
-            response.setMsg("User creation is successful");
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        userServiceImpl.addUser(request);
+        response.setMsg("User creation is successful");        
         return Response.ok(response).build();
     }
 
@@ -66,7 +64,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * Registration request is made.
      * 
      * @param registrationRequest
-     * @return
+     * @return Response
      */
     @POST
     @Path("/register")
@@ -75,14 +73,8 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     public Response userRegistrationRequest(@Valid UserRegistrationRequest registrationRequest) {
         logger.info("Requesting for registration for email:" + registrationRequest.getEmailId());
         BaseResponse response = new BaseResponse();
-        try {
-            userServiceImpl.saveRegistrationRequest(registrationRequest);
-            response.setMsg("User registration is successful");
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex.getStackTrace());
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        userServiceImpl.saveRegistrationRequest(registrationRequest);
+        response.setMsg("User registration is successful");        
         return Response.ok(response).build();
     }
 
@@ -91,6 +83,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * 
      * @param companyId
      * @param status
+     * @param fetchAddress 
      * @return list of user
      */
     @GET
@@ -100,17 +93,10 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
             @QueryParam("status") String status, @QueryParam("fetchAddress") boolean fetchAddress) {
         UserResponse response = new UserResponse();
         logger.info("getting users for the companyId:" + companyId);
-        try {
-            if (StringUtils.isBlank(status)) {
-                status = StatusType.ACTIVE.getValue();
-            }
-            response = userServiceImpl.getUser(companyId, status, fetchAddress);
-
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
+        if (StringUtils.isBlank(status)) {
+            status = StatusType.ACTIVE.getValue();
         }
+        response = userServiceImpl.getUser(companyId, status, fetchAddress);
         return Response.ok(response).build();
     }
 
@@ -118,7 +104,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * approve user registration
      * 
      * @param approvalRequest
-     * @return
+     * @return Response
      */
     @PUT
     @Path("/approve")
@@ -127,14 +113,8 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     public Response userRegistrationApproval(@Valid UserRegistrationApprovalRequest approvalRequest) {
         logger.info("Approving user registration for userId:" + approvalRequest.getUserId());
         BaseResponse response = new BaseResponse();
-        try {
-            userServiceImpl.approveRegistration(approvalRequest);
-            response.setMsg("User approval is successful");
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex.getStackTrace());
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        userServiceImpl.approveRegistration(approvalRequest);
+        response.setMsg("User approval is successful");       
         return Response.ok(response).build();
     }
 
@@ -142,7 +122,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * update the user profile
      * 
      * @param updateRequest
-     * @return
+     * @return Response
      */
     @PUT
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -150,32 +130,26 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     public Response updateUser(@Valid UserUpdateRequest updateRequest) {
         logger.info("Updating user profile for userId:" + updateRequest.getUser().getUserId());
         BaseResponse response = new BaseResponse();
-        try {
-            userServiceImpl.updateUser(updateRequest);
-            response.setMsg("User profile update is successful");
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex.getStackTrace());
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        userServiceImpl.updateUser(updateRequest);
+        response.setMsg("User profile update is successful");
         return Response.ok(response).build();
     }
-    
+
+    /**
+     * send the user credential via email.
+     * 
+     * @param request
+     * @return Response
+     */
     @POST
     @Path("/forgotPassword")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response forgotPassword(@Valid UserPasswordRequest request) {
-        logger.info("");
+        logger.info("forgot password for emailID:" + request.getEmailId());
         BaseResponse response = new BaseResponse();
-        try {
-            userServiceImpl.forgotPassword(request);
-            response.setMsg("New password is sent to yout emailId successful");
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        userServiceImpl.forgotPassword(request);
+        response.setMsg("New password is sent to yout emailId successful");
         return Response.ok(response).build();
     }
 

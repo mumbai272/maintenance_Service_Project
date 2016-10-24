@@ -39,11 +39,12 @@ public class ClientRestServiceImpl {
     private CompanyServiceImpl companyServiceImpl;
 
     /**
+     * get company details. it also returns the client details for companyId
      * 
      * @param companyId
      * @param clientId
      * @param fetchAddress
-     * @return
+     * @return Response
      */
     @Path(value = "/client/{companyId}")
     @GET
@@ -53,38 +54,34 @@ public class ClientRestServiceImpl {
             @QueryParam("clientId") Long clientId,
             @DefaultValue("false") @QueryParam(value = "fetchAddress") boolean fetchAddress) {
         CompanyResponse response = new CompanyResponse();
-        try {
-            logger.info("**** inside getCompanyDetails");
-            List<CompanyDTO> companyDTOs =
-                companyServiceImpl.getCompanyDeatils(companyId, clientId, fetchAddress);
-            response.setMsg("SUCCESS");
-            response.setStatusCode(1);
-            response.setCompanys(companyDTOs);
-            return Response.ok(response).build();
-        } catch (Exception ex) {
-            logger.info("Exception:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(-1);
-            return Response.ok(response).build();
-        }
+
+        logger.info("**** inside getCompanyDetails");
+        List<CompanyDTO> companyDTOs =
+            companyServiceImpl.getCompanyDeatils(companyId, clientId, fetchAddress);
+        response.setMsg("SUCCESS");
+        response.setStatusCode(1);
+        response.setCompanys(companyDTOs);
+        return Response.ok(response).build();
+
     }
 
+    /**
+     * Create Client company for the company
+     * 
+     * @param companyDTO
+     * @return Response
+     */
     @Path(value = "/client")
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response createComapny(@Valid CompanyDTO companyDTO) {
         BaseResponse response = new BaseResponse();
-        try {
-            companyServiceImpl.createCompanyDeatils(companyDTO);
-            response.setMsg("Successfully created");
-            response.setStatusCode(1);
-        } catch (Exception ex) {
-            logger.info("Exception:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(-1);
 
-        }
+        companyServiceImpl.createCompanyDeatils(companyDTO);
+        response.setMsg("Successfully created");
+        response.setStatusCode(1);
+
         return Response.ok(response).build();
     }
 }

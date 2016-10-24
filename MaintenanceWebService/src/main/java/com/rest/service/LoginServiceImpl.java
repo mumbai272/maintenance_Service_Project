@@ -54,12 +54,11 @@ public class LoginServiceImpl {
      * @param password
      * @param httpRequest
      * @return LoginResponse
-     * @throws Exception
      *
      */
     @Transactional
     public LoginResponse validateUser(String userName, String password,
-            HttpServletRequest httpRequest) throws Exception {
+            HttpServletRequest httpRequest) {
         logger.info("validating the User:" + userName);
         LoginResponse loginResponse = new LoginResponse();
         UserImpl user = userRepository.findByUserName(userName);
@@ -91,11 +90,11 @@ public class LoginServiceImpl {
      * @return JsonResponse
      * @throws ServiceException
      */
-    public BaseResponse logout(long userId) throws Exception {
+    public BaseResponse logout(long userId){
         logger.info("invalidating the session for UserId:" + userId);
         BaseResponse response = new BaseResponse();
         if (userRepository.findOne(userId) == null) {
-            throw new Exception(Constants.INVLID_USERID_MESSAGE);
+            throw new RuntimeException(Constants.INVLID_USERID_MESSAGE);
         }
         try {
             sessionRepository.delete(userId);

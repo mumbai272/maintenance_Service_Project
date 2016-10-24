@@ -14,7 +14,6 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.common.util.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -114,6 +113,13 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         }
     }
 
+    private boolean isValidUsername(String userName) {
+        UserImpl user = userRepository.findByUserName(userName);
+        if (user == null) {
+            throw new RuntimeException("Username is already registered");
+        }
+        return true;
+    }
     private boolean checkEmailIsRegisterd(String emailId) {
         UserImpl user = userRepository.findByEmailId(emailId);
         if (null != user) {
@@ -234,21 +240,21 @@ public class UserServiceImpl extends BaseRestServiceImpl {
      */
     @Transactional(rollbackFor = { Exception.class })
     public void updateUser(UserUpdateRequest updateRequest) {
-        if (updateRequest.getUser().getUserId() == null) {
-            throw new ValidationException("userId", "null", "cannot be null");
-        }
+
         UserImpl user = userRepository.findOne(updateRequest.getUser().getUserId());
         if (user == null) {
-            throw new RuntimeException(Constants.USER_NOT_FOUND);
+            throw new ValidationException("userId", updateRequest.getUser().getUserId().toString(),
+                Constants.USER_NOT_FOUND);
         }
         if (!StatusType.ACTIVE.getValue().equalsIgnoreCase(user.getStatus())
-            || !StatusType.NEW.getValue().equalsIgnoreCase(user.getStatus())) {
-            throw new RuntimeException(Constants.USER_NOT_ACTIVE);
+            && !StatusType.NEW.getValue().equalsIgnoreCase(user.getStatus())) {
+            throw new ValidationException("userId", updateRequest.getUser().getUserId().toString(),
+                Constants.USER_NOT_ACTIVE);
         }
         // updating the user entity.
         updateUser(user, updateRequest.getUser());
         if (updateRequest.getAddress() != null) {
-            AddressDTO addressDTO = null;
+            AddressDTO addressDTO = updateRequest.getAddress();
             Address address = null;
             if (user.getAddressId() != null) {
                 address = addressRepository.findOne(user.getAddressId());
@@ -257,10 +263,16 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             }
             // updating the address.
             addressServiceImpl.updateUserAddress(address, addressDTO);
+            address = addressRepository.save(address);
+            user.setAddressId(address.getAddressId());
         }
+        user.setStatus(StatusType.ACTIVE.getValue());
         userRepository.save(user);
-        if (updateRequest.getEmployment() != null) {
-            updateEmploymentDetails(user.getUserId(),updateRequest.getEmployment());
+        
+        if (updateRequest.getEmployment() != null
+            && (getLoggedInUser().getRole() == RoleType.ADMIN || (getLoggedInUser().getRole() == RoleType.CLIENT_ADMIN && getLoggedInUser()
+                    .getCompanyId() == user.getCompanyId()))) {
+            updateEmploymentDetails(user.getUserId(), updateRequest.getEmployment());
         }
 
     }
@@ -298,30 +310,28 @@ public class UserServiceImpl extends BaseRestServiceImpl {
 
     private void updateUser(UserImpl user, UserUpdateDTO userDto) {
         if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
-            if (StringUtil.isNotBlank(userDto.getRole())) {
-                RoleType role = RoleType.valueOf(userDto.getRole());
-                if (role != null) {
+            if (userDto.getRoleId()!=null) {
+                RoleType role = validateRoleTypeId(userDto.getRoleId());
+                if (role != null ) {
                     user.setRoleTypeId(role.getId());
                 } else {
-                    throw new ValidationException("role", userDto.getRole(), "Invalid role");
+                    throw new ValidationException("role",userDto.getRoleId().toString(), "Invalid role");
                 }
             }
             if (userDto.getCompanyId() != null
                 && companyServiceImpl.validateCompany(userDto.getCompanyId())) {
                 user.setCompanyId(userDto.getCompanyId());
-            } else {
-                throw new ValidationException("companyId", userDto.getCompanyId().toString(),
-                    "Invalid company");
-
             }
+
         }
 
-        if (StringUtils.isNotBlank(userDto.getEmailId())
-            && !checkEmailIsRegisterd(userDto.getEmailId())) {
-            user.setEmailId(userDto.getEmailId());
-        } else {
-            throw new ValidationException("emailId", userDto.getEmailId(),
-                "Invalid Email id or may be registerd");
+        if (StringUtils.isNotBlank(userDto.getEmailId())) {
+            if (!checkEmailIsRegisterd(userDto.getEmailId())) {
+                user.setEmailId(userDto.getEmailId());
+            } else {
+                throw new ValidationException("emailId", userDto.getEmailId(),
+                    "Invalid Email id or may be registerd");
+            }
         }
         if (StringUtils.isNoneBlank(userDto.getFirstName())) {
             user.setFirstName(userDto.getFirstName());
@@ -339,11 +349,17 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             user.setGender(userDto.getGender());
         }
         if (getLoggedInUser().getUserId().equals(user.getUserId())
-            && StringUtils.isNotBlank(userDto.getUserName())) {
+            && StringUtils.isNotBlank(userDto.getUserName())
+            && isValidUsername(userDto.getUserName())) {
             user.setUserName(userDto.getUserName());
         }
     }
 
+    /**
+     * adds the user to system and send email with randomly generated password
+     * 
+     * @param request
+     */
     @Transactional(readOnly = false, rollbackFor = { Exception.class })
     public void addUser(UserCreateRequest request) {
         if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)
@@ -351,6 +367,7 @@ public class UserServiceImpl extends BaseRestServiceImpl {
             throw new AuthorizationException(UserAction.ADD_USER.getValue(), UserContextRetriver
                     .getUsercontext().getUserName());
         }
+        validateRoleTypeId(request.getRoleTypeId());
         if (checkEmailIsRegisterd(request.getEmailId())) {
             throw new ValidationException("emailId", request.getEmailId(),
                 "Invalid Email id or may be registerd");
@@ -359,23 +376,26 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         BeanUtils.copyProperties(request, user);
         user.setFirstName(request.getName());
         user.setStatus(StatusType.NEW.getValue());
-        if (getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
-            user.setCompanyId(request.getCompanyId());
+        Long companyId=null;
+        if (request.getCompanyId() != null && getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
+            companyId = request.getCompanyId();
         } else {
-            user.setCompanyId(getLoggedInUser().getCompanyId());
+            companyId = getLoggedInUser().getCompanyId();
         }
+        user.setCompanyId(companyId);
         user.setUserName(request.getEmailId());
         user.setRoleTypeId(request.getRoleTypeId());        
         user.setPassword(RandomStringUtils.randomAlphanumeric(6));
-        user = userRepository.save(user);
-        AuditData auditData = new AuditData(user.getUserId(), Calendar.getInstance());
-        auditData.setLastModifiedBy(UserContextRetriver.getUsercontext().getUserId());
+        AuditData auditData = new AuditData(getLoggedInUser().getUserId(), Calendar.getInstance());
+        auditData.setLastModifiedBy(getLoggedInUser().getUserId());
         auditData.setLastModifiedDate(Calendar.getInstance());
         auditData.setAuthenticatedBy(UserContextRetriver.getUsercontext().getUserId());
         auditData.setAuthenticatedDate(Calendar.getInstance());
         user.setAuditData(auditData);
-        user=userRepository.save(user);
-        saveEmploymentDetails(user.getUserId(),request.getEmployment().getDepartment(),request.getEmployment().getDesignation(),request.getEmployment().getHourRate(),request.getEmployment().getJoiningDay(),auditData);
+        user = userRepository.save(user);
+        saveEmploymentDetails(user.getUserId(), request.getEmployment().getDepartment(), request
+                .getEmployment().getDesignation(), request.getEmployment().getHourRate(), request
+                .getEmployment().getJoiningDay(), auditData);
        // send email with user creadential
         EmailContent emailContent = new EmailContent(EmailType.ADD_USER_HTML_EMAIL);
         emailContent.addTo(user.getEmailId());
@@ -401,17 +421,24 @@ public class UserServiceImpl extends BaseRestServiceImpl {
         employmentDetailsRepository.save(employmentDetails);
     }
 
+    /**
+     * validates the passed emailid and phoneno. IF valid sends the user credential to emailid.
+     * 
+     * @param request
+     */
     public void forgotPassword(UserPasswordRequest request) {
-       UserImpl user=userRepository.findByEmailIdAndPhoneno(request.getEmailId(),request.getPhoneno());
-       if(user==null){
-           throw new RuntimeException("Invalid emailId or phoneno.");
-       }
-       EmailContent emailContent=new EmailContent(EmailType.FORGOT_PASSEORD_EMAIL);
-       emailContent.addTo(user.getEmailId());
-       emailContent.addModel("name", user.getFirstName());
-       emailContent.addModel("username", user.getUserName());
-       emailContent.addModel("password", user.getPassword());
-       emailSender.sendMailAsync(emailContent);
-        
+        UserImpl user =
+            userRepository.findByEmailIdAndPhoneno(request.getEmailId(), request.getPhoneno());
+        if (user == null) {
+            throw new RuntimeException("Invalid emailId or phoneno.");
+        }
+        logger.info("sending the fprgot password email to :" + request.getEmailId());
+        EmailContent emailContent = new EmailContent(EmailType.FORGOT_PASSEORD_EMAIL);
+        emailContent.addTo(user.getEmailId());
+        emailContent.addModel("name", user.getFirstName());
+        emailContent.addModel("username", user.getUserName());
+        emailContent.addModel("password", user.getPassword());
+        emailSender.sendMailAsync(emailContent);
+
     }
 }

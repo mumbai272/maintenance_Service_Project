@@ -41,22 +41,17 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
      * creates the asset for company.
      * 
      * @param asset
-     * @return
+     * @return Response
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response createAsset(@Valid AssetCreateDTO asset) {
+        logger.info("Creating the asset for company:"+asset.getCompanyId());
         BaseResponse response = new BaseResponse();
-        try {
-            assetServiceImpl.saveAsset(asset);
-            response.setMsg("Successfully created");
-            response.setStatusCode(1);
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        assetServiceImpl.saveAsset(asset);
+        response.setMsg("Successfully created");
+        response.setStatusCode(1);
         return Response.ok(response).build();
     }
 
@@ -67,7 +62,7 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
      * if company id is of other user(client admin) return the asset of that id
      * @param status 
      * 
-     * @return
+     * @return Response
      */
 
     @GET
@@ -75,21 +70,14 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response getAsset(@QueryParam("status") String status) {
         AssetResponse response = new AssetResponse();
-        try {
-            // validating the request
-            if (StringUtils.isBlank(status)) {
-                status = StatusType.ACTIVE.getValue();
-            } else {
-                validStatus(status);
-            }
-            response = assetServiceImpl.getAssets(status);
-            
-
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
+        // validating the request
+        if (StringUtils.isBlank(status)) {
+            status = StatusType.ACTIVE.getValue();
+        } else {
+            validStatus(status);
         }
+        response = assetServiceImpl.getAssets(status);
+
         return Response.ok(response).build();
 
     }

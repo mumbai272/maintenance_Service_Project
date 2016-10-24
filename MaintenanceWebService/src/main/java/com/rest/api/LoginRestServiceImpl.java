@@ -39,41 +39,33 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl {
     private LoginServiceImpl loginServiceImpl;
 
     /**
-     * validate the user and returns the session
+     * validate the user and returns the token
      * 
      * @param request
-     * @param httpRequest
-     * @return
-     * @throws ServiceException
+     * @param context
+     * @return Response
      */
-
     @Path(value = "/login")
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response login(LoginRequest request, @Context MessageContext context) {
         logger.info("Login api is hit!");
-       LoginResponse response = new LoginResponse();
-        try {
-            // TODO: vaidate the request,
-            // if valid send it to service class
-            response =
-                loginServiceImpl.validateUser(request.getUsername(), request.getPassword(),
-                    context.getHttpServletRequest());
-           } catch (Exception ex) {
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        LoginResponse response = new LoginResponse();
+        response =
+            loginServiceImpl.validateUser(request.getUsername(), request.getPassword(),
+                context.getHttpServletRequest());
+
         return Response.ok(response).build();
     }
 
     /**
+     * Logout from application
      * 
      * @param userId
-     * @return
-     * @throws ServiceException
+     * @param context
+     * @return Response
      */
-    @SuppressWarnings("unchecked")
     @Path(value = "/logout/{userId}")
     @GET
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -81,15 +73,7 @@ public class LoginRestServiceImpl extends BaseRestServiceImpl {
     public Response logout(@PathParam(value = "userId") long userId, @Context MessageContext context) {
         BaseResponse response = null;
         logger.info("inside logout " + userId);
-        System.out.println("inside logout " + userId);
-        try {
-            response = loginServiceImpl.logout(userId);
-
-        } catch (Exception ex) {
-            logger.error("Exception occured", ex);
-            System.out.println("Exception occured:" + ex);
-            response = new BaseResponse(BaseResponse.FAILED_CODE, ex.getMessage());
-        }
+        response = loginServiceImpl.logout(userId);
         return Response.ok(response).build();
 
     }

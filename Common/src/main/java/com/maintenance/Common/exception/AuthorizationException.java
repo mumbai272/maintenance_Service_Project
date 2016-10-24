@@ -44,10 +44,27 @@ public class AuthorizationException extends RuntimeException {
         this.userName = userName;
         // TODO Auto-generated constructor stub
     }
-
-    public AuthorizationException(Throwable cause) {
-        super(cause);
-        // TODO Auto-generated constructor stub
+    
+    
+    public String getAction() {
+        return action;
     }
+
+    
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    
+    public String getUserName() {
+        return userName;
+    }
+
+    
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+  
 
 }

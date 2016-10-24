@@ -24,7 +24,6 @@ public class UserCreateRequest implements Serializable {
     @NotBlank
     private String emailId;
 
-    @NotNull
     private Long companyId;
 
     @NotNull

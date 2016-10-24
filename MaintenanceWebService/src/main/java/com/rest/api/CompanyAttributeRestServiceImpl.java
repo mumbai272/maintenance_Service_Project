@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.dto.company.attribute.CompanyAttributeResponse;
-import com.maintenance.request.BaseResponse;
 import com.rest.service.CompanyAttributeServiceImpl;
 
 /**
@@ -36,7 +35,7 @@ public class CompanyAttributeRestServiceImpl extends BaseRestServiceImpl {
      * 
      * @param attributeType
      * @param companyId
-     * @return
+     * @return Response
      */
     @GET
     @Path("/company/attributes/{attributeType}/{companyId}")
@@ -47,16 +46,9 @@ public class CompanyAttributeRestServiceImpl extends BaseRestServiceImpl {
         logger.info("Getting the attribute for company:" + companyId + " for type: "
             + attributeType);
         CompanyAttributeResponse response = new CompanyAttributeResponse();
-        try {
-            response.setAttributes(companyAttributeServiceImpl.getCompanyAttribute(companyId,
-                attributeType));           
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        response.setAttributes(companyAttributeServiceImpl.getCompanyAttribute(companyId,
+            attributeType));
         return Response.ok(response).build();
-
 
     }
 }

@@ -52,7 +52,8 @@
 			<ref bean="sessionValidator" />
 			<!-- <bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" /> -->
 			<bean class="com.rest.api.exception.ValidationExceprionHandler" />
-			<bean class="com.rest.api.exception.ExceptionHandler" />
+			<bean class="com.rest.api.exception.RuntimeExceptionHandler" />
+			<bean class="com.rest.api.exception.ExceptionHandler"/>
 
 		</jaxrs:providers>
 

@@ -27,25 +27,27 @@ import com.rest.service.AssetLogServiceImpl;
 @Path("/asset/logs")
 @Component
 public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
+
     private static final Logger logger = Logger.getLogger(AssetLogRestServiceImpl.class);
 
     @Autowired
     private AssetLogServiceImpl assetLogServiceImpl;
-    
+
+    /**
+     * create asset.
+     * 
+     * @param request
+     * @return Response
+     */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response createLog(@Valid AssetLogDTO request){
+    public Response createLog(@Valid AssetLogDTO request) {
+        logger.info("creating log for asset:" + request.getAssetId());
         BaseResponse response = new BaseResponse();
-        try {
-           assetLogServiceImpl.createAssetLog(request);
-        } catch (Exception ex) {
-            logger.error("Exceptipon occured:" + ex);
-            response.setMsg(ex.getMessage());
-            response.setStatusCode(BaseResponse.FAILED_CODE);
-        }
+        assetLogServiceImpl.createAssetLog(request);
         return Response.ok(response).build();
-    
-        
+
+
     }
 }
