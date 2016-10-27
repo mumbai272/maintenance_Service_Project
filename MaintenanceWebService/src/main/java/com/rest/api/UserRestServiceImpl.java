@@ -95,6 +95,8 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         logger.info("getting users for the companyId:" + companyId);
         if (StringUtils.isBlank(status)) {
             status = StatusType.ACTIVE.getValue();
+        }else{
+            validStatus(status);
         }
         response = userServiceImpl.getUser(companyId, status, fetchAddress);
         return Response.ok(response).build();

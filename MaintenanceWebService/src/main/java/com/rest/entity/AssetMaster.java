@@ -18,8 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
- * Created on Sep 5, 2016
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Sep 5, 2016
  */
 @Entity
 @Table(name = "CS_M_ASSET")
@@ -37,16 +36,27 @@ public class AssetMaster {
     private Long clientId;
 
     @ManyToOne
-    @JoinColumn(name = "ASSET_TYPE", nullable = false)
+    @JoinColumn(name = "ASSET_TYPE", nullable = false, insertable = false, updatable = false)
     private MachineType machineType;
 
     @ManyToOne
-    @JoinColumn(name = "MAKE_ID")
+    @JoinColumn(name = "MAKE_ID", insertable = false, updatable = false)
     private MachineMake machineMake;
 
     @ManyToOne
-    @JoinColumn(name = "MODEL_ID")
+    @JoinColumn(name = "MODEL_ID", insertable = false, updatable = false)
     private MachineModel machineModel;
+
+
+    @Column(name = "ASSET_TYPE", nullable = false)
+    private Long machineTypeId;
+
+    @Column(name = "MAKE_ID")
+    private Long machineMakeId;
+
+
+    @Column(name = "MODEL_ID")
+    private Long machineModelId;
 
     @Column(name = "ASSET_NO", length = 50, nullable = false)
     private String assetNo;
@@ -429,6 +439,42 @@ public class AssetMaster {
 
     public void setAuthenticateDate(Date authenticateDate) {
         this.authenticateDate = authenticateDate;
+    }
+
+
+
+    public Long getMachineTypeId() {
+        return machineTypeId;
+    }
+
+
+
+    public void setMachineTypeId(Long machineTypeId) {
+        this.machineTypeId = machineTypeId;
+    }
+
+
+
+    public Long getMachineMakeId() {
+        return machineMakeId;
+    }
+
+
+
+    public void setMachineMakeId(Long machineMakeId) {
+        this.machineMakeId = machineMakeId;
+    }
+
+
+
+    public Long getMachineModelId() {
+        return machineModelId;
+    }
+
+
+
+    public void setMachineModelId(Long machineModelId) {
+        this.machineModelId = machineModelId;
     }
 
 

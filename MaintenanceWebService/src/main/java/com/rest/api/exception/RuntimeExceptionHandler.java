@@ -34,7 +34,7 @@ public class RuntimeExceptionHandler implements ExceptionMapper<RuntimeException
         if (exception instanceof ValidationException) {
             response = new ValidationResponse();
             ((ValidationResponse) response).addFieldMsg(
-                ((ValidationException) exception).getFieldName(),
+                ((ValidationException) exception).getFieldName(),((ValidationException) exception).getMessage()+" :"+
                 ((ValidationException) exception).getFieldValue());            
             response.setMsg("Invalid input");
         } else if (exception instanceof AuthorizationException) {

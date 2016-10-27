@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 import com.maintenance.Common.StatusType;
 import com.maintenance.asset.DTO.AssetCreateDTO;
 import com.maintenance.asset.DTO.AssetResponse;
+import com.maintenance.asset.DTO.AssetUpdateDTO;
 import com.maintenance.request.BaseResponse;
 import com.rest.service.AssetServiceImpl;
 
@@ -51,7 +53,7 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
         BaseResponse response = new BaseResponse();
         assetServiceImpl.saveAsset(asset);
         response.setMsg("Successfully created");
-        response.setStatusCode(1);
+        response.setStatusCode(BaseResponse.SUCCESS_CODE);
         return Response.ok(response).build();
     }
 
@@ -80,5 +82,16 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
 
         return Response.ok(response).build();
 
+    }
+    @PUT
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response updateAsset(@Valid AssetUpdateDTO asset) {
+        logger.info("Creating the asset for company:"+asset.getCompanyId());
+        BaseResponse response = new BaseResponse();
+        assetServiceImpl.updateAsset(asset);
+        response.setMsg("Successfully Updated");
+        response.setStatusCode(BaseResponse.SUCCESS_CODE);
+        return Response.ok(response).build();
     }
 }

@@ -58,7 +58,7 @@ public class Address {
     @Column(name = "WEBSITE", length = 50,unique=true)
     private String website;
 
-    @Column(name = "MAIL_ID", length = 300, unique=true)
+    @Column(name = "MAIL_ID", length = 100, unique=true)
     private String mailId;
 
 //    @Column(name = "Linke_Id")

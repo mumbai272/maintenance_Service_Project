@@ -39,7 +39,6 @@ import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
 import com.maintenance.user.requestResponse.UserResponse;
 import com.maintenance.user.requestResponse.UserUpdateRequest;
-import com.rest.api.BaseRestServiceImpl;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.Address;
 import com.rest.entity.AuditData;
@@ -55,7 +54,7 @@ import com.rest.repository.UserRepository;
  */
 @Component
 @Transactional
-public class UserServiceImpl extends BaseRestServiceImpl {
+public class UserServiceImpl extends BaseServiceImpl {
 
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 
@@ -150,25 +149,22 @@ public class UserServiceImpl extends BaseRestServiceImpl {
     public UserResponse getUser(Long companyId, String status, boolean fetchAddress) {
         UserResponse userResponse = new UserResponse();
         List<Long> addressIds = null;
-        Map<Long, UserDTO> addressIdToUserDTO = new HashMap<Long, UserDTO>();
-        validStatus(status);
+        Map<Long, UserDTO> addressIdToUserDTO = new HashMap<Long, UserDTO>();        
+        if (StatusType.REGISTERED.getValue().equalsIgnoreCase(status)
+            && UserContextRetriver.getUsercontext().getRole() != RoleType.ADMIN) {
+            throw new AuthorizationException(UserAction.GET_REGISTED_USER.getValue(),
+                UserContextRetriver.getUsercontext().getUserName());
+        }
+        List<Long> companyIds = null;
         if (companyId == null) {
-            companyId = UserContextRetriver.getUsercontext().getCompanyId();
-        }
-        if (StatusType.REGISTERED.getValue().equalsIgnoreCase(status)) {
-            if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
-                companyId = null;
-            } else {
-                throw new AuthorizationException(UserAction.GET_REGISTED_USER.getValue(),
-                    UserContextRetriver.getUsercontext().getUserName());
-            }
-        }
+            companyIds = getClientCompanyIds(false);
+        }       
 
         List<UserImpl> users = null;
         if (companyId != null) {
             users = userRepository.findByCompanyIdAndStatus(companyId, status);
         } else {
-            users = userRepository.findByStatus(status);
+            users = userRepository.findByCompanyIdInAndStatus(companyIds, status);
         }
         if (!CollectionUtils.isEmpty(users)) {
             addressIds = new ArrayList<Long>();

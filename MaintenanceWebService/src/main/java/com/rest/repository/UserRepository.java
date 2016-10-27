@@ -21,6 +21,9 @@ public interface UserRepository extends CrudRepository<UserImpl, Long> {
 
     List<UserImpl> findByCompanyIdAndStatus(Long companyId, String status);
     
+    List<UserImpl> findByCompanyIdInAndStatus(List<Long> companyIds, String status);
+    
+    
     List<UserImpl> findByUserNameOrEmailId(String userName,String emailId);
 
     List<UserImpl> findByStatus(String status);

@@ -3,7 +3,6 @@
 //============================================================
 package com.rest.api;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.maintenance.Common.RoleType;
@@ -16,8 +15,7 @@ import com.rest.api.exception.ValidationException;
 
 /**
  * 
- * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
- * Created on Oct 25, 2016
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Oct 25, 2016
  */
 public abstract class BaseRestServiceImpl {
 
@@ -34,11 +32,9 @@ public abstract class BaseRestServiceImpl {
      */
     protected void validStatus(String status) {
         logger.info("Validating the get user request");
-        if (StringUtils.isNoneBlank(status)) {
-            StatusType statusType = StatusType.getStatusOfValue(status);
-            if (statusType == null) {
-                throw new ValidationException("status", "null", "invalid status is passed");
-            }
+        StatusType statusType = StatusType.getStatusOfValue(status);
+        if (statusType == null) {
+            throw new ValidationException("status", "null", "invalid status is passed");
         }
     }
 
