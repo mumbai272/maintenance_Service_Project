@@ -5,9 +5,11 @@ package com.rest.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Component;
 import com.maintenance.Common.MachineTypeEnum;
 import com.maintenance.machine.DTO.MachineDTO;
 import com.maintenance.machine.DTO.MachineResponse;
+import com.maintenance.request.BaseResponse;
 import com.rest.api.exception.ValidationException;
 import com.rest.machine.service.MachineServiceImpl;
 /**
@@ -51,9 +54,22 @@ public class MachineRestServiceImpl {
         logger.info("**** inside get machine ");
         MachineTypeEnum machineTypeEnum = validateType(type);
         MachineResponse response = new MachineResponse();
-        List<MachineDTO> machineDTO =
-            machineServiceImpl.getMachineDetail(companyId, machineTypeEnum);
+        List<MachineDTO> machineDTO = machineServiceImpl.getMachineDetail(companyId, machineTypeEnum);
+           // machineServiceImpl.getMachineTypeDetail(companyId, machineTypeEnum);
         response.setData(machineDTO);
+        return Response.ok(response).build();
+    }
+
+    @Path("/machine/{type}")
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response createMachineTypeAttribute(@PathParam("type") String type,@Valid MachineDTO machineDto) {
+        logger.info("**** creating "+ type);
+        MachineTypeEnum machineTypeEnum = validateType(type);
+        BaseResponse response = new BaseResponse();
+        machineServiceImpl.createMachineDetail(machineDto, machineTypeEnum);
+        response.setMsg("Successfully created");
         return Response.ok(response).build();
     }
 

@@ -24,6 +24,7 @@ import com.maintenance.machine.DTO.MachineDTO;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetMaster;
 import com.rest.repository.AssetMasterRepository;
+import com.rest.repository.MachineAttributeRepository;
 import com.rest.repository.MachineMakeRepository;
 import com.rest.repository.MachineModelRepository;
 import com.rest.repository.MachineTypeRepository;
@@ -45,15 +46,25 @@ public class AssetServiceImpl extends BaseServiceImpl {
 
     @Autowired
     private MachineTypeRepository machineTypeRepository;
+    
+    @Autowired
+    private MachineAttributeRepository machineAttributeRepository;
 
     public void saveAsset(AssetCreateDTO assetDto) {
         logger.info("saving the asset for Client :" + assetDto.getClientId());
         AssetMaster asset = new AssetMaster();
         BeanUtils.copyProperties(assetDto, asset);
         asset.setStatus(StatusType.ACTIVE.getValue());
-        asset.setMachineMake(machineMakeRepository.findOne(assetDto.getMachineMake()));
-        asset.setMachineModel(machineModelRepository.findOne(assetDto.getMachineModel()));
-        asset.setMachineType(machineTypeRepository.findOne(assetDto.getMachineType()));
+        if(assetDto.getMachineMake()!=null && machineMakeRepository.findOne(assetDto.getMachineMake())!=null){
+            asset.setMachineMakeId(assetDto.getMachineMake());
+        }
+        if (assetDto.getMachineModel() != null
+            && machineModelRepository.findOne(assetDto.getMachineModel()) != null) {
+            asset.setMachineModelId(assetDto.getMachineModel());
+        }
+        if (machineTypeRepository.findOne(assetDto.getMachineType()) != null) {
+            asset.setMachineTypeId(assetDto.getMachineType());
+        }
         assetMasterRepository.save(asset);
     }
 
