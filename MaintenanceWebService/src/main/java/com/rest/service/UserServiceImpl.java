@@ -34,6 +34,7 @@ import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.UserDTO;
 import com.maintenance.user.UserEmploymentDTO;
 import com.maintenance.user.UserPasswordRequest;
+import com.maintenance.user.UserRegistrationRejectRequest;
 import com.maintenance.user.UserUpdateDTO;
 import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
@@ -161,7 +162,9 @@ public class UserServiceImpl extends BaseServiceImpl {
         }       
 
         List<UserImpl> users = null;
-        if (companyId != null) {
+        if (status.equalsIgnoreCase(StatusType.REGISTERED.getValue())) {
+            users = userRepository.findByStatus(StatusType.REGISTERED.getValue());
+        } else if (companyId != null && status != null) {
             users = userRepository.findByCompanyIdAndStatus(companyId, status);
         } else {
             users = userRepository.findByCompanyIdInAndStatus(companyIds, status);
@@ -438,4 +441,25 @@ public class UserServiceImpl extends BaseServiceImpl {
         emailSender.sendMailAsync(emailContent);
 
     }
+
+    /**
+     * @param userId
+     */
+    public void rejectRegistration(UserRegistrationRejectRequest request) {
+        UserImpl user = userRepository.findOne(request.getUserId());
+        if (user == null) {
+            throw new ValidationException("userId", request.getUserId().toString(), "Invalid value is passed");
+        }
+        user.setStatus(StatusType.REJECTED.getValue());
+        userRepository.save(user);
+        EmailContent emailContent = new EmailContent(EmailType.REGISTRATION_REJECTION);
+        emailContent.addTo(user.getEmailId());
+        emailContent.addModel("name", user.getFirstName());
+        emailContent.addModel("comments", request.getRejectionReason());
+    
+        emailSender.sendMailAsync(emailContent);
+
+    }
+
+    
 }

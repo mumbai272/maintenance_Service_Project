@@ -15,7 +15,11 @@ import com.maintenance.Common.UserContextRetriver;
 import com.maintenance.asset.log.AssetLogDTO;
 import com.rest.entity.AssetLogImpl;
 import com.rest.repository.AssetLogRepository;
-
+/**
+ * 
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
+ * Created on Oct 28, 2016
+ */
 @Component
 public class AssetLogServiceImpl {
 

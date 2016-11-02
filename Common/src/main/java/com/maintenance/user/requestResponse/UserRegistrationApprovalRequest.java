@@ -7,7 +7,11 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-
+/**
+ * 
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
+ * Created on Oct 28, 2016
+ */
 @XmlRootElement
 public class UserRegistrationApprovalRequest implements Serializable {
 

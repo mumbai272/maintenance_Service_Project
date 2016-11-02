@@ -23,6 +23,7 @@ import com.maintenance.Common.StatusType;
 import com.maintenance.request.BaseResponse;
 import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.UserPasswordRequest;
+import com.maintenance.user.UserRegistrationRejectRequest;
 import com.maintenance.user.requestResponse.UserRegistrationApprovalRequest;
 import com.maintenance.user.requestResponse.UserRegistrationRequest;
 import com.maintenance.user.requestResponse.UserResponse;
@@ -30,8 +31,7 @@ import com.maintenance.user.requestResponse.UserUpdateRequest;
 import com.rest.service.UserServiceImpl;
 
 /**
- * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
- * Created on Oct 25, 2016
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Oct 25, 2016
  */
 @Path("/user")
 @Component
@@ -56,7 +56,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         logger.info("add new user");
         BaseResponse response = new BaseResponse();
         userServiceImpl.addUser(request);
-        response.setMsg("User creation is successful");        
+        response.setMsg("User creation is successful");
         return Response.ok(response).build();
     }
 
@@ -74,7 +74,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         logger.info("Requesting for registration for email:" + registrationRequest.getEmailId());
         BaseResponse response = new BaseResponse();
         userServiceImpl.saveRegistrationRequest(registrationRequest);
-        response.setMsg("User registration is successful");        
+        response.setMsg("User registration is successful");
         return Response.ok(response).build();
     }
 
@@ -83,7 +83,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * 
      * @param companyId
      * @param status
-     * @param fetchAddress 
+     * @param fetchAddress
      * @return list of user
      */
     @GET
@@ -95,7 +95,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         logger.info("getting users for the companyId:" + companyId);
         if (StringUtils.isBlank(status)) {
             status = StatusType.ACTIVE.getValue();
-        }else{
+        } else {
             validStatus(status);
         }
         response = userServiceImpl.getUser(companyId, status, fetchAddress);
@@ -116,9 +116,27 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         logger.info("Approving user registration for userId:" + approvalRequest.getUserId());
         BaseResponse response = new BaseResponse();
         userServiceImpl.approveRegistration(approvalRequest);
-        response.setMsg("User approval is successful");       
+        response.setMsg("User approval is successful");
         return Response.ok(response).build();
     }
+
+    /**
+     * 
+     * @param request
+     * @return Response
+     */
+    @POST
+    @Path("/reject/{userId}")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response userRegistrationReject(@Valid UserRegistrationRejectRequest request) {
+        logger.info("Rejecting user registration for userId:" + request.getUserId());
+        BaseResponse response = new BaseResponse();
+        userServiceImpl.rejectRegistration(request);
+        response.setMsg("User rejected is successful");
+        return Response.ok(response).build();
+    }
+
 
     /**
      * update the user profile
@@ -154,5 +172,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         response.setMsg("New password is sent to yout emailId successful");
         return Response.ok(response).build();
     }
+
+
 
 }
