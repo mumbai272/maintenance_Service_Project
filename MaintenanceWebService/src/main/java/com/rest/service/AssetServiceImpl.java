@@ -25,9 +25,6 @@ import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetMaster;
 import com.rest.repository.AssetMasterRepository;
 import com.rest.repository.MachineAttributeRepository;
-import com.rest.repository.MachineMakeRepository;
-import com.rest.repository.MachineModelRepository;
-import com.rest.repository.MachineTypeRepository;
 
 @Component
 @Transactional
@@ -38,14 +35,14 @@ public class AssetServiceImpl extends BaseServiceImpl {
     @Autowired
     private AssetMasterRepository assetMasterRepository;
 
-    @Autowired
-    private MachineMakeRepository machineMakeRepository;
-
-    @Autowired
-    private MachineModelRepository machineModelRepository;
-
-    @Autowired
-    private MachineTypeRepository machineTypeRepository;
+//    @Autowired
+//    private MachineMakeRepository machineMakeRepository;
+//
+//    @Autowired
+//    private MachineModelRepository machineModelRepository;
+//
+//    @Autowired
+//    private MachineTypeRepository machineTypeRepository;
     
     @Autowired
     private MachineAttributeRepository machineAttributeRepository;
@@ -55,14 +52,14 @@ public class AssetServiceImpl extends BaseServiceImpl {
         AssetMaster asset = new AssetMaster();
         BeanUtils.copyProperties(assetDto, asset);
         asset.setStatus(StatusType.ACTIVE.getValue());
-        if(assetDto.getMachineMake()!=null && machineMakeRepository.findOne(assetDto.getMachineMake())!=null){
+        if(assetDto.getMachineMake()!=null && machineAttributeRepository.findOne(assetDto.getMachineMake())!=null){
             asset.setMachineMakeId(assetDto.getMachineMake());
         }
         if (assetDto.getMachineModel() != null
-            && machineModelRepository.findOne(assetDto.getMachineModel()) != null) {
+            && machineAttributeRepository.findOne(assetDto.getMachineModel()) != null) {
             asset.setMachineModelId(assetDto.getMachineModel());
         }
-        if (machineTypeRepository.findOne(assetDto.getMachineType()) != null) {
+        if (machineAttributeRepository.findOne(assetDto.getMachineType()) != null) {
             asset.setMachineTypeId(assetDto.getMachineType());
         }
         assetMasterRepository.save(asset);
@@ -117,15 +114,15 @@ public class AssetServiceImpl extends BaseServiceImpl {
             }
         }
         if (assetDto.getMachineMakeId() != null
-            && machineMakeRepository.findOne(assetDto.getMachineMakeId()) != null) {
+            && machineAttributeRepository.findOne(assetDto.getMachineMakeId()) != null) {
             asset.setMachineMakeId(assetDto.getMachineMakeId());
         }
         if (assetDto.getMachineModelId() != null
-            && machineModelRepository.findOne(assetDto.getMachineModelId()) != null) {
+            && machineAttributeRepository.findOne(assetDto.getMachineModelId()) != null) {
             asset.setMachineModelId(assetDto.getMachineModelId());
         }
         if (assetDto.getMachineTypeId() != null
-            && machineTypeRepository.findOne(assetDto.getMachineTypeId()) != null) {
+            && machineAttributeRepository.findOne(assetDto.getMachineTypeId()) != null) {
             asset.setMachineTypeId(assetDto.getMachineTypeId());
         }
         if (StringUtils.isNotBlank(assetDto.getAssetDescription())) {
@@ -175,20 +172,20 @@ public class AssetServiceImpl extends BaseServiceImpl {
     }
 
     private void validateMachineType(Long typeId) {
-        if (typeId != null && machineTypeRepository.findOne(typeId) == null) {
+        if (typeId != null && machineAttributeRepository.findOne(typeId) == null) {
             throw new ValidationException("machineMake", typeId.toString(), "Invalid value passed");
         }
     }
 
     private void validateMachineModel(Long modelId) {
-        if (modelId != null && machineModelRepository.findOne(modelId) == null) {
+        if (modelId != null && machineAttributeRepository.findOne(modelId) == null) {
             throw new ValidationException("machineModel", modelId.toString(),
                 "Invalid value passed");
         }
     }
 
     private void validateMachineMake(Long makeId) {
-        if (makeId != null && machineMakeRepository.findOne(makeId) == null) {
+        if (makeId != null && machineAttributeRepository.findOne(makeId) == null) {
             throw new ValidationException("machineModel", makeId.toString(), "Invalid value passed");
         }
     }

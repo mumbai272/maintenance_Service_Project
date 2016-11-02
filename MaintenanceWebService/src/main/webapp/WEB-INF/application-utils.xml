@@ -8,13 +8,13 @@
  	http://www.springframework.org/schema/context/spring-context-4.2.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<util:map id="machineTypeMap" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="com.rest.repository.MachineCommonRepository">
-		<entry key="MACHINETYPE" value-ref="machineTypeRepository" />
-		<entry key="MACHINEMODEL" value-ref="machineModelRepository" />
-		<entry key="MACHINEMAKE" value-ref="machineMakeRepository" />
-		<entry key="MACHINESPARE" value-ref="machineSpareRepository" />
-	</util:map>
+<!-- 	<util:map id="machineTypeMap" map-class="java.util.HashMap" -->
+<!-- 		key-type="java.lang.String" value-type="com.rest.repository.MachineCommonRepository"> -->
+<!-- 		<entry key="MACHINETYPE" value-ref="machineTypeRepository" /> -->
+<!-- 		<entry key="MACHINEMODEL" value-ref="machineModelRepository" /> -->
+<!-- 		<entry key="MACHINEMAKE" value-ref="machineMakeRepository" /> -->
+<!-- 		<entry key="MACHINESPARE" value-ref="machineSpareRepository" /> -->
+<!-- 	</util:map> -->
 	<util:list id="excludeUrlList" list-class="java.util.ArrayList" value-type="java.lang.String">
 		<value>login</value>
 		<value>user/register</value>

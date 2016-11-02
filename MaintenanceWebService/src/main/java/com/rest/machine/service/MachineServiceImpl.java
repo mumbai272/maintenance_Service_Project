@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -21,7 +18,6 @@ import com.maintenance.Common.StatusType;
 import com.maintenance.machine.DTO.MachineDTO;
 import com.rest.entity.MachineAttribute;
 import com.rest.repository.MachineAttributeRepository;
-import com.rest.repository.MachineCommonRepository;
 import com.rest.service.BaseServiceImpl;
 
 @Component
@@ -29,20 +25,20 @@ public class MachineServiceImpl extends BaseServiceImpl {
 
     private static final Logger logger = Logger.getLogger(MachineServiceImpl.class);
 
-    @Resource
-    Map<String, MachineCommonRepository> machineTypeMap;
+//    @Resource
+//    Map<String, MachineCommonRepository> machineTypeMap;
     @Autowired
     private MachineAttributeRepository machineAttributeRepository;
 
-    public List<MachineDTO> getMachineDetail(Long companyId, MachineTypeEnum machineTypeEnum) {
-        logger.info("getting the machine type:" + machineTypeEnum.getValue());
-        MachineCommonRepository repository = machineTypeMap.get(machineTypeEnum.getValue());
-        List<MachineDTO> machineDTOs =
-            buildmachineDTOs(repository.findByCompanyIdAndStatus(companyId,
-                StatusType.ACTIVE.getValue()));
-
-        return machineDTOs;
-    }
+//    public List<MachineDTO> getMachineDetail(Long companyId, MachineTypeEnum machineTypeEnum) {
+//        logger.info("getting the machine type:" + machineTypeEnum.getValue());
+//        MachineCommonRepository repository = machineTypeMap.get(machineTypeEnum.getValue());
+//        List<MachineDTO> machineDTOs =
+//            buildmachineDTOs(repository.findByCompanyIdAndStatus(companyId,
+//                StatusType.ACTIVE.getValue()));
+//
+//        return machineDTOs;
+//    }
 
     private List<MachineDTO> buildmachineDTOs(List<Object> machinDetails) {
         List<MachineDTO> dtos = new ArrayList<MachineDTO>();
@@ -56,7 +52,6 @@ public class MachineServiceImpl extends BaseServiceImpl {
     }
     public List<MachineDTO> getMachineTypeDetail(Long companyId, MachineTypeEnum machineTypeEnum) {
         logger.info("getting the machine type:" + machineTypeEnum.getValue());
-        machineTypeMap.get(machineTypeEnum.getValue());
         List<MachineDTO> machineDTOs =
                 buildMachineAttributeDTOs(machineAttributeRepository.findByTypeAndCompanyIdAndStatus(machineTypeEnum.getValue(),companyId,
                 StatusType.ACTIVE.getValue()));

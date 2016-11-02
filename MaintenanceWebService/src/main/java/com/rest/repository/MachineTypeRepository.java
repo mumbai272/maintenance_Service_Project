@@ -3,11 +3,8 @@
 //============================================================
 package com.rest.repository;
 
-import org.springframework.stereotype.Repository;
 
-import com.rest.entity.MachineType;
-
-@Repository
-public interface MachineTypeRepository extends MachineCommonRepository<MachineType, Long> {
-
-}
+//@Repository
+//public interface MachineTypeRepository extends MachineCommonRepository<MachineType, Long> {
+//
+//}

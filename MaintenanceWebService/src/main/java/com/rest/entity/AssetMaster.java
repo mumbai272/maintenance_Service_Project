@@ -35,17 +35,28 @@ public class AssetMaster {
     @Column(name = "CLIENT_ID", nullable = false)
     private Long clientId;
 
+//    @ManyToOne
+//    @JoinColumn(name = "ASSET_TYPE", nullable = false, insertable = false, updatable = false)
+//    private MachineType machineType;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "MAKE_ID", insertable = false, updatable = false)
+//    private MachineMake machineMake;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "MODEL_ID", insertable = false, updatable = false)
+//    private MachineModel machineModel;
     @ManyToOne
     @JoinColumn(name = "ASSET_TYPE", nullable = false, insertable = false, updatable = false)
-    private MachineType machineType;
+    private MachineAttribute machineType;
 
     @ManyToOne
     @JoinColumn(name = "MAKE_ID", insertable = false, updatable = false)
-    private MachineMake machineMake;
+    private MachineAttribute machineMake;
 
     @ManyToOne
     @JoinColumn(name = "MODEL_ID", insertable = false, updatable = false)
-    private MachineModel machineModel;
+    private MachineAttribute machineModel;
 
 
     @Column(name = "ASSET_TYPE", nullable = false)
@@ -172,38 +183,74 @@ public class AssetMaster {
     }
 
 
-    public MachineType getMachineType() {
-        return machineType;
-    }
-
-
-    public void setMachineType(MachineType machineType) {
-        this.machineType = machineType;
-    }
-
-
-    public MachineMake getMachineMake() {
-        return machineMake;
-    }
-
-
-    public void setMachineMake(MachineMake machineMake) {
-        this.machineMake = machineMake;
-    }
-
-
-    public MachineModel getMachineModel() {
-        return machineModel;
-    }
-
-
-    public void setMachineModel(MachineModel machineModel) {
-        this.machineModel = machineModel;
-    }
+//    public MachineType getMachineType() {
+//        return machineType;
+//    }
+//
+//
+//    public void setMachineType(MachineType machineType) {
+//        this.machineType = machineType;
+//    }
+//
+//
+//    public MachineMake getMachineMake() {
+//        return machineMake;
+//    }
+//
+//
+//    public void setMachineMake(MachineMake machineMake) {
+//        this.machineMake = machineMake;
+//    }
+//
+//
+//    public MachineModel getMachineModel() {
+//        return machineModel;
+//    }
+//
+//
+//    public void setMachineModel(MachineModel machineModel) {
+//        this.machineModel = machineModel;
+//    }
 
 
     public String getAssetNo() {
         return assetNo;
+    }
+
+
+    
+    public MachineAttribute getMachineType() {
+        return machineType;
+    }
+
+
+    
+    public void setMachineType(MachineAttribute machineType) {
+        this.machineType = machineType;
+    }
+
+
+    
+    public MachineAttribute getMachineMake() {
+        return machineMake;
+    }
+
+
+    
+    public void setMachineMake(MachineAttribute machineMake) {
+        this.machineMake = machineMake;
+    }
+
+
+    
+    public MachineAttribute getMachineModel() {
+        return machineModel;
+    }
+
+
+    
+    public void setMachineModel(MachineAttribute machineModel) {
+        this.machineModel = machineModel;
     }
 
 

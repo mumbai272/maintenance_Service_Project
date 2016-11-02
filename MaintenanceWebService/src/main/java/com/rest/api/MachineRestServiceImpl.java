@@ -54,8 +54,9 @@ public class MachineRestServiceImpl {
         logger.info("**** inside get machine ");
         MachineTypeEnum machineTypeEnum = validateType(type);
         MachineResponse response = new MachineResponse();
-        List<MachineDTO> machineDTO = machineServiceImpl.getMachineDetail(companyId, machineTypeEnum);
-           // machineServiceImpl.getMachineTypeDetail(companyId, machineTypeEnum);
+        List<MachineDTO> machineDTO = 
+                //machineServiceImpl.getMachineDetail(companyId, machineTypeEnum);
+           machineServiceImpl.getMachineTypeDetail(companyId, machineTypeEnum);
         response.setData(machineDTO);
         return Response.ok(response).build();
     }
