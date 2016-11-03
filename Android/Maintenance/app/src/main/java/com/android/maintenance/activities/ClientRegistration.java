@@ -84,7 +84,7 @@ public class ClientRegistration extends AppCompatActivity {
                 try{
                     String json="";
                     AddressDTO addressDTO= new AddressDTO(straddress,strstreet1,strstreet2,strstreet3,strcountry,strstate,strcity,strlocation,strzip,strphone,strmobile,strfax,strwebsite,stremail);
-                    ClientDTO client= new ClientDTO(ConfigConstant.company_id,strname,strdescription,addressDTO);
+                    ClientDTO client= new ClientDTO(ConfigConstant.company_id, strname,strdescription,addressDTO);
                     json=mapper.writeValueAsString(client);
                     Log.e("this is","json data"+json);
                     new ClientPost().execute(json);
@@ -102,7 +102,7 @@ public class ClientRegistration extends AppCompatActivity {
         protected String doInBackground(String... param) {
             String result="";
             ServiceHandlerWS servicepost= new ServiceHandlerWS();
-         //   result= servicepost.makeServicePost(ConfigConstant.url+"client",param[0],token);
+            result= servicepost.makeServicePostWithToken(ConfigConstant.url+"client",param[0],token);
             return result;
         }
 

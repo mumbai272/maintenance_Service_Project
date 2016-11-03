@@ -76,20 +76,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void updateUI(JSONObject userjson,JSONObject companyjson,String token){
+    public void updateUI(JSONObject userjson,JSONObject companyjson,String token) {
         //create session for new logged in user
         Gson gson = new GsonBuilder().create();
-        String userStr=userjson.toString();
-        UserDTO user=gson.fromJson(userStr, UserDTO.class);
-        String companyStr=companyjson.toString();
-        CompanyDTO company= gson.fromJson(companyStr,CompanyDTO.class);
+        String userStr = userjson.toString();
+        UserDTO user = gson.fromJson(userStr, UserDTO.class);
+        String companyStr = null;
+        CompanyDTO company;
 
-        Log.e("userId:"+user.getUserId(),"token:"+token);
-        session.createLoginSession(user.getUserId(),user.getUserName(),user.getFirstName(),user.getLastName(),user.getPhoneno(),user.getGender(),user.getRole(),token);
-        Log.e("","created session");
-        intent=new Intent(LoginActivity.this,AdminMainActivity.class);
-        startActivity(intent);
-        finish();
+            companyStr = companyjson.toString();
+            company = gson.fromJson(companyStr, CompanyDTO.class);
+            Log.e("userId:" + user.getUserId(), "token:" + token);
+            Log.e("", "created session");
+            String role=user.getRole();
+            Log.e("role",""+role);
+            session.createLoginSession(user.getUserId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token);
+                intent = new Intent(LoginActivity.this, AdminMainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
+                startActivity(intent);
+
+
     }
 
 
@@ -170,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String datatoken = null;
             Gson gson = new GsonBuilder().create();
             try {
-                 obj = new JSONObject(result).getJSONObject("data");
+                 obj = new JSONObject(result);
                  datauser = obj.getJSONObject("user");
                  datacompany= obj.getJSONObject("company");
                  datatoken = obj.getString("token");
@@ -186,7 +193,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }else if(loginResponse.getStatusCode()==-1){
                 mProgress.dismiss();
                 error_str.setText(loginResponse.getMsg());
-
                 Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }

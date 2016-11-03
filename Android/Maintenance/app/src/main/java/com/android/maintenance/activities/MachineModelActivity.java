@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.android.maintenance.R;
-import com.android.maintenance.fragments.MakePager;
+import com.android.maintenance.fragments.ModelPager;
 
 public class MachineModelActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class MachineModelActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.model_tabLayout);
 
         viewPager = (ViewPager) findViewById(R.id.model_pager);
-        MakePager adapter = new MakePager(getSupportFragmentManager());
+        ModelPager adapter = new ModelPager(getSupportFragmentManager());
 
         viewPager.setAdapter(adapter);
 

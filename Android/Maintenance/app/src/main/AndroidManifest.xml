@@ -13,6 +13,7 @@
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,33 +37,49 @@
             android:parentActivityName=".activities.AdminMainActivity"
             android:theme="@style/navigatetheme" />
         <activity
-            android:name=".activities.ClientAssetRegister"
+            android:name=".activities.MachineRegister"
             android:label="@string/registerlable"
             android:parentActivityName=".activities.AdminMainActivity"
             android:theme="@style/navigatetheme" />
         <activity
-            android:name=".activities.ClientMainActivity"
-            android:label="@string/title_activity_client_main"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".activities.MachineMakeActivity"
+            android:name=".activities.MachineMakeActivity"
             android:label="Machine Make"
             android:parentActivityName=".activities.AdminMainActivity"
             android:theme="@style/navigatetheme" />
-        <activity android:name=".activities.MachineModelActivity"
+        <activity
+            android:name=".activities.MachineModelActivity"
             android:label="Machine Model"
             android:parentActivityName=".activities.AdminMainActivity"
-            android:theme="@style/navigatetheme"/>
-        <activity android:name=".activities.MachineTypeActivity"
+            android:theme="@style/navigatetheme" />
+        <activity
+            android:name=".activities.MachineTypeActivity"
             android:label="Machine Type"
             android:parentActivityName=".activities.AdminMainActivity"
             android:theme="@style/navigatetheme" />
-        <activity android:name=".activities.AdminProfileActivity"
+        <activity
+            android:name=".activities.AdminProfileActivity"
             android:label="Profile"
             android:parentActivityName=".activities.AdminMainActivity"
             android:theme="@style/navigatetheme" />
-        <activity android:name=".activities.UserApprovalActivity"/>
-        <activity android:name=".activities.UserApprovalDetailsActivity"/>
-
+        <activity
+            android:name=".activities.UserApprovalActivity"
+            android:label="User Approval List"
+            android:parentActivityName=".activities.AdminMainActivity"/>
+        <activity
+            android:name=".activities.UserApprovalDetailsActivity"
+            android:label="User Details"
+            android:parentActivityName=".activities.UserApprovalActivity" />
+        <activity
+            android:name=".activities.UserMainActivity"
+            android:label= "@string/title_activity_user_main"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.UserAlertActivity"></activity>
+        <activity android:name=".activities.MachineListActivity"></activity>
+        <activity android:name=".activities.ClientDetailsActivity"></activity>
+        <activity android:name=".activities.MachineSpareActivity"
+            android:label="Machine Spare"
+            android:parentActivityName=".activities.AdminMainActivity"
+            android:theme="@style/navigatetheme" ></activity>
     </application>
 
 </manifest>

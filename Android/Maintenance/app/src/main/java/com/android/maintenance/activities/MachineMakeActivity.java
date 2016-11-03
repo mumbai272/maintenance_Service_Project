@@ -13,8 +13,8 @@ public class MachineMakeActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
     public static MachineMakeActivity instance;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +23,7 @@ public class MachineMakeActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.make_tabLayout);
 
         viewPager = (ViewPager) findViewById(R.id.make_pager);
-        ModelPager adapter = new ModelPager(getSupportFragmentManager());
+        MakePager adapter = new MakePager(getSupportFragmentManager());
 
         viewPager.setAdapter(adapter);
 
@@ -39,6 +39,4 @@ public class MachineMakeActivity extends AppCompatActivity {
     public static MachineMakeActivity getInstance() {
         return instance;
     }
-
-
 }

@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/client_asset_registerScrollScrollView01"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,8 +8,39 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activities.ClientAssetRegister">
+    tools:context=".activities.MachineRegister">
 
+    <RelativeLayout
+        android:id="@+id/update_sd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#689F38"
+        android:gravity="center"
+        android:layout_gravity="center">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            android:textColor="@color/white_color"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/registerbtn"
+            android:background="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"/>
+
+    </RelativeLayout>
+
+ <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/client_asset_registerScrollScrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="60dp">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
@@ -212,16 +239,6 @@
         android:layout_below="@+id/amc_end_data"
         android:layout_alignStart="@+id/amc_end_data" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Status"
-        android:id="@+id/status"
-        android:layout_marginTop="22dp"
-        android:textStyle="bold"
-        android:layout_below="@+id/active_textview"
-        android:layout_alignStart="@+id/active_textview" />
 
     <EditText
         android:layout_width="0dp"
@@ -315,7 +332,8 @@
 
     <Spinner
         android:id="@+id/spinner_client_id"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignStart="@+id/editText_asset_no"
@@ -324,39 +342,33 @@
 
     <Spinner
         android:id="@+id/spinner_asset_type"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/Make_id"
+        android:layout_alignParentRight="true"
         android:textAlignment="center"
         android:layout_alignStart="@+id/spinner_client_id" />
 
     <Spinner
         android:id="@+id/spinner_make_id"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/model_id"
+        android:layout_alignParentRight="true"
         android:textAlignment="center"
         android:layout_alignStart="@+id/spinner_asset_type" />
 
     <Spinner
         android:id="@+id/spinner_model_no"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_above="@+id/asset_no"
         android:textAlignment="center"
         android:layout_alignStart="@+id/spinner_make_id" />
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:id="@+id/registerbtn"
-        android:background="#3F51B5"
-        android:layout_marginTop="37dp"
-        android:layout_below="@+id/status"
-        android:layout_alignStart="@+id/status"
-        android:layout_alignEnd="@+id/datePicker_date_install" />
+
 
     <EditText
         android:layout_width="wrap_content"
@@ -371,43 +383,17 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText3"
+        android:id="@+id/purchasecost"
         android:layout_below="@+id/client_asset_location"
         android:layout_alignParentEnd="true"
         android:layout_alignStart="@+id/client_asset_location" />
-
-
-
-    <RadioGroup
-        android:layout_width="fill_parent"
-        android:layout_height="90dp"
-        android:id="@+id/warrenty_radio_grp"
-        android:layout_below="@+id/purchase_cost"
-        android:layout_toEndOf="@+id/inst_sl_no"
-        android:layout_alignStart="@+id/client_asset_location"
-        android:layout_above="@+id/amc_start_date"
-        android:orientation="horizontal"
-        android:weightSum="1">
-        <RadioButton android:id="@+id/radio_yes"
-            android:layout_width="41dp"
-            android:layout_marginTop="15dp"
-            android:layout_height="wrap_content"
-            android:text="Yes"
-            android:layout_weight="0.68" />
-        <RadioButton android:id="@+id/radio_no"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_height="wrap_content"
-            android:text="No"
-            android:layout_weight="0.39" />
-    </RadioGroup>
-
 
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/asset_usege"
+        android:inputType="numberDecimal"
         android:layout_alignBottom="@+id/asset_usage"
         android:layout_alignEnd="@+id/datePicker_date_install"
         android:layout_alignStart="@+id/client_asset_location" />
@@ -427,7 +413,7 @@
         android:layout_weight=".5"
         android:id="@+id/datePickerr_warrenty_end"
         android:layout_above="@+id/active_textview"
-        android:layout_alignEnd="@+id/registerbtn"
+        android:layout_alignEnd="@+id/warrenty_radio_grp"
         android:layout_alignStart="@+id/warrenty_radio_grp" />
 
     <RadioGroup
@@ -436,24 +422,54 @@
         android:id="@+id/active_radio_grp"
         android:layout_toEndOf="@+id/inst_sl_no"
         android:layout_alignStart="@+id/client_asset_location"
-        android:orientation="horizontal"
         android:weightSum="1"
         android:layout_below="@+id/amc_end_data"
-        android:layout_alignBottom="@+id/active_textview">
+        android:layout_alignBottom="@+id/active_textview"
+        android:orientation="horizontal">
         <RadioButton android:id="@+id/active_radio_yes"
             android:layout_width="41dp"
             android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
             android:text="Yes"
-            android:layout_weight="0.59" />
+            android:layout_weight="0.68"/>
         <RadioButton android:id="@+id/active_radio_no"
-            android:layout_width="wrap_content"
+            android:layout_width="41dp"
             android:layout_marginTop="15dp"
             android:layout_height="wrap_content"
             android:text="No"
-            android:layout_weight="0.39" />
+            android:layout_weight="0.68" />
     </RadioGroup>
 
 
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:id="@+id/warrenty_radio_grp"
+        android:layout_below="@+id/purchase_cost"
+        android:layout_toEndOf="@+id/inst_sl_no"
+        android:layout_alignStart="@+id/client_asset_location"
+        android:layout_above="@+id/amc_start_date"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <RadioButton android:id="@+id/radio_yes"
+            android:layout_width="41dp"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:layout_weight="0.68" />
+        <RadioButton android:id="@+id/radio_no"
+            android:layout_width="41dp"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:layout_weight="0.68" />
+    </RadioGroup>
+    </RelativeLayout>
+ </ScrollView>
+
+
+
  </RelativeLayout>
-</ScrollView>
+
+
+

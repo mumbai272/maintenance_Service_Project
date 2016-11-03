@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/update_sd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#689F38"
+        android:gravity="center"
+        android:layout_gravity="center">
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white_color"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_gravity="center_horizontal"/>/>
+    </RelativeLayout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ScrollScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+    <EditText android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:hint="name_hint"
+        android:ems="12"
+        android:inputType="textNoSuggestions|textCapWords"
+        android:textSize="20sp"
+        android:id="@+id/follower_name"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"/>
+
+    <EditText android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:inputType="textNoSuggestions|textEmailAddress"
+        android:ems="12"
+        android:textSize="20sp"
+        android:hint="email_hint"
+        android:id="@+id/a_email"
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <EditText android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:hint="name_hint"
+        android:ems="12"
+        android:inputType="textNoSuggestions|textCapWords"
+        android:textSize="20sp"
+        android:id="@+id/b_name"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"/>
+
+    <EditText android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:inputType="textNoSuggestions|textEmailAddress"
+        android:ems="12"
+        android:hint="email_hint"
+        android:id="@+id/bemail"
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+        <EditText android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:inputType="textNoSuggestions|textEmailAddress"
+            android:ems="12"
+            android:hint="email_hint"
+            android:id="@+id/follower_email"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <EditText android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="name_hint"
+            android:ems="15"
+            android:inputType="textNoSuggestions|textCapWords"
+            android:textSize="20sp"
+            android:capitalize="words"
+            android:typeface="sans"
+            android:id="@+id/_name"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"/>
+
+        <EditText android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:inputType="textNoSuggestions|textEmailAddress"
+            android:ems="12"
+            android:hint="email_hint"
+            android:id="@+id/email"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

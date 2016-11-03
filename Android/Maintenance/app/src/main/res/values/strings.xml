@@ -12,7 +12,7 @@
     <string name="asset_description">Asset Name</string>
     <string name="client_asset_registration">Client Asset Registration</string>
     <string name="add">ADD</string>
-    <string name="client_registration">Client Registration</string>
+    <string name="client_registration">Add Client</string>
     <string name="client_name">Client Name</string>
     <string name="description">Description</string>
     <string name="country">Country</string>
@@ -59,4 +59,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="client_approval_list_headertxt">Client Approval List</string>
+    <string name="title_activity_user_main">UserMainActivity</string>
 </resources>

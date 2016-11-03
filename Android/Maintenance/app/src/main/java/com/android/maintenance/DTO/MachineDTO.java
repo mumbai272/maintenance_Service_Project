@@ -1,9 +1,11 @@
 package com.android.maintenance.DTO;
 
+import java.io.Serializable;
+
 /**
  * Created by anand on 11-Sep-16.
  */
-public class MachineDTO {
+public class MachineDTO implements Serializable{
     private int companyId;
     private int machineId;
     private String machineName;

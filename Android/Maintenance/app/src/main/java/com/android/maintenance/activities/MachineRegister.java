@@ -14,12 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
-import com.android.maintenance.DTO.ClientAssetRegisterDTO;
+import com.android.maintenance.DTO.MachineRegisterDTO;
 import com.android.maintenance.R;
+import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.Utilities.Utility;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
@@ -31,16 +34,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class ClientAssetRegister extends AppCompatActivity implements View.OnClickListener {
+public class MachineRegister extends AppCompatActivity implements View.OnClickListener {
 
     private static String url = ConfigConstant.url;
     private static String clientURL = url + "client/" + ConfigConstant.company_id;
@@ -50,6 +55,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
     private static String assetclientregisterURL= url+"asset";
     private static final String TAG = "Mymessage";
     private static String token;
+    private SessionManager session;
 
     private Map<Integer,String> clientAssetDTO;
     private Map<Integer,String> machine_type;
@@ -58,25 +64,36 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
     ArrayAdapter<String> adapter;
     DatePickerDialog mfgDatePickerDialog;
     DatePickerDialog installDatePickerDialog;
+    DatePickerDialog warrentyStartPickerDialog;
+    DatePickerDialog warrentyEndPickerDialog;
     SimpleDateFormat dateFormatter;
-    EditText dateofmfg,dateofinstall,assetNo,assetDesc,mfgSLno,insSLno,hidden_client_id,hidden_machine_type,hidden_machine_made,hidden_machine_model;
+    RadioGroup radiowarrentyGroup,radioactiveGroup;
+    RadioButton radiowarrentyButton,radioactiveButton;
+    EditText warrenty_start,warrenty_end,edit_location,asset_usege,purchasecost,dateofmfg,dateofinstall,assetNo,assetDesc,mfgSLno,insSLno,hidden_client_id,hidden_machine_type,hidden_machine_made,hidden_machine_model;
     Spinner spinner_client,spinner_machine_type,spinner_machin_made,spinner_machine_model;
     Button add_Btn;
     String client,e_machine_type,e_machine_made,e_machine_model;
-    String asset_no,asset_desc,mfg_sl_no,inst_sl_no,inst_date,mfg_date;
+    String asset_no,asset_desc,mfg_sl_no,inst_sl_no,inst_date,mfg_date,usage,cost,location,isWarranty,warrantyStartDate,warrantyEndDate;
     Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        intent=getIntent();
-        token=intent.getStringExtra("token");
-        Log.e("Token data",""+token);
+
+        session=new SessionManager(getApplicationContext());
+        HashMap<String, String> user = session.getUserDetails();
+
+        token=user.get(SessionManager.KEY_TOKEN);
+        Log.e("user_ id:","Token:"+token);
+        clientAssetDTO=new HashMap<Integer, String>();
+        machine_type=new HashMap<Integer, String>();
+        machine_made=new HashMap<Integer, String>();
+        machine_model=new HashMap<Integer, String>();
         new GetClient().execute();
         new GetMachineType().execute();
         new GetMachineMade().execute();
         new GetMachineModel().execute();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.client_asset_register);
+        setContentView(R.layout.machine_register);
 
         assetNo=(EditText)findViewById(R.id.editText_asset_no);
         assetDesc=(EditText)findViewById(R.id.editText_asset_desc);
@@ -90,16 +107,19 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
         spinner_machine_type =(Spinner) findViewById(R.id.spinner_asset_type);
         spinner_machin_made=(Spinner) findViewById(R.id.spinner_make_id);
         spinner_machine_model=(Spinner) findViewById(R.id.spinner_model_no);
-        add_Btn=(Button)findViewById(R.id.registerbtn);
+        edit_location = (EditText) findViewById(R.id.client_asset_location);
+        asset_usege = (EditText) findViewById(R.id.asset_usege);
+
+        radioactiveGroup= (RadioGroup)findViewById(R.id.active_radio_grp);
+        radiowarrentyGroup =(RadioGroup) findViewById(R.id.warrenty_radio_grp);
+        purchasecost =(EditText)findViewById(R.id.purchasecost);
+        //add_Btn=(Button)findViewById(R.id.registerbtn);
 
         dateFormatter = new SimpleDateFormat("yyy-MM-dd", Locale.US);
         findViewsById();
         setDateTimeField();
-        clientAssetDTO=new HashMap<Integer, String>();
-        machine_type=new HashMap<Integer, String>();
-        machine_made=new HashMap<Integer, String>();
-        machine_model=new HashMap<Integer, String>();
-        addButtonClick();
+
+    //    addButtonClick();
 
     }
 
@@ -113,10 +133,45 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
                 inst_sl_no = insSLno.getText().toString();
                 inst_date = dateofinstall.getText().toString();
                 mfg_date = dateofmfg.getText().toString();
-                if(Utility.isNotNull(asset_no)&&Utility.isNotNull(asset_desc)&&Utility.isNotNull(mfg_sl_no)&&Utility.isNotNull(inst_sl_no)&&Utility.isNotNull(inst_date)&&Utility.isNotNull(mfg_date)){
+                usage = asset_usege.getText().toString();
+                cost = purchasecost.getText().toString();
+                location = edit_location.getText().toString();
+                warrantyStartDate = warrenty_start.getText().toString();
+                warrantyEndDate = warrenty_end.getText().toString();
+
+                int activeORnot = radioactiveGroup.getCheckedRadioButtonId();
+                radioactiveButton = (RadioButton) findViewById(activeORnot);
+                Log.e("jnsd","activeORnot"+activeORnot);
+                Log.e("active value",""+radioactiveButton.getText());
+                int selectedId = radiowarrentyGroup.getCheckedRadioButtonId();
+                radiowarrentyButton = (RadioButton) findViewById(selectedId);
+                Log.e("jnsd","selectedId"+selectedId);
+                Log.e("active value",""+radiowarrentyButton.getText());
+
+                if(radioactiveButton.getText()=="Yes"){
+
+                }else{
+
+                }
+
+                if(radiowarrentyButton.getText()=="Yes"){
+
+                }else{
+
+                }
+                Date StartDate = null,EndDate = null;
+                try {
+                     StartDate = new SimpleDateFormat("yyyy-MM-dd").parse(warrantyStartDate);
+                     EndDate = new SimpleDateFormat("yyyy-MM-dd").parse(warrantyEndDate);
+                }catch (ParseException e){
+                    e.printStackTrace();
+                }
+
+
+                if(Utility.isNotNull(asset_no)&&Utility.isNotNull(asset_desc)){
                     try {
                         String json="";
-                        ClientAssetRegisterDTO register= new ClientAssetRegisterDTO(ConfigConstant.company_id,Integer.parseInt( hidden_client_id.getText().toString() ),Integer.parseInt( hidden_machine_type.getText().toString() ),Integer.parseInt( hidden_machine_made.getText().toString() ),Integer.parseInt( hidden_machine_model.getText().toString() ),asset_no,asset_desc,mfg_sl_no,inst_sl_no,mfg_date,inst_date);
+                        MachineRegisterDTO register= new MachineRegisterDTO(ConfigConstant.company_id,1,Integer.parseInt( hidden_machine_type.getText().toString() ),Integer.parseInt( hidden_machine_made.getText().toString() ),Integer.parseInt( hidden_machine_model.getText().toString() ),asset_no,asset_desc,mfg_sl_no,inst_sl_no,mfg_date,inst_date,Double.parseDouble(usage),location,Double.parseDouble(cost),"T",StartDate ,EndDate,"T","Active");
                         ObjectMapper mapper = new ObjectMapper();
                         json = mapper.writeValueAsString(register);
                         new PostAssetClient().execute(json);
@@ -150,7 +205,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
                         JSONArray clientData = null;
 
                         try {
-                            clientData = jsonObj.getJSONArray("data");
+                            clientData = jsonObj.getJSONArray("companys");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -195,10 +250,10 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
     private void populateSpinner() {
         List<String> lables = new ArrayList<String>();
         for (Object value : clientAssetDTO.values()) {
-         Log.e(TAG," ///"+value);
-        lables.add((String) value);
+            Log.e(TAG," ///"+value);
+            lables.add((String) value);
         }
-          adapter = new ArrayAdapter<String>(this,
+        adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lables);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // attaching data adapter to spinner
@@ -213,12 +268,12 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
                 Log.e(TAG,"This is val"+s);
                 hidden_client_id.setText(s);
 
-             //   Toast.makeText(parentView.getContext(), "You selected: " + client,Toast.LENGTH_LONG).show();
+                //   Toast.makeText(parentView.getContext(), "You selected: " + client,Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-            //    Toast.makeText(parentView.getContext(), "You selected nothing " ,Toast.LENGTH_LONG).show();
+                //    Toast.makeText(parentView.getContext(), "You selected nothing " ,Toast.LENGTH_LONG).show();
             }
 
         });
@@ -229,6 +284,8 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
     public void setDateTimeField() {
         dateofmfg.setOnClickListener(this);
         dateofinstall.setOnClickListener(this);
+        warrenty_start.setOnClickListener(this);
+        warrenty_end.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
         mfgDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -250,13 +307,44 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        warrentyEndPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                warrenty_end.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        warrentyStartPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                warrenty_start.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+
     }
 
     public void findViewsById() {
 
+        warrenty_start =(EditText) findViewById(R.id.datePicker_warrenty_start);
+        warrenty_start.setInputType(InputType.TYPE_NULL);
+        warrenty_start.requestFocus();
+
         dateofmfg = (EditText) findViewById(R.id.datePicker_date_mfg);
         dateofmfg.setInputType(InputType.TYPE_NULL);
         dateofmfg.requestFocus();
+
+
+        warrenty_end =(EditText) findViewById(R.id.datePickerr_warrenty_end);
+        warrenty_end.setInputType(InputType.TYPE_NULL);
+        warrenty_end.requestFocus();
 
         dateofinstall = (EditText) findViewById(R.id.datePicker_date_install);
         dateofinstall.setInputType(InputType.TYPE_NULL);
@@ -269,6 +357,10 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
             installDatePickerDialog.show();
         } else if(view == dateofmfg) {
             mfgDatePickerDialog.show();
+        }else if (view == warrenty_start){
+            warrentyStartPickerDialog.show();
+        }else if(view == warrenty_end){
+            warrentyEndPickerDialog.show();
         }
     }
 
@@ -364,15 +456,10 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
         Log.e(TAG,"item set");
     }
 
-    private class GetMachineMade extends AsyncTask<Void, Void, Void>  {
+    private class GetMachineMade extends AsyncTask<Void, Void, String>  {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
+        protected String doInBackground(Void... arg0) {
 
             Log.e(TAG, "inside doInBackground");
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
@@ -407,11 +494,11 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
                 Log.e("JSON Data", "Didn't receive any data from server!");
             }
 
-            return null;
+            return json;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
             populateSpinner3();
         }
@@ -555,7 +642,7 @@ public class ClientAssetRegister extends AppCompatActivity implements View.OnCli
             String result="";
             ServiceHandlerWS servicepost= new ServiceHandlerWS();
             Log.e(TAG,"this input post"+param[0]);
-          //  result= servicepost.makeServicePost(ConfigConstant.url+"asset",param[0]);
+            result= servicepost.makeServicePostWithToken(assetclientregisterURL,param[0],token);
             return result;
         }
 

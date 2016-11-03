@@ -129,6 +129,29 @@ public class ServiceHandlerWS {
         return result;
     }
 
+    public static String makeServicePostWithToken(String url, String data,String token ){
+        String result = "";
+        try {
+            Log.e(TAG,"URL: "+url);
+            Log.e(TAG,"data: "+data);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost post = new HttpPost(url);
+            post.setHeader("Content-type", "application/json");
+            post.addHeader("token", token);
+            StringEntity se = new StringEntity(data);
+            post.setEntity(se);
+            HttpResponse httpResponse = httpclient.execute(post);
+            result=EntityUtils.toString(httpResponse.getEntity());
+            //inputStream = httpResponse.getEntity().getContent();
+            // convert inputstream to string
+        }catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+       /* Log.i("JSONPOSTEND", "End of JSON data post methos...");*/
+        Log.e(TAG,"Response====="+result);
+        return result;
+    }
+
     public static String makeServicePut(String url, String data,String token){
         String result = "";
         try {

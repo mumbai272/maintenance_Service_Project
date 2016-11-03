@@ -3,12 +3,38 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
+
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="TYPE ADD TAB"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:id="@+id/editText"
+        android:ems="12"
+        android:hint="Machine Name"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText2"
+        android:ems="12"
+        android:hint="Machine Description"
+        android:layout_below="@+id/editText"
+        android:layout_alignStart="@+id/editText"
+        android:layout_marginTop="75dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white_color"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/add"
+        android:layout_below="@+id/editText2"
+        android:layout_marginTop="67dp"
+        android:layout_alignStart="@+id/editText2"
+        android:layout_alignEnd="@+id/editText2" />
 </RelativeLayout>

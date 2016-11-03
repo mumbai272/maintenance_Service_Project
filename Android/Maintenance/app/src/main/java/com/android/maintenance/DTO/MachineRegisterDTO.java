@@ -1,11 +1,13 @@
 package com.android.maintenance.DTO;
 
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by anand on 11-Sep-16.
  */
-public class ClientAssetRegisterDTO {
+public class MachineRegisterDTO {
     private int companyId;
     private int  clientId;
     private int machineType;
@@ -17,8 +19,16 @@ public class ClientAssetRegisterDTO {
     private String instSLNo;
     private String dataOfMfg;
     private String installDate;
+    private Double assetUsage;
+    private String location;
+    private Double purchaseCost;
+    private String isWarranty;
+    private Date warrantyStartDate;
+    private Date warrantyEndDate;
+    private String isActive;
+    private String status;
 
-    public ClientAssetRegisterDTO(int companyId, int clientId, int machineType, int machineMake, int machineModel, String assetNo, String assetDescription, String manifactureSLNo, String instSLNo, String dataOfMfg, String installDate) {
+    public MachineRegisterDTO(int companyId, int clientId, int machineType, int machineMake, int machineModel, String assetNo, String assetDescription, String manifactureSLNo, String instSLNo, String dataOfMfg, String installDate, Double assetUsage, String location, Double purchaseCost, String isWarranty, Date warrantyStartDate, Date warrantyEndDate, String isActive, String status) {
         this.companyId = companyId;
         this.clientId = clientId;
         this.machineType = machineType;
@@ -30,6 +40,78 @@ public class ClientAssetRegisterDTO {
         this.instSLNo = instSLNo;
         this.dataOfMfg = dataOfMfg;
         this.installDate = installDate;
+        this.assetUsage =assetUsage;
+        this.location = location;
+        this.purchaseCost =purchaseCost;
+        this.isWarranty = isWarranty;
+        this.warrantyStartDate= warrantyStartDate;
+        this.warrantyEndDate =warrantyEndDate;
+        this.isActive = isActive;
+        this.status =status;
+    }
+
+    public Double getAssetUsage() {
+        return assetUsage;
+    }
+
+    public void setAssetUsage(Double assetUsage) {
+        this.assetUsage = assetUsage;
+    }
+
+     public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Double getPurchaseCost() {
+        return purchaseCost;
+    }
+
+    public void setPurchaseCost(Double purchaseCost) {
+        this.purchaseCost = purchaseCost;
+    }
+
+    public String getIsWarranty() {
+        return isWarranty;
+    }
+
+    public void setIsWarranty(String isWarranty) {
+        this.isWarranty = isWarranty;
+    }
+
+    public Date getWarrantyStartDate() {
+        return warrantyStartDate;
+    }
+
+    public void setWarrantyStartDate(Date warrantyStartDate) {
+        this.warrantyStartDate = warrantyStartDate;
+    }
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getWarrantyEndDate() {
+        return warrantyEndDate;
+    }
+
+    public void setWarrantyEndDate(Date warrantyEndDate) {
+        this.warrantyEndDate = warrantyEndDate;
     }
 
     public int getCompanyId() {
