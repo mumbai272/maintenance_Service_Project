@@ -1,6 +1,6 @@
 package com.android.maintenance.activities;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,29 +14,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
-import com.android.maintenance.WS.ServiceHandlerWS;
-import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
 
-public class UserMainActivity extends AppCompatActivity
+public class EmployeeMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Gson gson;
+
     private SessionManager session;
+    Intent intent;
     public String token, userID;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_main);
-
+        setContentView(R.layout.activity_employee_main);
         session = new SessionManager(getApplicationContext());
         HashMap<String, String> user = session.getUserDetails();
         userID = user.get("KEY_USER_ID");
@@ -65,18 +61,12 @@ public class UserMainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-
-
-        if (!session.isLoggedIn()) {
-            logOut();
-        }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.user_main, menu);
+        getMenuInflater().inflate(R.menu.employee_main, menu);
         return true;
     }
 
@@ -101,61 +91,19 @@ public class UserMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
         if (id == R.id.nav_profile) {
-            showProfileActivity();
+         //   showProfileActivity();
         } else if (id == R.id.nav_log_out) {
-            logOut();
+          //  logOut();
         } else if (id == R.id.nav_machines) {
-            showMachineListActivity();
+         //   showMachineListActivity();
         } else if (id == R.id.nav_users) {
-            navigateToUserList();
+         //  navigateToUserList();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void navigateToUserList() {
-
-    }
-
-    private void showMachineListActivity() {
-
-    }
-
-    private void showProfileActivity() {
-
-    }
-
-    private void logOut() {
-        new LogOut().execute();
-        session.logoutUser();
-    }
-
-    public class LogOut extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... arg0) {
-            String result = "";
-            ServiceHandlerWS serviceget = new ServiceHandlerWS();
-            // Log.e(TAG,"this input post"+param[0]);
-            Log.e("", "logout url is: " + ConfigConstant.url + "logout/" + userID);
-            result = serviceget.makeServiceGet(ConfigConstant.url + "logout/" + userID, token);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            gson = new GsonBuilder().create();
-            BaseResponseDTO logoutResponse = gson.fromJson(result, BaseResponseDTO.class);
-            if (logoutResponse.getStatusCode() == 1) {
-                Toast.makeText(getApplicationContext(), "Log out" + logoutResponse.getMsg(), Toast.LENGTH_LONG).show();
-            } else if (logoutResponse.getStatusCode() == -1) {
-                Toast.makeText(getApplicationContext(), logoutResponse.getMsg(), Toast.LENGTH_LONG).show();
-            }
-        }
-
     }
 }

@@ -66,8 +66,6 @@ public class AdminMainActivity extends AppCompatActivity
         userID = user.get("KEY_USER_ID");
         token = user.get(SessionManager.KEY_TOKEN);
         Log.e("user_ id:" + userID, "Token:" + token);
-
-        //Toast.makeText(getApplicationContext(), "User LoginActivity Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
         session.checkLogin();
 
         clientList = new ArrayList<ClientDTO>();
@@ -186,16 +184,13 @@ public class AdminMainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-
     private void showMachineListActivity(){
         new GetMachineList().execute();
     }
 
     private void navigateToUserList() {
         new GetUserApprovalList().execute();
-
     }
-
 
     private void showProfileActivity() {
         intent = new Intent(AdminMainActivity.this, AdminProfileActivity.class);

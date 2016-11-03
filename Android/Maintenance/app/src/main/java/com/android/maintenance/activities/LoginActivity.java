@@ -83,20 +83,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         UserDTO user = gson.fromJson(userStr, UserDTO.class);
         String companyStr = null;
         CompanyDTO company;
+        String role=user.getRole();
+        Log.e("Role",":"+user.getRole());
+       // if(companyjson==null){
+            //
+             if(role.equals(ConfigConstant.userRole)) {
 
+                 session.createLoginSession(user.getUserId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token);
+                 intent = new Intent(LoginActivity.this, UserMainActivity.class);
+                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                 intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
+                 startActivity(intent);
+             }else if(role.equals(ConfigConstant.employeeRole)){
+                 session.createLoginSession(user.getUserId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token);
+                 intent = new Intent(LoginActivity.this, EmployeeMainActivity.class);
+                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                 intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
+                 startActivity(intent);
+             } else if(role.equals(ConfigConstant.adminRole)){
+            //
             companyStr = companyjson.toString();
             company = gson.fromJson(companyStr, CompanyDTO.class);
             Log.e("userId:" + user.getUserId(), "token:" + token);
             Log.e("", "created session");
-            String role=user.getRole();
-            Log.e("role",""+role);
             session.createLoginSession(user.getUserId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token);
-                intent = new Intent(LoginActivity.this, AdminMainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
-                startActivity(intent);
+            intent = new Intent(LoginActivity.this, AdminMainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
+            startActivity(intent);
 
-
+        }
     }
 
 
@@ -179,8 +195,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             try {
                  obj = new JSONObject(result);
                  datauser = obj.getJSONObject("user");
-                 datacompany= obj.getJSONObject("company");
                  datatoken = obj.getString("token");
+                 datacompany= obj.getJSONObject("company");
+
 
             }catch (Exception e){
 

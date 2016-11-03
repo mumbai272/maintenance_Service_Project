@@ -9,6 +9,7 @@ public interface ConfigConstant {
     //192.168.0107
     public static String url="http://10.0.2.2:80/MaintenanceWebService/api/";
     public static String adminRole = "admin";
-    public static String userRole = "";
+    public static String userRole = "client_admin";
+    public static String employeeRole= "service_engineer";
 
 }
