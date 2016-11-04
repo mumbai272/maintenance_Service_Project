@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 public class BusinessExpense {
 
     @Id
-    @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "id_Next_Value", allocationSize = 1)
+    @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "bussinessExpense_id_Next_Value", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
     private Long expenseId;
 

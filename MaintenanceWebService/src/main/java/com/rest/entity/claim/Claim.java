@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 public class Claim {
 
     @Id
-    @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "id_Next_Value", allocationSize = 1)
+    @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "claimNumber_Next_Value", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
     private Long claimNumber;
 
