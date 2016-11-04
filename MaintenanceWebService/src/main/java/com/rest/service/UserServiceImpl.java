@@ -131,7 +131,7 @@ public class UserServiceImpl extends BaseServiceImpl {
 
 
     public UserContext getUserContext(Long userId) {
-        UserImpl user = userRepository.findByUserIdAndStatus(userId, StatusType.ACTIVE.getValue());
+        UserImpl user = userRepository.findByUserIdAndStatusIn(userId, new String[]{StatusType.ACTIVE.getValue(),StatusType.NEW.getValue()});
         if (null == user) {
             throw new RuntimeException("User not found or not activated");
         }
