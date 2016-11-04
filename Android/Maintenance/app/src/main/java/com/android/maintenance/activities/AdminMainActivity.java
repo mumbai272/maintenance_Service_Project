@@ -145,7 +145,7 @@ public class AdminMainActivity extends AppCompatActivity
         } else if (id == R.id.nav_machines) {
             showMachineListActivity();
         } else if (id == R.id.employees) {
-
+            showEmployeeList();
         } else if (id == R.id.nav_machinetype) {
             showMachineType();
         }else if (id == R.id.nav_machine_spare) {
@@ -161,6 +161,11 @@ public class AdminMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showEmployeeList() {
+        intent = new Intent(AdminMainActivity.this,AdminEmployeeListActivity.class);
+        startActivity(intent);
     }
 
     private void showMachineMake() {
@@ -206,10 +211,10 @@ public class AdminMainActivity extends AppCompatActivity
         @Override
         protected String doInBackground(Void... arg0) {
             String result = "";
-            ServiceHandlerWS serviceget = new ServiceHandlerWS();
+            ServiceHandlerWS serviceGet = new ServiceHandlerWS();
             // Log.e(TAG,"this input post"+param[0]);
             Log.e("", "logout url is: " + ConfigConstant.url + "logout/" + userID);
-            result = serviceget.makeServiceGet(ConfigConstant.url + "logout/" + userID, token);
+            result = serviceGet.makeServiceGet(ConfigConstant.url + "logout/" + userID, token);
             return result;
         }
 
