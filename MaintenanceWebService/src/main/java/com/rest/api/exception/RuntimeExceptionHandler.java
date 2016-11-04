@@ -7,7 +7,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 
 import org.apache.log4j.Logger;
 
-import com.maintenance.Common.exception.AuthorizationException;
+import com.maintenance.common.exception.AuthorizationException;
 import com.maintenance.request.BaseResponse;
 import com.maintenance.request.ValidationResponse;
 
@@ -26,7 +26,7 @@ public class RuntimeExceptionHandler implements ExceptionMapper<RuntimeException
 
     private String content_type;
 
-    @Override
+   
     public Response toResponse(final RuntimeException exception) {
         BaseResponse response = null;
         logger.info("Handling runtime exception occured: " + exception);

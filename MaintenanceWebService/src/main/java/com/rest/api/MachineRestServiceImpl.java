@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.maintenance.Common.MachineTypeEnum;
+import com.maintenance.common.MachineTypeEnum;
 import com.maintenance.machine.DTO.MachineDTO;
 import com.maintenance.machine.DTO.MachineResponse;
 import com.maintenance.request.BaseResponse;

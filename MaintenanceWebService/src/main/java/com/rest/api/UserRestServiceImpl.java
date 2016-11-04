@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.maintenance.Common.StatusType;
+import com.maintenance.common.StatusType;
 import com.maintenance.request.BaseResponse;
 import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.UserPasswordRequest;

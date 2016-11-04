@@ -11,8 +11,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.maintenance.Common.AttributeType;
-import com.maintenance.Common.StatusType;
+import com.maintenance.common.AttributeType;
+import com.maintenance.common.StatusType;
 import com.maintenance.dto.company.attribute.AttributeDto;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.CompanyAttribute;

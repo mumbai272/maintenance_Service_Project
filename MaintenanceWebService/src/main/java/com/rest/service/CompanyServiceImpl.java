@@ -16,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maintenance.Common.StatusType;
-import com.maintenance.Common.DTO.AddressDTO;
-import com.maintenance.Common.DTO.CompanyDTO;
+import com.maintenance.common.StatusType;
+import com.maintenance.common.DTO.AddressDTO;
+import com.maintenance.common.DTO.CompanyDTO;
 import com.rest.entity.Address;
 import com.rest.entity.Company;
 import com.rest.repository.AddressRepository;

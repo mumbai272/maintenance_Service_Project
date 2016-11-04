@@ -10,8 +10,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.maintenance.Common.LogStatus;
-import com.maintenance.Common.UserContextRetriver;
+import com.maintenance.common.LogStatus;
+import com.maintenance.common.UserContextRetriver;
 import com.maintenance.asset.log.AssetLogDTO;
 import com.rest.entity.AssetLogImpl;
 import com.rest.repository.AssetLogRepository;

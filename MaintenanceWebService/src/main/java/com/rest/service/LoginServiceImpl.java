@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maintenance.Common.Constants;
-import com.maintenance.Common.StatusType;
+import com.maintenance.common.Constants;
+import com.maintenance.common.StatusType;
 import com.maintenance.login.requestResponse.LoginResponse;
 import com.maintenance.request.BaseResponse;
 import com.rest.entity.SessionImpl;

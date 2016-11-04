@@ -26,7 +26,6 @@ public class ValidationExceprionHandler implements ExceptionMapper<ValidationExc
 
     private String content_type;
 
-    @Override
     public Response toResponse(ValidationException exception) {
         final ValidationResponse response = new ValidationResponse();
         if (exception instanceof ConstraintViolationException) {
