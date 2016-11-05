@@ -72,12 +72,18 @@ public class MachineServiceImpl extends BaseServiceImpl {
         return dtos;
     }
 
-
+    /**
+     * create the machine Attributes
+     * 
+     * @param machineDto
+     * @param machineTypeEnum
+     */
     public void createMachineDetail(MachineDTO machineDto, MachineTypeEnum machineTypeEnum) {
         Date date = Calendar.getInstance().getTime();
         MachineAttribute entity = new MachineAttribute();
         BeanUtils.copyProperties(machineDto, entity);
-        if(machineTypeEnum!=MachineTypeEnum.MACHINESPARE){
+        entity.setType(machineTypeEnum.getValue());
+        if (machineTypeEnum != MachineTypeEnum.MACHINESPARE) {
             entity.setRate(null);
         }
         entity.setStatus(StatusType.ACTIVE.getValue());
