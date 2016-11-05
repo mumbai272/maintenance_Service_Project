@@ -4,7 +4,7 @@
 package com.maintenance.asset.log;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,10 +24,7 @@ public class AssetLogDTO implements Serializable {
     private Long assetId;
 
     @NotNull
-    private String logOn;
-
-    @NotNull
-    private Date LogCreatedDate;
+    private Calendar logCreatedDate;
 
     @NotNull
     private Long maintainanceType;
@@ -75,24 +72,13 @@ public class AssetLogDTO implements Serializable {
         this.assetId = assetId;
     }
 
-
-    public String getLogOn() {
-        return logOn;
+    public Calendar getLogCreatedDate() {
+        return this.logCreatedDate;
     }
 
 
-    public void setLogOn(String logOn) {
-        this.logOn = logOn;
-    }
-
-
-    public Date getLogCreatedDate() {
-        return LogCreatedDate;
-    }
-
-
-    public void setLogCreatedDate(Date logCreatedDate) {
-        LogCreatedDate = logCreatedDate;
+    public void setLogCreatedDate(Calendar logCreatedDate) {
+        this.logCreatedDate = logCreatedDate;
     }
 
 

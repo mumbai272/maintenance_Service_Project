@@ -37,9 +37,6 @@ public class AssetLogImpl {
     @Column(name = "ASSET_ID", nullable=false)
     private Long assetId;
 
-    @Column(name = "LOG_ON", length = 50)
-    private String logOn;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LOG_DATETIME")
     private Calendar LogCreatedDate;
@@ -109,18 +106,7 @@ public class AssetLogImpl {
         this.assetId = assetId;
     }
 
-    
-    public String getLogOn() {
-        return logOn;
-    }
-
-    
-    public void setLogOn(String logOn) {
-        this.logOn = logOn;
-    }
-
-    
-    public Calendar getLogCreatedDate() {
+   public Calendar getLogCreatedDate() {
         return LogCreatedDate;
     }
 
