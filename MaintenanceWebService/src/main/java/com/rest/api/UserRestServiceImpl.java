@@ -126,7 +126,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * @return Response
      */
     @POST
-    @Path("/reject/{userId}")
+    @Path("/reject")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response userRegistrationReject(@Valid UserRegistrationRejectRequest request) {
