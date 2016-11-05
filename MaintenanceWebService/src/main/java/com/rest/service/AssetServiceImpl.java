@@ -3,6 +3,7 @@
 //============================================================
 package com.rest.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maintenance.common.RoleType;
-import com.maintenance.common.StatusType;
-import com.maintenance.common.UserContextRetriver;
 import com.maintenance.asset.DTO.AssetCreateDTO;
 import com.maintenance.asset.DTO.AssetDTO;
 import com.maintenance.asset.DTO.AssetResponse;
 import com.maintenance.asset.DTO.AssetUpdateDTO;
+import com.maintenance.common.RoleType;
+import com.maintenance.common.StatusType;
+import com.maintenance.common.UserContextRetriver;
 import com.maintenance.machine.DTO.MachineDTO;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetMaster;
@@ -35,15 +36,15 @@ public class AssetServiceImpl extends BaseServiceImpl {
     @Autowired
     private AssetMasterRepository assetMasterRepository;
 
-//    @Autowired
-//    private MachineMakeRepository machineMakeRepository;
-//
-//    @Autowired
-//    private MachineModelRepository machineModelRepository;
-//
-//    @Autowired
-//    private MachineTypeRepository machineTypeRepository;
-    
+    // @Autowired
+    // private MachineMakeRepository machineMakeRepository;
+    //
+    // @Autowired
+    // private MachineModelRepository machineModelRepository;
+    //
+    // @Autowired
+    // private MachineTypeRepository machineTypeRepository;
+
     @Autowired
     private MachineAttributeRepository machineAttributeRepository;
 
@@ -52,7 +53,8 @@ public class AssetServiceImpl extends BaseServiceImpl {
         AssetMaster asset = new AssetMaster();
         BeanUtils.copyProperties(assetDto, asset);
         asset.setStatus(StatusType.ACTIVE.getValue());
-        if(assetDto.getMachineMake()!=null && machineAttributeRepository.findOne(assetDto.getMachineMake())!=null){
+        if (assetDto.getMachineMake() != null
+            && machineAttributeRepository.findOne(assetDto.getMachineMake()) != null) {
             asset.setMachineMakeId(assetDto.getMachineMake());
         }
         if (assetDto.getMachineModel() != null
@@ -62,6 +64,10 @@ public class AssetServiceImpl extends BaseServiceImpl {
         if (machineAttributeRepository.findOne(assetDto.getMachineType()) != null) {
             asset.setMachineTypeId(assetDto.getMachineType());
         }
+        asset.setEntryBy(getLoggedInUser().getUserName());
+        asset.setEntryDate(Calendar.getInstance().getTime());
+        asset.setAuthenticatedBy(getLoggedInUser().getUserName());
+        asset.setAuthenticateDate(Calendar.getInstance().getTime());
         assetMasterRepository.save(asset);
     }
 
@@ -109,7 +115,7 @@ public class AssetServiceImpl extends BaseServiceImpl {
             if (StringUtils.isNotBlank(assetDto.getStatus()) && isValidStatus(assetDto.getStatus())) {
                 asset.setStatus(assetDto.getStatus());
             }
-            if (assetDto.getClientId() != null && validateCompany(assetDto.getClientId() )) {
+            if (assetDto.getClientId() != null && validateCompany(assetDto.getClientId())) {
                 asset.setClientId(assetDto.getClientId());
             }
         }
@@ -131,39 +137,41 @@ public class AssetServiceImpl extends BaseServiceImpl {
         if (StringUtils.isNotBlank(assetDto.getAssetNo())) {
             asset.setAssetNo(assetDto.getAssetNo());
         }
-         if(StringUtils.isNotBlank(assetDto.getInstSLNo())){
-        asset.setInstSLNo(assetDto.getInstSLNo());
-         }
-         if(StringUtils.isNotBlank(assetDto.getIsActive())){
-             asset.setIsActive(assetDto.getIsActive());
-         }
-         if(StringUtils.isNotBlank(assetDto.getIsWarranty())){
-             asset.setIsWarranty(assetDto.getIsWarranty());
-         }
-         if(assetDto.getWarrantyEndDate()!=null){
-             asset.setWarrantyEndDate(assetDto.getWarrantyEndDate());
-         }
-         if(assetDto.getWarrantyStartDate()!=null){
-             asset.setWarrantyStartDate(assetDto.getWarrantyStartDate());
-         }
-         if(StringUtils.isNotBlank(assetDto.getManifactureSLNo())){
-             asset.setManifactureSLNo(assetDto.getManifactureSLNo());
-         }
-         if(StringUtils.isNotBlank(assetDto.getLocation())){
-             asset.setLocation(assetDto.getLocation());
-         }
-         if(assetDto.getAssetUsage()!=null){
-             asset.setAssetUsage(assetDto.getAssetUsage());
-         }
-         if(assetDto.getInstallDate()!=null){
-             asset.setInstallDate(assetDto.getInstallDate());
-         }
-         if(assetDto.getDataOfMfg()!=null){
-             asset.setDataOfMfg(assetDto.getDataOfMfg()); 
-         }
-         if(assetDto.getPurchaseCost()!=null){
-             asset.setPurchaseCost(assetDto.getPurchaseCost()); 
-         }
+        if (StringUtils.isNotBlank(assetDto.getInstSLNo())) {
+            asset.setInstSLNo(assetDto.getInstSLNo());
+        }
+        if (StringUtils.isNotBlank(assetDto.getIsActive())) {
+            asset.setIsActive(assetDto.getIsActive());
+        }
+        if (StringUtils.isNotBlank(assetDto.getIsWarranty())) {
+            asset.setIsWarranty(assetDto.getIsWarranty());
+        }
+        if (assetDto.getWarrantyEndDate() != null) {
+            asset.setWarrantyEndDate(assetDto.getWarrantyEndDate());
+        }
+        if (assetDto.getWarrantyStartDate() != null) {
+            asset.setWarrantyStartDate(assetDto.getWarrantyStartDate());
+        }
+        if (StringUtils.isNotBlank(assetDto.getManifactureSLNo())) {
+            asset.setManifactureSLNo(assetDto.getManifactureSLNo());
+        }
+        if (StringUtils.isNotBlank(assetDto.getLocation())) {
+            asset.setLocation(assetDto.getLocation());
+        }
+        if (assetDto.getAssetUsage() != null) {
+            asset.setAssetUsage(assetDto.getAssetUsage());
+        }
+        if (assetDto.getInstallDate() != null) {
+            asset.setInstallDate(assetDto.getInstallDate());
+        }
+        if (assetDto.getDataOfMfg() != null) {
+            asset.setDataOfMfg(assetDto.getDataOfMfg());
+        }
+        if (assetDto.getPurchaseCost() != null) {
+            asset.setPurchaseCost(assetDto.getPurchaseCost());
+        }
+        asset.setModifiedBy(getLoggedInUser().getUserName());
+        asset.setModifiedDate(Calendar.getInstance().getTime());
         assetMasterRepository.save(asset);
 
 
@@ -188,6 +196,18 @@ public class AssetServiceImpl extends BaseServiceImpl {
         if (makeId != null && machineAttributeRepository.findOne(makeId) == null) {
             throw new ValidationException("machineModel", makeId.toString(), "Invalid value passed");
         }
+    }
+
+    /**
+     * 
+     * @param assetId
+     */
+    public void deleteAsset(Long assetId) {
+        AssetMaster asset = assetMasterRepository.findOne(assetId);
+        asset.setStatus(StatusType.DELETED.getValue());
+        asset.setModifiedBy(getLoggedInUser().getUserName());
+        asset.setModifiedDate(Calendar.getInstance().getTime());
+        assetMasterRepository.save(asset);
     }
 
 

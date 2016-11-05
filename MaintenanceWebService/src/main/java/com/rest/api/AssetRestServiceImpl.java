@@ -5,10 +5,12 @@ package com.rest.api;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -91,6 +93,19 @@ public class AssetRestServiceImpl extends BaseRestServiceImpl {
         BaseResponse response = new BaseResponse();
         assetServiceImpl.updateAsset(asset);
         response.setMsg("Successfully Updated");
+        response.setStatusCode(BaseResponse.SUCCESS_CODE);
+        return Response.ok(response).build();
+    }
+    
+    @DELETE
+    @Path("/{assetId}")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response deletAsset(@PathParam("assetId") Long assetId) {
+        logger.info("Deleting the asset for company:"+assetId);
+        BaseResponse response = new BaseResponse();
+        assetServiceImpl.deleteAsset(assetId);
+        response.setMsg("Successfully deleted");
         response.setStatusCode(BaseResponse.SUCCESS_CODE);
         return Response.ok(response).build();
     }
