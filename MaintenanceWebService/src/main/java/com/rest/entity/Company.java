@@ -3,7 +3,7 @@
 //============================================================
 package com.rest.entity;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,8 +59,8 @@ public class Company {
     private String entryBy;
 
     @Column(name = "ENTRY_DATE")
-    @Temporal(TemporalType.DATE)
-    private Date entryDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar entryDate;
 
     @Column(name = "ADDRESS_ID", unique = true)
     private Long addressId;
@@ -76,7 +76,7 @@ public class Company {
 
 
     public Company(String shortDesc, String description, Long companyId, String status,
-            String entryBy, Date entryDate) {
+            String entryBy, Calendar entryDate) {
         super();
         ShortDesc = shortDesc;
         this.description = description;
@@ -127,12 +127,12 @@ public class Company {
     }
 
 
-    public Date getEntryDate() {
+    public Calendar getEntryDate() {
         return entryDate;
     }
 
 
-    public void setEntryDate(Date entryDate) {
+    public void setEntryDate(Calendar entryDate) {
         this.entryDate = entryDate;
     }
 

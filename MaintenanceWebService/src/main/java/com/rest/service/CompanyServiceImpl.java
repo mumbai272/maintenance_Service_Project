@@ -4,7 +4,7 @@
 package com.rest.service;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,7 +121,7 @@ public class CompanyServiceImpl extends BaseServiceImpl{
     public void createCompanyDeatils(CompanyDTO companyDTO) {
         Company company =
             new Company(companyDTO.getClientName(), companyDTO.getDescription(),
-                companyDTO.getCompanyId(), StatusType.ACTIVE.getValue(), getLoggedInUser().getUserName(), new Date());
+                companyDTO.getCompanyId(), StatusType.ACTIVE.getValue(), getLoggedInUser().getUserName(), Calendar.getInstance());
         Address address = new Address();
         BeanUtils.copyProperties(companyDTO.getAddress(), address);     
         addressRepository.save(address);        
