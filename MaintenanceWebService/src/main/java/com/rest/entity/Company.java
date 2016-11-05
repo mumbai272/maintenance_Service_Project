@@ -36,6 +36,21 @@ public class Company {
 
     @Column(name = "COMPANY_ID", nullable=false)
     private Long companyId;
+    
+//    @Column(name = "TIN_NO")
+//    private String tinNo;
+//   
+//    @Column(name = "CST_NO")
+//    private String cstNo;
+//   
+//    @Column(name = "SERVICE_TAX_NO")
+//    private String serviceTaxNO;
+//    
+//    @Column(name = "ECC_NO")
+//    private String eccNo;
+//   
+//    @Column(name = "CIN_NO")
+//    private String cinNo;
 
     @Column(name = "REC_STATUS",length=1)
     private String status;
@@ -168,6 +183,66 @@ public class Company {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+
+    
+//    public String getTinNo() {
+//        return tinNo;
+//    }
+//
+//
+//    
+//    public void setTinNo(String tinNo) {
+//        this.tinNo = tinNo;
+//    }
+//
+//
+//    
+//    public String getCstNo() {
+//        return cstNo;
+//    }
+//
+//
+//    
+//    public void setCstNo(String cstNo) {
+//        this.cstNo = cstNo;
+//    }
+//
+//
+//    
+//    public String getServiceTaxNO() {
+//        return serviceTaxNO;
+//    }
+//
+//
+//    
+//    public void setServiceTaxNO(String serviceTaxNO) {
+//        this.serviceTaxNO = serviceTaxNO;
+//    }
+//
+//
+//    
+//    public String getEccNo() {
+//        return eccNo;
+//    }
+//
+//
+//    
+//    public void setEccNo(String eccNo) {
+//        this.eccNo = eccNo;
+//    }
+//
+//
+//    
+//    public String getCinNo() {
+//        return cinNo;
+//    }
+//
+//
+//    
+//    public void setCinNo(String cinNo) {
+//        this.cinNo = cinNo;
+//    }
 
 
 }

@@ -61,6 +61,9 @@ public class UserImpl {
 
     @Column(name = "ROLE_TYPE_Id", length = 1)
     private Long roleTypeId;
+    
+//    @Column(name="PAN_NO")
+//    private String panNo;
 
     @Column(name = "SECURITY_QUESTION", length = 2)
     private Integer securityQuetion;
@@ -289,6 +292,18 @@ public class UserImpl {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+
+    
+//    public String getPanNo() {
+//        return panNo;
+//    }
+//
+//
+//    
+//    public void setPanNo(String panNo) {
+//        this.panNo = panNo;
+//    }
 
 
 

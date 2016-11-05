@@ -475,8 +475,11 @@ public class UserServiceImpl extends BaseServiceImpl {
         if (user == null) {
             throw new ValidationException("userId", userId.toString(), "Invalid value is passed");
         }
+        if(getLoggedInUser().getUserId().equals(userId)){
+            throw new ValidationException("userId", userId.toString(), "cannot delete own profile");
+        }
         if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)
-            && (user.getCompanyId() == getLoggedInUser().getCompanyId() && !getLoggedInUser()
+            && (!user.getCompanyId().equals(getLoggedInUser().getCompanyId()) && getLoggedInUser()
                     .getRole().equals(RoleType.CLIENT_ADMIN))){
             throw new AuthorizationException(UserAction.DELETE_USER.getValue(), UserContextRetriver
                 .getUsercontext().getUserName());

@@ -20,7 +20,9 @@ import com.maintenance.asset.DTO.AssetResponse;
 import com.maintenance.asset.DTO.AssetUpdateDTO;
 import com.maintenance.common.RoleType;
 import com.maintenance.common.StatusType;
+import com.maintenance.common.UserAction;
 import com.maintenance.common.UserContextRetriver;
+import com.maintenance.common.exception.AuthorizationException;
 import com.maintenance.machine.DTO.MachineDTO;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetMaster;
@@ -65,9 +67,9 @@ public class AssetServiceImpl extends BaseServiceImpl {
             asset.setMachineTypeId(assetDto.getMachineType());
         }
         asset.setEntryBy(getLoggedInUser().getUserName());
-        asset.setEntryDate(Calendar.getInstance().getTime());
+        asset.setEntryDate(Calendar.getInstance());
         asset.setAuthenticatedBy(getLoggedInUser().getUserName());
-        asset.setAuthenticateDate(Calendar.getInstance().getTime());
+        asset.setAuthenticateDate(Calendar.getInstance());
         assetMasterRepository.save(asset);
     }
 
@@ -171,7 +173,7 @@ public class AssetServiceImpl extends BaseServiceImpl {
             asset.setPurchaseCost(assetDto.getPurchaseCost());
         }
         asset.setModifiedBy(getLoggedInUser().getUserName());
-        asset.setModifiedDate(Calendar.getInstance().getTime());
+        asset.setModifiedDate(Calendar.getInstance());
         assetMasterRepository.save(asset);
 
 
@@ -204,9 +206,15 @@ public class AssetServiceImpl extends BaseServiceImpl {
      */
     public void deleteAsset(Long assetId) {
         AssetMaster asset = assetMasterRepository.findOne(assetId);
+        if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)
+            && (!asset.getClientId().equals(getLoggedInUser().getCompanyId()) && getLoggedInUser()
+                    .getRole().equals(RoleType.CLIENT_ADMIN))) {
+            throw new AuthorizationException(UserAction.DELETE_ASSET.getValue(),
+                UserContextRetriver.getUsercontext().getUserName());
+        }
         asset.setStatus(StatusType.DELETED.getValue());
         asset.setModifiedBy(getLoggedInUser().getUserName());
-        asset.setModifiedDate(Calendar.getInstance().getTime());
+        asset.setModifiedDate(Calendar.getInstance());
         assetMasterRepository.save(asset);
     }
 

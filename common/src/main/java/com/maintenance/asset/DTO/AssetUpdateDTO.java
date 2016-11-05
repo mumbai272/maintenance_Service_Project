@@ -4,7 +4,7 @@
 package com.maintenance.asset.DTO;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.validation.constraints.NotNull;
 
@@ -34,9 +34,9 @@ public class AssetUpdateDTO implements Serializable {
 
     private String instSLNo;
 
-    private Date dataOfMfg;
+    private Calendar dataOfMfg;
 
-    private Date installDate;
+    private Calendar installDate;
 
     private Double assetUsage;
 
@@ -48,9 +48,9 @@ public class AssetUpdateDTO implements Serializable {
 
     private String isWarranty;
 
-    private Date warrantyStartDate;
+    private Calendar warrantyStartDate;
 
-    private Date warrantyEndDate;
+    private Calendar warrantyEndDate;
 
     private String isActive;
 
@@ -163,22 +163,22 @@ public class AssetUpdateDTO implements Serializable {
     }
 
 
-    public Date getDataOfMfg() {
+    public Calendar getDataOfMfg() {
         return dataOfMfg;
     }
 
 
-    public void setDataOfMfg(Date dataOfMfg) {
+    public void setDataOfMfg(Calendar dataOfMfg) {
         this.dataOfMfg = dataOfMfg;
     }
 
 
-    public Date getInstallDate() {
+    public Calendar getInstallDate() {
         return installDate;
     }
 
 
-    public void setInstallDate(Date installDate) {
+    public void setInstallDate(Calendar installDate) {
         this.installDate = installDate;
     }
 
@@ -244,25 +244,25 @@ public class AssetUpdateDTO implements Serializable {
 
 
 
-    public Date getWarrantyStartDate() {
+    public Calendar getWarrantyStartDate() {
         return warrantyStartDate;
     }
 
 
 
-    public void setWarrantyStartDate(Date warrantyStartDate) {
+    public void setWarrantyStartDate(Calendar warrantyStartDate) {
         this.warrantyStartDate = warrantyStartDate;
     }
 
 
 
-    public Date getWarrantyEndDate() {
+    public Calendar getWarrantyEndDate() {
         return warrantyEndDate;
     }
 
 
 
-    public void setWarrantyEndDate(Date warrantyEndDate) {
+    public void setWarrantyEndDate(Calendar warrantyEndDate) {
         this.warrantyEndDate = warrantyEndDate;
     }
 
