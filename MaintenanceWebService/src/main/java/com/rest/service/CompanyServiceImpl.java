@@ -115,21 +115,19 @@ public class CompanyServiceImpl extends BaseServiceImpl{
     /**
      * 
      * @param companyDTO
-     * @return
+     * 
      */
     @Transactional(readOnly = false)
-    public CompanyDTO createCompanyDeatils(CompanyDTO companyDTO) {
+    public void createCompanyDeatils(CompanyDTO companyDTO) {
         Company company =
             new Company(companyDTO.getClientName(), companyDTO.getDescription(),
-                companyDTO.getCompanyId(), StatusType.ACTIVE.getValue(), null, new Date());
+                companyDTO.getCompanyId(), StatusType.ACTIVE.getValue(), getLoggedInUser().getUserName(), new Date());
         Address address = new Address();
         BeanUtils.copyProperties(companyDTO.getAddress(), address);     
-        addressRepository.save(address);
-        
+        addressRepository.save(address);        
         company.setAddressId(address.getAddressId());
         companyRepository.save(company);
-        return null;
-    }
+     }
    
 
 
