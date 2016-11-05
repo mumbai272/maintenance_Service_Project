@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Component;
 
 import com.maintenance.common.MachineTypeEnum;
 import com.maintenance.common.StatusType;
+import com.maintenance.machine.DTO.MachineAttributeUpdateDTO;
 import com.maintenance.machine.DTO.MachineDTO;
+import com.rest.api.exception.ValidationException;
 import com.rest.entity.MachineAttribute;
 import com.rest.repository.MachineAttributeRepository;
 import com.rest.service.BaseServiceImpl;
@@ -81,6 +84,7 @@ public class MachineServiceImpl extends BaseServiceImpl {
     public void createMachineDetail(MachineDTO machineDto, MachineTypeEnum machineTypeEnum) {
         Date date = Calendar.getInstance().getTime();
         MachineAttribute entity = new MachineAttribute();
+        validateCompany(machineDto.getCompanyId());
         BeanUtils.copyProperties(machineDto, entity);
         entity.setType(machineTypeEnum.getValue());
         if (machineTypeEnum != MachineTypeEnum.MACHINESPARE) {
@@ -95,5 +99,37 @@ public class MachineServiceImpl extends BaseServiceImpl {
         entity.setAuthenticatedDate(date);
         machineAttributeRepository.save(entity);
 
+    }
+    /**
+     * 
+     * @param machineDto
+     */
+    public void updateMachineDetail(MachineAttributeUpdateDTO machineDto) {
+        validateCompany(machineDto.getCompanyId());
+        MachineAttribute entity = machineAttributeRepository.findOne(machineDto.getMachineId());
+
+        if (entity == null) {
+            throw new ValidationException("machineId", machineDto.getMachineId().toString(),
+                "Invalid value is passed");
+        }
+        if (StringUtils.isNotBlank(machineDto.getMachineName())
+            && !machineDto.getMachineName().equalsIgnoreCase(entity.getMachineName())) {
+            entity.setMachineName(machineDto.getMachineName());
+        }
+        if (StringUtils.isNotBlank(machineDto.getDescription())
+            && !machineDto.getDescription().equalsIgnoreCase(entity.getDescription())) {
+            entity.setDescription(machineDto.getDescription());
+        }
+        if (StringUtils.isNotBlank(machineDto.getType())
+            && !machineDto.getType().equalsIgnoreCase(entity.getType())) {
+            entity.setType(machineDto.getType());
+        }
+        String type = entity.getType();
+        if (MachineTypeEnum.MACHINESPARE.getValue().equalsIgnoreCase(type)
+            && machineDto.getRate() != null && machineDto.getRate() != entity.getRate()) {
+            entity.setRate(machineDto.getRate());
+        }
+        machineAttributeRepository.save(entity);
+        
     }
 }
