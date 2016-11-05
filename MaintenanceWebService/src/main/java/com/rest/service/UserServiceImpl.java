@@ -465,5 +465,27 @@ public class UserServiceImpl extends BaseServiceImpl {
 
     }
 
+    /**
+     * delete user, making the status as deleted.
+     * 
+     * @param userId
+     */
+    public void deleteUser(Long userId) {        
+        UserImpl user = userRepository.findOne(userId);
+        if (user == null) {
+            throw new ValidationException("userId", userId.toString(), "Invalid value is passed");
+        }
+        if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)
+            && (user.getCompanyId() == getLoggedInUser().getCompanyId() && !getLoggedInUser()
+                    .getRole().equals(RoleType.CLIENT_ADMIN))){
+            throw new AuthorizationException(UserAction.DELETE_USER.getValue(), UserContextRetriver
+                .getUsercontext().getUserName());
+        }
+        user.setStatus(StatusType.DELETED.getValue());
+        user.getAuditData().setLastModifiedBy(getLoggedInUser().getUserId());
+        user.getAuditData().setLastModifiedDate(Calendar.getInstance());
+        userRepository.save(user);
+    }
+
     
 }

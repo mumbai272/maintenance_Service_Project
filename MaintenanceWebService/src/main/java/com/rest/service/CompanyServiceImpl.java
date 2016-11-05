@@ -117,7 +117,7 @@ public class CompanyServiceImpl extends BaseServiceImpl{
      * @param companyDTO
      * 
      */
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, rollbackFor = { Exception.class })
     public void createCompanyDeatils(CompanyDTO companyDTO) {
         Company company =
             new Company(companyDTO.getClientName(), companyDTO.getDescription(),

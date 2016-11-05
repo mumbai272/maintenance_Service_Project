@@ -8,7 +8,7 @@ public enum UserAction {
     USER_APPROVAL(1L, "User Approval"),
     GET_REGISTED_USER(2L,"Getting Registered User"),
     ADD_USER(3L,"Adding User"),
-    REJECT_USER(3L,"Rejecting User");
+    REJECT_USER(4L,"Rejecting User"), DELETE_USER(5L,"Deleting User");
     
 
     private Long id;
