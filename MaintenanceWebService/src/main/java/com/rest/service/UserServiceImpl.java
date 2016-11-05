@@ -446,6 +446,10 @@ public class UserServiceImpl extends BaseServiceImpl {
      * @param userId
      */
     public void rejectRegistration(UserRegistrationRejectRequest request) {
+        if(!getLoggedInUser().getRole().equals(RoleType.ADMIN)){
+            throw new AuthorizationException(UserAction.REJECT_USER.getValue(), UserContextRetriver
+                .getUsercontext().getUserName());
+        }
         UserImpl user = userRepository.findOne(request.getUserId());
         if (user == null) {
             throw new ValidationException("userId", request.getUserId().toString(), "Invalid value is passed");
