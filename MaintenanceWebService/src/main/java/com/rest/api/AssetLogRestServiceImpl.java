@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.maintenance.asset.log.AssetLogAssignMentDTO;
 import com.maintenance.asset.log.AssetLogDTO;
 import com.maintenance.request.BaseResponse;
 import com.rest.service.AssetLogServiceImpl;
@@ -50,14 +49,14 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         return Response.ok(response).build();
 
     }
-    @POST
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response assignLog(@Valid AssetLogAssignMentDTO request) {
-        logger.info("creating log for asset:" + request.getAssetId());
-        BaseResponse response = new BaseResponse();
-        assetLogServiceImpl.createAssetLog(request);
-        return Response.ok(response).build();
-
-    }
+//    @POST
+//    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//    public Response assignLog(@Valid AssetLogAssignMentDTO request) {
+//        logger.info("creating log for asset:" + request.getAssetId());
+//        BaseResponse response = new BaseResponse();
+//        assetLogServiceImpl.createAssetLog(request);
+//        return Response.ok(response).build();
+//
+//    }
 }
