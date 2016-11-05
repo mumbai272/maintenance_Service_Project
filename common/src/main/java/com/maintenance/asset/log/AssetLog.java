@@ -6,41 +6,30 @@ package com.maintenance.asset.log;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 @XmlRootElement
-public class AssetLogDTO implements Serializable {
+public class AssetLog implements Serializable {
 
-    @NotNull
     private Long companyId;
 
-    @NotNull
     private Long clientId;
 
-    @NotNull
     private Long assetId;
 
-    @NotNull
     private Calendar logCreatedDate;
 
-    @NotNull
-    private Long maintainanceType;
+    private String maintainanceType;
 
-    @NotBlank
     private String assetProblem;
 
-    @NotBlank
     private String criticality;
-    
-    @NotBlank
+
     private String logThrough;
 
     private String comments;
 
-//    private String status;
+    private String status;
 
 
     public Long getCompanyId() {
@@ -81,14 +70,22 @@ public class AssetLogDTO implements Serializable {
         this.logCreatedDate = logCreatedDate;
     }
 
-
-    public Long getMaintainanceType() {
+    public String getMaintainanceType() {
         return maintainanceType;
     }
 
-
-    public void setMaintainanceType(Long maintainanceType) {
+    public void setMaintainanceType(String maintainanceType) {
         this.maintainanceType = maintainanceType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 
@@ -130,16 +127,16 @@ public class AssetLogDTO implements Serializable {
     public void setComments(String comments) {
         this.comments = comments;
     }
-//
-//
-//    public String getStatus() {
-//        return status;
-//    }
-//
-//
-//    public void setStatus(String status) {
-//        this.status = status;
-//    }
+    //
+    //
+    // public String getStatus() {
+    // return status;
+    // }
+    //
+    //
+    // public void setStatus(String status) {
+    // this.status = status;
+    // }
 
 
 }

@@ -39,7 +39,7 @@ public abstract class BaseServiceImpl {
         logger.info("validating the company for companyId:" + companyId);
         Company company = companyRepository.findOne(companyId);
         if (company == null) {
-            throw new ValidationException("companyId", companyId.toString(), "Invalid role");
+            throw new ValidationException("companyId", companyId.toString(), "Invalid value");
         }
 
         return true;

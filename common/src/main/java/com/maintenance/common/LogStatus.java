@@ -5,5 +5,5 @@ package com.maintenance.common;
 
 
 public enum LogStatus {
-    New,Complete,Cancel,InProcess;
+    NEW,COMPLETE,CANCEL,INPROGRESS;
 }

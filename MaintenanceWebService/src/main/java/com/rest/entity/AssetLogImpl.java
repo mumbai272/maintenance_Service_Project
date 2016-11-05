@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -43,6 +45,9 @@ public class AssetLogImpl {
 
     @Column(name = "MAINT_TYPE_ID", nullable=false)
     private Long maintainanceType;
+    @ManyToOne()
+    @JoinColumn(name = "MAINT_TYPE_ID", insertable = false, updatable = false)
+    private MaintenanceType mType;
 
     @Column(name = "ASSET_PROBLEM")
     private String assetProblem;
@@ -193,6 +198,18 @@ public class AssetLogImpl {
     
     public void setEntryDate(Calendar entryDate) {
         this.entryDate = entryDate;
+    }
+
+
+    
+    public MaintenanceType getmType() {
+        return mType;
+    }
+
+
+    
+    public void setmType(MaintenanceType mType) {
+        this.mType = mType;
     }
 
     
