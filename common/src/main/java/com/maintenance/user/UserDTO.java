@@ -36,6 +36,8 @@ public class UserDTO {
     @NotBlank
     private String emailId;
     
+    private String status;
+    
     private AddressDTO address;
     
     public Long getUserId() {
@@ -130,6 +132,16 @@ public class UserDTO {
     
     public void setClientName(String clientName) {
         this.clientName = clientName;
+    }
+
+    
+    public String getStatus() {
+        return status;
+    }
+
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
     
 
