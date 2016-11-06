@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.asset.log.AssetLog;
+import com.maintenance.asset.log.AssetLogAssignmentBO;
 import com.maintenance.asset.log.AssetLogAssignmentDTO;
 import com.maintenance.asset.log.AssetLogCreateRequest;
 import com.maintenance.common.LogStatus;
@@ -137,6 +138,30 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
             throw new ValidationException("logId", logId.toString(), "invalid value is passed");
         }
         return log;
+    }
+
+    public List<AssetLogAssignmentBO> getassignAssetLog(Long logId) {
+        if (logId != null) {
+            validateAssetLog(logId);
+        }
+        List<AssetLogAssignmentBO> logAssignmentsdto = new ArrayList<AssetLogAssignmentBO>();
+        List<AssetLogAssignment> logAssignments = new ArrayList<AssetLogAssignment>();
+
+        if (getLoggedInUser().getRole().equals(RoleType.SERVICE_ENGINEER)) {
+            logAssignments =
+                assetLogAssignmentRepository.findByAssignedTo(getLoggedInUser().getUserId());
+        }
+
+        for (AssetLogAssignment assetLogAssignment : logAssignments) {
+            AssetLog assetLog=new  AssetLog();
+            BeanUtils.copyProperties(assetLogAssignment.getAssetLog(), assetLog);
+
+            AssetLogAssignmentBO dto = new AssetLogAssignmentBO();
+            BeanUtils.copyProperties(assetLogAssignment, dto);
+            dto.setLog(assetLog);
+            logAssignmentsdto.add(dto);
+        }
+        return logAssignmentsdto;
     }
 
 

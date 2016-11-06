@@ -6,37 +6,22 @@ package com.maintenance.asset.log;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 
 @XmlRootElement
-public class AssetLogAssignmentDTO implements Serializable {
-
-    @NotNull
-    private Long logId;
-
-    @NotNull
+public class AssetLogAssignmentBO implements Serializable {
+    private AssetLog log;
+    
+    private Long assignId;
+       
     private Long assignedTo;
-
-    @NotNull
+    
     private Calendar expServiceDateTime;
-
-    @NotBlank
+  
     private String workType;
-
-    @NotNull
+   
     private Double plannedHours;
-
-    public Long getLogId() {
-        return logId;
-    }
-
-    public void setLogId(Long logId) {
-        this.logId = logId;
-    }
 
     public Long getAssignedTo() {
         return assignedTo;
@@ -68,6 +53,26 @@ public class AssetLogAssignmentDTO implements Serializable {
 
     public void setPlannedHours(Double plannedHours) {
         this.plannedHours = plannedHours;
+    }
+
+    
+    public AssetLog getLog() {
+        return log;
+    }
+
+    
+    public void setLog(AssetLog log) {
+        this.log = log;
+    }
+
+    
+    public Long getAssignId() {
+        return assignId;
+    }
+
+    
+    public void setAssignId(Long assignId) {
+        this.assignId = assignId;
     }
 
 
