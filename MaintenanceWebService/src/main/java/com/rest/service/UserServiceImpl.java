@@ -115,7 +115,7 @@ public class UserServiceImpl extends BaseServiceImpl {
 
     private boolean isValidUsername(String userName) {
         UserImpl user = userRepository.findByUserName(userName);
-        if (user == null) {
+        if (user != null) {
             throw new RuntimeException("Username is already registered");
         }
         return true;
