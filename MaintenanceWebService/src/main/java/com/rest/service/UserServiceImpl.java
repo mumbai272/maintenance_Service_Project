@@ -145,9 +145,10 @@ public class UserServiceImpl extends BaseServiceImpl {
      * @param companyId
      * @param status
      * @param fetchAddress
+     * @param role 
      * @return
      */
-    public UserResponse getUser(Long companyId, String status, boolean fetchAddress) {
+    public UserResponse getUser(Long companyId, String status, boolean fetchAddress, Long role) {
         UserResponse userResponse = new UserResponse();
         List<Long> addressIds = null;
         Map<Long, UserDTO> addressIdToUserDTO = new HashMap<Long, UserDTO>();        
@@ -168,6 +169,10 @@ public class UserServiceImpl extends BaseServiceImpl {
             users = userRepository.findByCompanyIdAndStatus(companyId, status);
         } else {
             users = userRepository.findByCompanyIdInAndStatus(companyIds, status);
+        }
+        if(role!=null &&  UserContextRetriver.getUsercontext().getRole() != RoleType.ADMIN ){
+            validateRoleTypeId(role);
+            users = userRepository.findByCompanyIdAndRoleTypeIdAndStatus(companyId, role, status);
         }
         if (!CollectionUtils.isEmpty(users)) {
             addressIds = new ArrayList<Long>();

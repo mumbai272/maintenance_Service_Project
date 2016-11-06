@@ -5,6 +5,7 @@ package com.rest.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.common.util.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import com.maintenance.common.UserContextRetriver;
 import com.maintenance.common.exception.AuthorizationException;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.Company;
+import com.rest.entity.UserImpl;
 import com.rest.repository.CompanyRepository;
+import com.rest.repository.UserRepository;
 
 
 /**
@@ -28,6 +31,8 @@ public abstract class BaseServiceImpl {
 
     @Autowired
     protected CompanyRepository companyRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * validate company
@@ -102,4 +107,13 @@ public abstract class BaseServiceImpl {
         return roleType;
 
     }
+    protected void validateUser(Long userId,String fieledName) {
+        UserImpl user= userRepository.findByUserIdAndStatus(userId, StatusType.ACTIVE.getValue());
+          if(user==null){
+              if(StringUtils.isBlank(fieledName)){
+                  fieledName="UserId";
+              }
+              throw new ValidationException(fieledName, userId.toString(), "invalid value is passed");
+          }
+      }
 }

@@ -14,14 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.asset.log.AssetLog;
+import com.maintenance.asset.log.AssetLogAssignmentDTO;
 import com.maintenance.asset.log.AssetLogCreateRequest;
 import com.maintenance.common.LogStatus;
 import com.maintenance.common.RoleType;
 import com.maintenance.common.StatusType;
 import com.maintenance.common.UserContextRetriver;
 import com.rest.api.exception.ValidationException;
+import com.rest.entity.AssetLogAssignment;
 import com.rest.entity.AssetLogImpl;
 import com.rest.entity.MaintenanceType;
+import com.rest.repository.AssetLogAssignmentRepository;
 import com.rest.repository.AssetLogRepository;
 import com.rest.repository.MaintenanceTypeRepository;
 
@@ -36,7 +39,10 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
     @Autowired
     private AssetLogRepository assetLogRepository;
-
+    
+    @Autowired
+    private AssetLogAssignmentRepository assetLogAssignmentRepository;
+    
     @Autowired
     private MaintenanceTypeRepository maintenanceTypeRepository;
 
@@ -97,6 +103,28 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         }
         return assetLogs;
 
+    }
+
+    public void assignAssetLog(AssetLogAssignmentDTO request) {
+        validateRequest(request);
+        AssetLogAssignment assetLogAssignment=new AssetLogAssignment();
+        BeanUtils.copyProperties(request, assetLogAssignment);
+        assetLogAssignmentRepository.save(assetLogAssignment);
+        
+    }
+
+    private void validateRequest(AssetLogAssignmentDTO request) {
+        validateAssetLog(request.getLogId());
+        validateUser(request.getAssignedTo(),"assignedTo");
+    }
+    
+
+    private AssetLogImpl validateAssetLog(Long logId) {
+        AssetLogImpl log = assetLogRepository.findOne(logId);
+        if (log == null) {
+            throw new ValidationException("logId", logId.toString(), "invalid value is passed");
+        }
+        return log;
     }
 
 

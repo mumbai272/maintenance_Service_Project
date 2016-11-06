@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.maintenance.asset.log.AssetLog;
+import com.maintenance.asset.log.AssetLogAssignmentDTO;
 import com.maintenance.asset.log.AssetLogCreateRequest;
 import com.maintenance.asset.log.AssetLogResponse;
 import com.maintenance.common.LogStatus;
@@ -83,6 +84,16 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         response.setAssetLogs(assetLogs);
         return Response.ok(response).build();
 
+    }
+    @POST
+    @Path("/assign")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response assignAssetLog(@Valid AssetLogAssignmentDTO request) {
+        logger.info("Assining  assetlog:" + request.getLogId());
+        BaseResponse response = new BaseResponse();
+        assetLogServiceImpl.assignAssetLog(request);
+        return Response.ok(response).build();
     }
 
 

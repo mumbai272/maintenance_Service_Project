@@ -92,7 +92,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response userRegistrationRequest(@QueryParam("companyId") Long companyId,
-            @QueryParam("status") String status, @QueryParam("fetchAddress") boolean fetchAddress) {
+            @QueryParam("status") String status, @QueryParam("fetchAddress") boolean fetchAddress,@QueryParam("role") Long role) {
         UserResponse response = new UserResponse();
         logger.info("getting users for the companyId:" + companyId);
         if (StringUtils.isBlank(status)) {
@@ -100,7 +100,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         } else {
             validStatus(status);
         }
-        response = userServiceImpl.getUser(companyId, status, fetchAddress);
+        response = userServiceImpl.getUser(companyId, status, fetchAddress,role);
         return Response.ok(response).build();
     }
 
