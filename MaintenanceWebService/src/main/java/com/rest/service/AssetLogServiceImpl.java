@@ -20,6 +20,7 @@ import com.maintenance.common.LogStatus;
 import com.maintenance.common.RoleType;
 import com.maintenance.common.StatusType;
 import com.maintenance.common.UserContextRetriver;
+import com.maintenance.common.exception.AuthorizationException;
 import com.maintenance.common.util.DateUtil;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetLogAssignment;
@@ -110,6 +111,9 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
     }
 
     public void assignAssetLog(AssetLogAssignmentDTO request) {
+        if(!getLoggedInUser().getRole().equals(RoleType.ADMIN)){
+            throw new AuthorizationException("ASSIGN LOGS", getLoggedInUser().getUserName());
+        }
         AssetLogImpl log = validateAssetLog(request.getLogId());
         UserImpl user = validateUser(request.getAssignedTo(), "assignedTo");
         if (!user.getRoleTypeId().equals(RoleType.SERVICE_ENGINEER.getId())) {

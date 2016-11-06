@@ -85,6 +85,7 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         return Response.ok(response).build();
 
     }
+    
     @POST
     @Path("/assign")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -93,6 +94,16 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         logger.info("Assining  assetlog:" + request.getLogId());
         BaseResponse response = new BaseResponse();
         assetLogServiceImpl.assignAssetLog(request);
+        return Response.ok(response).build();
+    }
+    @GET
+    @Path("/assign")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response getAssignedAssetLog(@QueryParam("logId") Long logId) {
+        logger.info("getting assetlog assignments:" + logId);
+        BaseResponse response = new BaseResponse();
+     
         return Response.ok(response).build();
     }
 

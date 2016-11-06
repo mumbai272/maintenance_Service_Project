@@ -9,7 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class AssetLog implements Serializable {
-
+    private Long logId;
+    
     private Long companyId;
 
     private Long clientId;
@@ -108,6 +109,18 @@ public class AssetLog implements Serializable {
     }
 
 
+    
+    public Long getLogId() {
+        return logId;
+    }
+
+
+    
+    public void setLogId(Long logId) {
+        this.logId = logId;
+    }
+
+
     public String getLogThrough() {
         return logThrough;
     }
@@ -126,16 +139,7 @@ public class AssetLog implements Serializable {
     public void setComments(String comments) {
         this.comments = comments;
     }
-    //
-    //
-    // public String getStatus() {
-    // return status;
-    // }
-    //
-    //
-    // public void setStatus(String status) {
-    // this.status = status;
-    // }
+    
 
 
 }
