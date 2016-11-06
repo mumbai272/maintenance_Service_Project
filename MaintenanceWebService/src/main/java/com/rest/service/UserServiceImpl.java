@@ -161,7 +161,9 @@ public class UserServiceImpl extends BaseServiceImpl {
         if (companyId == null) {
             companyIds = getClientCompanyIds(false);
         }       
-
+        if (companyIds == null) {
+            companyId = getLoggedInUser().getCompanyId();
+        }
         List<UserImpl> users = null;
         if (status.equalsIgnoreCase(StatusType.REGISTERED.getValue())) {
             users = userRepository.findByStatus(StatusType.REGISTERED.getValue());
@@ -170,9 +172,9 @@ public class UserServiceImpl extends BaseServiceImpl {
         } else {
             users = userRepository.findByCompanyIdInAndStatus(companyIds, status);
         }
-        if(role!=null &&  UserContextRetriver.getUsercontext().getRole() != RoleType.ADMIN ){
+        if(role!=null &&  UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN ){
             validateRoleTypeId(role);
-            users = userRepository.findByCompanyIdAndRoleTypeIdAndStatus(companyId, role, status);
+            users = userRepository.findByCompanyIdAndRoleTypeIdAndStatus(getLoggedInUser().getCompanyId(), role, status);
         }
         if (!CollectionUtils.isEmpty(users)) {
             addressIds = new ArrayList<Long>();
