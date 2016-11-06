@@ -25,6 +25,7 @@ import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetLogAssignment;
 import com.rest.entity.AssetLogImpl;
 import com.rest.entity.MaintenanceType;
+import com.rest.entity.UserImpl;
 import com.rest.repository.AssetLogAssignmentRepository;
 import com.rest.repository.AssetLogRepository;
 import com.rest.repository.MaintenanceTypeRepository;
@@ -40,10 +41,10 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
     @Autowired
     private AssetLogRepository assetLogRepository;
-    
+
     @Autowired
     private AssetLogAssignmentRepository assetLogAssignmentRepository;
-    
+
     @Autowired
     private MaintenanceTypeRepository maintenanceTypeRepository;
 
@@ -99,7 +100,8 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
                 AssetLog assetLog = new AssetLog();
                 BeanUtils.copyProperties(assetLogImpl, assetLog);
                 assetLog.setMaintainanceType(assetLogImpl.getmType().getTypeCode());
-                assetLog.setLogCreatedDate(DateUtil.formate(assetLogImpl.getLogCreatedDate().getTime(),null));
+                assetLog.setLogCreatedDate(DateUtil.formate(assetLogImpl.getLogCreatedDate()
+                        .getTime(), null));
                 assetLogs.add(assetLog);
             }
         }
@@ -109,8 +111,12 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
     public void assignAssetLog(AssetLogAssignmentDTO request) {
         AssetLogImpl log = validateAssetLog(request.getLogId());
-        validateUser(request.getAssignedTo(), "assignedTo");
+        UserImpl user = validateUser(request.getAssignedTo(), "assignedTo");
+        if (!user.getRoleTypeId().equals(RoleType.SERVICE_ENGINEER.getId())) {
+            throw new ValidationException("assignedTo", request.getAssignedTo().toString(),
+                "User is not service engineer");
 
+        }
         AssetLogAssignment assetLogAssignment = new AssetLogAssignment();
         BeanUtils.copyProperties(request, assetLogAssignment);
         assetLogAssignment.setStatus(LogStatus.NEW.name());
@@ -121,7 +127,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         assetLogRepository.save(log);
     }
 
-   private AssetLogImpl validateAssetLog(Long logId) {
+    private AssetLogImpl validateAssetLog(Long logId) {
         AssetLogImpl log = assetLogRepository.findOne(logId);
         if (log == null) {
             throw new ValidationException("logId", logId.toString(), "invalid value is passed");

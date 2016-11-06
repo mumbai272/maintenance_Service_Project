@@ -107,7 +107,7 @@ public abstract class BaseServiceImpl {
         return roleType;
 
     }
-    protected void validateUser(Long userId,String fieledName) {
+    protected UserImpl validateUser(Long userId,String fieledName) {
         UserImpl user= userRepository.findByUserIdAndStatus(userId, StatusType.ACTIVE.getValue());
           if(user==null){
               if(StringUtils.isBlank(fieledName)){
@@ -115,5 +115,6 @@ public abstract class BaseServiceImpl {
               }
               throw new ValidationException(fieledName, userId.toString(), "invalid value is passed");
           }
+          return user;
       }
 }
