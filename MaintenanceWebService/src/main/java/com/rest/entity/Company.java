@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "GM_ADDBOOK" ,uniqueConstraints=@UniqueConstraint(columnNames={"ADDRESS_ID"}, name="GM_ADDBOOK_ADDRESS_ID_UNIQUE"))
+@Table(name = "GM_ADDBOOK", uniqueConstraints = @UniqueConstraint(columnNames = { "ADDRESS_ID" }, name = "GM_ADDBOOK_ADDRESS_ID_UNIQUE"))
 public class Company {
 
     @Id
@@ -28,34 +28,37 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
     private Long clientId;
 
-    @Column(name = "SHORT_ID", length=20, nullable=false)
+    @Column(name = "SHORT_ID", length = 20, nullable = false)
     private String ShortDesc;
 
-    @Column(name = "ADD_DESC",length=150, nullable=false)
+    @Column(name = "ADD_DESC", length = 150, nullable = false)
     private String description;
 
-    @Column(name = "COMPANY_ID", nullable=false)
+    @Column(name = "COMPANY_ID", nullable = false)
     private Long companyId;
-    
-//    @Column(name = "TIN_NO")
-//    private String tinNo;
-//   
-//    @Column(name = "CST_NO")
-//    private String cstNo;
-//   
-//    @Column(name = "SERVICE_TAX_NO")
-//    private String serviceTaxNO;
-//    
-//    @Column(name = "ECC_NO")
-//    private String eccNo;
-//   
-//    @Column(name = "CIN_NO")
-//    private String cinNo;
 
-    @Column(name = "REC_STATUS",length=1)
+    @Column(name = "TIN_NO")
+    private String tinNo;
+
+    @Column(name = "CST_NO")
+    private String cstNo;
+
+    @Column(name = "SERVICE_TAX_NO")
+    private String serviceTaxNO;
+
+    @Column(name = "ECC_NO")
+    private String eccNo;
+
+    @Column(name = "CIN_NO")
+    private String cinNo;
+
+    @Column(name = "PAN_NO")
+    private String panNo;
+
+    @Column(name = "REC_STATUS", length = 1)
     private String status;
 
-    @Column(name = "ENTRY_BY", length=50)
+    @Column(name = "ENTRY_BY", length = 50)
     private String entryBy;
 
     @Column(name = "ENTRY_DATE")
@@ -161,88 +164,100 @@ public class Company {
     }
 
 
-    
+
     public Long getAddressId() {
         return addressId;
     }
 
 
-    
+
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
     }
 
 
-    
+
     public Address getAddress() {
         return address;
     }
 
 
-    
+
     public void setAddress(Address address) {
         this.address = address;
     }
 
 
+
+    public String getTinNo() {
+        return tinNo;
+    }
+
+
+
+    public void setTinNo(String tinNo) {
+        this.tinNo = tinNo;
+    }
+
+
+
+    public String getCstNo() {
+        return cstNo;
+    }
+
+
+
+    public void setCstNo(String cstNo) {
+        this.cstNo = cstNo;
+    }
+
+
+
+    public String getServiceTaxNO() {
+        return serviceTaxNO;
+    }
+
+
+
+    public void setServiceTaxNO(String serviceTaxNO) {
+        this.serviceTaxNO = serviceTaxNO;
+    }
+
+
+
+    public String getEccNo() {
+        return eccNo;
+    }
+
+
+
+    public void setEccNo(String eccNo) {
+        this.eccNo = eccNo;
+    }
+
+
+
+    public String getCinNo() {
+        return cinNo;
+    }
+
+
+
+    public void setCinNo(String cinNo) {
+        this.cinNo = cinNo;
+    }
+
+
     
-//    public String getTinNo() {
-//        return tinNo;
-//    }
-//
-//
-//    
-//    public void setTinNo(String tinNo) {
-//        this.tinNo = tinNo;
-//    }
-//
-//
-//    
-//    public String getCstNo() {
-//        return cstNo;
-//    }
-//
-//
-//    
-//    public void setCstNo(String cstNo) {
-//        this.cstNo = cstNo;
-//    }
-//
-//
-//    
-//    public String getServiceTaxNO() {
-//        return serviceTaxNO;
-//    }
-//
-//
-//    
-//    public void setServiceTaxNO(String serviceTaxNO) {
-//        this.serviceTaxNO = serviceTaxNO;
-//    }
-//
-//
-//    
-//    public String getEccNo() {
-//        return eccNo;
-//    }
-//
-//
-//    
-//    public void setEccNo(String eccNo) {
-//        this.eccNo = eccNo;
-//    }
-//
-//
-//    
-//    public String getCinNo() {
-//        return cinNo;
-//    }
-//
-//
-//    
-//    public void setCinNo(String cinNo) {
-//        this.cinNo = cinNo;
-//    }
+    public String getPanNo() {
+        return panNo;
+    }
+
+
+    
+    public void setPanNo(String panNo) {
+        this.panNo = panNo;
+    }
 
 
 }
