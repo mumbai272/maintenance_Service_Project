@@ -20,6 +20,7 @@ import com.maintenance.common.LogStatus;
 import com.maintenance.common.RoleType;
 import com.maintenance.common.StatusType;
 import com.maintenance.common.UserContextRetriver;
+import com.maintenance.common.util.DateUtil;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetLogAssignment;
 import com.rest.entity.AssetLogImpl;
@@ -98,6 +99,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
                 AssetLog assetLog = new AssetLog();
                 BeanUtils.copyProperties(assetLogImpl, assetLog);
                 assetLog.setMaintainanceType(assetLogImpl.getmType().getTypeCode());
+                assetLog.setLogCreatedDate(DateUtil.formate(assetLogImpl.getLogCreatedDate().getTime(),null));
                 assetLogs.add(assetLog);
             }
         }
@@ -106,20 +108,20 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
     }
 
     public void assignAssetLog(AssetLogAssignmentDTO request) {
-        validateRequest(request);
-        AssetLogAssignment assetLogAssignment=new AssetLogAssignment();
+        AssetLogImpl log = validateAssetLog(request.getLogId());
+        validateUser(request.getAssignedTo(), "assignedTo");
+
+        AssetLogAssignment assetLogAssignment = new AssetLogAssignment();
         BeanUtils.copyProperties(request, assetLogAssignment);
+        assetLogAssignment.setStatus(LogStatus.NEW.name());
+        assetLogAssignment.setEntryBy(getLoggedInUser().getUserName());
+        assetLogAssignment.setEntryDate(DateUtil.today());
         assetLogAssignmentRepository.save(assetLogAssignment);
-        
+        log.setStatus(LogStatus.INPROGRESS.name());
+        assetLogRepository.save(log);
     }
 
-    private void validateRequest(AssetLogAssignmentDTO request) {
-        validateAssetLog(request.getLogId());
-        validateUser(request.getAssignedTo(),"assignedTo");
-    }
-    
-
-    private AssetLogImpl validateAssetLog(Long logId) {
+   private AssetLogImpl validateAssetLog(Long logId) {
         AssetLogImpl log = assetLogRepository.findOne(logId);
         if (log == null) {
             throw new ValidationException("logId", logId.toString(), "invalid value is passed");

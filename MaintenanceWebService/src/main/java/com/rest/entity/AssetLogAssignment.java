@@ -53,6 +53,9 @@ public class AssetLogAssignment {
 
     @Column(name = "PLANNED_HOURS")
     private Double plannedHours;
+    
+    @Column(name = "STATUS", length = 50)
+    private String status;
 
     @Column(name = "ENTRY_BY", length = 50)
     private String entryBy;
@@ -139,6 +142,18 @@ public class AssetLogAssignment {
 
     public void setPlannedHours(Double plannedHours) {
         this.plannedHours = plannedHours;
+    }
+
+
+    
+    public String getStatus() {
+        return status;
+    }
+
+
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 
