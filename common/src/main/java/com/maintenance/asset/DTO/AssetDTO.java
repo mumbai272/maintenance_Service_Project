@@ -14,10 +14,11 @@ import com.maintenance.machine.DTO.MachineDTO;
 
 @XmlRootElement
 public class AssetDTO implements Serializable {
-   
+    private Long assetId;
+    
     private Long companyId;
     
-    private Long clientId;
+    private Long clientId;   
     
     private MachineDTO machineType;
 
@@ -361,6 +362,18 @@ public class AssetDTO implements Serializable {
     
     public void setAuthenticateDate(Date authenticateDate) {
         this.authenticateDate = authenticateDate;
+    }
+
+
+    
+    public Long getAssetId() {
+        return assetId;
+    }
+
+
+    
+    public void setAssetId(Long assetId) {
+        this.assetId = assetId;
     }
     
     
