@@ -308,24 +308,28 @@ public class UserServiceImpl extends BaseServiceImpl {
     }
 
     private void updateUser(UserImpl user, UserUpdateDTO userDto) {
-       
-            if (userDto.getRoleId()!=null) {
+        if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN
+            || UserContextRetriver.getUsercontext().getRole() == RoleType.CLIENT_ADMIN) {
+            if (userDto.getRoleId() != null) {
                 RoleType role = validateRoleTypeId(userDto.getRoleId());
-                if (role != null ) {
+                if (role != null) {
                     user.setRoleTypeId(role.getId());
                 } else {
-                    throw new ValidationException("role",userDto.getRoleId().toString(), "Invalid role");
+                    throw new ValidationException("role", userDto.getRoleId().toString(),
+                        "Invalid role");
                 }
             }
+        }
         if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
-            if (userDto.getCompanyId() != null
+            if (userDto.getCompanyId() != null && !userDto.getCompanyId().equals(user.getCompanyId())
                 && companyServiceImpl.validateCompany(userDto.getCompanyId())) {
                 user.setCompanyId(userDto.getCompanyId());
             }
 
         }
 
-        if (StringUtils.isNotBlank(userDto.getEmailId())) {
+        if (StringUtils.isNotBlank(userDto.getEmailId())
+            && !userDto.getEmailId().equalsIgnoreCase(user.getEmailId())) {
             if (!checkEmailIsRegisterd(userDto.getEmailId())) {
                 user.setEmailId(userDto.getEmailId());
             } else {
@@ -350,6 +354,7 @@ public class UserServiceImpl extends BaseServiceImpl {
         }
         if (getLoggedInUser().getUserId().equals(user.getUserId())
             && StringUtils.isNotBlank(userDto.getUserName())
+            && !userDto.getUserName().equalsIgnoreCase(user.getUserName())
             && isValidUsername(userDto.getUserName())) {
             user.setUserName(userDto.getUserName());
         }

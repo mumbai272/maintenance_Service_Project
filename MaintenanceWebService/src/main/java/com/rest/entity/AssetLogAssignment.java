@@ -4,7 +4,6 @@
 package com.rest.entity;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,14 +39,14 @@ public class AssetLogAssignment {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ASSIGN_DATE")
-    private Date assignDate;
+    private Calendar assignDate;
 
     @Column(name = "ASSIGNED_TO", nullable = false)
     private Long assignedTo;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXP_SERVICE_DTIME")
-    private Date expServiceDateTime;
+    private Calendar expServiceDateTime;
 
     @Column(name = "WORK_TYPE")
     private String workType;
@@ -93,12 +92,12 @@ public class AssetLogAssignment {
     }
 
 
-    public Date getAssignDate() {
+    public Calendar getAssignDate() {
         return assignDate;
     }
 
 
-    public void setAssignDate(Date assignDate) {
+    public void setAssignDate(Calendar assignDate) {
         this.assignDate = assignDate;
     }
 
@@ -113,12 +112,12 @@ public class AssetLogAssignment {
     }
 
 
-    public Date getExpServiceDateTime() {
+    public Calendar getExpServiceDateTime() {
         return expServiceDateTime;
     }
 
 
-    public void setExpServiceDateTime(Date expServiceDateTime) {
+    public void setExpServiceDateTime(Calendar expServiceDateTime) {
         this.expServiceDateTime = expServiceDateTime;
     }
 
