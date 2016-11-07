@@ -9,7 +9,9 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -107,6 +109,21 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         AssetLogAssignmentResponse response = new AssetLogAssignmentResponse();
         List<AssetLogAssignmentBO> assetLogs= assetLogServiceImpl.getassignAssetLog(logId);
         response.setAssetLogs(assetLogs);
+        return Response.ok(response).build();
+    }
+    
+    @PUT
+    @Path("/assign/{assignId}/{action}/{location}")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response startOrEndLog(@PathParam("action") String action,@PathParam("assignId") Long assignId,@PathParam("location") String location ) {
+        logger.info("getting assetlog assignments:" + assignId);
+        BaseResponse response = new BaseResponse();
+        if(!"start".equalsIgnoreCase(action)&& !"end".equalsIgnoreCase(action)){
+            throw new ValidationException("action", action, "invalid value passed");
+        }
+        assetLogServiceImpl.startOrEndLog(assignId,action,location);
+        response.setMsg("Job Successfully "+action+"ed");
         return Response.ok(response).build();
     }
 

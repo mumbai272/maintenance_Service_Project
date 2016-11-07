@@ -25,10 +25,12 @@ import com.maintenance.common.exception.AuthorizationException;
 import com.maintenance.common.util.DateUtil;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetLogAssignment;
+import com.rest.entity.AssetLogAssignmentTracker;
 import com.rest.entity.AssetLogImpl;
 import com.rest.entity.MaintenanceType;
 import com.rest.entity.UserImpl;
 import com.rest.repository.AssetLogAssignmentRepository;
+import com.rest.repository.AssetLogAssignmentTrackRepository;
 import com.rest.repository.AssetLogRepository;
 import com.rest.repository.MaintenanceTypeRepository;
 
@@ -49,6 +51,10 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
     @Autowired
     private MaintenanceTypeRepository maintenanceTypeRepository;
+
+    @Autowired
+    private AssetLogAssignmentTrackRepository assetLogAssignmentTrackRepository;
+
 
     public void createAssetLog(AssetLogCreateRequest assetlogDTO) {
         MaintenanceType maintenanceType =
@@ -112,7 +118,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
     }
 
     public void assignAssetLog(AssetLogAssignmentDTO request) {
-        if(!getLoggedInUser().getRole().equals(RoleType.ADMIN)){
+        if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
             throw new AuthorizationException("ASSIGN LOGS", getLoggedInUser().getUserName());
         }
         AssetLogImpl log = validateAssetLog(request.getLogId());
@@ -153,7 +159,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         }
 
         for (AssetLogAssignment assetLogAssignment : logAssignments) {
-            AssetLog assetLog=new  AssetLog();
+            AssetLog assetLog = new AssetLog();
             BeanUtils.copyProperties(assetLogAssignment.getAssetLog(), assetLog);
 
             AssetLogAssignmentBO dto = new AssetLogAssignmentBO();
@@ -162,6 +168,35 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
             logAssignmentsdto.add(dto);
         }
         return logAssignmentsdto;
+    }
+
+    public void startOrEndLog(Long assignId, String action, String location) {
+        AssetLogAssignment assignedLog = assetLogAssignmentRepository.findOne(assignId);
+        if (assignedLog == null) {
+            throw new ValidationException("assignId", assignId.toString(),
+                "invalid assignId is passed");
+        }
+        if (!assignedLog.getAssignedTo().equals(getLoggedInUser().getUserId())) {
+            throw new ValidationException("assignId", assignId.toString(),
+                "Ticket is not assigned to logged in user");
+        }
+        AssetLogAssignmentTracker tracker = null;
+        if ("start".equalsIgnoreCase(action)) {
+            tracker = new AssetLogAssignmentTracker();
+            tracker.setAssignId(assignId);
+            tracker.setStartDateTime(DateUtil.today());
+            tracker.setStartLocation(location);
+            tracker.setJobStart("T");
+            
+        }
+        if ("end".equalsIgnoreCase(action)) {
+            tracker = assetLogAssignmentTrackRepository.findOne(assignId);
+            tracker.setEndDateTime(DateUtil.today());
+            tracker.setEndLocation(location);
+            tracker.setJobEnd("T");
+            
+        }
+        assetLogAssignmentTrackRepository.save(tracker);
     }
 
 
