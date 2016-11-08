@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.maintenance.asset.log.AssetLog;
 import com.maintenance.asset.log.AssetLogAssignmentBO;
@@ -39,6 +40,7 @@ import com.rest.repository.MaintenanceTypeRepository;
  * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Oct 28, 2016
  */
 @Component
+@Transactional
 public class AssetLogServiceImpl extends BaseServiceImpl {
 
     private Logger logger = Logger.getLogger(AssetLogServiceImpl.class);
@@ -55,7 +57,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
     @Autowired
     private AssetLogAssignmentTrackRepository assetLogAssignmentTrackRepository;
 
-
+    @Transactional(rollbackFor = { Exception.class })
     public void createAssetLog(AssetLogCreateRequest assetlogDTO) {
         MaintenanceType maintenanceType =
             maintenanceTypeRepository.findByTypeIdAndStatus(assetlogDTO.getMaintainanceType(),
@@ -73,6 +75,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
     }
 
+    @Transactional(rollbackFor = { Exception.class })
     public List<AssetLog> getAssetLog(String status, Long clientId) {
         List<AssetLog> assetLogs = new ArrayList<AssetLog>();
         List<AssetLogImpl> assetImplLogs = null;
@@ -117,6 +120,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
     }
 
+    @Transactional(rollbackFor = { Exception.class })
     public void assignAssetLog(AssetLogAssignmentDTO request) {
         if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
             throw new AuthorizationException("ASSIGN LOGS", getLoggedInUser().getUserName());
@@ -126,7 +130,6 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         if (!user.getRoleTypeId().equals(RoleType.SERVICE_ENGINEER.getId())) {
             throw new ValidationException("assignedTo", request.getAssignedTo().toString(),
                 "User is not service engineer");
-
         }
         AssetLogAssignment assetLogAssignment = new AssetLogAssignment();
         BeanUtils.copyProperties(request, assetLogAssignment);
@@ -170,6 +173,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         return logAssignmentsdto;
     }
 
+    @Transactional(rollbackFor = { Exception.class })
     public void startOrEndLog(Long assignId, String action, String location) {
         AssetLogAssignment assignedLog = assetLogAssignmentRepository.findOne(assignId);
         if (assignedLog == null) {
@@ -187,14 +191,14 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
             tracker.setStartDateTime(DateUtil.today());
             tracker.setStartLocation(location);
             tracker.setJobStart("T");
-            
+
         }
         if ("end".equalsIgnoreCase(action)) {
             tracker = assetLogAssignmentTrackRepository.findOne(assignId);
             tracker.setEndDateTime(DateUtil.today());
             tracker.setEndLocation(location);
             tracker.setJobEnd("T");
-            
+
         }
         assetLogAssignmentTrackRepository.save(tracker);
     }

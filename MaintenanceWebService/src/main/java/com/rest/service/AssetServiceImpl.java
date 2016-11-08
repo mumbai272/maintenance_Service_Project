@@ -49,7 +49,7 @@ public class AssetServiceImpl extends BaseServiceImpl {
 
     @Autowired
     private MachineAttributeRepository machineAttributeRepository;
-
+    @Transactional(rollbackFor={Exception.class})
     public void saveAsset(AssetCreateDTO assetDto) {
         logger.info("saving the asset for Client :" + assetDto.getClientId());
         AssetMaster asset = new AssetMaster();
@@ -204,6 +204,7 @@ public class AssetServiceImpl extends BaseServiceImpl {
      * 
      * @param assetId
      */
+    @Transactional(rollbackFor={Exception.class})
     public void deleteAsset(Long assetId) {
         AssetMaster asset = assetMasterRepository.findOne(assetId);
         if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)

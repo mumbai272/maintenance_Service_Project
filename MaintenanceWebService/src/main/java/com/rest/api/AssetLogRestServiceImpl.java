@@ -76,20 +76,25 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
             @QueryParam("clientId") Long clientId) {
         logger.info("getting log ");
         if (StringUtils.isNotBlank(status)) {
-             LogStatus logStaus = LogStatus.valueOf(status.toUpperCase());
+            LogStatus logStaus = LogStatus.valueOf(status.toUpperCase());
             if (logStaus == null) {
                 throw new ValidationException("status", status, "Invalid value is passed");
             }
             status = logStaus.name();
         }
-       
+
         AssetLogResponse response = new AssetLogResponse();
         List<AssetLog> assetLogs = assetLogServiceImpl.getAssetLog(status, clientId);
         response.setAssetLogs(assetLogs);
         return Response.ok(response).build();
 
     }
-    
+
+    /**
+     * 
+     * @param request
+     * @return
+     */
     @POST
     @Path("/assign")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -100,6 +105,12 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         assetLogServiceImpl.assignAssetLog(request);
         return Response.ok(response).build();
     }
+
+    /**
+     * 
+     * @param logId
+     * @return
+     */
     @GET
     @Path("/assign")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -107,23 +118,24 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
     public Response getAssignedAssetLog(@QueryParam("logId") Long logId) {
         logger.info("getting assetlog assignments:" + logId);
         AssetLogAssignmentResponse response = new AssetLogAssignmentResponse();
-        List<AssetLogAssignmentBO> assetLogs= assetLogServiceImpl.getassignAssetLog(logId);
+        List<AssetLogAssignmentBO> assetLogs = assetLogServiceImpl.getassignAssetLog(logId);
         response.setAssetLogs(assetLogs);
         return Response.ok(response).build();
     }
-    
+
     @PUT
     @Path("/assign/{assignId}/{action}/{location}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response startOrEndLog(@PathParam("action") String action,@PathParam("assignId") Long assignId,@PathParam("location") String location ) {
+    public Response startOrEndLog(@PathParam("action") String action,
+            @PathParam("assignId") Long assignId, @PathParam("location") String location) {
         logger.info("getting assetlog assignments:" + assignId);
         BaseResponse response = new BaseResponse();
-        if(!"start".equalsIgnoreCase(action)&& !"end".equalsIgnoreCase(action)){
+        if (!"start".equalsIgnoreCase(action) && !"end".equalsIgnoreCase(action)) {
             throw new ValidationException("action", action, "invalid value passed");
         }
-        assetLogServiceImpl.startOrEndLog(assignId,action,location);
-        response.setMsg("Job Successfully "+action+"ed");
+        assetLogServiceImpl.startOrEndLog(assignId, action, location);
+        response.setMsg("Job Successfully " + action + "ed");
         return Response.ok(response).build();
     }
 

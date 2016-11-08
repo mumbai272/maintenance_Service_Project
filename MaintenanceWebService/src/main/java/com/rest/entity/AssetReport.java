@@ -41,7 +41,7 @@ public class AssetReport {
     @Column(name = "REPORT_DATE")
     private Calendar reportedDateTime;
 
-    @Column(name = "LOG_ID", nullable = false)
+    @Column(name = "LOG_ID", nullable = false, unique=true)
     private Long logId;
 
     @JoinColumn(name = "LOG_ID", insertable = false, updatable = false)
@@ -73,7 +73,7 @@ public class AssetReport {
     private String clientFallowUpAction;
 
     @Column(name = "CLIENT_REMARKS")
-    private String clientRemart;
+    private String clientRemarks;
 
     @Column(name = "CLIENT_SIGN")
     private String clinetSign;
@@ -232,13 +232,13 @@ public class AssetReport {
     }
 
     
-    public String getClientRemart() {
-        return clientRemart;
+    public String getClientRemarks() {
+        return clientRemarks;
     }
 
     
-    public void setClientRemart(String clientRemart) {
-        this.clientRemart = clientRemart;
+    public void setClientRemarks(String clientRemart) {
+        this.clientRemarks = clientRemart;
     }
 
     
