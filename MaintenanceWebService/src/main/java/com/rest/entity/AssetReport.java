@@ -49,7 +49,7 @@ public class AssetReport {
     private AssetLogImpl assetLog;
 
     @Column(name = "CONTACT_PERSON")
-    private Long contactPerson;
+    private String contactPerson;
 
     @Column(name = "WARRANTY", length = 1)
     private String warranty;
@@ -152,12 +152,12 @@ public class AssetReport {
     }
 
     
-    public Long getContactPerson() {
+    public String getContactPerson() {
         return contactPerson;
     }
 
     
-    public void setContactPerson(Long contactPerson) {
+    public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
     }
 
