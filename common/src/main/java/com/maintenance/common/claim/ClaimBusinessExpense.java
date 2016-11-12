@@ -1,4 +1,4 @@
- package com.maintenance.common.claim;
+package com.maintenance.common.claim;
 
 import java.util.Date;
 
@@ -12,6 +12,8 @@ public class ClaimBusinessExpense {
 
     @NotNull
     private Long claimId;
+
+    private Long expenseId;
 
     @NotNull
     private Date expenseDate;
@@ -29,65 +31,76 @@ public class ClaimBusinessExpense {
 
     @NotNull
     private Date billDate;
-    
+
     @NotNull
     private Double claimAmount;
 
-	public Long getClaimId() {
+    public Long getClaimId() {
         return claimId;
     }
 
-    
+
     public void setClaimId(Long claimId) {
         this.claimId = claimId;
     }
 
     public Date getExpenseDate() {
-		return expenseDate;
-	}
+        return expenseDate;
+    }
 
-	public void setExpenseDate(Date expenseDate) {
-		this.expenseDate = expenseDate;
-	}
+    public void setExpenseDate(Date expenseDate) {
+        this.expenseDate = expenseDate;
+    }
 
-	public String getGuest() {
-		return guest;
-	}
+    public String getGuest() {
+        return guest;
+    }
 
-	public void setGuest(String guest) {
-		this.guest = guest;
-	}
+    public void setGuest(String guest) {
+        this.guest = guest;
+    }
 
-	public String getParticulars() {
-		return particulars;
-	}
+    public String getParticulars() {
+        return particulars;
+    }
 
-	public void setParticulars(String particulars) {
-		this.particulars = particulars;
-	}
+    public void setParticulars(String particulars) {
+        this.particulars = particulars;
+    }
 
-	public String getBillNumber() {
-		return billNumber;
-	}
+    public String getBillNumber() {
+        return billNumber;
+    }
 
-	public void setBillNumber(String billNumber) {
-		this.billNumber = billNumber;
-	}
+    public void setBillNumber(String billNumber) {
+        this.billNumber = billNumber;
+    }
 
-	public Date getBillDate() {
-		return billDate;
-	}
+    public Date getBillDate() {
+        return billDate;
+    }
 
-	public void setBillDate(Date billDate) {
-		this.billDate = billDate;
-	}
+    public void setBillDate(Date billDate) {
+        this.billDate = billDate;
+    }
 
-	public Double getClaimAmount() {
-		return claimAmount;
-	}
+    public Double getClaimAmount() {
+        return claimAmount;
+    }
 
-	public void setClaimAmount(Double claimAmount) {
-		this.claimAmount = claimAmount;
-	}
+    public void setClaimAmount(Double claimAmount) {
+        this.claimAmount = claimAmount;
+    }
+
+    public Long getExpenseId() {
+        return expenseId;
+    }
+
+
+
+    public void setExpenseId(Long expenseId) {
+        this.expenseId = expenseId;
+    }
+
 
 }

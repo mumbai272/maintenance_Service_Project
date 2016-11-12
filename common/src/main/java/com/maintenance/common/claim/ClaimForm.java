@@ -2,7 +2,6 @@
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -10,24 +9,24 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 public class ClaimForm {
 
-    @NotNull
+    @NotBlank
     private Long claimNumber;
 
-    @NotNull
+    @NotBlank
     private Date claimDate;
 //
 //
 //    @NotBlank
 //    private Long servicePerson;
 
-    @NotNull
+    @NotBlank
     private Date claimStartDate;
 
 
-    @NotNull
+    @NotBlank
     private Date claimEndDate;
 
-    @NotNull
+    @NotBlank
     private Double claimAmount;
 
 
@@ -54,7 +53,7 @@ public class ClaimForm {
 		this.claimDate = claimDate;
 	}
 
-//
+
 //	public Long getServicePerson() {
 //		return servicePerson;
 //	}

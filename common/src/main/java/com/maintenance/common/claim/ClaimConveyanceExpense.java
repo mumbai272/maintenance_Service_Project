@@ -1,4 +1,4 @@
- package com.maintenance.common.claim;
+package com.maintenance.common.claim;
 
 import java.util.Date;
 
@@ -13,6 +13,8 @@ public class ClaimConveyanceExpense {
 
     @NotNull
     private Long claimId;
+
+    private Long expenseId;
 
     @NotNull
     private Date expenseDate;
@@ -29,54 +31,65 @@ public class ClaimConveyanceExpense {
     @NotNull
     private Double claimAmount;
 
-	
+
     public Long getClaimId() {
         return claimId;
     }
 
-    
+
     public void setClaimId(Long claimId) {
         this.claimId = claimId;
     }
 
     public Date getExpenseDate() {
-		return expenseDate;
-	}
+        return expenseDate;
+    }
 
-	public void setExpenseDate(Date expenseDate) {
-		this.expenseDate = expenseDate;
-	}
+    public void setExpenseDate(Date expenseDate) {
+        this.expenseDate = expenseDate;
+    }
 
-	public String getTravelFrom() {
-		return travelFrom;
-	}
+    public String getTravelFrom() {
+        return travelFrom;
+    }
 
-	public void setTravelFrom(String travelFrom) {
-		this.travelFrom = travelFrom;
-	}
+    public void setTravelFrom(String travelFrom) {
+        this.travelFrom = travelFrom;
+    }
 
-	public String getTravelTo() {
-		return travelTo;
-	}
+    public String getTravelTo() {
+        return travelTo;
+    }
 
-	public void setTravelTo(String travelTo) {
-		this.travelTo = travelTo;
-	}
+    public void setTravelTo(String travelTo) {
+        this.travelTo = travelTo;
+    }
 
-	public String getModeOfTransport() {
-		return modeOfTransport;
-	}
+    public String getModeOfTransport() {
+        return modeOfTransport;
+    }
 
-	public void setModeOfTransport(String modeOfTransport) {
-		this.modeOfTransport = modeOfTransport;
-	}
+    public void setModeOfTransport(String modeOfTransport) {
+        this.modeOfTransport = modeOfTransport;
+    }
 
-	public Double getClaimAmount() {
-		return claimAmount;
-	}
+    public Double getClaimAmount() {
+        return claimAmount;
+    }
 
-	public void setClaimAmount(Double claimAmount) {
-		this.claimAmount = claimAmount;
-	}
+    public void setClaimAmount(Double claimAmount) {
+        this.claimAmount = claimAmount;
+    }
+
+    public Long getExpenseId() {
+        return expenseId;
+    }
+
+
+
+    public void setExpenseId(Long expenseId) {
+        this.expenseId = expenseId;
+    }
+
 
 }

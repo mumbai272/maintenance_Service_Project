@@ -12,7 +12,7 @@ public class ClaimMiscExpense {
 
     @NotNull
     private Long claimId;
-
+    private Long expenseId;
     @NotNull
     private Date expenseDate;
 
@@ -77,5 +77,17 @@ public class ClaimMiscExpense {
 	public void setClaimAmount(Double claimAmount) {
 		this.claimAmount = claimAmount;
 	}
+
+
+    
+    public Long getExpenseId() {
+        return expenseId;
+    }
+
+
+    
+    public void setExpenseId(Long expenseId) {
+        this.expenseId = expenseId;
+    }
 
 }
