@@ -6,32 +6,22 @@ package com.maintenance.asset.report;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-@XmlRootElement
-public class ReportLogRequest {
+import com.maintenance.request.BaseResponse;
 
-    @NotNull
-    private Long reportId;
+@XmlRootElement
+public class ReportLogResponse extends BaseResponse{
 
     @XmlElement
     @Valid
     @NotEmpty
     List<ReportLogBO> reportLog;
 
-    public Long getReportId() {
-        return reportId;
-    }
-
-
-    public void setReportId(Long reportId) {
-        this.reportId = reportId;
-    }
-
+   
     public List<ReportLogBO> getReportLog() {
         return reportLog;
     }

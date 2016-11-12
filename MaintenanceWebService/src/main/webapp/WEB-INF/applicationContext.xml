@@ -44,11 +44,12 @@
 			<ref bean="userRestServiceImpl" />
 			<ref bean="maintenanceTypeRestService"/>
 			<ref bean="assetLogRestServiceImpl"/>
+			<ref bean="assetLogReportRestImpl"/>
 			<ref bean="companyAttributeRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>
-			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
 			<ref bean="sessionValidator" />
 			<!-- <bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" /> -->
 			<bean class="com.rest.api.exception.ValidationExceprionHandler" />

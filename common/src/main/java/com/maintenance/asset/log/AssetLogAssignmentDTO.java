@@ -4,7 +4,6 @@
 package com.maintenance.asset.log;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,7 +21,7 @@ public class AssetLogAssignmentDTO implements Serializable {
     private Long assignedTo;
 
     @NotNull
-    private Calendar expServiceDateTime;
+    private String expServiceDateTime;
 
     @NotBlank
     private String workType;
@@ -46,11 +45,11 @@ public class AssetLogAssignmentDTO implements Serializable {
         this.assignedTo = assignedTo;
     }
 
-    public Calendar getExpServiceDateTime() {
+    public String getExpServiceDateTime() {
         return expServiceDateTime;
     }
 
-    public void setExpServiceDateTime(Calendar expServiceDateTime) {
+    public void setExpServiceDateTime(String expServiceDateTime) {
         this.expServiceDateTime = expServiceDateTime;
     }
 

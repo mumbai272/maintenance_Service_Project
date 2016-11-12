@@ -3,11 +3,13 @@
 //============================================================
 package com.maintenance.asset.report;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class ReportcreateBO {
+public class ReportcreateBO implements Serializable{
 
     @NotNull
     private Long companyId;

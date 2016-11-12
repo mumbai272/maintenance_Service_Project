@@ -8,15 +8,14 @@ import java.util.List;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import com.rest.entity.AssetReportLog;
-import com.rest.entity.AssetReportLogPK;
+import com.rest.entity.AssetReportSpare;
 
 @Repository
-public interface AssetReportLogRepository extends PagingAndSortingRepository<AssetReportLog, AssetReportLogPK> {
+public interface AssetReportSpareRepository extends PagingAndSortingRepository<AssetReportSpare, Long> {
 
-    AssetReportLog findByReportIdAndServiceEngineer(Long reportId, Long serviceEngineer);
+    AssetReportSpare findByReportIdAndSpareNo(Long reportId,  Long spareNo);
 
-    List<AssetReportLog> findByReportId(Long reportId);
+    List<AssetReportSpare> findByReportId(Long reportId);
 
    
 }

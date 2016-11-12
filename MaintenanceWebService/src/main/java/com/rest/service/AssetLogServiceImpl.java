@@ -136,6 +136,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         assetLogAssignment.setStatus(LogStatus.NEW.name());
         assetLogAssignment.setEntryBy(getLoggedInUser().getUserName());
         assetLogAssignment.setEntryDate(DateUtil.today());
+        assetLogAssignment.setExpServiceDateTime(DateUtil.parse(request.getExpServiceDateTime(), null));
         assetLogAssignmentRepository.save(assetLogAssignment);
         log.setStatus(LogStatus.INPROGRESS.name());
         assetLogRepository.save(log);

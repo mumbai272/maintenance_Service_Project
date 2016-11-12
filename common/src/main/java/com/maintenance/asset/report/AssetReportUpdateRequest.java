@@ -3,21 +3,20 @@
 //============================================================
 package com.maintenance.asset.report;
 
-import java.util.Calendar;
+import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
-
-public class AssetReportUpdateRequest {
+public class AssetReportUpdateRequest implements Serializable{
     @NotNull
     private Long reportId;
 
     private String reportNo;
 
-    private Calendar reportedDateTime;
+    private String reportedDateTime;
 
     private String contactPerson;
 
@@ -160,13 +159,13 @@ public class AssetReportUpdateRequest {
 
 
     
-    public Calendar getReportedDateTime() {
+    public String getReportedDateTime() {
         return reportedDateTime;
     }
 
 
     
-    public void setReportedDateTime(Calendar reportedDateTime) {
+    public void setReportedDateTime(String reportedDateTime) {
         this.reportedDateTime = reportedDateTime;
     }
 

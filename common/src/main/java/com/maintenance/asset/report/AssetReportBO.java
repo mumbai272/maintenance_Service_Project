@@ -3,9 +3,13 @@
 //============================================================
 package com.maintenance.asset.report;
 
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 
-public class AssetReportBO {
+@XmlRootElement
+public class AssetReportBO  implements Serializable{
 
     private Long reportId;
 

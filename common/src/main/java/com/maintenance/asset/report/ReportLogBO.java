@@ -3,30 +3,44 @@
 //============================================================
 package com.maintenance.asset.report;
 
-import java.util.Calendar;
+import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class ReportLogBO {   
-
+public class ReportLogBO implements Serializable{   
+    @NotNull
+    private Long reportId;
+    
     @NotNull
     private Long serviceEngineer;
 
-    private Calendar dateTime;
+    private String dateTime;
 
-    private Calendar timeIn;
+    private String timeIn;
 
-    private Calendar timeOut;
+    private String timeOut;
 
-    private Calendar travelTime;
+    private String travelTime;
 
     private String status;
 
     private String reason;
 
     private String actionToTake;
+
+
+    
+    public Long getReportId() {
+        return reportId;
+    }
+
+
+    
+    public void setReportId(Long reportId) {
+        this.reportId = reportId;
+    }
 
 
     public Long getServiceEngineer() {
@@ -39,42 +53,42 @@ public class ReportLogBO {
     }
 
 
-    public Calendar getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
 
-    public void setDateTime(Calendar dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 
 
-    public Calendar getTimeIn() {
+    public String getTimeIn() {
         return timeIn;
     }
 
 
-    public void setTimeIn(Calendar timeIn) {
+    public void setTimeIn(String timeIn) {
         this.timeIn = timeIn;
     }
 
 
-    public Calendar getTimeOut() {
+    public String getTimeOut() {
         return timeOut;
     }
 
 
-    public void setTimeOut(Calendar timeOut) {
+    public void setTimeOut(String timeOut) {
         this.timeOut = timeOut;
     }
 
 
-    public Calendar getTravelTime() {
+    public String getTravelTime() {
         return travelTime;
     }
 
 
-    public void setTravelTime(Calendar travelTime) {
+    public void setTravelTime(String travelTime) {
         this.travelTime = travelTime;
     }
 

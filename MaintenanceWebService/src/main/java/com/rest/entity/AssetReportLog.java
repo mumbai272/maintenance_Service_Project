@@ -3,6 +3,7 @@
 //============================================================
 package com.rest.entity;
 
+import java.sql.Time;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -45,9 +46,8 @@ public class AssetReportLog {
     @Column(name = "TIME_OUT")
     private Calendar timeOut;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "TRAVEL_TIME")
-    private Calendar travelTime;
+    private Time travelTime;
 
 
     @Column(name = "STATUS", length = 50)
@@ -110,12 +110,12 @@ public class AssetReportLog {
     }
 
 
-    public Calendar getTravelTime() {
+    public Time getTravelTime() {
         return travelTime;
     }
 
 
-    public void setTravelTime(Calendar travelTime) {
+    public void setTravelTime(Time travelTime) {
         this.travelTime = travelTime;
     }
 

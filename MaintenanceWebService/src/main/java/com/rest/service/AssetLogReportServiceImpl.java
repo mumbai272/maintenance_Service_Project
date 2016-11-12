@@ -3,6 +3,9 @@
 //============================================================
 package com.rest.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
@@ -13,18 +16,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.maintenance.asset.report.AssetReportBO;
 import com.maintenance.asset.report.AssetReportUpdateRequest;
+import com.maintenance.asset.report.ReportCharges;
 import com.maintenance.asset.report.ReportLogBO;
-import com.maintenance.asset.report.ReportLogRequest;
+import com.maintenance.asset.report.ReportSpareBO;
+import com.maintenance.asset.report.ReportSpareCreateBO;
 import com.maintenance.asset.report.ReportcreateBO;
 import com.maintenance.common.StatusType;
 import com.maintenance.common.util.DateUtil;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetLogImpl;
 import com.rest.entity.AssetReport;
+import com.rest.entity.AssetReportCharges;
 import com.rest.entity.AssetReportLog;
+import com.rest.entity.AssetReportSpare;
 import com.rest.repository.AssetLogRepository;
+import com.rest.repository.AssetReportChargesRepository;
 import com.rest.repository.AssetReportLogRepository;
 import com.rest.repository.AssetReportRepository;
+import com.rest.repository.AssetReportSpareRepository;
 
 @Component
 @Transactional
@@ -40,6 +49,12 @@ public class AssetLogReportServiceImpl {
 
     @Autowired
     private AssetLogRepository assetLogRepository;
+
+    @Autowired
+    private AssetReportSpareRepository assetReportSpareRepository;
+
+    @Autowired
+    private AssetReportChargesRepository assetReportChargesRepository;
 
     @Transactional(rollbackFor = { Exception.class })
     public void createAssetReport(ReportcreateBO request) {
@@ -99,8 +114,8 @@ public class AssetLogReportServiceImpl {
         if (StringUtils.isNotBlank(request.getServiceDetails())) {
             report.setServiceDetails(request.getServiceDetails());
         }
-        if (request.getReportedDateTime() != null) {
-            report.setReportedDateTime(request.getReportedDateTime());
+        if (StringUtils.isNotBlank(request.getReportedDateTime())) {
+            report.setReportedDateTime(DateUtil.parse(request.getReportedDateTime(), null));
         }
 
         assetReportRepository.save(report);
@@ -113,22 +128,23 @@ public class AssetLogReportServiceImpl {
     }
 
     @Transactional(rollbackFor = { Exception.class })
-    public void createAssetLogReport(ReportLogRequest request) {
-        AssetReport report = assetReportRepository.findOne(request.getReportId());
-        if (report == null) {
-            throw new ValidationException("reportId", request.getReportId().toString(),
-                "invalid value is passed");
+    public void createAssetLogReport(ReportLogBO request) {
+        getReport(request.getReportId());
+
+        try {
+            AssetReportLog r_log = new AssetReportLog();
+            BeanUtils.copyProperties(request, r_log);
+            r_log.setDateTime(DateUtil.parse(request.getDateTime(), null));
+            r_log.setTimeIn(DateUtil.parse(request.getTimeIn(), null));
+            r_log.setTimeOut(DateUtil.parse(request.getTimeOut(), null));
+            
+            r_log.setTravelTime(DateUtil.parseTime(request.getTravelTime()));
+
+            assetReportLogRepository.save(r_log);
+        } catch (ConstraintViolationException e) {
+            throw new RuntimeException("Already have data for service engineer");
         }
-        for (ReportLogBO reportLog : request.getReportLog()) {
-            try {
-                AssetReportLog r_log = new AssetReportLog();
-                BeanUtils.copyProperties(reportLog, r_log);
-                assetReportLogRepository.save(r_log);
-            } catch (ConstraintViolationException e) {
-                logger.error("skip duplication saving for service engineer:"
-                    + reportLog.getServiceEngineer());
-            }
-        }
+
 
     }
 
@@ -146,6 +162,221 @@ public class AssetLogReportServiceImpl {
             throw new ValidationException("reportId", reportId.toString(), "report does not exists");
         }
         return report;
+    }
+
+    public void updateAssetLogReport(ReportLogBO request) {
+        AssetReportLog r_log =
+            assetReportLogRepository.findByReportIdAndServiceEngineer(request.getReportId(),
+                request.getServiceEngineer());
+        if (r_log == null) {
+            throw new RuntimeException("AssetReportLog dose not exist for passed value ");
+        }
+        if (StringUtils.isNotBlank(request.getDateTime())) {
+            r_log.setDateTime(DateUtil.parse(request.getDateTime(), null));
+        }
+        if (StringUtils.isNotBlank(request.getTimeIn())) {
+            r_log.setTimeIn(DateUtil.parse(request.getTimeIn(), null));
+        }
+        if (StringUtils.isNotBlank(request.getTimeOut())) {
+            r_log.setTimeOut(DateUtil.parse(request.getTimeOut(), null));
+        }
+        if (StringUtils.isNotBlank(request.getActionToTake())) {
+            r_log.setActionToTake(request.getActionToTake());
+        }
+        if (StringUtils.isNotBlank(request.getReason())) {
+            r_log.setReason(request.getReason());
+        }
+        if (StringUtils.isNotBlank(request.getStatus())) {
+            r_log.setStatus(request.getStatus());
+        }
+        if (StringUtils.isNotBlank(request.getTravelTime())) {
+            r_log.setTravelTime(DateUtil.parseTime(request.getTravelTime()));
+        }
+        assetReportLogRepository.save(r_log);
+    }
+
+    public List<ReportLogBO> getAssetLogReport(Long reportId) {
+        getReport(reportId);
+        List<AssetReportLog> rlogList = assetReportLogRepository.findByReportId(reportId);
+        List<ReportLogBO> rlogBOList = new ArrayList<ReportLogBO>();
+        for (AssetReportLog assetReportLog : rlogList) {
+            ReportLogBO bo = new ReportLogBO();
+            BeanUtils.copyProperties(assetReportLog, bo);
+            bo.setTimeIn(DateUtil.formate(assetReportLog.getTimeIn().getTime(), null));
+            bo.setTimeOut(DateUtil.formate(assetReportLog.getTimeOut().getTime(), null));
+            bo.setDateTime(DateUtil.formate(assetReportLog.getDateTime().getTime(), null));
+            bo.setTravelTime(DateUtil.formate(assetReportLog.getTravelTime(), "hh:mm:ss"));
+            rlogBOList.add(bo);
+        }
+        return rlogBOList;
+    }
+
+    @Transactional
+    public void deleteAssetReportLog(Long reportId, Long serviceEngineerId) {
+        AssetReportLog r_log =
+            assetReportLogRepository.findByReportIdAndServiceEngineer(reportId, serviceEngineerId);
+        if (r_log == null) {
+            throw new RuntimeException("AssetReportLog dose not exist for passed value ");
+        }
+        assetReportLogRepository.delete(r_log);
+        ;
+
+    }
+
+    @Transactional(rollbackFor = { Exception.class })
+    public void createAssetReportSpare(ReportSpareCreateBO request) {
+        getReport(request.getReportId());
+        AssetReportSpare spare =
+            assetReportSpareRepository.findByReportIdAndSpareNo(request.getReportId(),
+                request.getSpareNo());
+        if (spare != null) {
+            throw new RuntimeException("spare detail already added for spare no ");
+        }
+        try {
+            AssetReportSpare rSpare = new AssetReportSpare();
+            BeanUtils.copyProperties(request, rSpare);
+            assetReportSpareRepository.save(rSpare);
+        } catch (ConstraintViolationException e) {
+            throw new RuntimeException("Already have data for spare");
+        }
+    }
+
+    public void updateAssetReportSpare(ReportSpareBO request) {
+        AssetReportSpare spare =
+            assetReportSpareRepository.findByReportIdAndSpareNo(request.getReportId(),
+                request.getSpareNo());
+        if (spare == null) {
+            throw new RuntimeException("spare detail does not exists");
+        }
+        if (StringUtils.isNotBlank(request.getChargeble())) {
+            spare.setChargeble(request.getChargeble());
+        }
+        if (StringUtils.isNotBlank(request.getDcNo())) {
+            spare.setDcNo(request.getDcNo());
+        }
+        if (StringUtils.isNotBlank(request.getSpaceName())) {
+            spare.setSpaceName(request.getSpaceName());
+        }
+        if (null != request.getAmount()) {
+            spare.setAmount(request.getAmount());
+        }
+        if (null != request.getOtherAmout()) {
+            spare.setOtherAmout(request.getOtherAmout());
+        }
+        if (null != request.getQuantity()) {
+            spare.setQuantity(request.getQuantity());
+        }
+        if (null != request.getRate()) {
+            spare.setRate(request.getRate());
+        }
+        if (null != request.getSpareNo()) {
+            spare.setSpareNo(request.getSpareNo());
+        }
+        assetReportSpareRepository.save(spare);
+
+    }
+
+    public List<ReportSpareBO> getAssetReportSpare(Long reportId) {
+        List<ReportSpareBO> list = new ArrayList<ReportSpareBO>();
+        List<AssetReportSpare> spares = assetReportSpareRepository.findByReportId(reportId);
+        for (AssetReportSpare assetReportSpare : spares) {
+            ReportSpareBO bo = new ReportSpareBO();
+            BeanUtils.copyProperties(assetReportSpare, bo);
+            list.add(bo);
+        }
+        return list;
+    }
+
+    public void deleteAssetReportSpare(Long spareId) {
+        AssetReportSpare spare = assetReportSpareRepository.findOne(spareId);
+        if (spare == null) {
+            throw new RuntimeException("spare detail does not exists");
+        }
+        assetReportSpareRepository.delete(spare);
+    }
+
+    public void createAssetReportCharges(ReportCharges request) {
+        getReport(request.getReportId());
+        AssetReportCharges charges = new AssetReportCharges();
+        BeanUtils.copyProperties(request, charges);
+        charges.setInvoiceDate(DateUtil.parse(request.getInvoiceDate(), null));
+        assetReportChargesRepository.save(charges);
+
+    }
+
+    public void updateAssetReportCharges(ReportCharges request) {
+        AssetReportCharges charges = assetReportChargesRepository.findOne(request.getReportId());
+        if (charges == null) {
+            throw new RuntimeException("charge detail does not exists");
+        }
+        if (StringUtils.isNotBlank(request.getInvoiceNo())) {
+            charges.setInvoiceNo(request.getInvoiceNo());
+        }
+        if (StringUtils.isNotBlank(request.getTaxType())) {
+            charges.setTaxType(request.getTaxType());
+        }
+        if (StringUtils.isNotBlank(request.getSpareTaxType())) {
+            charges.setSpareTaxType(request.getSpareTaxType());
+        }
+        if (null != request.getHoidayCharges()) {
+            charges.setHoidayCharges(request.getHoidayCharges());
+        }
+        if (null != request.getGrandTotal()) {
+            charges.setGrandTotal(request.getGrandTotal());
+        }
+        if (null != request.getOffHourCharges()) {
+            charges.setOffHourCharges(request.getOffHourCharges());
+        }
+        if (null != request.getServiceCharges()) {
+            charges.setServiceCharges(request.getServiceCharges());
+        }
+        if (null != request.getSpareAmount()) {
+            charges.setSpareAmount(request.getSpareAmount());
+        }
+        if (null != request.getSpareTaxAmount()) {
+            charges.setSpareTaxAmount(request.getSpareTaxAmount());
+        }
+        if (null != request.getSpareTaxPercentage()) {
+            charges.setSpareTaxPercentage(request.getSpareTaxPercentage());
+        }
+        if (null != request.getTaxPercentage()) {
+            charges.setTaxPercentage(request.getTaxPercentage());
+        }
+        if (null != request.getTaxAmount()) {
+            charges.setTaxAmount(request.getTaxAmount());
+        }
+        if (null != request.getToFroCharges()) {
+            charges.setToFroCharges(request.getToFroCharges());
+        }
+        if (null != request.getTotalCharges()) {
+            charges.setTotalCharges(request.getTotalCharges());
+        }
+        if (StringUtils.isNotBlank(request.getInvoiceDate())) {
+            charges.setInvoiceDate(DateUtil.parse(request.getInvoiceDate(), null));
+        }
+        assetReportChargesRepository.save(charges);
+    }
+
+    public void deleteAssetReportCharges(Long reportId) {
+        AssetReportCharges charges = assetReportChargesRepository.findOne(reportId);
+        if (charges == null) {
+            throw new RuntimeException("charge detail does not exists");
+        }
+        assetReportChargesRepository.delete(charges);
+
+    }
+
+    public ReportCharges getAssetReportCharges(Long reportId) {
+        AssetReportCharges charges = assetReportChargesRepository.findOne(reportId);
+        if (charges == null) {
+            throw new RuntimeException("charge detail does not exists");
+        }
+        ReportCharges bo = new ReportCharges();
+        BeanUtils.copyProperties(charges, bo);
+        if (charges.getInvoiceDate() != null) {
+            bo.setInvoiceDate(DateUtil.formate(charges.getInvoiceDate().getTime(), null));
+        }
+        return bo;
     }
 
 
