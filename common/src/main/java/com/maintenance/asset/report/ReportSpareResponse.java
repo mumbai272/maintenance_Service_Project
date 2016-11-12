@@ -15,6 +15,7 @@ public class ReportSpareResponse extends BaseResponse {
 
     @XmlElement
     List<ReportSpareBO> spares;
+    private Double spareTotal;
 
 
     public List<ReportSpareBO> getSpares() {
@@ -25,5 +26,18 @@ public class ReportSpareResponse extends BaseResponse {
     public void setSpares(List<ReportSpareBO> spares) {
         this.spares = spares;
     }
+
+
+    
+    public Double getSpareTotal() {
+        return spareTotal;
+    }
+
+
+    
+    public void setSpareTotal(Double spareTotal) {
+        this.spareTotal = spareTotal;
+    }
+    
 
 }

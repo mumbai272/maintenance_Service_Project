@@ -156,9 +156,8 @@ public class AssetLogReportRestImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response getReportSpare(@PathParam("reportId") Long reportId) {
         logger.info("getting report spare :" + reportId);
-        ReportSpareResponse response = new ReportSpareResponse();
-        List<ReportSpareBO> spares=assetLogReportServiceImpl.getAssetReportSpare(reportId);
-        response.setSpares(spares);
+        ReportSpareResponse response = assetLogReportServiceImpl.getAssetReportSpare(reportId);
+        
         return Response.ok(response).build();
     }
     @DELETE

@@ -20,6 +20,7 @@ import com.maintenance.asset.report.ReportCharges;
 import com.maintenance.asset.report.ReportLogBO;
 import com.maintenance.asset.report.ReportSpareBO;
 import com.maintenance.asset.report.ReportSpareCreateBO;
+import com.maintenance.asset.report.ReportSpareResponse;
 import com.maintenance.asset.report.ReportcreateBO;
 import com.maintenance.common.StatusType;
 import com.maintenance.common.util.DateUtil;
@@ -71,9 +72,10 @@ public class AssetLogReportServiceImpl {
         AssetReport report = assetReportRepository.findByLogId(logId);
         AssetReportBO assetReportBO = new AssetReportBO();
         BeanUtils.copyProperties(report, assetReportBO);
-        assetReportBO.setReportedDateTime(DateUtil.formate(report.getReportedDateTime().getTime(),
-            null));
-
+        if (report.getReportedDateTime() != null) {
+            assetReportBO.setReportedDateTime(DateUtil.formate(report.getReportedDateTime()
+                    .getTime(), null));
+        }
         return assetReportBO;
 
     }
@@ -134,12 +136,18 @@ public class AssetLogReportServiceImpl {
         try {
             AssetReportLog r_log = new AssetReportLog();
             BeanUtils.copyProperties(request, r_log);
+            if(StringUtils.isNotBlank(request.getDateTime())){
             r_log.setDateTime(DateUtil.parse(request.getDateTime(), null));
+            }
+            if(StringUtils.isNotBlank(request.getTimeIn())){
             r_log.setTimeIn(DateUtil.parse(request.getTimeIn(), null));
+            }
+            if(StringUtils.isNotBlank(request.getTimeOut())){
             r_log.setTimeOut(DateUtil.parse(request.getTimeOut(), null));
-            
+            }
+            if(StringUtils.isNotBlank(request.getTravelTime())){
             r_log.setTravelTime(DateUtil.parseTime(request.getTravelTime()));
-
+            }
             assetReportLogRepository.save(r_log);
         } catch (ConstraintViolationException e) {
             throw new RuntimeException("Already have data for service engineer");
@@ -202,10 +210,18 @@ public class AssetLogReportServiceImpl {
         for (AssetReportLog assetReportLog : rlogList) {
             ReportLogBO bo = new ReportLogBO();
             BeanUtils.copyProperties(assetReportLog, bo);
-            bo.setTimeIn(DateUtil.formate(assetReportLog.getTimeIn().getTime(), null));
-            bo.setTimeOut(DateUtil.formate(assetReportLog.getTimeOut().getTime(), null));
-            bo.setDateTime(DateUtil.formate(assetReportLog.getDateTime().getTime(), null));
-            bo.setTravelTime(DateUtil.formate(assetReportLog.getTravelTime(), "hh:mm:ss"));
+            if (assetReportLog.getTimeIn() != null) {
+                bo.setTimeIn(DateUtil.formate(assetReportLog.getTimeIn().getTime(), null));
+            }
+            if (assetReportLog.getTimeOut() != null) {
+                bo.setTimeOut(DateUtil.formate(assetReportLog.getTimeOut().getTime(), null));
+            }
+            if (assetReportLog.getDateTime() != null) {
+                bo.setDateTime(DateUtil.formate(assetReportLog.getDateTime().getTime(), null));
+            }
+            if (assetReportLog.getTravelTime() != null) {
+                bo.setTravelTime(DateUtil.formate(assetReportLog.getTravelTime(), "hh:mm:ss"));
+            }
             rlogBOList.add(bo);
         }
         return rlogBOList;
@@ -235,6 +251,7 @@ public class AssetLogReportServiceImpl {
         try {
             AssetReportSpare rSpare = new AssetReportSpare();
             BeanUtils.copyProperties(request, rSpare);
+            rSpare.setDcdateTime(DateUtil.parse(request.getDcdateTime(), null));
             assetReportSpareRepository.save(rSpare);
         } catch (ConstraintViolationException e) {
             throw new RuntimeException("Already have data for spare");
@@ -254,6 +271,9 @@ public class AssetLogReportServiceImpl {
         if (StringUtils.isNotBlank(request.getDcNo())) {
             spare.setDcNo(request.getDcNo());
         }
+        if (StringUtils.isNotBlank(request.getDcdateTime())) {
+            spare.setDcdateTime(DateUtil.parse(request.getDcdateTime(), null));
+        }
         if (StringUtils.isNotBlank(request.getSpaceName())) {
             spare.setSpaceName(request.getSpaceName());
         }
@@ -272,19 +292,34 @@ public class AssetLogReportServiceImpl {
         if (null != request.getSpareNo()) {
             spare.setSpareNo(request.getSpareNo());
         }
+        
         assetReportSpareRepository.save(spare);
 
     }
 
-    public List<ReportSpareBO> getAssetReportSpare(Long reportId) {
+    public ReportSpareResponse getAssetReportSpare(Long reportId) {
+        ReportSpareResponse response = new ReportSpareResponse();
+
         List<ReportSpareBO> list = new ArrayList<ReportSpareBO>();
         List<AssetReportSpare> spares = assetReportSpareRepository.findByReportId(reportId);
+        double total=0;
         for (AssetReportSpare assetReportSpare : spares) {
             ReportSpareBO bo = new ReportSpareBO();
             BeanUtils.copyProperties(assetReportSpare, bo);
+            if (assetReportSpare.getDcdateTime() != null) {
+                bo.setDcdateTime(DateUtil.formate(assetReportSpare.getDcdateTime().getTime(), null));
+            }
+            if(assetReportSpare.getAmount()==null){
+                total+=assetReportSpare.getQuantity()+assetReportSpare.getRate()+assetReportSpare.getOtherAmout();
+            }else{
+                total+=assetReportSpare.getAmount()+assetReportSpare.getOtherAmout(); 
+            }
+            
             list.add(bo);
-        }
-        return list;
+        }     
+        response.setSpareTotal(total);
+        response.setSpares(list);
+        return response;
     }
 
     public void deleteAssetReportSpare(Long spareId) {
