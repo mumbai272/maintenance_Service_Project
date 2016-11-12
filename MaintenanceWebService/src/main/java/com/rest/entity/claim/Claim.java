@@ -17,18 +17,24 @@ import javax.persistence.TemporalType;
 public class Claim {
 
     @Id
-    @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "claimNumber_Next_Value", allocationSize = 1)
+    @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "claimId_Next_Value", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
+    private Long claimId;
+
+    @Column(name = "COMPANY_ID", nullable = false)
+    private Long companyId;
+
+    @Column(name = "CLAIM_NO")
     private Long claimNumber;
 
     @Column(name = "CLAIM_DATE")
     @Temporal(TemporalType.DATE)
     private Date claimDate;
 
-    @Column(name = "SERVICE_PERSON",length=150, nullable=false)
-    private String servicePerson;
+    @Column(name = "SERVICE_PERSON", length = 150, nullable = false)
+    private Long servicePerson;
 
-    @Column(name = "START_DATE", nullable=false)
+    @Column(name = "START_DATE", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date claimStartDate;
 
@@ -38,19 +44,50 @@ public class Claim {
 
     @Column(name = "PARTICULARS")
     private String particulars;
-    
+
     @Column(name = "CLAIM_AMOUNT")
     private Double claimAmount;
 
+    @Column(name = "APPROVED_PERSON")
+    private Long approvedBy;
+
+    @Column(name = "APPROVED_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date approvedDate;
+
+    @Column(name = "APPROVED_AMOUNT")
+    private Double approvedAmount;
+
+    @Column(name = "ADVANCE_PAID")
+    private Double advancePaid;
+
+
+    @Column(name = "BALANCE_AMT")
+    private Double balanceAmount;
+
+    @Column(name = "PAY_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date payDate;
+
+    @Column(name = "PAY_DEATILS")
+    private String payDetails;
+
+    @Column(name = "PAY_AMOUNT")
+    private Double payAmount;
+
+    @Column(name = "STATUS")
+    private String status;
 
     public Claim() {
         super();
     }
 
-    public Claim(Long claimNumber, Date claimDate, String servicePerson, Date claimStartDate,
+    public Claim(Long claimNumber, Date claimDate, Long servicePerson, Date claimStartDate,
             Date claimEndDate, Double claimAmount, String particulars) {
         super();
-        this.claimNumber =  claimNumber;
+        if (claimAmount != null) {
+            this.claimNumber = claimNumber;
+        }
         this.claimDate = claimDate;
         this.servicePerson = servicePerson;
         this.claimStartDate = claimStartDate;
@@ -58,61 +95,186 @@ public class Claim {
         this.claimAmount = claimAmount;
         this.particulars = particulars;
     }
+   
+    
+    public Long getClaimId() {
+        return claimId;
+    }
 
-	public Long getClaimNumber() {
-		return claimNumber;
-	}
+    
+    public void setClaimId(Long claimId) {
+        this.claimId = claimId;
+    }
 
-	public void setClaimNumber(Long claimNumber) {
-		this.claimNumber = claimNumber;
-	}
+    
+    public Long getCompanyId() {
+        return companyId;
+    }
 
-	public Date getClaimDate() {
-		return claimDate;
-	}
+    
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
 
-	public void setClaimDate(Date claimDate) {
-		this.claimDate = claimDate;
-	}
+    
+    public Long getClaimNumber() {
+        return claimNumber;
+    }
 
-	public String getServicePerson() {
-		return servicePerson;
-	}
+    
+    public void setClaimNumber(Long claimNumber) {
+        this.claimNumber = claimNumber;
+    }
 
-	public void setServicePerson(String servicePerson) {
-		this.servicePerson = servicePerson;
-	}
+    
+    public Date getClaimDate() {
+        return claimDate;
+    }
 
-	public Date getClaimStartDate() {
-		return claimStartDate;
-	}
+    
+    public void setClaimDate(Date claimDate) {
+        this.claimDate = claimDate;
+    }
 
-	public void setClaimStartDate(Date claimStartDate) {
-		this.claimStartDate = claimStartDate;
-	}
+    
+    public Long getServicePerson() {
+        return servicePerson;
+    }
 
-	public Date getClaimEndDate() {
-		return claimEndDate;
-	}
+    
+    public void setServicePerson(Long servicePerson) {
+        this.servicePerson = servicePerson;
+    }
 
-	public void setClaimEndDate(Date claimEndDate) {
-		this.claimEndDate = claimEndDate;
-	}
+    
+    public Date getClaimStartDate() {
+        return claimStartDate;
+    }
 
-	public Double getClaimAmount() {
-		return claimAmount;
-	}
+    
+    public void setClaimStartDate(Date claimStartDate) {
+        this.claimStartDate = claimStartDate;
+    }
 
-	public void setClaimAmount(Double claimAmount) {
-		this.claimAmount = claimAmount;
-	}
+    
+    public Date getClaimEndDate() {
+        return claimEndDate;
+    }
 
-	public String getParticulars() {
-		return particulars;
-	}
+    
+    public void setClaimEndDate(Date claimEndDate) {
+        this.claimEndDate = claimEndDate;
+    }
 
-	public void setParticulars(String particulars) {
-		this.particulars = particulars;
-	}
+    
+    public String getParticulars() {
+        return particulars;
+    }
 
+    
+    public void setParticulars(String particulars) {
+        this.particulars = particulars;
+    }
+
+    
+    public Double getClaimAmount() {
+        return claimAmount;
+    }
+
+    
+    public void setClaimAmount(Double claimAmount) {
+        this.claimAmount = claimAmount;
+    }
+
+    
+    public Long getApprovedBy() {
+        return approvedBy;
+    }
+
+    
+    public void setApprovedBy(Long approvedBy) {
+        this.approvedBy = approvedBy;
+    }
+
+    
+    public Date getApprovedDate() {
+        return approvedDate;
+    }
+
+    
+    public void setApprovedDate(Date approvedDate) {
+        this.approvedDate = approvedDate;
+    }
+
+    
+    public Double getApprovedAmount() {
+        return approvedAmount;
+    }
+
+    
+    public void setApprovedAmount(Double approvedAmount) {
+        this.approvedAmount = approvedAmount;
+    }
+
+    
+    public Double getAdvancePaid() {
+        return advancePaid;
+    }
+
+    
+    public void setAdvancePaid(Double advancePaid) {
+        this.advancePaid = advancePaid;
+    }
+
+    
+    public Double getBalanceAmount() {
+        return balanceAmount;
+    }
+
+    
+    public void setBalanceAmount(Double balanceAmount) {
+        this.balanceAmount = balanceAmount;
+    }
+
+    
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
+
+    
+    public String getPayDetails() {
+        return payDetails;
+    }
+
+    
+    public void setPayDetails(String payDetails) {
+        this.payDetails = payDetails;
+    }
+
+    
+    public Double getPayAmount() {
+        return payAmount;
+    }
+
+    
+    public void setPayAmount(Double payAmount) {
+        this.payAmount = payAmount;
+    }
+
+    
+    public String getStatus() {
+        return status;
+    }
+
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+	
 }

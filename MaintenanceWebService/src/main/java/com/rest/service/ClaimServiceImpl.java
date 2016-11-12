@@ -37,23 +37,31 @@ public class ClaimServiceImpl extends BaseServiceImpl{
     
 	@Transactional(readOnly = false)
 	public void createClaim(ClaimForm claimForm) {
-		Claim claim = new Claim(claimForm.getClaimNumber(), claimForm.getClaimDate(), claimForm.getServicePerson(),
+		Claim claim = new Claim(claimForm.getClaimNumber(), claimForm.getClaimDate(), getLoggedInUser().getUserId(),
 				claimForm.getClaimStartDate(), claimForm.getClaimEndDate(), claimForm.getClaimAmount(),
 				claimForm.getParticulars());
-
+        claim.setCompanyId(getLoggedInUser().getCompanyId());
 		claimRepository.save(claim);
 	}
    
 	@Transactional(readOnly = false)
 	public void createConvenceExpense(ClaimConveyanceExpense expense) {
-		ConveyanceExpense expObject = new ConveyanceExpense(expense.getExpenseId(), expense.getExpenseDate(),
+	    Claim claim=claimRepository.findOne(expense.getClaimId());
+        if (claim == null) {
+            throw new RuntimeException("Claim does not exist");
+        }
+		ConveyanceExpense expObject = new ConveyanceExpense(expense.getClaimId(), expense.getExpenseDate(),
 				expense.getTravelFrom(), expense.getTravelTo(), expense.getModeOfTransport(), expense.getClaimAmount());
 		conveyanceRepository.save(expObject);
 	}
 	
 	@Transactional(readOnly = false)
 	public void createBusinessExpense(ClaimBusinessExpense expense) {
-		BusinessExpense expObject = new BusinessExpense(expense.getExpenseId(), expense.getExpenseDate(),
+	    Claim claim=claimRepository.findOne(expense.getClaimId());
+        if (claim == null) {
+            throw new RuntimeException("Claim does not exist");
+        }
+		BusinessExpense expObject = new BusinessExpense(expense.getClaimId(), expense.getExpenseDate(),
 				expense.getGuest(), expense.getParticulars(), expense.getBillNumber(), expense.getBillDate(),
 				expense.getClaimAmount());
 		businessRepository.save(expObject);
@@ -61,7 +69,11 @@ public class ClaimServiceImpl extends BaseServiceImpl{
 	
 	@Transactional(readOnly = false)
 	public void createMiscExpense(ClaimMiscExpense expense) {
-		MiscExpense expObject = new MiscExpense(expense.getExpenseId(), expense.getExpenseDate(),
+	    Claim claim=claimRepository.findOne(expense.getClaimId());
+        if (claim == null) {
+            throw new RuntimeException("Claim does not exist");
+        }
+		MiscExpense expObject = new MiscExpense(expense.getClaimId(), expense.getExpenseDate(),
 				expense.getParticulars(), expense.getBillNumber(), expense.getBillDate(), expense.getClaimAmount());
 		miscRepository.save(expObject);
 	}

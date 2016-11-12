@@ -46,6 +46,7 @@
 			<ref bean="assetLogRestServiceImpl"/>
 			<ref bean="assetLogReportRestImpl"/>
 			<ref bean="companyAttributeRestServiceImpl"/>
+			<ref bean="claimFormRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>

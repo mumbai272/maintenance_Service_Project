@@ -17,6 +17,7 @@ import com.maintenance.common.claim.ClaimBusinessExpense;
 import com.maintenance.common.claim.ClaimConveyanceExpense;
 import com.maintenance.common.claim.ClaimForm;
 import com.maintenance.common.claim.ClaimMiscExpense;
+import com.maintenance.request.BaseResponse;
 import com.rest.service.ClaimServiceImpl;
 
 @Component
@@ -33,9 +34,10 @@ public class ClaimFormRestServiceImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response claimForm(ClaimForm request, @Context MessageContext context) {
     	logger.info("Start: /claim/form API invoked");
+    	BaseResponse response=new BaseResponse();
     	claimServiceImpl.createClaim(request);
     	logger.info("End: /claim/form");
-    	return null;
+    	return Response.ok(response).build();
 	}
 
     @Path(value = "/claim/conveyance/expense")
@@ -44,9 +46,10 @@ public class ClaimFormRestServiceImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response conveyanceExpense(ClaimConveyanceExpense request, @Context MessageContext context) {
     	logger.info("Start: /claim/conveyance/expense API invoked");
+        BaseResponse response=new BaseResponse();
     	claimServiceImpl.createConvenceExpense(request);
     	logger.info("End: /claim/conveyance/expense");
-    	return null;
+    	return  Response.ok(response).build();
 	}
 
     @Path(value = "/claim/business/development/expense")
@@ -55,9 +58,10 @@ public class ClaimFormRestServiceImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response businessDevelopmentExpense(ClaimBusinessExpense request, @Context MessageContext context) {
     	logger.info("Start: /claim/business/development/expense API invoked");
+        BaseResponse response=new BaseResponse();
     	claimServiceImpl.createBusinessExpense(request);
     	logger.info("End: /claim/business/development/expense");
-    	return null;
+    	return  Response.ok(response).build();
 	}
 
     @Path(value = "/claim/misc/expense")
@@ -66,9 +70,10 @@ public class ClaimFormRestServiceImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response miscExpense(ClaimMiscExpense request, @Context MessageContext context) {
     	logger.info("Start: /claim/misc/expense API invoked");
+        BaseResponse response=new BaseResponse();
     	claimServiceImpl.createMiscExpense(request);
     	logger.info("End: /claim/misc/expense");
-    	return null;
+    	return  Response.ok(response).build();
 	}
 
 }

@@ -2,6 +2,7 @@
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -9,10 +10,10 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 public class ClaimMiscExpense {
 
-    @NotBlank
-    private Long expenseId;
+    @NotNull
+    private Long claimId;
 
-    @NotBlank
+    @NotNull
     private Date expenseDate;
 
     @NotBlank
@@ -21,21 +22,23 @@ public class ClaimMiscExpense {
     @NotBlank
     private String billNumber;
 
-    @NotBlank
+    @NotNull
     private Date billDate;
 
-    @NotBlank
+    @NotNull
     private Double claimAmount;
 
-	public Long getExpenseId() {
-		return expenseId;
-	}
+		
+    public Long getClaimId() {
+        return claimId;
+    }
 
-	public void setExpenseId(Long expenseId) {
-		this.expenseId = expenseId;
-	}
+    
+    public void setClaimId(Long claimId) {
+        this.claimId = claimId;
+    }
 
-	public Date getExpenseDate() {
+    public Date getExpenseDate() {
 		return expenseDate;
 	}
 

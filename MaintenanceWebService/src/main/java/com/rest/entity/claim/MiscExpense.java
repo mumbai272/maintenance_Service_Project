@@ -20,6 +20,9 @@ public class MiscExpense {
     @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "misc_expenseId_Next_Value", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
     private Long expenseId;
+    
+    @Column(name = "CLAIM_ID",nullable=false)
+    private Long claimId;
 
     @Column(name = "EXPENSE_DATE")
     @Temporal(TemporalType.DATE)
@@ -42,17 +45,29 @@ public class MiscExpense {
         super();
     }
 
-    public MiscExpense(Long expenseId, Date expenseDate, String particulars, String billNumber,
+    public MiscExpense(Long claimId, Date expenseDate, String particulars, String billNumber,
             Date billDate, Double claimAmount) {
         super();
-        this.expenseId = expenseId;
+        this.claimId = claimId;
         this.expenseDate = expenseDate;
         this.particulars = particulars;
         this.billNumber = billNumber;
         this.billDate = billDate;
         this.claimAmount = claimAmount;
     }
+  
+ 
+
     
+    public Long getClaimId() {
+        return claimId;
+    }
+
+    
+    public void setClaimId(Long claimId) {
+        this.claimId = claimId;
+    }
+
     public Long getExpenseId() {
 		return expenseId;
 	}

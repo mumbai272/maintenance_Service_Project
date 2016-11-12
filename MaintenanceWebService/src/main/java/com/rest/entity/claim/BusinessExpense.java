@@ -20,6 +20,9 @@ public class BusinessExpense {
     @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "bussinessExpense_id_Next_Value", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
     private Long expenseId;
+    
+    @Column(name = "CLAIM_ID",nullable=false)
+    private Long claimId;
 
     @Column(name = "EXPENSE_DATE")
     @Temporal(TemporalType.DATE)
@@ -46,10 +49,10 @@ public class BusinessExpense {
         super();
     }
 
-    public BusinessExpense(Long expenseId, Date expenseDate, String guest, String particulars,
+    public BusinessExpense(Long claimId, Date expenseDate, String guest, String particulars,
             String billNumber, Date billDate, Double claimAmount) {
         super();
-        this.expenseId = expenseId;
+        this.claimId = claimId;
         this.expenseDate = expenseDate;
         this.guest = guest;
         this.particulars = particulars;
@@ -57,61 +60,86 @@ public class BusinessExpense {
         this.billDate = billDate;
         this.claimAmount = claimAmount;
     }
-
+      
     public Long getExpenseId() {
-		return expenseId;
-	}
+        return expenseId;
+    }
 
-	public void setExpenseId(Long expenseId) {
-		this.expenseId = expenseId;
-	}
+    
+    public void setExpenseId(Long expenseId) {
+        this.expenseId = expenseId;
+    }
 
-	public Date getExpenseDate() {
-		return expenseDate;
-	}
+    
+    public Long getClaimId() {
+        return claimId;
+    }
 
-	public void setExpenseDate(Date expenseDate) {
-		this.expenseDate = expenseDate;
-	}
+    
+    public void setClaimId(Long claimId) {
+        this.claimId = claimId;
+    }
 
-	public String getGuest() {
-		return guest;
-	}
+    
+    public Date getExpenseDate() {
+        return expenseDate;
+    }
 
-	public void setGuest(String guest) {
-		this.guest = guest;
-	}
+    
+    public void setExpenseDate(Date expenseDate) {
+        this.expenseDate = expenseDate;
+    }
 
-	public String getParticulars() {
-		return particulars;
-	}
+    
+    public String getGuest() {
+        return guest;
+    }
 
-	public void setParticulars(String particulars) {
-		this.particulars = particulars;
-	}
+    
+    public void setGuest(String guest) {
+        this.guest = guest;
+    }
 
-	public String getBillNumber() {
-		return billNumber;
-	}
+    
+    public String getParticulars() {
+        return particulars;
+    }
 
-	public void setBillNumber(String billNumber) {
-		this.billNumber = billNumber;
-	}
+    
+    public void setParticulars(String particulars) {
+        this.particulars = particulars;
+    }
 
-	public Date getBillDate() {
-		return billDate;
-	}
+    
+    public String getBillNumber() {
+        return billNumber;
+    }
 
-	public void setBillDate(Date billDate) {
-		this.billDate = billDate;
-	}
+    
+    public void setBillNumber(String billNumber) {
+        this.billNumber = billNumber;
+    }
 
-	public Double getClaimAmount() {
-		return claimAmount;
-	}
+    
+    public Date getBillDate() {
+        return billDate;
+    }
 
-	public void setClaimAmount(Double claimAmount) {
-		this.claimAmount = claimAmount;
-	}
+    
+    public void setBillDate(Date billDate) {
+        this.billDate = billDate;
+    }
+
+    
+    public Double getClaimAmount() {
+        return claimAmount;
+    }
+
+    
+    public void setClaimAmount(Double claimAmount) {
+        this.claimAmount = claimAmount;
+    }
+
+
 
 }

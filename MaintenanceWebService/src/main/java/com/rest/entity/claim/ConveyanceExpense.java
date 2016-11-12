@@ -20,7 +20,10 @@ public class ConveyanceExpense {
     @TableGenerator(name = "tableGenerator", table = "primaryKeyTable", pkColumnName = "Id", pkColumnValue = "expenseId_Next_Value", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
     private Long expenseId;
-
+    
+    @Column(name = "CLAIM_ID",nullable=false)
+    private Long claimId;
+    
     @Column(name = "EXPENSE_DATE")
     @Temporal(TemporalType.DATE)
     private Date expenseDate;
@@ -41,10 +44,19 @@ public class ConveyanceExpense {
         super();
     }
 
-    public ConveyanceExpense(Long expenseId, Date expenseDate, String travelFrom, String travelTo,
+    public ConveyanceExpense(Long claimId, Date expenseDate, String travelFrom, String travelTo,
     		String modeOfTransport, Double claimAmount) {
         super();
-        this.expenseId = expenseId;
+        this.claimId = claimId;
+        this.expenseDate = expenseDate;
+        this.travelFrom = travelFrom;
+        this.travelTo = travelTo;
+        this.modeOfTransport = modeOfTransport;
+        this.claimAmount = claimAmount;
+    }
+    public ConveyanceExpense(Date expenseDate, String travelFrom, String travelTo,
+            String modeOfTransport, Double claimAmount) {
+        super();
         this.expenseDate = expenseDate;
         this.travelFrom = travelFrom;
         this.travelTo = travelTo;
