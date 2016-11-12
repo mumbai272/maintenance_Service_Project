@@ -251,7 +251,10 @@ public class AssetLogReportServiceImpl {
         try {
             AssetReportSpare rSpare = new AssetReportSpare();
             BeanUtils.copyProperties(request, rSpare);
-            rSpare.setDcdateTime(DateUtil.parse(request.getDcdateTime(), null));
+            if (StringUtils.isNotBlank(request.getDcdateTime())) {
+                rSpare.setDcdateTime(DateUtil.parse(request.getDcdateTime(), null));
+            }
+            rSpare.setAmount(request.getRate()*request.getQuantity());
             assetReportSpareRepository.save(rSpare);
         } catch (ConstraintViolationException e) {
             throw new RuntimeException("Already have data for spare");
@@ -277,9 +280,7 @@ public class AssetLogReportServiceImpl {
         if (StringUtils.isNotBlank(request.getSpaceName())) {
             spare.setSpaceName(request.getSpaceName());
         }
-        if (null != request.getAmount()) {
-            spare.setAmount(request.getAmount());
-        }
+
         if (null != request.getOtherAmout()) {
             spare.setOtherAmout(request.getOtherAmout());
         }
@@ -289,10 +290,11 @@ public class AssetLogReportServiceImpl {
         if (null != request.getRate()) {
             spare.setRate(request.getRate());
         }
+       
         if (null != request.getSpareNo()) {
             spare.setSpareNo(request.getSpareNo());
         }
-        
+        spare.setAmount(request.getRate()*request.getQuantity());
         assetReportSpareRepository.save(spare);
 
     }
@@ -309,10 +311,10 @@ public class AssetLogReportServiceImpl {
             if (assetReportSpare.getDcdateTime() != null) {
                 bo.setDcdateTime(DateUtil.formate(assetReportSpare.getDcdateTime().getTime(), null));
             }
-            if(assetReportSpare.getAmount()==null){
-                total+=assetReportSpare.getQuantity()+assetReportSpare.getRate()+assetReportSpare.getOtherAmout();
-            }else{
-                total+=assetReportSpare.getAmount()+assetReportSpare.getOtherAmout(); 
+            if (assetReportSpare.getOtherAmout() == null) {
+                total += assetReportSpare.getAmount();
+            } else {
+                total += assetReportSpare.getAmount() + assetReportSpare.getOtherAmout();
             }
             
             list.add(bo);

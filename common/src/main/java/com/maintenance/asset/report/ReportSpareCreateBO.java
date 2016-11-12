@@ -8,6 +8,8 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @XmlRootElement
 public class ReportSpareCreateBO implements Serializable {
 
@@ -19,13 +21,12 @@ public class ReportSpareCreateBO implements Serializable {
 
     private String spaceName;
 
+    @NotBlank
     private String chargeble;
-
+    @NotNull
     private Double rate;
-
+    @NotNull
     private Double quantity;
-
-    private Double amount;
 
     private Double otherAmout;
 
@@ -93,17 +94,7 @@ public class ReportSpareCreateBO implements Serializable {
         this.quantity = quantity;
     }
 
-    
-    public Double getAmount() {
-        return amount;
-    }
-
-    
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    
+  
     public Double getOtherAmout() {
         return otherAmout;
     }
