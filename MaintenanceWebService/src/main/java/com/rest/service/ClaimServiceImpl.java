@@ -60,7 +60,9 @@ public class ClaimServiceImpl extends BaseServiceImpl {
 
     @Transactional(readOnly = false)
     public ConveyanceExpense createConvenceExpense(ClaimConveyanceExpense expense) {
-        Claim claim = claimRepository.findByClaimIdAndStatus(expense.getClaimId(),StatusType.ACTIVE.getValue());
+        Claim claim =
+            claimRepository.findByClaimIdAndStatus(expense.getClaimId(),
+                StatusType.ACTIVE.getValue());
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
@@ -74,7 +76,9 @@ public class ClaimServiceImpl extends BaseServiceImpl {
 
     @Transactional(readOnly = false)
     public BusinessExpense createBusinessExpense(ClaimBusinessExpense expense) {
-        Claim claim = claimRepository.findByClaimIdAndStatus(expense.getClaimId(),StatusType.ACTIVE.getValue());
+        Claim claim =
+            claimRepository.findByClaimIdAndStatus(expense.getClaimId(),
+                StatusType.ACTIVE.getValue());
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
@@ -88,7 +92,9 @@ public class ClaimServiceImpl extends BaseServiceImpl {
 
     @Transactional(readOnly = false)
     public MiscExpense createMiscExpense(ClaimMiscExpense expense) {
-        Claim claim = claimRepository.findByClaimIdAndStatus(expense.getClaimId(),StatusType.ACTIVE.getValue());
+        Claim claim =
+            claimRepository.findByClaimIdAndStatus(expense.getClaimId(),
+                StatusType.ACTIVE.getValue());
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
@@ -106,7 +112,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
-        ClaimBO claimBO=new ClaimBO();
+        ClaimBO claimBO = new ClaimBO();
         BeanUtils.copyProperties(claim, claimBO);
         response.setClaim(claimBO);
         List<ClaimConveyanceExpense> conveyanceExpenses = getConveyanceExpenses(claimId);
@@ -161,22 +167,24 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     }
 
     public ClaimResponse getClaim() {
-        ClaimResponse response=new ClaimResponse();
-     List<Claim> claims=null;
-     if(getLoggedInUser().getRole().equals(RoleType.ADMIN)){
-         claims=claimRepository.findByCompanyId(getLoggedInUser().getCompanyId());
-     }else{
-         claims=claimRepository.findByServicePerson(getLoggedInUser().getUserId());
-     }
-     if(!CollectionUtils.isEmpty(claims)){
-         List<ClaimBO> boList=new ArrayList<ClaimBO>();
-         for (Claim claim : claims) {
-             ClaimBO claimBO=new ClaimBO();
-             BeanUtils.copyProperties(claim, claimBO);
-             boList.add(claimBO);
+        ClaimResponse response = new ClaimResponse();
+        List<Claim> claims = null;
+        if (getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
+            claims =
+                claimRepository.findByCompanyIdAndStatus(getLoggedInUser().getCompanyId(),
+                    StatusType.SUBMITTED.getValue());
+        } else {
+            claims = claimRepository.findByServicePerson(getLoggedInUser().getUserId());
         }
-         response.setClaims(boList);
-     }
+        if (!CollectionUtils.isEmpty(claims)) {
+            List<ClaimBO> boList = new ArrayList<ClaimBO>();
+            for (Claim claim : claims) {
+                ClaimBO claimBO = new ClaimBO();
+                BeanUtils.copyProperties(claim, claimBO);
+                boList.add(claimBO);
+            }
+            response.setClaims(boList);
+        }
         return response;
     }
 
@@ -189,20 +197,30 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         conveyanceRepository.deleteByClaimId(claimId);
         businessRepository.deleteByClaimId(claimId);
         claimRepository.delete(claim);
-        
+
     }
 
     public void deleteBusinessExpense(Long expenseId) {
-       businessRepository.delete(expenseId);
+        businessRepository.delete(expenseId);
     }
 
     public void deleteConvenceExpense(Long expenseId) {
-       conveyanceRepository.delete(expenseId);
-        
+        conveyanceRepository.delete(expenseId);
+
     }
 
     public void deletemiscExpense(Long expenseId) {
-       miscRepository.delete(expenseId);
-        
+        miscRepository.delete(expenseId);
+
+    }
+
+    public void submitClaimForApproval(Long claimId) {
+        Claim claim = claimRepository.findByClaimIdAndStatus(claimId, StatusType.ACTIVE.getValue());
+        if (claim == null) {
+            throw new RuntimeException("Claim does not exist");
+        }
+        claim.setStatus(StatusType.SUBMITTED.getValue());
+        claimRepository.save(claim);
+
     }
 }

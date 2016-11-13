@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -49,6 +50,19 @@ public class ClaimFormRestServiceImpl {
         Claim claim = claimServiceImpl.createClaim(request);
         logger.info("End: /claim/form");
         response.setId(claim.getClaimId());
+        return Response.ok(response).build();
+    }
+    
+    @Path(value = "/claim/submit/{claimId}")
+    @PUT
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response submitClaimForm(@PathParam("claimId") Long claimId) {
+        logger.info("Start: /claim/form API invoked");
+        BaseResponse response = new BaseResponse();
+        claimServiceImpl.submitClaimForApproval(claimId);
+        logger.info("End: /claim/form");
+       
         return Response.ok(response).build();
     }
 

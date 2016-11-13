@@ -11,5 +11,6 @@ import com.rest.entity.claim.Claim;
 public interface ClaimRepository extends CrudRepository<Claim, Long> {
     Claim findByClaimIdAndStatus(Long claimId,String status);
     List<Claim> findByCompanyId(Long companyId);
+    List<Claim> findByCompanyIdAndStatus(Long companyId,String status);
     List<Claim> findByServicePerson(Long userId);
 }
