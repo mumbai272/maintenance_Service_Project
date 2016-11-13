@@ -179,4 +179,30 @@ public class ClaimServiceImpl extends BaseServiceImpl {
      }
         return response;
     }
+
+    public void deleteClaim(Long claimId) {
+        Claim claim = claimRepository.findOne(claimId);
+        if (claim == null) {
+            throw new RuntimeException("Claim does not exist");
+        }
+        miscRepository.deleteByClaimId(claimId);
+        conveyanceRepository.deleteByClaimId(claimId);
+        businessRepository.deleteByClaimId(claimId);
+        claimRepository.delete(claim);
+        
+    }
+
+    public void deleteBusinessExpense(Long expenseId) {
+       businessRepository.delete(expenseId);
+    }
+
+    public void deleteConvenceExpense(Long expenseId) {
+       conveyanceRepository.delete(expenseId);
+        
+    }
+
+    public void deletemiscExpense(Long expenseId) {
+       miscRepository.delete(expenseId);
+        
+    }
 }
