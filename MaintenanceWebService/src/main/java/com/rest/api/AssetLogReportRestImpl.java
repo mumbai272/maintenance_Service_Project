@@ -32,6 +32,7 @@ import com.maintenance.asset.report.ReportSpareCreateBO;
 import com.maintenance.asset.report.ReportSpareResponse;
 import com.maintenance.asset.report.ReportcreateBO;
 import com.maintenance.request.BaseResponse;
+import com.maintenance.request.ResourceCreateResponse;
 import com.rest.service.AssetLogReportServiceImpl;
 
 @Component
@@ -48,8 +49,7 @@ public class AssetLogReportRestImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response createReport(@Valid ReportcreateBO request) {
         logger.info("creating report for logid:" + request.getLogId());
-        BaseResponse response = new BaseResponse();
-        assetLogReportServiceImpl.createAssetReport(request);
+        ResourceCreateResponse response = assetLogReportServiceImpl.createAssetReport(request);
         return Response.ok(response).build();
     }
 
@@ -69,8 +69,7 @@ public class AssetLogReportRestImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response getReport(@PathParam("logId") Long logId) {
         logger.info("getting report ");
-        AssetReportResponse response = new AssetReportResponse();
-        response.setAssetReport(assetLogReportServiceImpl.getAssetReport(logId));
+        AssetReportResponse response = assetLogReportServiceImpl.getAssetReport(logId);
         return Response.ok(response).build();
     }
 
@@ -95,7 +94,7 @@ public class AssetLogReportRestImpl {
         assetLogReportServiceImpl.createAssetLogReport(request);
         return Response.ok(response).build();
     }
-    
+
     @PUT
     @Path(value = "/log")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -106,7 +105,7 @@ public class AssetLogReportRestImpl {
         assetLogReportServiceImpl.updateAssetLogReport(request);
         return Response.ok(response).build();
     }
-    
+
     @GET
     @Path(value = "/log/{reportId}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -114,21 +113,23 @@ public class AssetLogReportRestImpl {
     public Response getReportLog(@PathParam("reportId") Long reportId) {
         logger.info("getting log report :" + reportId);
         ReportLogResponse response = new ReportLogResponse();
-        List<ReportLogBO> reportLogList=assetLogReportServiceImpl.getAssetLogReport(reportId);
+        List<ReportLogBO> reportLogList = assetLogReportServiceImpl.getAssetLogReport(reportId);
         response.setReportLog(reportLogList);
         return Response.ok(response).build();
     }
+
     @DELETE
     @Path("/log/{reportId}/{serviceEngineerId}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response deleteReportLog(@PathParam("reportId") Long reportId,@PathParam("serviceEngineerId") Long serviceEngineerId) {
+    public Response deleteReportLog(@PathParam("reportId") Long reportId,
+            @PathParam("serviceEngineerId") Long serviceEngineerId) {
         logger.info("deleting report Log ");
         BaseResponse response = new BaseResponse();
-        assetLogReportServiceImpl.deleteAssetReportLog(reportId,serviceEngineerId);
+        assetLogReportServiceImpl.deleteAssetReportLog(reportId, serviceEngineerId);
         return Response.ok(response).build();
     }
-    
+
 
     @POST
     @Path(value = "/spare")
@@ -136,10 +137,10 @@ public class AssetLogReportRestImpl {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response createReportLog(@Valid ReportSpareCreateBO request) {
         logger.info("adding report spare :" + request.getSpareNo());
-        BaseResponse response = new BaseResponse();
-        assetLogReportServiceImpl.createAssetReportSpare(request);
+        ResourceCreateResponse response = assetLogReportServiceImpl.createAssetReportSpare(request);
         return Response.ok(response).build();
     }
+
     @PUT
     @Path(value = "/spare")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -150,6 +151,7 @@ public class AssetLogReportRestImpl {
         assetLogReportServiceImpl.updateAssetReportSpare(request);
         return Response.ok(response).build();
     }
+
     @GET
     @Path(value = "/spare/{reportId}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -157,20 +159,21 @@ public class AssetLogReportRestImpl {
     public Response getReportSpare(@PathParam("reportId") Long reportId) {
         logger.info("getting report spare :" + reportId);
         ReportSpareResponse response = assetLogReportServiceImpl.getAssetReportSpare(reportId);
-        
+
         return Response.ok(response).build();
     }
+
     @DELETE
     @Path("/spare/{spareId}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response deleteReportSpare(@PathParam("spareId") Long spareId) {
-        logger.info("deleting report spare:"+spareId);
+        logger.info("deleting report spare:" + spareId);
         BaseResponse response = new BaseResponse();
         assetLogReportServiceImpl.deleteAssetReportSpare(spareId);
         return Response.ok(response).build();
     }
-    
+
     @POST
     @Path(value = "/charges")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -181,6 +184,7 @@ public class AssetLogReportRestImpl {
         assetLogReportServiceImpl.createAssetReportCharges(request);
         return Response.ok(response).build();
     }
+
     @PUT
     @Path(value = "/charges")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -191,6 +195,7 @@ public class AssetLogReportRestImpl {
         assetLogReportServiceImpl.updateAssetReportCharges(request);
         return Response.ok(response).build();
     }
+
     @GET
     @Path("/charges/{reportId}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -198,10 +203,11 @@ public class AssetLogReportRestImpl {
     public Response getReportCharge(@PathParam("reportId") Long reportId) {
         logger.info("getting report chareges for reportId:" + reportId);
         ReportChargesResponse response = new ReportChargesResponse();
-        ReportCharges charge=assetLogReportServiceImpl.getAssetReportCharges(reportId);
+        ReportCharges charge = assetLogReportServiceImpl.getAssetReportCharges(reportId);
         response.setReportCharge(charge);
         return Response.ok(response).build();
     }
+
     @DELETE
     @Path("/charges/{reportId}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maintenance.asset.report.AssetReportBO;
+import com.maintenance.asset.report.AssetReportResponse;
 import com.maintenance.asset.report.AssetReportUpdateRequest;
 import com.maintenance.asset.report.ReportCharges;
 import com.maintenance.asset.report.ReportLogBO;
@@ -24,6 +25,7 @@ import com.maintenance.asset.report.ReportSpareResponse;
 import com.maintenance.asset.report.ReportcreateBO;
 import com.maintenance.common.StatusType;
 import com.maintenance.common.util.DateUtil;
+import com.maintenance.request.ResourceCreateResponse;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetLogImpl;
 import com.rest.entity.AssetReport;
@@ -58,25 +60,33 @@ public class AssetLogReportServiceImpl {
     private AssetReportChargesRepository assetReportChargesRepository;
 
     @Transactional(rollbackFor = { Exception.class })
-    public void createAssetReport(ReportcreateBO request) {
+    public ResourceCreateResponse createAssetReport(ReportcreateBO request) {
+        ResourceCreateResponse response = new ResourceCreateResponse();
         validateAssetLog(request.getLogId());
         AssetReport report = new AssetReport();
         BeanUtils.copyProperties(request, report);
         report.setReportedDateTime(DateUtil.today());
         report.setStatus(StatusType.ACTIVE.getValue());
-        assetReportRepository.save(report);
+        report = assetReportRepository.save(report);
+       response.setId(report.getReportId());
+       return response;
     }
 
-    public AssetReportBO getAssetReport(Long logId) {
+    public AssetReportResponse getAssetReport(Long logId) {
         validateAssetLog(logId);
         AssetReport report = assetReportRepository.findByLogId(logId);
+        AssetReportResponse response = new AssetReportResponse();
         AssetReportBO assetReportBO = new AssetReportBO();
         BeanUtils.copyProperties(report, assetReportBO);
         if (report.getReportedDateTime() != null) {
             assetReportBO.setReportedDateTime(DateUtil.formate(report.getReportedDateTime()
                     .getTime(), null));
         }
-        return assetReportBO;
+        response.setAssetReport(assetReportBO);
+        response.setReportLog(getAssetLogReport(report.getReportId()));
+        response.setReportCharge(getAssetReportCharges(report.getReportId()));
+        response.setSpares(getAssetReportSpare(report.getReportId()));
+        return response ;
 
     }
 
@@ -240,7 +250,8 @@ public class AssetLogReportServiceImpl {
     }
 
     @Transactional(rollbackFor = { Exception.class })
-    public void createAssetReportSpare(ReportSpareCreateBO request) {
+    public ResourceCreateResponse createAssetReportSpare(ReportSpareCreateBO request) {
+       ResourceCreateResponse response=new ResourceCreateResponse();
         getReport(request.getReportId());
         AssetReportSpare spare =
             assetReportSpareRepository.findByReportIdAndSpareNo(request.getReportId(),
@@ -255,10 +266,12 @@ public class AssetLogReportServiceImpl {
                 rSpare.setDcdateTime(DateUtil.parse(request.getDcdateTime(), null));
             }
             rSpare.setAmount(request.getRate()*request.getQuantity());
-            assetReportSpareRepository.save(rSpare);
+            rSpare = assetReportSpareRepository.save(rSpare);
+            response.setId(rSpare.getSpareId());
         } catch (ConstraintViolationException e) {
             throw new RuntimeException("Already have data for spare");
         }
+        return response;
     }
 
     public void updateAssetReportSpare(ReportSpareBO request) {
