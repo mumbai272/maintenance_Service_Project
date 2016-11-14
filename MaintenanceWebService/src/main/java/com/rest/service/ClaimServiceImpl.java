@@ -53,7 +53,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
                     .getUserId(), claimForm.getClaimStartDate(), claimForm.getClaimEndDate(),
                 claimForm.getClaimAmount(), claimForm.getParticulars());
         claim.setCompanyId(getLoggedInUser().getCompanyId());
-        claim.setStatus(StatusType.ACTIVE.getValue());
+        claim.setStatus(StatusType.ACTIVE.name());
         claim = claimRepository.save(claim);
         return claim;
     }
@@ -62,7 +62,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     public ConveyanceExpense createConvenceExpense(ClaimConveyanceExpense expense) {
         Claim claim =
             claimRepository.findByClaimIdAndStatus(expense.getClaimId(),
-                StatusType.ACTIVE.getValue());
+                StatusType.ACTIVE.name());
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
@@ -78,7 +78,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     public BusinessExpense createBusinessExpense(ClaimBusinessExpense expense) {
         Claim claim =
             claimRepository.findByClaimIdAndStatus(expense.getClaimId(),
-                StatusType.ACTIVE.getValue());
+                StatusType.ACTIVE.name());
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
@@ -94,7 +94,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     public MiscExpense createMiscExpense(ClaimMiscExpense expense) {
         Claim claim =
             claimRepository.findByClaimIdAndStatus(expense.getClaimId(),
-                StatusType.ACTIVE.getValue());
+                StatusType.ACTIVE.name());
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
@@ -172,7 +172,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         if (getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
             claims =
                 claimRepository.findByCompanyIdAndStatus(getLoggedInUser().getCompanyId(),
-                    StatusType.SUBMITTED.getValue());
+                    StatusType.SUBMITTED.name());
         } else {
             claims = claimRepository.findByServicePerson(getLoggedInUser().getUserId());
         }
@@ -219,7 +219,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
-        claim.setStatus(StatusType.SUBMITTED.getValue());
+        claim.setStatus(StatusType.SUBMITTED.name());
         claimRepository.save(claim);
 
     }
