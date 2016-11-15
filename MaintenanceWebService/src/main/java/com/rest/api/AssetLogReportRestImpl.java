@@ -24,7 +24,9 @@ import org.springframework.stereotype.Component;
 import com.maintenance.asset.report.AssetReportResponse;
 import com.maintenance.asset.report.AssetReportUpdateRequest;
 import com.maintenance.asset.report.ReportCharges;
+import com.maintenance.asset.report.ReportChargesCreate;
 import com.maintenance.asset.report.ReportChargesResponse;
+import com.maintenance.asset.report.ReportChargesUpdate;
 import com.maintenance.asset.report.ReportLogBO;
 import com.maintenance.asset.report.ReportLogResponse;
 import com.maintenance.asset.report.ReportSpareBO;
@@ -178,7 +180,7 @@ public class AssetLogReportRestImpl {
     @Path(value = "/charges")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response createReportCharge(@Valid ReportCharges request) {
+    public Response createReportCharge(@Valid ReportChargesCreate request) {
         logger.info("adding report chareges :" + request.getReportId());
         BaseResponse response = new BaseResponse();
         assetLogReportServiceImpl.createAssetReportCharges(request);
@@ -189,7 +191,7 @@ public class AssetLogReportRestImpl {
     @Path(value = "/charges")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response updateReportCharge(@Valid ReportCharges request) {
+    public Response updateReportCharge(@Valid ReportChargesUpdate request) {
         logger.info("updating report chareges :" + request.getReportId());
         BaseResponse response = new BaseResponse();
         assetLogReportServiceImpl.updateAssetReportCharges(request);

@@ -18,6 +18,8 @@ import com.maintenance.asset.report.AssetReportBO;
 import com.maintenance.asset.report.AssetReportResponse;
 import com.maintenance.asset.report.AssetReportUpdateRequest;
 import com.maintenance.asset.report.ReportCharges;
+import com.maintenance.asset.report.ReportChargesCreate;
+import com.maintenance.asset.report.ReportChargesUpdate;
 import com.maintenance.asset.report.ReportLogBO;
 import com.maintenance.asset.report.ReportSpareBO;
 import com.maintenance.asset.report.ReportSpareCreateBO;
@@ -345,16 +347,40 @@ public class AssetLogReportServiceImpl {
         assetReportSpareRepository.delete(spare);
     }
 
-    public void createAssetReportCharges(ReportCharges request) {
+    public void createAssetReportCharges(ReportChargesCreate request) {
         getReport(request.getReportId());
         AssetReportCharges charges = new AssetReportCharges();
         BeanUtils.copyProperties(request, charges);
+        calculateCharges(charges);
         charges.setInvoiceDate(DateUtil.parse(request.getInvoiceDate(), null));
         assetReportChargesRepository.save(charges);
 
     }
 
-    public void updateAssetReportCharges(ReportCharges request) {
+    private AssetReportCharges calculateCharges(AssetReportCharges charges) {
+        double serviceCharges =
+            (charges.getServiceCharges() != null) ? charges.getServiceCharges() : 0.0;
+        double afterHrCharges =
+            (charges.getOffHourCharges() != null) ? charges.getOffHourCharges() : 0.0;
+        double holidayCharges =
+            (charges.getHoidayCharges() != null) ? charges.getHoidayCharges() : 0.0;
+        double toAndFroCharges =
+            (charges.getToFroCharges() != null) ? charges.getToFroCharges() : 0.0;
+        double total = serviceCharges + afterHrCharges + holidayCharges + toAndFroCharges;
+        charges.setTotalCharges(total);
+        double taxPercent = (charges.getTaxPercentage() != null) ? charges.getTaxPercentage() : 0.0;
+        double taxAmount = total * (taxPercent / 100);
+        charges.setTaxAmount(taxAmount);
+        double spareTaxPercent =
+            (charges.getSpareTaxPercentage() != null) ? charges.getSpareTaxPercentage() : 0.0;
+        double spareAmount = (charges.getSpareAmount() != null) ? charges.getSpareAmount() : 0.0;
+        double spareTaxAmount = spareAmount * (spareTaxPercent / 100);
+        charges.setSpareTaxAmount(spareTaxAmount);
+        double grandTotal = total + taxAmount + spareAmount + spareTaxAmount;
+        charges.setGrandTotal(grandTotal);
+        return charges;
+    }
+    public void updateAssetReportCharges(ReportChargesUpdate request) {
         AssetReportCharges charges = assetReportChargesRepository.findOne(request.getReportId());
         if (charges == null) {
             throw new RuntimeException("charge detail does not exists");
@@ -371,9 +397,7 @@ public class AssetLogReportServiceImpl {
         if (null != request.getHoidayCharges()) {
             charges.setHoidayCharges(request.getHoidayCharges());
         }
-        if (null != request.getGrandTotal()) {
-            charges.setGrandTotal(request.getGrandTotal());
-        }
+       
         if (null != request.getOffHourCharges()) {
             charges.setOffHourCharges(request.getOffHourCharges());
         }
@@ -383,27 +407,18 @@ public class AssetLogReportServiceImpl {
         if (null != request.getSpareAmount()) {
             charges.setSpareAmount(request.getSpareAmount());
         }
-        if (null != request.getSpareTaxAmount()) {
-            charges.setSpareTaxAmount(request.getSpareTaxAmount());
-        }
+       
         if (null != request.getSpareTaxPercentage()) {
             charges.setSpareTaxPercentage(request.getSpareTaxPercentage());
         }
         if (null != request.getTaxPercentage()) {
             charges.setTaxPercentage(request.getTaxPercentage());
         }
-        if (null != request.getTaxAmount()) {
-            charges.setTaxAmount(request.getTaxAmount());
-        }
-        if (null != request.getToFroCharges()) {
-            charges.setToFroCharges(request.getToFroCharges());
-        }
-        if (null != request.getTotalCharges()) {
-            charges.setTotalCharges(request.getTotalCharges());
-        }
+        
         if (StringUtils.isNotBlank(request.getInvoiceDate())) {
             charges.setInvoiceDate(DateUtil.parse(request.getInvoiceDate(), null));
         }
+        calculateCharges(charges);
         assetReportChargesRepository.save(charges);
     }
 
