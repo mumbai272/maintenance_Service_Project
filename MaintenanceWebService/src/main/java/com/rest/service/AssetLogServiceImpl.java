@@ -80,31 +80,37 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
     public List<AssetLog> getAssetLog(String status, Long clientId) {
         List<AssetLog> assetLogs = new ArrayList<AssetLog>();
         List<AssetLogImpl> assetImplLogs = null;
-
-        if (getLoggedInUser().getRole().equals(RoleType.ADMIN) && status != null) {
-            if (clientId != null) {
-                validateCompany(clientId);
-                assetImplLogs = assetLogRepository.findByClientIdAndStatus(clientId, status);
-            } else {
-                assetImplLogs =
-                    assetLogRepository.findByCompanyIdAndStatus(getLoggedInUser().getCompanyId(),
-                        status);
-            }
-        } else if (getLoggedInUser().getRole().equals(RoleType.ADMIN) && status == null) {
-            if (clientId != null) {
-                validateCompany(clientId);
-                assetImplLogs = assetLogRepository.findByClientId(clientId);
-            } else {
-                assetImplLogs =
-                    assetLogRepository.findByCompanyId(getLoggedInUser().getCompanyId());
-            }
+        if (getLoggedInUser().getRole().equals(RoleType.SERVICE_ENGINEER)) {
+            assetImplLogs =
+                assetLogAssignmentRepository
+                        .findAssetLogByAssignedTo(getLoggedInUser().getUserId());
         } else {
-            if (status != null) {
-                assetImplLogs =
-                    assetLogRepository.findByClientIdAndStatus(getLoggedInUser().getCompanyId(),
-                        status);
+            if (getLoggedInUser().getRole().equals(RoleType.ADMIN) && status != null) {
+                if (clientId != null) {
+                    validateCompany(clientId);
+                    assetImplLogs = assetLogRepository.findByClientIdAndStatus(clientId, status);
+                } else {
+                    assetImplLogs =
+                        assetLogRepository.findByCompanyIdAndStatus(getLoggedInUser()
+                                .getCompanyId(), status);
+                }
+            } else if (getLoggedInUser().getRole().equals(RoleType.ADMIN) && status == null) {
+                if (clientId != null) {
+                    validateCompany(clientId);
+                    assetImplLogs = assetLogRepository.findByClientId(clientId);
+                } else {
+                    assetImplLogs =
+                        assetLogRepository.findByCompanyId(getLoggedInUser().getCompanyId());
+                }
             } else {
-                assetImplLogs = assetLogRepository.findByClientId(getLoggedInUser().getCompanyId());
+                if (status != null) {
+                    assetImplLogs =
+                        assetLogRepository.findByClientIdAndStatus(
+                            getLoggedInUser().getCompanyId(), status);
+                } else {
+                    assetImplLogs =
+                        assetLogRepository.findByClientId(getLoggedInUser().getCompanyId());
+                }
             }
         }
         if (CollectionUtils.isNotEmpty(assetImplLogs)) {
@@ -137,7 +143,8 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         assetLogAssignment.setStatus(LogStatus.NEW.name());
         assetLogAssignment.setEntryBy(getLoggedInUser().getUserName());
         assetLogAssignment.setEntryDate(DateUtil.today());
-        assetLogAssignment.setExpServiceDateTime(DateUtil.parse(request.getExpServiceDateTime(), null));
+        assetLogAssignment.setExpServiceDateTime(DateUtil.parse(request.getExpServiceDateTime(),
+            null));
         assetLogAssignmentRepository.save(assetLogAssignment);
         log.setStatus(LogStatus.INPROGRESS.name());
         assetLogRepository.save(log);
@@ -150,29 +157,31 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         }
         return log;
     }
+
     public List<AssetLogAssignmentBO> getAssignmentsOfAssetLog(Long logId) {
         if (logId != null) {
             validateAssetLog(logId);
         }
         List<AssetLogAssignmentBO> logAssignmentsdto = new ArrayList<AssetLogAssignmentBO>();
         List<AssetLogAssignment> logAssignments = new ArrayList<AssetLogAssignment>();
-        logAssignments =
-                assetLogAssignmentRepository.findByLogId(logId);    
+        logAssignments = assetLogAssignmentRepository.findByLogId(logId);
 
         for (AssetLogAssignment assetLogAssignment : logAssignments) {
             AssetLogAssignmentBO dto = new AssetLogAssignmentBO();
-            BeanUtils.copyProperties(assetLogAssignment, dto);  
+            BeanUtils.copyProperties(assetLogAssignment, dto);
             AssignedUser user =
                 new AssignedUser(assetLogAssignment.getAssignedUser().getUserId(),
                     assetLogAssignment.getAssignedUser().getUserName(), assetLogAssignment
                             .getAssignedUser().getFirstName());
             dto.setAssignedTo(user);
-            dto.setExpServiceDateTime(DateUtil.formate(assetLogAssignment.getExpServiceDateTime().getTime(), null));
+            dto.setExpServiceDateTime(DateUtil.formate(assetLogAssignment.getExpServiceDateTime()
+                    .getTime(), null));
             logAssignmentsdto.add(dto);
-          
+
         }
         return logAssignmentsdto;
     }
+
     public List<AssetLogAssignmentBO> getassignedAssetLog() {
         List<AssetLogAssignmentBO> logAssignmentsdto = new ArrayList<AssetLogAssignmentBO>();
         List<AssetLogAssignment> logAssignments = new ArrayList<AssetLogAssignment>();
@@ -189,12 +198,13 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
             AssetLogAssignmentBO dto = new AssetLogAssignmentBO();
             BeanUtils.copyProperties(assetLogAssignment, dto);
             AssignedUser user =
-                    new AssignedUser(assetLogAssignment.getAssignedUser().getUserId(),
-                        assetLogAssignment.getAssignedUser().getUserName(), assetLogAssignment
-                                .getAssignedUser().getFirstName());
-                dto.setAssignedTo(user);
+                new AssignedUser(assetLogAssignment.getAssignedUser().getUserId(),
+                    assetLogAssignment.getAssignedUser().getUserName(), assetLogAssignment
+                            .getAssignedUser().getFirstName());
+            dto.setAssignedTo(user);
             dto.setLog(assetLog);
-            dto.setExpServiceDateTime(DateUtil.formate(assetLogAssignment.getExpServiceDateTime().getTime(), null));
+            dto.setExpServiceDateTime(DateUtil.formate(assetLogAssignment.getExpServiceDateTime()
+                    .getTime(), null));
             logAssignmentsdto.add(dto);
         }
         return logAssignmentsdto;

@@ -9,6 +9,7 @@ import java.util.Calendar;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 @XmlRootElement
@@ -30,6 +31,7 @@ public class AssetLogCreateRequest implements Serializable {
     private Long maintainanceType;
 
     @NotBlank
+    @Length(max=35)
     private String assetProblem;
 
     @NotBlank
