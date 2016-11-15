@@ -192,16 +192,18 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
             tracker.setStartDateTime(DateUtil.today());
             tracker.setStartLocation(location);
             tracker.setJobStart("T");
-
+            assignedLog.setStatus(LogStatus.INPROGRESS.name());
         }
         if ("end".equalsIgnoreCase(action)) {
             tracker = assetLogAssignmentTrackRepository.findOne(assignId);
             tracker.setEndDateTime(DateUtil.today());
             tracker.setEndLocation(location);
             tracker.setJobEnd("T");
+            assignedLog.setStatus(LogStatus.COMPLETE.name());
 
         }
         assetLogAssignmentTrackRepository.save(tracker);
+        assetLogAssignmentRepository.save(assignedLog);
     }
 
 

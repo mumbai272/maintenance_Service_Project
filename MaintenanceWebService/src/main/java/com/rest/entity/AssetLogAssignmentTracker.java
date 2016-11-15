@@ -24,6 +24,8 @@ public class AssetLogAssignmentTracker implements Serializable {
     private Calendar startDateTime;
     @Column(name="JOB_STGPS_LOCATION", length=50)
     private String startLocation;
+    @Column(name="JOB_STGPS_ADDRESS", length=255)
+    private String startAddress;
     @Column(name="JOB_START",length=1)
     private String jobStart;
     @Column(name="JOB_ENDATE_TIME")
@@ -31,6 +33,8 @@ public class AssetLogAssignmentTracker implements Serializable {
     private Calendar endDateTime;
     @Column(name="JOB_ENGPS_LOCATION", length=50)
     private String endLocation;
+    @Column(name="JOB_ENGPS_ADDRESS", length=255)
+    private String endAddress;
     @Column(name="JOB_END",length=1)
     private String jobEnd;
     
@@ -88,6 +92,26 @@ public class AssetLogAssignmentTracker implements Serializable {
     
     public void setJobEnd(String jobEnd) {
         this.jobEnd = jobEnd;
+    }
+
+    
+    public String getStartAddress() {
+        return startAddress;
+    }
+
+    
+    public void setStartAddress(String startAddress) {
+        this.startAddress = startAddress;
+    }
+
+    
+    public String getEndAddress() {
+        return endAddress;
+    }
+
+    
+    public void setEndAddress(String endAddress) {
+        this.endAddress = endAddress;
     }
    
 
