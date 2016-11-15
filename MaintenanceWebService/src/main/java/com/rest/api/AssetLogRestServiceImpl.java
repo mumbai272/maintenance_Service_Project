@@ -28,6 +28,7 @@ import com.maintenance.asset.log.AssetLogAssignmentDTO;
 import com.maintenance.asset.log.AssetLogAssignmentResponse;
 import com.maintenance.asset.log.AssetLogCreateRequest;
 import com.maintenance.asset.log.AssetLogResponse;
+import com.maintenance.asset.log.AssetLogUpdateRequest;
 import com.maintenance.common.LogStatus;
 import com.maintenance.request.BaseResponse;
 import com.rest.api.exception.ValidationException;
@@ -62,7 +63,16 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         assetLogServiceImpl.createAssetLog(request);
         return Response.ok(response).build();
     }
-
+    
+    @POST
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response UpdateLog(@Valid AssetLogUpdateRequest request) {
+        logger.info("creating log for asset:" + request.getAssetId());
+        BaseResponse response = new BaseResponse();
+        assetLogServiceImpl.updateAssetLog(request);
+        return Response.ok(response).build();
+    }
     /**
      * 
      * @param status

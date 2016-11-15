@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.maintenance.asset.log.AssetLog;
 import com.maintenance.asset.log.AssetLogAssignmentBO;
 import com.maintenance.asset.log.AssetLogAssignmentDTO;
 import com.maintenance.asset.log.AssetLogCreateRequest;
+import com.maintenance.asset.log.AssetLogUpdateRequest;
 import com.maintenance.asset.log.AssignedUser;
 import com.maintenance.common.LogStatus;
 import com.maintenance.common.RoleType;
@@ -74,6 +76,36 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         assetlog.setStatus(LogStatus.NEW.name());
         assetLogRepository.save(assetlog);
 
+    }
+    public void updateAssetLog(AssetLogUpdateRequest request) {
+        AssetLogImpl log=validateAssetLog(request.getLogId());
+        if(StringUtils.isNotBlank(request.getAssetProblem())){
+            log.setAssetProblem(request.getAssetProblem());
+        }
+        if(StringUtils.isNotBlank(request.getComments())){
+            log.setComments(request.getComments());
+        }
+        if(StringUtils.isNotBlank(request.getCriticality())){
+            log.setCriticality(request.getCriticality());
+        }
+        if(StringUtils.isNotBlank(request.getLogThrough())){
+            log.setLogThrough(request.getLogThrough());
+        }
+        if (request.getMaintainanceType() != null) {
+            MaintenanceType maintenanceType =
+                maintenanceTypeRepository.findByTypeIdAndStatus(request.getMaintainanceType(),
+                    StatusType.ACTIVE.getValue());
+            if (maintenanceType != null) {
+                log.setMaintainanceType(request.getMaintainanceType());
+            }
+        }
+        if(request.getAssetId()!=null){
+            log.setAssetId(request.getAssetId());
+        }
+        if(StringUtils.isNotBlank(request.getLogCreatedDate())){
+            log.setLogCreatedDate(DateUtil.parse(request.getLogCreatedDate(), null));
+        }
+        assetLogRepository.save(log);
     }
 
     @Transactional(rollbackFor = { Exception.class })
@@ -242,6 +274,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         assetLogAssignmentRepository.save(assignedLog);
     }
 
+   
 
 
 }
