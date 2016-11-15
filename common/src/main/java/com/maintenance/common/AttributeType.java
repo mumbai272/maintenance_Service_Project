@@ -5,5 +5,5 @@ package com.maintenance.common;
 
 
 public enum AttributeType {
-    DEPARTMENT, DESIGNATION,WORKTYPE;
+    DEPARTMENT, DESIGNATION,WORKTYPE,TAXTYPE;
 }
