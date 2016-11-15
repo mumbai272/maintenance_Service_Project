@@ -16,10 +16,10 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 /**
  * 
- * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
- * Created on Oct 9, 2016
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Oct 9, 2016
  */
 @Entity
 @Table(name = "CS_ASSET_LOG_ASSIGN")
@@ -44,6 +44,10 @@ public class AssetLogAssignment {
     @Column(name = "ASSIGNED_TO", nullable = false)
     private Long assignedTo;
 
+    @ManyToOne
+    @JoinColumn(name = "ASSIGNED_TO", nullable = false, insertable = false, updatable = false)
+    private UserImpl assignedUser;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXP_SERVICE_DTIME")
     private Calendar expServiceDateTime;
@@ -53,7 +57,7 @@ public class AssetLogAssignment {
 
     @Column(name = "PLANNED_HOURS")
     private Double plannedHours;
-    
+
     @Column(name = "STATUS", length = 50)
     private String status;
 
@@ -145,13 +149,13 @@ public class AssetLogAssignment {
     }
 
 
-    
+
     public String getStatus() {
         return status;
     }
 
 
-    
+
     public void setStatus(String status) {
         this.status = status;
     }
@@ -174,6 +178,18 @@ public class AssetLogAssignment {
 
     public void setEntryDate(Calendar entryDate) {
         this.entryDate = entryDate;
+    }
+
+
+    
+    public UserImpl getAssignedUser() {
+        return assignedUser;
+    }
+
+
+    
+    public void setAssignedUser(UserImpl assignedUser) {
+        this.assignedUser = assignedUser;
     }
 
 

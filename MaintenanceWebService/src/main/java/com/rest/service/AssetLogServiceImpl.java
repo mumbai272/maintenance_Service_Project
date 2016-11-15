@@ -18,6 +18,7 @@ import com.maintenance.asset.log.AssetLog;
 import com.maintenance.asset.log.AssetLogAssignmentBO;
 import com.maintenance.asset.log.AssetLogAssignmentDTO;
 import com.maintenance.asset.log.AssetLogCreateRequest;
+import com.maintenance.asset.log.AssignedUser;
 import com.maintenance.common.LogStatus;
 import com.maintenance.common.RoleType;
 import com.maintenance.common.StatusType;
@@ -149,11 +150,30 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         }
         return log;
     }
-
-    public List<AssetLogAssignmentBO> getassignAssetLog(Long logId) {
+    public List<AssetLogAssignmentBO> getAssignmentsOfAssetLog(Long logId) {
         if (logId != null) {
             validateAssetLog(logId);
         }
+        List<AssetLogAssignmentBO> logAssignmentsdto = new ArrayList<AssetLogAssignmentBO>();
+        List<AssetLogAssignment> logAssignments = new ArrayList<AssetLogAssignment>();
+        logAssignments =
+                assetLogAssignmentRepository.findByLogId(logId);    
+
+        for (AssetLogAssignment assetLogAssignment : logAssignments) {
+            AssetLogAssignmentBO dto = new AssetLogAssignmentBO();
+            BeanUtils.copyProperties(assetLogAssignment, dto);  
+            AssignedUser user =
+                new AssignedUser(assetLogAssignment.getAssignedUser().getUserId(),
+                    assetLogAssignment.getAssignedUser().getUserName(), assetLogAssignment
+                            .getAssignedUser().getFirstName());
+            dto.setAssignedTo(user);
+            dto.setExpServiceDateTime(DateUtil.formate(assetLogAssignment.getExpServiceDateTime().getTime(), null));
+            logAssignmentsdto.add(dto);
+          
+        }
+        return logAssignmentsdto;
+    }
+    public List<AssetLogAssignmentBO> getassignedAssetLog() {
         List<AssetLogAssignmentBO> logAssignmentsdto = new ArrayList<AssetLogAssignmentBO>();
         List<AssetLogAssignment> logAssignments = new ArrayList<AssetLogAssignment>();
 
@@ -168,7 +188,13 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
             AssetLogAssignmentBO dto = new AssetLogAssignmentBO();
             BeanUtils.copyProperties(assetLogAssignment, dto);
+            AssignedUser user =
+                    new AssignedUser(assetLogAssignment.getAssignedUser().getUserId(),
+                        assetLogAssignment.getAssignedUser().getUserName(), assetLogAssignment
+                                .getAssignedUser().getFirstName());
+                dto.setAssignedTo(user);
             dto.setLog(assetLog);
+            dto.setExpServiceDateTime(DateUtil.formate(assetLogAssignment.getExpServiceDateTime().getTime(), null));
             logAssignmentsdto.add(dto);
         }
         return logAssignmentsdto;

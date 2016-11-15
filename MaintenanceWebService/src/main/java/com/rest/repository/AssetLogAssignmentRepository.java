@@ -15,4 +15,6 @@ public interface AssetLogAssignmentRepository extends CrudRepository<AssetLogAss
 
     List<AssetLogAssignment> findByAssignedTo(Long userId);
 
+    List<AssetLogAssignment> findByLogId(Long logId);
+
 }

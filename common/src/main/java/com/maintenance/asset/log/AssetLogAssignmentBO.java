@@ -4,50 +4,52 @@
 package com.maintenance.asset.log;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
 public class AssetLogAssignmentBO implements Serializable {
+
     private AssetLog log;
-    
+
     private Long assignId;
-       
-    private Long assignedTo;
-    
-    private Calendar expServiceDateTime;
-  
+
+    @XmlElement
+    private AssignedUser assignedTo;
+
+    private String expServiceDateTime;
+
     private String workType;
-   
+
     private Double plannedHours;
-    
+
     private String status;
 
-    
+
     public String getStatus() {
         return status;
     }
 
-    
+
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public Long getAssignedTo() {
+    public AssignedUser getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(Long assignedTo) {
+    public void setAssignedTo(AssignedUser assignedTo) {
         this.assignedTo = assignedTo;
     }
 
-    public Calendar getExpServiceDateTime() {
+    public String getExpServiceDateTime() {
         return expServiceDateTime;
     }
 
-    public void setExpServiceDateTime(Calendar expServiceDateTime) {
+    public void setExpServiceDateTime(String expServiceDateTime) {
         this.expServiceDateTime = expServiceDateTime;
     }
 
@@ -67,22 +69,22 @@ public class AssetLogAssignmentBO implements Serializable {
         this.plannedHours = plannedHours;
     }
 
-    
+
     public AssetLog getLog() {
         return log;
     }
 
-    
+
     public void setLog(AssetLog log) {
         this.log = log;
     }
 
-    
+
     public Long getAssignId() {
         return assignId;
     }
 
-    
+
     public void setAssignId(Long assignId) {
         this.assignId = assignId;
     }

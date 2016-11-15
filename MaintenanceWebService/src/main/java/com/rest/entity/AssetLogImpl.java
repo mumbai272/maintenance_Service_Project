@@ -49,7 +49,7 @@ public class AssetLogImpl {
     @JoinColumn(name = "MAINT_TYPE_ID", insertable = false, updatable = false)
     private MaintenanceType mType;
 
-    @Column(name = "ASSET_PROBLEM")
+    @Column(name = "ASSET_PROBLEM", length = 75)
     private String assetProblem;
 
     @Column(name = "CRITICALITY", length = 50)

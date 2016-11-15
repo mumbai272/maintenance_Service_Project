@@ -105,7 +105,22 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         assetLogServiceImpl.assignAssetLog(request);
         return Response.ok(response).build();
     }
-
+    /**
+     * 
+     * @param logId
+     * @return
+     */
+    @GET
+    @Path("/assign/{logId}")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response getAssignedAssetLog(@PathParam("logId") Long logId) {
+        logger.info("getting assetlog assignments:" + logId);
+        AssetLogAssignmentResponse response = new AssetLogAssignmentResponse();
+        List<AssetLogAssignmentBO> assetLogs = assetLogServiceImpl.getAssignmentsOfAssetLog(logId);
+        response.setAssetLogs(assetLogs);
+        return Response.ok(response).build();
+    }
     /**
      * 
      * @param logId
@@ -115,10 +130,10 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
     @Path("/assign")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response getAssignedAssetLog(@QueryParam("logId") Long logId) {
-        logger.info("getting assetlog assignments:" + logId);
+    public Response getAssignedAssetLog() {
+        logger.info("getting assetlog assignments:");
         AssetLogAssignmentResponse response = new AssetLogAssignmentResponse();
-        List<AssetLogAssignmentBO> assetLogs = assetLogServiceImpl.getassignAssetLog(logId);
+        List<AssetLogAssignmentBO> assetLogs = assetLogServiceImpl.getassignedAssetLog();
         response.setAssetLogs(assetLogs);
         return Response.ok(response).build();
     }
