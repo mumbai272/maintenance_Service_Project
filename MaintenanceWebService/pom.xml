@@ -137,7 +137,17 @@
 			<artifactId>cxf-rt-rs-extension-providers</artifactId>
 			<version>${apache_cxf}</version>
 		</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-rs-client</artifactId>
+				<version>${apache_cxf}</version>
+			</dependency>
 
+	<dependency>
+		<groupId>com.googlecode.json-simple</groupId>
+		<artifactId>json-simple</artifactId>
+		<version>1.1.1</version>
+	</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>

@@ -253,13 +253,22 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
             throw new ValidationException("assignId", assignId.toString(),
                 "Ticket is not assigned to logged in user");
         }
+        String[] latLog=location.split(",");
+        if(latLog.length!=2){
+        	throw new ValidationException("location", location.toString(),
+                    "pass common saparated values like 12.1234,45.5345");
+        }
+        Double lat=Double.parseDouble(latLog[0]);
+        Double log=Double.parseDouble(latLog[1]);
+		String address = GoogleMapService.getAddressForLatLog(lat, log);
         AssetLogAssignmentTracker tracker = null;
         if ("start".equalsIgnoreCase(action)) {
             tracker = new AssetLogAssignmentTracker();
             tracker.setAssignId(assignId);
             tracker.setStartDateTime(DateUtil.today());
             tracker.setStartLocation(location);
-            tracker.setJobStart("T");
+            tracker.setJobStart("T");            
+            tracker.setStartAddress(address);
             assignedLog.setStatus(LogStatus.INPROGRESS.name());
         }
         if ("end".equalsIgnoreCase(action)) {
@@ -267,6 +276,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
             tracker.setEndDateTime(DateUtil.today());
             tracker.setEndLocation(location);
             tracker.setJobEnd("T");
+            tracker.setEndAddress(address);
             assignedLog.setStatus(LogStatus.COMPLETE.name());
 
         }
