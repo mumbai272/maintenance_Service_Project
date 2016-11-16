@@ -37,10 +37,7 @@
             android:parentActivityName=".activities.AdminMainActivity"
             android:theme="@style/navigatetheme" />
         <activity
-            android:name=".activities.MachineRegister"
-            android:label="@string/registerlable"
-            android:parentActivityName=".activities.AdminMainActivity"
-            android:theme="@style/navigatetheme" />
+            android:name=".activities.MachineRegister" />
         <activity
             android:name=".activities.MachineMakeActivity"
             android:label="Machine Make"
@@ -57,10 +54,9 @@
             android:parentActivityName=".activities.AdminMainActivity"
             android:theme="@style/navigatetheme" />
         <activity
-            android:name=".activities.AdminProfileActivity"
-            android:label="Profile"
-            android:parentActivityName=".activities.AdminMainActivity"
-            android:theme="@style/navigatetheme" />
+            android:name=".activities.AdminProfileActivity"/>
+        <activity
+            android:name=".activities.Profile" />
         <activity
             android:name=".activities.UserApprovalActivity"
             android:label="User Approval List"
@@ -89,6 +85,35 @@
             android:name=".activities.AdminEmployeeListActivity"
             android:label="Employee List"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".activities.AddEmployeeActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".activities.AddMachineMakeActivity"
+            android:label=" Add Machine Make"
+            android:parentActivityName=".activities.MachineMakeActivity"
+            android:theme="@style/navigatetheme" />
+        <activity
+            android:name=".activities.AddMachineModelActivity"
+            android:label=" Add Machine Model"
+            android:parentActivityName=".activities.MachineModelActivity"
+            android:theme="@style/navigatetheme" />
+        <activity
+            android:name=".activities.AddmachineTypeActivity"
+            android:label=" Add Machine Make"
+            android:parentActivityName=".activities.MachineTypeActivity"
+            android:theme="@style/navigatetheme" />
+        <activity
+            android:name=".activities.AddmachineSpareActivity"
+            android:label=" Add Machine Make"
+            android:parentActivityName=".activities.MachineSpareActivity"
+            android:theme="@style/navigatetheme" />
+        <activity android:name=".activities.AssetLogActivity"></activity>
+        <activity android:name=".activities.LogListActivity"></activity>
+        <activity android:name=".activities.AssignLogActivity"></activity>
+        <activity android:name=".activities.EmployeeWorkAssignListActivity"></activity>
+        <activity android:name=".activities.TaskAndReportTabActivity"></activity>
+        <activity android:name=".activities.CreateAssetReportActivity"></activity>
     </application>
 
 </manifest>

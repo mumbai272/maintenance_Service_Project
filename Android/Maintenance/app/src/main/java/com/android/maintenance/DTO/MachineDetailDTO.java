@@ -7,6 +7,9 @@ import java.util.Date;
  * Created by anand on 25-Oct-16.
  */
 public class MachineDetailDTO implements Serializable{
+
+    private Long assetId;
+
     private Long companyId;
 
     private Long clientId;
@@ -65,6 +68,14 @@ public class MachineDetailDTO implements Serializable{
 
     private Date authenticateDate;
 
+
+    public Long getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(Long assetId) {
+        this.assetId = assetId;
+    }
 
     public Long getCompanyId() {
         return companyId;

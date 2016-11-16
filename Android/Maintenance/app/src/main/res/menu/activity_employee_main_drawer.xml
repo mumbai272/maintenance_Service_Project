@@ -7,8 +7,8 @@
             android:title="Profile" />
 
         <item
-            android:id="@+id/nav_users"
-            android:title="Users" />
+            android:id="@+id/nav_logs"
+            android:title="Log" />
 
         <item
             android:id="@+id/nav_machines"

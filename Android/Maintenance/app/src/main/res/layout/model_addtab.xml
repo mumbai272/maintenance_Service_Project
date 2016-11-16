@@ -7,7 +7,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/machine_model_name"
         android:ems="12"
         android:hint="Machine Name"
         android:layout_alignParentTop="true"
@@ -17,11 +17,11 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:id="@+id/machine_model_desc"
         android:ems="12"
         android:hint="Machine Description"
-        android:layout_below="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/machine_model_name"
+        android:layout_alignStart="@+id/machine_model_name"
         android:layout_marginTop="75dp" />
 
     <Button
@@ -32,9 +32,9 @@
         android:textColor="@color/white_color"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:id="@+id/add"
-        android:layout_below="@+id/editText2"
+        android:id="@+id/add_model"
+        android:layout_below="@+id/machine_model_desc"
         android:layout_marginTop="67dp"
-        android:layout_alignStart="@+id/editText2"
-        android:layout_alignEnd="@+id/editText2" />
+        android:layout_alignStart="@+id/machine_model_desc"
+        android:layout_alignEnd="@+id/machine_model_desc" />
 </RelativeLayout>

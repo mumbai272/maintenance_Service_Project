@@ -2,17 +2,18 @@ package com.android.maintenance.DTO;
 
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by anand on 11-Sep-16.
  */
-public class MachineRegisterDTO {
-    private int companyId;
-    private int  clientId;
-    private int machineType;
-    private int machineMake;
-    private int machineModel;
+public class MachineRegisterDTO implements Serializable{
+    private Long companyId;
+    private Long  clientId;
+    private Long machineType;
+    private Long machineMake;
+    private Long machineModel;
     private String assetNo;
     private String assetDescription;
     private String manifactureSLNo;
@@ -28,7 +29,10 @@ public class MachineRegisterDTO {
     private String isActive;
     private String status;
 
-    public MachineRegisterDTO(int companyId, int clientId, int machineType, int machineMake, int machineModel, String assetNo, String assetDescription, String manifactureSLNo, String instSLNo, String dataOfMfg, String installDate, Double assetUsage, String location, Double purchaseCost, String isWarranty, Date warrantyStartDate, Date warrantyEndDate, String isActive, String status) {
+    public MachineRegisterDTO() {
+    }
+
+    public MachineRegisterDTO(Long companyId, Long clientId, Long machineType, Long machineMake, Long machineModel, String assetNo, String assetDescription, String manifactureSLNo, String instSLNo, String dataOfMfg, String installDate, Double assetUsage, String location, Double purchaseCost, String isWarranty, Date warrantyStartDate, Date warrantyEndDate, String isActive, String status) {
         this.companyId = companyId;
         this.clientId = clientId;
         this.machineType = machineType;
@@ -114,43 +118,43 @@ public class MachineRegisterDTO {
         this.warrantyEndDate = warrantyEndDate;
     }
 
-    public int getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 
-    public int getClientId() {
+    public Long getClientId() {
         return clientId;
     }
 
-    public void setClientId(int clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
-    public int getMachineType() {
+    public Long getMachineType() {
         return machineType;
     }
 
-    public void setMachineType(int machineType) {
+    public void setMachineType(Long machineType) {
         this.machineType = machineType;
     }
 
-    public int getMachineMake() {
+    public Long getMachineMake() {
         return machineMake;
     }
 
-    public void setMachineMake(int machineMake) {
+    public void setMachineMake(Long machineMake) {
         this.machineMake = machineMake;
     }
 
-    public int getMachineModel() {
+    public Long getMachineModel() {
         return machineModel;
     }
 
-    public void setMachineModel(int machineModel) {
+    public void setMachineModel(Long machineModel) {
         this.machineModel = machineModel;
     }
 

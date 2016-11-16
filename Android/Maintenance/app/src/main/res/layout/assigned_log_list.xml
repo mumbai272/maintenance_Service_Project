@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginRight="10dp"
+        android:layout_toEndOf="@+id/relativeLayout"
+        android:layout_alignTop="@+id/relativeLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Work Type:"
+            android:textColor="@color/black_color"
+            android:id="@+id/type"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:layout_marginStart="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Assigned To:"
+            android:id="@+id/to"
+            android:textColor="@color/black_color"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/type"
+            android:layout_alignStart="@+id/type"
+            android:layout_alignEnd="@+id/type" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:layout_marginLeft="3dp"
+            android:textColor="@color/button_color"
+            android:id="@+id/assigned_title"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/type"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/type" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Medium Text"
+            android:textColor="#a8a8a8"
+            android:id="@+id/assigned_sub"
+            android:layout_marginLeft="3dp"
+            android:layout_alignTop="@+id/to"
+            android:layout_alignEnd="@+id/assigned_title"
+            android:layout_alignBottom="@+id/to"
+            android:layout_toEndOf="@+id/type" />
+
+    </RelativeLayout>
+
+ </RelativeLayout>

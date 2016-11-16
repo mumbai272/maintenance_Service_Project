@@ -52,7 +52,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="reset_password">Reset password</string>
-    <string name="client_email"> Client Email</string>
+    <string name="client_email">Email</string>
     <string name="website">Website</string>
     <string name="title_activity_client_main">"Client "</string>
 

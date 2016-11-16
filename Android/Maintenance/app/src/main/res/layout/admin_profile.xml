@@ -1,74 +1,305 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_above="@+id/button_update">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Information"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:hint="User Name"
+                android:id="@+id/puser_name" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pemail"
+                android:hint="Email"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@id/puser_name"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/f_name"
+                android:hint="First Name"
+                android:layout_below="@id/pemail"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/m_name"
+                android:hint="Middle Name"
+                android:layout_below="@id/f_name"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/l_name"
+                android:hint="Last Name"
+                android:layout_below="@id/m_name"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:hint="Phone NO"
+                android:layout_below="@id/l_name"
+                android:id="@+id/pphone"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerHeight="5dp">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Name"
-        android:id="@+id/profile_nametxt"
-        android:layout_marginTop="49dp"
-        android:layout_marginLeft="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Gender"
+                    android:textSize="20dp"
+                    android:textColor="@color/black_color"
+                    android:id="@+id/gender"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Company"
-        android:id="@+id/profile_companytxt"
-        android:layout_marginTop="61dp"
-        android:layout_below="@+id/profile_nametxt"
-        android:layout_alignStart="@+id/profile_nametxt" />
+                <RadioGroup
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="150dp"
+                    android:id="@+id/active_radio_grp"
+                    android:weightSum="1"
+                    android:orientation="horizontal"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignTop="@+id/gender">
+                    <RadioButton android:id="@+id/active_radio_yes"
+                        android:layout_width="41dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="M"
+                        android:layout_weight="0.28"/>
+                    <RadioButton android:id="@+id/active_radio_no"
+                        android:layout_width="41dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:layout_weight="0.27" />
+                </RadioGroup>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Address"
-        android:id="@+id/profile_addresstxt"
-        android:layout_below="@+id/profile_companytxt"
-        android:layout_alignStart="@+id/profile_companytxt"
-        android:layout_marginTop="65dp" />
+            </RelativeLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/profile_name"
-        android:layout_alignBottom="@+id/profile_nametxt"
-        android:layout_alignParentEnd="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/profile_company"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/profile_addresstxt" />
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/profile_address"
-        android:layout_alignBottom="@+id/profile_addresstxt"
-        android:layout_alignParentEnd="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_desc"
+                    android:ems="15"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/description"
+                    android:layout_below="@+id/edit_client_email"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_address"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/addess"
+                    android:layout_below="@+id/edit_client_desc"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_street1"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/street_1"
+                    android:layout_below="@+id/edit_client_address"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_street2"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/street_2"
+                    android:layout_below="@+id/edit_client_street1"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_street3"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/street_3"
+                    android:layout_below="@+id/edit_client_street2"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_country"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/country"
+                    android:layout_below="@+id/edit_client_street3"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_state"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/state"
+                    android:layout_below="@+id/edit_client_country"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_city"
+                    android:hint="@string/city"
+                    android:layout_marginBottom="20dp"
+                    android:layout_below="@+id/edit_client_state"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_location"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/location"
+                    android:layout_below="@+id/edit_client_city"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/zip_code"
+                    android:id="@+id/edit_client_zip"
+                    android:layout_below="@+id/edit_client_location"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/phone_no"
+                    android:id="@+id/edit_client_phone"
+                    android:layout_below="@+id/edit_client_zip"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/mobile_no"
+                    android:id="@+id/edit_client_mobile"
+                    android:layout_below="@+id/edit_client_phone"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:layout_marginBottom="20dp"
+                    android:hint="@string/fax"
+                    android:id="@+id/edit_client_fax"
+                    android:layout_below="@+id/edit_client_mobile"
+                    android:layout_alignStart="@+id/edit_client_email" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_client_website"
+                    android:hint="@string/website"
+                    android:layout_below="@+id/edit_client_fax"
+                    android:layout_alignStart="@+id/edit_client_email"
+                     />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
 
     <Button
+        android:id="@+id/button_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UPDATE"
-        android:id="@+id/update_profile_btn"
-        android:layout_marginTop="102dp"
-        android:layout_below="@+id/profile_address"
-        android:layout_centerHorizontal="true" />
-
+        android:textColor="@color/white_color"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
+    <!--<android.support.design.widget.TabLayout
+           android:id="@+id/profile_tabLayout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="?attr/colorPrimary"
+           android:minHeight="?attr/actionBarSize"
+           app:tabMode="fixed"
+           android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+
+
+       <android.support.v4.view.ViewPager
+           android:id="@+id/profile_pager"
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent"
+           android:layout_above="@+id/button_update"
+           android:layout_below="@+id/profile_tabLayout" />-->

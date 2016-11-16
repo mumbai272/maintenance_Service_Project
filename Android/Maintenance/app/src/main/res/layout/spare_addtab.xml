@@ -7,7 +7,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/machine_spare_name"
         android:ems="12"
         android:hint="Machine Name"
         android:layout_alignParentTop="true"
@@ -17,22 +17,13 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:id="@+id/machine_spare_desc"
         android:ems="12"
         android:hint="Machine Description"
-        android:layout_below="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/machine_spare_name"
+        android:layout_alignStart="@+id/machine_spare_name"
         android:layout_marginTop="65dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText3"
-        android:ems="12"
-        android:hint="Rate"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/add"
-        android:layout_marginTop="65dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -42,9 +33,20 @@
         android:textColor="@color/white_color"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:id="@+id/add"
+        android:id="@+id/add_spare"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/editText2"
+        android:layout_alignStart="@+id/machine_spare_desc"
         android:layout_marginBottom="136dp"
-        android:layout_alignEnd="@+id/editText2" />
+        android:layout_alignEnd="@+id/machine_spare_desc" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:hint="rate"
+        android:id="@+id/spare_rate"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/machine_spare_desc"
+        android:layout_alignEnd="@+id/machine_spare_desc" />
 </RelativeLayout>

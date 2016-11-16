@@ -17,8 +17,9 @@ public class UserDTO implements Serializable {
     private String gender;
     private String emailId;
     private String clientName;
+    private String status;
 
-    public UserDTO(Long userId, String userName, String firstName, String middleName, String phoneno, String emailId, String lastName, String role, String gender,String clientName) {
+    public UserDTO(Long userId, String userName, String firstName, String middleName, String phoneno, String emailId, String lastName, String role, String gender,String clientName,String status) {
         this.userId = userId;
         this.userName = userName;
         this.firstName = firstName;
@@ -29,6 +30,15 @@ public class UserDTO implements Serializable {
         this.role = role;
         this.gender = gender;
         this.clientName=clientName;
+        this.status=status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getClientName() {

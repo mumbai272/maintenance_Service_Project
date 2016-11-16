@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,25 +23,22 @@ import android.widget.Toast;
 import com.android.maintenance.DTO.ApproveUserDTO;
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.ClientDTO;
+import com.android.maintenance.DTO.RejectUserDTO;
 import com.android.maintenance.DTO.UserDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
+import com.android.maintenance.Utilities.Utility;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by anand on 08-Oct-16.
@@ -49,6 +48,7 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
     private ProgressDialog mProgress;
     Context context = this;
     Intent intent;
+    Gson gson;
     Long userId,clientid,role_long;
     Button approve,reject;
     Spinner client_name,role_spinner;
@@ -72,6 +72,17 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
         token=users.get(SessionManager.KEY_TOKEN);
 
         Log.e("","Token:"+token);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("User Approval");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(UserApprovalDetailsActivity.this, AdminMainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         role_spinner= (Spinner)findViewById(R.id.spinner_role);
         user_name = (TextView) findViewById(R.id.approval_user_data);
@@ -146,7 +157,6 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 role =parentView.getItemAtPosition(position).toString();
-                Toast.makeText(parentView.getContext(), "You selected: " +role ,Toast.LENGTH_LONG).show();
                 if(role =="Admin"){
                     role_long=1L;
                 }else if(role=="User"){
@@ -182,6 +192,57 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
                 }
                 break;
             case R.id.reject_button:
+
+                    LayoutInflater li = LayoutInflater.from(context);
+                    View promptsView = li.inflate(R.layout.prompts, null);
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            context);
+                    alertDialogBuilder.setView(promptsView);
+                    final EditText userInput = (EditText) promptsView
+                            .findViewById(R.id.editTextDialogUserInput);
+
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("Submit",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                        //WS to Reject
+                                            String reason = userInput.getText().toString();
+                                            if(Utility.isNotNull(reason)) {
+                                                try {
+                                                    String json = "";
+                                                    ObjectMapper mapper = new ObjectMapper();
+                                                    RejectUserDTO approveUserDTO = new RejectUserDTO(userId, reason);
+                                                    json = mapper.writeValueAsString(approveUserDTO);
+                                                    new RejectUser().execute(json);
+
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }else{
+                                                Toast.makeText(getApplicationContext(), "Please Enter the reason.", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    alertDialog.show();
+
+                    /*String json="";
+                    ObjectMapper mapper = new ObjectMapper();
+                    RejectUserDTO approveUserDTO= new RejectUserDTO(userId,);
+                    json=mapper.writeValueAsString(approveUserDTO);
+                    mProgress.show();
+                    new ApproveUser().execute(json);*/
+
                 break;
         }
 
@@ -224,8 +285,8 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
                     .setCancelable(false)
                     .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,int id) {
-                            Intent intent= new Intent(UserApprovalDetailsActivity.this,UserApprovalActivity.class);
-                           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            Intent intent= new Intent(UserApprovalDetailsActivity.this,AdminMainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
@@ -255,7 +316,7 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
                 for( int i=0;i<clienList.size();i++){
                     if(clienList.get(i).getClientName()== client){
                         //set fields
-                        int a = clienList.get(i).getClientId();
+                        Long a = clienList.get(i).getClientId();
                         clientid = Long.parseLong(String.valueOf(a));
                         clie_str1.setText(clienList.get(i).getAddress().getStreet1());
                         clie_str2.setText(clienList.get(i).getAddress().getStreet2());
@@ -285,4 +346,44 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
     }
 
 
+    private class RejectUser extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String result="";
+            ServiceHandlerWS servicepost= new ServiceHandlerWS();
+            // Log.e(TAG,"this input post"+param[0]);
+            result= servicepost.makeServicePostWithToken(ConfigConstant.url+"user/reject", param[0],token);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            BaseResponseDTO rejectResponse = gson.fromJson(result, BaseResponseDTO.class);
+            if (rejectResponse.getStatusCode() == 1) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        context);
+                alertDialogBuilder.setTitle("Reject");
+                alertDialogBuilder
+                        .setMessage(rejectResponse.getMsg())
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                intent= new Intent(UserApprovalDetailsActivity.this,AdminMainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            } else if (rejectResponse.getStatusCode() == -1) {
+                Toast.makeText(getBaseContext(), rejectResponse.getMsg(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

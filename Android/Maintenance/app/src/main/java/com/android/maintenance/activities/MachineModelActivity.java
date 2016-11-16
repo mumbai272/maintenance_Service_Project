@@ -1,43 +1,79 @@
 package com.android.maintenance.activities;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ListView;
 
+import com.android.maintenance.DTO.GetMachineAttributeDTO;
 import com.android.maintenance.R;
-import com.android.maintenance.fragments.ModelPager;
+import com.android.maintenance.Utilities.SessionManager;
+import com.android.maintenance.adapters.MachineAttributeAdapter;
+import com.android.maintenance.asyncTask.MachineAttribute;
+import com.android.maintenance.configuration.ConfigConstant;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class MachineModelActivity extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    public static MachineModelActivity instance;
+    ImageButton add;
+    ListView listView;
+    Intent intent;
+    Context context=this;
+    ArrayList<GetMachineAttributeDTO> machineAttrList;
+    Gson gson;
+    MachineAttributeAdapter adapter;
+    public String token, userID,companyId;
+    private SessionManager session;
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.tab_model_activity);
+            session = new SessionManager(getApplicationContext());
+            HashMap<String, String> user = session.getUserDetails();
+            userID = user.get("KEY_USER_ID");
+            token = user.get(SessionManager.KEY_TOKEN);
+            companyId=user.get("KEY_COMPANY_ID");
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_model_activity);
+            add = (ImageButton) findViewById(R.id.add_machine_model);
+            listView = (ListView) findViewById(R.id.list_machine_model);
 
-        tabLayout = (TabLayout) findViewById(R.id.model_tabLayout);
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    intent = new Intent(MachineModelActivity.this, AddMachineModelActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        viewPager = (ViewPager) findViewById(R.id.model_pager);
-        ModelPager adapter = new ModelPager(getSupportFragmentManager());
+            MachineAttribute attribute= new MachineAttribute(this);
+            attribute.execute(ConfigConstant.url+"machine/machinemodel?companyId="+ Long.parseLong(companyId));
 
-        viewPager.setAdapter(adapter);
+        }
 
-        tabLayout.setupWithViewPager(viewPager);
+    public void displayMachineModel(JSONArray machineAttr) {
+        if(machineAttr==null){
 
-        // adding functionality to tab and viewpager to manage each other when a page is changed or when a tab is selected
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setTabsFromPagerAdapter(adapter);
-
+        }else{
+            String machineData = machineAttr.toString();
+            gson = new Gson();
+            Type type = new TypeToken<ArrayList<GetMachineAttributeDTO>>() {
+            }.getType();
+            machineAttrList= new ArrayList<GetMachineAttributeDTO>();
+            machineAttrList = gson.fromJson(machineData, type);
+            adapter = new MachineAttributeAdapter(getApplicationContext(), machineAttrList);
+            listView=(ListView)findViewById(R.id.list_machine_model);
+            listView.setAdapter(adapter);
+        }
     }
-
-
-    public static MachineModelActivity getInstance() {
-        return instance;
-    }
-
-
 }

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:weightSum="1">
+    <android.support.design.widget.AppBarLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/view"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_logs"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_below="@+id/view">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Maintainance Type"
+            android:id="@+id/m_type"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="50dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Log Create Date"
+            android:id="@+id/l_create_date"
+            android:layout_below="@+id/m_type"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="35dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Asset Problem"
+            android:id="@+id/asset_problem"
+            android:layout_below="@+id/l_create_date"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Criticality"
+            android:layout_marginTop="35dp"
+            android:id="@+id/asset_criticality"
+            android:layout_below="@+id/asset_problem"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Log Through"
+            android:id="@+id/l_through"
+            android:layout_marginTop="35dp"
+            android:layout_below="@+id/asset_criticality"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Comments"
+            android:id="@+id/log_comments"
+            android:layout_marginTop="35dp"
+            android:layout_below="@+id/l_through"
+            android:layout_alignParentStart="true" />
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/m_type_spinner"
+            android:layout_above="@+id/l_create_date"
+            android:layout_alignEnd="@+id/edit_create_date"
+            android:layout_toEndOf="@+id/m_type" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/edit_create_date"
+            android:layout_alignBottom="@+id/l_create_date"
+            android:layout_toEndOf="@+id/m_type" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/edit_a_pbm"
+            android:layout_alignBottom="@+id/asset_problem"
+            android:layout_alignEnd="@+id/edit_create_date" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/edit_comments"
+            android:layout_alignBottom="@+id/log_comments"
+            android:layout_alignEnd="@+id/edit_a_pbm" />
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_criticality"
+            android:weightSum="1"
+            android:orientation="horizontal"
+            android:layout_above="@+id/radio_log_through"
+            android:layout_alignStart="@+id/radio_log_through">
+            <RadioButton android:id="@+id/radio_low"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:text="Low"
+                android:layout_weight="0.29"/>
+            <RadioButton android:id="@+id/radio_medium"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:layout_weight="0.41" />
+
+            <RadioButton android:id="@+id/radio_high"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:text="High"
+                android:layout_weight="0.68" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_log_through"
+            android:weightSum="1"
+            android:orientation="horizontal"
+
+            android:layout_above="@+id/log_comments"
+            android:layout_toEndOf="@+id/l_create_date">
+            <RadioButton android:id="@+id/l_app"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:text="App"
+                android:layout_weight="0.29"/>
+            <RadioButton android:id="@+id/l_email"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:layout_weight="0.41" />
+
+            <RadioButton android:id="@+id/l_phone"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:text="Phone"
+                android:layout_weight="0.68" />
+        </RadioGroup>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Log"
+            android:id="@+id/log_btn"
+            android:textSize="20dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/white_color"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="54dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
