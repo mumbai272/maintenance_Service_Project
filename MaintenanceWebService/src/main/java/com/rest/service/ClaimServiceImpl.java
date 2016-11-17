@@ -219,9 +219,12 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     }
 
     public void submitClaimForApproval(Long claimId) {
-        Claim claim = claimRepository.findByClaimIdAndStatus(claimId, StatusType.ACTIVE.getValue());
+        Claim claim = claimRepository.findByClaimIdAndStatus(claimId, StatusType.ACTIVE.name());
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
+        }
+        if(!claim.getServicePerson().equals(getLoggedInUser().getUserId())){
+            throw new RuntimeException("Claim was not created by logged in user");
         }
         claim.setStatus(StatusType.SUBMITTED.name());
         claimRepository.save(claim);
