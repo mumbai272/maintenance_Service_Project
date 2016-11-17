@@ -74,6 +74,9 @@ public class Claim {
 
     @Column(name = "PAY_AMOUNT")
     private Double payAmount;
+    
+    @Column(name = "FINANCE_APPROVED_PERSON")
+    private Long financeApprovedBy;
 
     @Column(name = "STATUS")
     private String status;
@@ -267,6 +270,16 @@ public class Claim {
     }
 
     
+    
+    public Long getFinanceApprovedBy() {
+        return financeApprovedBy;
+    }
+
+    
+    public void setFinanceApprovedBy(Long financeApprovedBy) {
+        this.financeApprovedBy = financeApprovedBy;
+    }
+
     public String getStatus() {
         return status;
     }

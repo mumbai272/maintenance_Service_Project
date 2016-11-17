@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.maintenance.common.claim.ClaimBO;
 import com.maintenance.common.claim.ClaimBusinessExpense;
 import com.maintenance.common.claim.ClaimConveyanceExpense;
 import com.maintenance.common.claim.ClaimDetailResponse;
@@ -61,7 +62,7 @@ public class ClaimFormRestServiceImpl {
         logger.info("Start: /claim/form API invoked");
         BaseResponse response = new BaseResponse();
         claimServiceImpl.submitClaimForApproval(claimId);
-        logger.info("End: /claim/form");
+        logger.info("End: /claim/submit");
        
         return Response.ok(response).build();
     }
@@ -70,9 +71,21 @@ public class ClaimFormRestServiceImpl {
     @Path(value = "/claim")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response claimForm() {
-        logger.info("Start: /claim API invoked");
+    public Response getclaimForm() {
+        logger.info("Start: /claim get API invoked");
         ClaimResponse response = claimServiceImpl.getClaim();
+        logger.info("End: /claim");
+
+        return Response.ok(response).build();
+    }
+    @PUT
+    @Path(value = "/claim")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response updateClaimForm(ClaimBO request) {
+        logger.info("Start: /claim update API invoked");
+        BaseResponse response = new BaseResponse();
+         claimServiceImpl.updateClaim(request);
         logger.info("End: /claim");
 
         return Response.ok(response).build();

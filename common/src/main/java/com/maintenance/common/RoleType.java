@@ -5,7 +5,7 @@ package com.maintenance.common;
 
 
 public enum RoleType {
-    ADMIN(1L, "admin"), CLIENT_ADMIN(2L, "client_admin"), SERVICE_ENGINEER(3L, "service_engineer"),CLIENT_USER(4L, "client_user");
+    ADMIN(1L, "admin"), CLIENT_ADMIN(2L, "client_admin"), SERVICE_ENGINEER(3L, "service_engineer"),ACCOUNTANT(4L,"Accountant"),CLIENT_USER(5L, "client_user");
 
     private long id;
 

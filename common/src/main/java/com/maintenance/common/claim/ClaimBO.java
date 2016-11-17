@@ -5,11 +5,13 @@ package com.maintenance.common.claim;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class ClaimBO {
 
+    @NotNull
     private Long claimId;
 
     private Long claimNumber;
@@ -25,8 +27,9 @@ public class ClaimBO {
     private Double claimAmount;
 
     private String particulars;
+
     private Long approvedBy;
- 
+
     private Date approvedDate;
 
     private Double approvedAmount;
@@ -123,109 +126,109 @@ public class ClaimBO {
     }
 
 
-    
+
     public Long getApprovedBy() {
         return approvedBy;
     }
 
 
-    
+
     public void setApprovedBy(Long approvedBy) {
         this.approvedBy = approvedBy;
     }
 
 
-    
+
     public Date getApprovedDate() {
         return approvedDate;
     }
 
 
-    
+
     public void setApprovedDate(Date approvedDate) {
         this.approvedDate = approvedDate;
     }
 
 
-    
+
     public Double getApprovedAmount() {
         return approvedAmount;
     }
 
 
-    
+
     public void setApprovedAmount(Double approvedAmount) {
         this.approvedAmount = approvedAmount;
     }
 
 
-    
+
     public Double getAdvancePaid() {
         return advancePaid;
     }
 
 
-    
+
     public void setAdvancePaid(Double advancePaid) {
         this.advancePaid = advancePaid;
     }
 
 
-    
+
     public Double getBalanceAmount() {
         return balanceAmount;
     }
 
 
-    
+
     public void setBalanceAmount(Double balanceAmount) {
         this.balanceAmount = balanceAmount;
     }
 
 
-    
+
     public Date getPayDate() {
         return payDate;
     }
 
 
-    
+
     public void setPayDate(Date payDate) {
         this.payDate = payDate;
     }
 
 
-    
+
     public String getPayDetails() {
         return payDetails;
     }
 
 
-    
+
     public void setPayDetails(String payDetails) {
         this.payDetails = payDetails;
     }
 
 
-    
+
     public Double getPayAmount() {
         return payAmount;
     }
 
 
-    
+
     public void setPayAmount(Double payAmount) {
         this.payAmount = payAmount;
     }
 
 
-    
+
     public String getStatus() {
         return status;
     }
 
 
-    
+
     public void setStatus(String status) {
         this.status = status;
     }

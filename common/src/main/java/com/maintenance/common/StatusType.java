@@ -9,7 +9,7 @@ package com.maintenance.common;
  * Created on Sep 4, 2016
  */
 public enum StatusType {
-    NEW(1L, "N"), ACTIVE(2L, "A"), REGISTERED(3L, "R"),DELETED(4L, "D"),REJECTED(5L,"X"), SUBMITTED(6L,"S"),APPROVED(7L,"Aprd");
+    NEW(1L, "N"), ACTIVE(2L, "A"), REGISTERED(3L, "R"),DELETED(4L, "D"),REJECTED(5L,"X"), SUBMITTED(6L,"S"),APPROVED(7L,"Aprd"), FINANCE_APPROVED(8L,"fAprd");
 
     private Long id;
 
