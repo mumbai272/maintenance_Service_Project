@@ -54,7 +54,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         Claim claim =
             new Claim(claimForm.getClaimNumber(), claimForm.getClaimDate(), getLoggedInUser()
                     .getUserId(), claimForm.getClaimStartDate(), claimForm.getClaimEndDate(),
-               claimForm.getParticulars());
+                claimForm.getParticulars());
         claim.setCompanyId(getLoggedInUser().getCompanyId());
         claim.setStatus(StatusType.ACTIVE.name());
         claim = claimRepository.save(claim);
@@ -72,8 +72,8 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new ConveyanceExpense(expense.getClaimId(), expense.getExpenseDate(),
                 expense.getTravelFrom(), expense.getTravelTo(), expense.getModeOfTransport(),
                 expense.getClaimAmount());
-       double claimAmount= claim.getClaimAmount()+expense.getClaimAmount();  
-       claim.setClaimAmount(claimAmount);
+        double claimAmount = claim.getClaimAmount() + expense.getClaimAmount();
+        claim.setClaimAmount(claimAmount);
         expObject = conveyanceRepository.save(expObject);
         claimRepository.save(claim);
         return expObject;
@@ -90,7 +90,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new BusinessExpense(expense.getClaimId(), expense.getExpenseDate(), expense.getGuest(),
                 expense.getParticulars(), expense.getBillNumber(), expense.getBillDate(),
                 expense.getClaimAmount());
-        double claimAmount= claim.getClaimAmount()+expense.getClaimAmount();  
+        double claimAmount = claim.getClaimAmount() + expense.getClaimAmount();
         claim.setClaimAmount(claimAmount);
 
         expObject = businessRepository.save(expObject);
@@ -109,7 +109,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new MiscExpense(expense.getClaimId(), expense.getExpenseDate(),
                 expense.getParticulars(), expense.getBillNumber(), expense.getBillDate(),
                 expense.getClaimAmount());
-        double claimAmount= claim.getClaimAmount()+expense.getClaimAmount();  
+        double claimAmount = claim.getClaimAmount() + expense.getClaimAmount();
         claim.setClaimAmount(claimAmount);
 
         expObject = miscRepository.save(expObject);
@@ -216,16 +216,51 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     }
 
     public void deleteBusinessExpense(Long expenseId) {
+        BusinessExpense expense = businessRepository.findOne(expenseId);
+        if (expense == null) {
+            throw new RuntimeException("Bussiness develop expenses claim does not exist");
+
+        }
+        Claim claim = claimRepository.findOne(expense.getClaimId());
+        if (claim == null) {
+            throw new RuntimeException("Claim does not exist");
+        }
+        double claimAmount = claim.getClaimAmount() - expense.getClaimAmount();
+        claim.setClaimAmount(claimAmount);
         businessRepository.delete(expenseId);
+        claimRepository.save(claim);
     }
 
     public void deleteConvenceExpense(Long expenseId) {
+        ConveyanceExpense expense = conveyanceRepository.findOne(expenseId);
+        if (expense == null) {
+            throw new RuntimeException("conveyance expenses claim does not exist");
+        }
+        Claim claim = claimRepository.findOne(expense.getClaimId());
+        if (claim == null) {
+            throw new RuntimeException("Claim does not exist");
+        }
+        double claimAmount = claim.getClaimAmount() - expense.getClaimAmount();
+        claim.setClaimAmount(claimAmount);
         conveyanceRepository.delete(expenseId);
+        claimRepository.save(claim);
 
     }
 
     public void deletemiscExpense(Long expenseId) {
+        MiscExpense expense = miscRepository.findOne(expenseId);
+        if (expense == null) {
+            throw new RuntimeException("Bussiness develop expenses Claim does not exist");
+
+        }
+        Claim claim = claimRepository.findOne(expense.getClaimId());
+        if (claim == null) {
+            throw new RuntimeException("Claim does not exist");
+        }
+        double claimAmount = claim.getClaimAmount() - expense.getClaimAmount();
+        claim.setClaimAmount(claimAmount);
         miscRepository.delete(expenseId);
+        claimRepository.save(claim);
 
     }
 
@@ -234,10 +269,10 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         if (claim == null) {
             throw new RuntimeException("Claim does not exist");
         }
-        if(!claim.getServicePerson().equals(getLoggedInUser().getUserId())){
+        if (!claim.getServicePerson().equals(getLoggedInUser().getUserId())) {
             throw new RuntimeException("Claim was not created by logged in user");
         }
-        if(claim.getClaimAmount()==null){
+        if (claim.getClaimAmount() == null) {
             throw new RuntimeException("Please enter cliam amount");
         }
         claim.setStatus(StatusType.SUBMITTED.name());

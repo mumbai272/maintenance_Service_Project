@@ -64,6 +64,17 @@ public class ConveyanceExpense {
         this.claimAmount = claimAmount;
     }
     
+    
+    
+    public Long getClaimId() {
+        return claimId;
+    }
+
+    
+    public void setClaimId(Long claimId) {
+        this.claimId = claimId;
+    }
+
     public Long getExpenseId() {
 		return expenseId;
 	}
