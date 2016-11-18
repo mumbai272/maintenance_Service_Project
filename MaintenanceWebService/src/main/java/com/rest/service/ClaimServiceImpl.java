@@ -237,6 +237,9 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         if(!claim.getServicePerson().equals(getLoggedInUser().getUserId())){
             throw new RuntimeException("Claim was not created by logged in user");
         }
+        if(claim.getClaimAmount()==null){
+            throw new RuntimeException("Please enter cliam amount");
+        }
         claim.setStatus(StatusType.SUBMITTED.name());
         claimRepository.save(claim);
 
