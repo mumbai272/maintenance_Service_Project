@@ -16,7 +16,5 @@ public interface AssetReportLogRepository extends PagingAndSortingRepository<Ass
 
     AssetReportLog findByReportIdAndServiceEngineer(Long reportId, Long serviceEngineer);
 
-    List<AssetReportLog> findByReportId(Long reportId);
-
-   
+    List<AssetReportLog> findByReportId(Long reportId);   
 }

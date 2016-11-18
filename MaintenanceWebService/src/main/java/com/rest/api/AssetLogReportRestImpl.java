@@ -85,6 +85,21 @@ public class AssetLogReportRestImpl {
         assetLogReportServiceImpl.deleteAssetReport(reportId);
         return Response.ok(response).build();
     }
+    /**
+     * genarate report invoice
+     * @param reportId
+     * @return
+     */
+    @POST
+    @Path("/{reportId}")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response genarateReport(@PathParam("reportId") Long reportId) {
+        logger.info("genarate report invoice  ");
+        BaseResponse response = new BaseResponse();
+        assetLogReportServiceImpl.genarateAssetReportInvoice(reportId);
+        return Response.ok(response).build();
+    }
 
     @POST
     @Path(value = "/log")

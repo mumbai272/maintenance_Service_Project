@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
-public class AssetReportBO  implements Serializable{
+public class AssetReportBO implements Serializable {
 
     private Long reportId;
 
@@ -38,6 +38,10 @@ public class AssetReportBO  implements Serializable{
     private String clientRemarks;
 
     private String status;
+
+    private String reportGenarated;
+
+    private String reportGenaratedType;
 
 
     public Long getReportId() {
@@ -177,6 +181,30 @@ public class AssetReportBO  implements Serializable{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+
+    
+    public String getReportGenarated() {
+        return reportGenarated;
+    }
+
+
+    
+    public void setReportGenarated(String reportGenarated) {
+        this.reportGenarated = reportGenarated;
+    }
+
+
+    
+    public String getReportGenaratedType() {
+        return reportGenaratedType;
+    }
+
+
+    
+    public void setReportGenaratedType(String reportGenaratedType) {
+        this.reportGenaratedType = reportGenaratedType;
     }
 
 

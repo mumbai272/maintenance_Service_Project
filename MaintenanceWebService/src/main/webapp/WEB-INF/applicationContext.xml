@@ -47,6 +47,7 @@
 			<ref bean="assetLogReportRestImpl"/>
 			<ref bean="companyAttributeRestServiceImpl"/>
 			<ref bean="claimFormRestServiceImpl"/>
+			<ref bean="fileRestServiceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>
@@ -100,7 +101,7 @@
 			<list>
 				<value>classpath:dbConnection.properties</value>
 				<value>classpath:ValidationMessages.properties</value>
-<!-- 				<value>classpath:mail.properties</value> -->
+				<value>classpath:application.properties</value>
 			</list>
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true"/>		

@@ -63,8 +63,12 @@ public class AssetLogRestServiceImpl extends BaseRestServiceImpl {
         assetLogServiceImpl.createAssetLog(request);
         return Response.ok(response).build();
     }
-    
-    @POST
+    /**
+     * update Asset log
+     * @param request
+     * @return
+     */
+    @PUT
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response UpdateLog(@Valid AssetLogUpdateRequest request) {

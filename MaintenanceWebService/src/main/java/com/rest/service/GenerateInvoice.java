@@ -3,11 +3,15 @@
 //============================================================
 package com.rest.service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.helpers.FileUtils;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -16,38 +20,36 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.maintenance.common.util.DateUtil;
+import com.rest.entity.Address;
+import com.rest.entity.AssetReport;
+import com.rest.entity.AssetReportCharges;
 
 
 
 
 public class GenerateInvoice extends BaseServiceImpl {
 
-    private BaseFont bfBold;
+    private static BaseFont bfBold;
 
-    private BaseFont bf;
+    private static BaseFont bf;
 
-    private int pageNumber = 0;
 
-    public static void main(String[] args) {
 
-        String pdfFilename = "D:/invoice.pdf";
-        GenerateInvoice generateInvoice = new GenerateInvoice();
-        generateInvoice.createPDF(pdfFilename);
-
-    }
-
-    private void createPDF(String pdfFilename) {
+    public static String createPDF(String author, String pdfFilename, AssetReportCharges charges,
+            AssetReport report, String company, Address address) {
 
         Document doc = new Document();
         PdfWriter docWriter = null;
         initializeFonts();
-
+        File file=new File(pdfFilename);
+        FileUtils.mkDir(file.getParentFile());
         try {
             String path = pdfFilename;
             docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
-            doc.addAuthor("test");
+            doc.addAuthor(author);
             doc.addCreationDate();
-            doc.addCreator("Upnal");
+            doc.addCreator(author);
             doc.addTitle("Invoice");
             doc.setPageSize(PageSize.A4);
 
@@ -56,37 +58,30 @@ public class GenerateInvoice extends BaseServiceImpl {
 
 
             generateLayout(doc, cb);
-            generateHeader(doc, cb);
+            generateHeader(doc, cb, report, company, address, charges);
             Map<String, Map<String, String>> map = new LinkedHashMap<String, Map<String, String>>();
             Map<String, String> map1 = new LinkedHashMap<String, String>();
-            map1.put("Service Charges", "123.00");
-            map1.put("After office Hour Charges", "103.00");
-            map1.put("Holiday Charges", "00");
-            map1.put("To and Fro Charges", "103.00");
+            map1.put("Service Charges", (charges.getServiceCharges()==null)?"00.00":charges.getServiceCharges().toString());
+            map1.put("After office Hour Charges", (charges.getOffHourCharges()==null)?"00.00":charges.getOffHourCharges().toString());
+            map1.put("Holiday Charges", (charges.getHoidayCharges()==null)?"00.00":charges.getHoidayCharges().toString());
+            map1.put("To and Fro Charges", (charges.getToFroCharges()==null)?"00.00":charges.getToFroCharges().toString());
 
-            map1.put("Total Charge", "103.00");
-            map1.put("Tax Type", "Service ax");
-            map1.put("Tax %", "10.2%");
-            map1.put("Tax Amount", "103.00");
+            map1.put("Total Charge", (charges.getTotalCharges()==null)?"00.00":charges.getTotalCharges().toString());
+            map1.put("Tax Type", StringUtils.isBlank(charges.getTaxType())?"---":charges.getTaxType());
+            map1.put("Tax %", charges.getTaxPercentage()==null?"00.00":charges.getTaxPercentage().toString().concat("%"));
+            map1.put("Tax Amount", charges.getTaxAmount()==null?"00.00":charges.getTaxAmount().toString());
 
             Map<String, String> map2 = new LinkedHashMap<String, String>();
-            map2.put("Spare Amount", "123.00");
-            map2.put("Spare Tax Type", "VAT");
-            map2.put("Spare Tax %", "15%");
-            map2.put("Spare Tax Amount", "103.00");
-
-
-
-
+            map2.put("Spare Amount",charges.getSpareAmount()==null?"00.00":charges.getSpareAmount().toString());
+            map2.put("Spare Tax Type", StringUtils.isBlank(charges.getSpareTaxType())?"---":charges.getSpareTaxType());
+            map2.put("Spare Tax %", charges.getSpareTaxPercentage()==null?"00.00":charges.getSpareTaxPercentage().toString().concat("%"));
+            map2.put("Spare Tax Amount", charges.getSpareTaxAmount()==null?"00.00":charges.getSpareTaxAmount().toString());
             map.put("Service", map1);
             map.put("Spare charges", map2);
 
+            generateDetail(doc, cb, 30, decrement(635), map, charges.getGrandTotal());
 
-
-
-            generateDetail(doc, cb, 30, decrement(635), map,1000.00);
-
-            printPageNumber(cb);
+            return pdfFilename;
 
         } catch (DocumentException dex) {
             dex.printStackTrace();
@@ -100,9 +95,10 @@ public class GenerateInvoice extends BaseServiceImpl {
                 docWriter.close();
             }
         }
+        return null;
     }
 
-    private void generateLayout(Document doc, PdfContentByte cb) {
+    private static void generateLayout(Document doc, PdfContentByte cb) {
 
         try {
 
@@ -125,7 +121,7 @@ public class GenerateInvoice extends BaseServiceImpl {
             createHeadings(cb, x, y - 30, "Report No.");
             createHeadings(cb, x, y - 45, "Report Date.");
             createHeadings(cb, x, y - 60, "Asset No.");
-            createHeadings(cb, x, y - 75, "Asset Name.");
+            // createHeadings(cb, x, y - 75, "Asset Name.");
 
 
             // Invoice Detail box layout
@@ -144,13 +140,6 @@ public class GenerateInvoice extends BaseServiceImpl {
             createHeadings(cb, 22, 633, "Sl.No");
             createHeadings(cb, 252, 633, "Perticular");
             createHeadings(cb, 502, 633, "Amount");
-
-            // add the images
-            // Image companyLogo = Image.getInstance("images/olympics_logo.gif");
-            // companyLogo.setAbsolutePosition(25, 700);
-            // companyLogo.scalePercent(25);
-            // doc.add(companyLogo);
-
         }
 
         catch (Exception ex) {
@@ -159,37 +148,40 @@ public class GenerateInvoice extends BaseServiceImpl {
 
     }
 
-    private void generateHeader(Document doc, PdfContentByte cb) {
+    private static void generateHeader(Document doc, PdfContentByte cb, AssetReport report,
+            String company, Address address, AssetReportCharges charges) {
 
         try {
             float x = 50, y = 780;
             createHeadings(cb, x + 50, y, "Company Details", 12, true);
             y = decrement(y);
-            createHeadings(cb, x, y, "Company Name");
+            createHeadings(cb, x, y, company);
             y = decrement(y);
-            createHeadings(cb, x, y, "Address Line 1");
+            createHeadings(cb, x, y, address.getStreet1());
             y = decrement(y);
-            createHeadings(cb, x, y, "Address Line 2");
+            createHeadings(cb, x, y, address.getStreet2() + "," + address.getStreet3());
             y = decrement(y);
-            createHeadings(cb, x, y, "City, State - ZipCode");
+            createHeadings(cb, x, y, address.getCity() + "-" + address.getZipCode());
             y = decrement(y);
-            createHeadings(cb, x, y, "Country");
+            createHeadings(cb, x, y, address.getCountry());
             y = decrement(y);
 
             x = 400;
             y = 765;
             // Invoice Header box Text Headings
-            createHeadings(cb, x, y, "435754");
+            createHeadings(cb, x, y, charges.getInvoiceNo());
             y = decrement(y);
-            createHeadings(cb, x, y, "12/12/2016");
+            createHeadings(cb, x, y, DateUtil.formate(charges.getInvoiceDate().getTime(), null));
             y = decrement(y);
-            createHeadings(cb, x, y, "Report No.-123");
+            createHeadings(cb, x, y,
+                StringUtils.isNotBlank(report.getReportNo()) ? report.getReportNo() : report
+                        .getReportId().toString());
             y = decrement(y);
-            createHeadings(cb, x, y, "12/12/2016");
+            createHeadings(cb, x, y, DateUtil.formate(report.getReportedDateTime().getTime(), null));
             y = decrement(y);
-            createHeadings(cb, x, y, "Asset No-234");
+            createHeadings(cb, x, y, report.getAssetLog().getAssetId().toString());
             y = decrement(y);
-            createHeadings(cb, x, y, "Welding machine");
+            // createHeadings(cb, x, y, report.getAssetLog().get);
 
         }
 
@@ -199,36 +191,16 @@ public class GenerateInvoice extends BaseServiceImpl {
 
     }
 
-    private float decrement(float v) {
+    private static float decrement(float v) {
         return v - 15;
     }
 
-    private void generateDetail(Document doc, PdfContentByte cb, float x, float y) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        int index = 1;
-        try {
-
-            createContent(cb, x, y, String.valueOf(index++), PdfContentByte.ALIGN_CENTER);
-            createContent(cb, x + 80, y, "Service", PdfContentByte.ALIGN_LEFT);
-            createContent(cb, x + 200, y, "Service Charges", PdfContentByte.ALIGN_LEFT);
-            double price = Double.valueOf(df.format(Math.random() * 10));
-            double extPrice = price * (index);
-            createContent(cb, 568, y, df.format(extPrice), PdfContentByte.ALIGN_RIGHT);
-
-        }
-
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    private void generateDetail(Document doc, PdfContentByte cb, float x, float y,
+    private static void generateDetail(Document doc, PdfContentByte cb, float x, float y,
             Map<String, Map<String, String>> listParticluarsMap, Double grandTotal) {
         DecimalFormat df = new DecimalFormat("0.00");
         int index = 1;
         for (String mapVal : listParticluarsMap.keySet()) {
-            Map<String, String> map = listParticluarsMap.get(mapVal);            
+            Map<String, String> map = listParticluarsMap.get(mapVal);
             createContent(cb, x + 80, y, mapVal, PdfContentByte.ALIGN_LEFT);
             for (String key : map.keySet()) {
                 try {
@@ -250,7 +222,7 @@ public class GenerateInvoice extends BaseServiceImpl {
             cb.lineTo(570, y);
             cb.stroke();
             y = decrement(y);
-          
+
         }
         createContent(cb, x + 200, y, "Grand Total", PdfContentByte.ALIGN_LEFT);
         String price = df.format(grandTotal);
@@ -258,7 +230,7 @@ public class GenerateInvoice extends BaseServiceImpl {
 
     }
 
-    private void createHeadings(PdfContentByte cb, float x, float y, String text) {
+    private static void createHeadings(PdfContentByte cb, float x, float y, String text) {
         cb.beginText();
         cb.setFontAndSize(bfBold, 8);
         cb.setColorFill(BaseColor.BLACK);
@@ -267,7 +239,7 @@ public class GenerateInvoice extends BaseServiceImpl {
         cb.endText();
     }
 
-    private void createHeadings(PdfContentByte cb, float x, float y, String text, int size,
+    private static void createHeadings(PdfContentByte cb, float x, float y, String text, int size,
             boolean isHeading) {
         cb.beginText();
         cb.setFontAndSize(bfBold, size);
@@ -282,16 +254,7 @@ public class GenerateInvoice extends BaseServiceImpl {
         cb.endText();
     }
 
-    private void printPageNumber(PdfContentByte cb) {
-        cb.beginText();
-        cb.setFontAndSize(bfBold, 8);
-        cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "Page No. " + (pageNumber + 1), 570, 25, 0);
-        cb.endText();
-        pageNumber++;
-
-    }
-
-    private void createContent(PdfContentByte cb, float x, float y, String text, int align) {
+    private static void createContent(PdfContentByte cb, float x, float y, String text, int align) {
         cb.beginText();
         cb.setFontAndSize(bf, 8);
         cb.showTextAligned(align, text.trim(), x, y, 0);
@@ -299,7 +262,7 @@ public class GenerateInvoice extends BaseServiceImpl {
 
     }
 
-    private void initializeFonts() {
+    private static void initializeFonts() {
         try {
             bfBold =
                 BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);

@@ -18,7 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="CS_ASSET_REP")
+@Table(name = "CS_ASSET_REP")
 public class AssetReport {
 
     @Id
@@ -33,7 +33,6 @@ public class AssetReport {
     @Column(name = "CLIENT_ID", nullable = false)
     private Long clientId;
 
-
     @Column(name = "REPORT_NO", length = 50)
     private String reportNo;
 
@@ -41,7 +40,7 @@ public class AssetReport {
     @Column(name = "REPORT_DATE")
     private Calendar reportedDateTime;
 
-    @Column(name = "LOG_ID", nullable = false, unique=true)
+    @Column(name = "LOG_ID", nullable = false, unique = true)
     private Long logId;
 
     @JoinColumn(name = "LOG_ID", insertable = false, updatable = false)
@@ -81,184 +80,213 @@ public class AssetReport {
     @Column(name = "STATUS", length = 50)
     private String status;
 
-    
+    @Column(name = "REPORT_GENARATED", length = 50)
+    private String reportGenarated;
+
+    @Column(name = "REPORT_GENARATED_TYPE", length = 50)
+    private String reportGenaratedType;
+
+
+    public String getReportGenaratedType() {
+        return reportGenaratedType;
+    }
+
+
+
+    public void setReportGenaratedType(String reportGenaratedType) {
+        this.reportGenaratedType = reportGenaratedType;
+    }
+
+
     public Long getReportId() {
         return reportId;
     }
 
-    
+
     public void setReportId(Long reportId) {
         this.reportId = reportId;
     }
 
-    
+
     public Long getCompanyId() {
         return companyId;
     }
 
-    
+
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 
-    
+
     public Long getClientId() {
         return clientId;
     }
 
-    
+
     public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
-    
+
     public String getReportNo() {
         return reportNo;
     }
 
-    
+
     public void setReportNo(String reportNo) {
         this.reportNo = reportNo;
     }
 
-    
+
     public Calendar getReportedDateTime() {
         return reportedDateTime;
     }
 
-    
+
     public void setReportedDateTime(Calendar reportedDateTime) {
         this.reportedDateTime = reportedDateTime;
     }
 
-    
+
     public Long getLogId() {
         return logId;
     }
 
-    
+
     public void setLogId(Long logId) {
         this.logId = logId;
     }
 
-    
+
     public AssetLogImpl getAssetLog() {
         return assetLog;
     }
 
-    
+
     public void setAssetLog(AssetLogImpl assetLog) {
         this.assetLog = assetLog;
     }
 
-    
+
     public String getContactPerson() {
         return contactPerson;
     }
 
-    
+
     public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
     }
 
-    
+
     public String getWarranty() {
         return warranty;
     }
 
-    
+
     public void setWarranty(String warranty) {
         this.warranty = warranty;
     }
 
-    
+
     public String getChargeble() {
         return chargeble;
     }
 
-    
+
     public void setChargeble(String chargeble) {
         this.chargeble = chargeble;
     }
 
-    
+
     public String getProblemAttened() {
         return problemAttened;
     }
 
-    
+
     public void setProblemAttened(String problemAttened) {
         this.problemAttened = problemAttened;
     }
 
-    
+
     public String getServiceDetails() {
         return serviceDetails;
     }
 
-    
+
     public void setServiceDetails(String serviceDetails) {
         this.serviceDetails = serviceDetails;
     }
 
-    
+
     public String getSerEngRemarks() {
         return serEngRemarks;
     }
 
-    
+
     public void setSerEngRemarks(String serEngRemarks) {
         this.serEngRemarks = serEngRemarks;
     }
 
-    
+
     public String getFallowUpAction() {
         return fallowUpAction;
     }
 
-    
+
     public void setFallowUpAction(String fallowUpAction) {
         this.fallowUpAction = fallowUpAction;
     }
 
-    
+
     public String getClientFallowUpAction() {
         return clientFallowUpAction;
     }
 
-    
+
     public void setClientFallowUpAction(String clientFallowUpAction) {
         this.clientFallowUpAction = clientFallowUpAction;
     }
 
-    
+
     public String getClientRemarks() {
         return clientRemarks;
     }
 
-    
+
     public void setClientRemarks(String clientRemart) {
         this.clientRemarks = clientRemart;
     }
 
-    
+
     public String getClinetSign() {
         return clinetSign;
     }
 
-    
+
     public void setClinetSign(String clinetSign) {
         this.clinetSign = clinetSign;
     }
 
-    
+
     public String getStatus() {
         return status;
     }
 
-    
+
     public void setStatus(String status) {
         this.status = status;
+    }
+
+
+
+    public String getReportGenarated() {
+        return reportGenarated;
+    }
+
+
+
+    public void setReportGenarated(String reportGenarated) {
+        this.reportGenarated = reportGenarated;
     }
 
 }

@@ -3,6 +3,7 @@
 //============================================================
 package com.rest.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +26,20 @@ import com.maintenance.asset.report.ReportSpareBO;
 import com.maintenance.asset.report.ReportSpareCreateBO;
 import com.maintenance.asset.report.ReportSpareResponse;
 import com.maintenance.asset.report.ReportcreateBO;
+import com.maintenance.common.FileType;
 import com.maintenance.common.StatusType;
 import com.maintenance.common.util.DateUtil;
 import com.maintenance.request.ResourceCreateResponse;
 import com.rest.api.exception.ValidationException;
+import com.rest.entity.Address;
 import com.rest.entity.AssetLogImpl;
 import com.rest.entity.AssetReport;
 import com.rest.entity.AssetReportCharges;
 import com.rest.entity.AssetReportLog;
 import com.rest.entity.AssetReportSpare;
+import com.rest.entity.Company;
+import com.rest.maintenance.config.SettingConfig;
+import com.rest.repository.AddressRepository;
 import com.rest.repository.AssetLogRepository;
 import com.rest.repository.AssetReportChargesRepository;
 import com.rest.repository.AssetReportLogRepository;
@@ -42,7 +48,7 @@ import com.rest.repository.AssetReportSpareRepository;
 
 @Component
 @Transactional
-public class AssetLogReportServiceImpl {
+public class AssetLogReportServiceImpl extends BaseServiceImpl {
 
     private static final Logger logger = Logger.getLogger(AssetLogReportServiceImpl.class);
 
@@ -61,6 +67,13 @@ public class AssetLogReportServiceImpl {
     @Autowired
     private AssetReportChargesRepository assetReportChargesRepository;
 
+    @Autowired
+    private SettingConfig settingConfig;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+
     @Transactional(rollbackFor = { Exception.class })
     public ResourceCreateResponse createAssetReport(ReportcreateBO request) {
         ResourceCreateResponse response = new ResourceCreateResponse();
@@ -68,10 +81,10 @@ public class AssetLogReportServiceImpl {
         AssetReport report = new AssetReport();
         BeanUtils.copyProperties(request, report);
         report.setReportedDateTime(DateUtil.today());
-        report.setStatus(StatusType.ACTIVE.getValue());
+        report.setStatus(StatusType.ACTIVE.name());
         report = assetReportRepository.save(report);
-       response.setId(report.getReportId());
-       return response;
+        response.setId(report.getReportId());
+        return response;
     }
 
     public AssetReportResponse getAssetReport(Long logId) {
@@ -88,7 +101,7 @@ public class AssetLogReportServiceImpl {
         response.setReportLog(getAssetLogReport(report.getReportId()));
         response.setReportCharge(getAssetReportCharges(report.getReportId()));
         response.setSpares(getAssetReportSpare(report.getReportId()));
-        return response ;
+        return response;
 
     }
 
@@ -148,17 +161,17 @@ public class AssetLogReportServiceImpl {
         try {
             AssetReportLog r_log = new AssetReportLog();
             BeanUtils.copyProperties(request, r_log);
-            if(StringUtils.isNotBlank(request.getDateTime())){
-            r_log.setDateTime(DateUtil.parse(request.getDateTime(), null));
+            if (StringUtils.isNotBlank(request.getDateTime())) {
+                r_log.setDateTime(DateUtil.parse(request.getDateTime(), null));
             }
-            if(StringUtils.isNotBlank(request.getTimeIn())){
-            r_log.setTimeIn(DateUtil.parse(request.getTimeIn(), null));
+            if (StringUtils.isNotBlank(request.getTimeIn())) {
+                r_log.setTimeIn(DateUtil.parse(request.getTimeIn(), null));
             }
-            if(StringUtils.isNotBlank(request.getTimeOut())){
-            r_log.setTimeOut(DateUtil.parse(request.getTimeOut(), null));
+            if (StringUtils.isNotBlank(request.getTimeOut())) {
+                r_log.setTimeOut(DateUtil.parse(request.getTimeOut(), null));
             }
-            if(StringUtils.isNotBlank(request.getTravelTime())){
-            r_log.setTravelTime(DateUtil.parseTime(request.getTravelTime()));
+            if (StringUtils.isNotBlank(request.getTravelTime())) {
+                r_log.setTravelTime(DateUtil.parseTime(request.getTravelTime()));
             }
             assetReportLogRepository.save(r_log);
         } catch (ConstraintViolationException e) {
@@ -253,7 +266,7 @@ public class AssetLogReportServiceImpl {
 
     @Transactional(rollbackFor = { Exception.class })
     public ResourceCreateResponse createAssetReportSpare(ReportSpareCreateBO request) {
-       ResourceCreateResponse response=new ResourceCreateResponse();
+        ResourceCreateResponse response = new ResourceCreateResponse();
         getReport(request.getReportId());
         AssetReportSpare spare =
             assetReportSpareRepository.findByReportIdAndSpareNo(request.getReportId(),
@@ -267,7 +280,7 @@ public class AssetLogReportServiceImpl {
             if (StringUtils.isNotBlank(request.getDcdateTime())) {
                 rSpare.setDcdateTime(DateUtil.parse(request.getDcdateTime(), null));
             }
-            rSpare.setAmount(request.getRate()*request.getQuantity());
+            rSpare.setAmount(request.getRate() * request.getQuantity());
             rSpare = assetReportSpareRepository.save(rSpare);
             response.setId(rSpare.getSpareId());
         } catch (ConstraintViolationException e) {
@@ -305,11 +318,12 @@ public class AssetLogReportServiceImpl {
         if (null != request.getRate()) {
             spare.setRate(request.getRate());
         }
-       
+
         if (null != request.getSpareNo()) {
             spare.setSpareNo(request.getSpareNo());
         }
-        spare.setAmount(request.getRate()*request.getQuantity());
+        spare.setAmount(request.getRate() * request.getQuantity());
+        assetReportRepository.updateStatus(StatusType.ACTIVE.name(), spare.getReportId());
         assetReportSpareRepository.save(spare);
 
     }
@@ -319,7 +333,7 @@ public class AssetLogReportServiceImpl {
 
         List<ReportSpareBO> list = new ArrayList<ReportSpareBO>();
         List<AssetReportSpare> spares = assetReportSpareRepository.findByReportId(reportId);
-        double total=0;
+        double total = 0;
         for (AssetReportSpare assetReportSpare : spares) {
             ReportSpareBO bo = new ReportSpareBO();
             BeanUtils.copyProperties(assetReportSpare, bo);
@@ -331,9 +345,9 @@ public class AssetLogReportServiceImpl {
             } else {
                 total += assetReportSpare.getAmount() + assetReportSpare.getOtherAmout();
             }
-            
+
             list.add(bo);
-        }     
+        }
         response.setSpareTotal(total);
         response.setSpares(list);
         return response;
@@ -348,12 +362,14 @@ public class AssetLogReportServiceImpl {
     }
 
     public void createAssetReportCharges(ReportChargesCreate request) {
-        getReport(request.getReportId());
+        AssetReport report = getReport(request.getReportId());
         AssetReportCharges charges = new AssetReportCharges();
         BeanUtils.copyProperties(request, charges);
         calculateCharges(charges);
         charges.setInvoiceDate(DateUtil.parse(request.getInvoiceDate(), null));
         assetReportChargesRepository.save(charges);
+        report.setStatus(StatusType.READY.name());
+        assetReportRepository.save(report);
 
     }
 
@@ -380,6 +396,7 @@ public class AssetLogReportServiceImpl {
         charges.setGrandTotal(grandTotal);
         return charges;
     }
+
     public void updateAssetReportCharges(ReportChargesUpdate request) {
         AssetReportCharges charges = assetReportChargesRepository.findOne(request.getReportId());
         if (charges == null) {
@@ -397,7 +414,7 @@ public class AssetLogReportServiceImpl {
         if (null != request.getHoidayCharges()) {
             charges.setHoidayCharges(request.getHoidayCharges());
         }
-       
+
         if (null != request.getOffHourCharges()) {
             charges.setOffHourCharges(request.getOffHourCharges());
         }
@@ -407,19 +424,21 @@ public class AssetLogReportServiceImpl {
         if (null != request.getSpareAmount()) {
             charges.setSpareAmount(request.getSpareAmount());
         }
-       
+
         if (null != request.getSpareTaxPercentage()) {
             charges.setSpareTaxPercentage(request.getSpareTaxPercentage());
         }
         if (null != request.getTaxPercentage()) {
             charges.setTaxPercentage(request.getTaxPercentage());
         }
-        
+
         if (StringUtils.isNotBlank(request.getInvoiceDate())) {
             charges.setInvoiceDate(DateUtil.parse(request.getInvoiceDate(), null));
         }
         calculateCharges(charges);
         assetReportChargesRepository.save(charges);
+        assetReportRepository.updateStatus(StatusType.READY.name(), charges.getReportId());
+
     }
 
     public void deleteAssetReportCharges(Long reportId) {
@@ -442,6 +461,41 @@ public class AssetLogReportServiceImpl {
             bo.setInvoiceDate(DateUtil.formate(charges.getInvoiceDate().getTime(), null));
         }
         return bo;
+    }
+
+    public void genarateAssetReportInvoice(Long reportId) {
+        AssetReport report = getReport(reportId);
+        if (report.getStatus().equalsIgnoreCase(StatusType.DONE.name())) {
+            throw new RuntimeException("Already invoice generated");
+        }
+        if (!report.getStatus().equalsIgnoreCase(StatusType.READY.name())) {
+            throw new RuntimeException("Not Ready to generate invoice");
+        }
+        AssetReportCharges charges = assetReportChargesRepository.findOne(reportId);
+        if (charges == null) {
+            throw new RuntimeException("charge detail does not exists");
+        }
+        StringBuilder fileName = new StringBuilder("invoice_");
+        fileName.append(reportId).append(".pdf");
+        StringBuilder filePath = new StringBuilder(settingConfig.getRootFolder());
+        filePath.append(File.separator).append(getLoggedInUser().getCompanyId())
+                .append(FileType.REPORT.getFilePath()).append(File.separator)
+                .append(report.getLogId()).append(File.separator).append(fileName);
+
+        AssetLogImpl log = report.getAssetLog();
+        Company company = companyRepository.findOne(log.getClientId());
+        Address address = addressRepository.findOne(company.getAddressId());
+        String file =
+            GenerateInvoice.createPDF(getLoggedInUser().getEmail(), filePath.toString(), charges,
+                report, company.getDescription(), address);
+        if (file == null) {
+            throw new RuntimeException("Generating PDF failed");
+        }
+        report.setReportGenarated(fileName.toString());
+        report.setReportGenaratedType("application/pdf");
+        report.setStatus(StatusType.DONE.name());
+        ;
+        assetReportRepository.save(report);
     }
 
 
