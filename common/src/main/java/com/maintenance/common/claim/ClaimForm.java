@@ -10,9 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 public class ClaimForm {
 
-    @NotNull
-    private Long claimNumber;
-
+    
     @NotNull
     private Date claimDate;
 
@@ -33,16 +31,6 @@ public class ClaimForm {
 
     @NotBlank
     private String particulars;
-
-
-	public Long getClaimNumber() {
-		return claimNumber;
-	}
-
-
-	public void setClaimNumber(Long claimNumber) {
-		this.claimNumber = claimNumber;
-	}
 
 
 	public Date getClaimDate() {

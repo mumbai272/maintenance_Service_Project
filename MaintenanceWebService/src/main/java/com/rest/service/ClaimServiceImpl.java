@@ -52,7 +52,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     @Transactional(readOnly = false)
     public Claim createClaim(ClaimForm claimForm) {
         Claim claim =
-            new Claim(claimForm.getClaimNumber(), claimForm.getClaimDate(), getLoggedInUser()
+            new Claim(claimForm.getClaimDate(), getLoggedInUser()
                     .getUserId(), claimForm.getClaimStartDate(), claimForm.getClaimEndDate(),
                 claimForm.getParticulars());
         claim.setClaimAmount(0d);
@@ -289,9 +289,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         }
         if (claim.getServicePerson().equals(getLoggedInUser().getUserId())
             && claim.getStatus().equalsIgnoreCase(StatusType.ACTIVE.name())) {
-            if (request.getClaimNumber() != null) {
-                claim.setClaimNumber(request.getClaimNumber());
-            }
+            
             if (request.getClaimDate() != null) {
                 claim.setClaimDate(request.getClaimDate());
             }

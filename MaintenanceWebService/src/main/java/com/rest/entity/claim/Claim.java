@@ -24,9 +24,6 @@ public class Claim {
     @Column(name = "COMPANY_ID", nullable = false)
     private Long companyId;
 
-    @Column(name = "CLAIM_NO")
-    private Long claimNumber;
-
     @Column(name = "CLAIM_DATE")
     @Temporal(TemporalType.DATE)
     private Date claimDate;
@@ -85,17 +82,15 @@ public class Claim {
         super();
     }
 
-    public Claim(Long claimNumber, Date claimDate, Long servicePerson, Date claimStartDate,
+    public Claim(Date claimDate, Long servicePerson, Date claimStartDate,
             Date claimEndDate, String particulars) {
         super();
-        if (claimAmount != null) {
-            this.claimNumber = claimNumber;
-        }
+        
         this.claimDate = claimDate;
         this.servicePerson = servicePerson;
         this.claimStartDate = claimStartDate;
         this.claimEndDate = claimEndDate;
-//        this.claimAmount = claimAmount;
+        this.claimAmount = 0.0;
         this.particulars = particulars;
     }
    
@@ -119,17 +114,6 @@ public class Claim {
         this.companyId = companyId;
     }
 
-    
-    public Long getClaimNumber() {
-        return claimNumber;
-    }
-
-    
-    public void setClaimNumber(Long claimNumber) {
-        this.claimNumber = claimNumber;
-    }
-
-    
     public Date getClaimDate() {
         return claimDate;
     }
