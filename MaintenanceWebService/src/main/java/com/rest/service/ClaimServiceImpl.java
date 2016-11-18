@@ -55,6 +55,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new Claim(claimForm.getClaimNumber(), claimForm.getClaimDate(), getLoggedInUser()
                     .getUserId(), claimForm.getClaimStartDate(), claimForm.getClaimEndDate(),
                 claimForm.getParticulars());
+        claim.setClaimAmount(0d);
         claim.setCompanyId(getLoggedInUser().getCompanyId());
         claim.setStatus(StatusType.ACTIVE.name());
         claim = claimRepository.save(claim);
@@ -72,6 +73,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new ConveyanceExpense(expense.getClaimId(), expense.getExpenseDate(),
                 expense.getTravelFrom(), expense.getTravelTo(), expense.getModeOfTransport(),
                 expense.getClaimAmount());
+       
         double claimAmount = claim.getClaimAmount() + expense.getClaimAmount();
         claim.setClaimAmount(claimAmount);
         expObject = conveyanceRepository.save(expObject);
