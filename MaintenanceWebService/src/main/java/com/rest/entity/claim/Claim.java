@@ -86,7 +86,7 @@ public class Claim {
     }
 
     public Claim(Long claimNumber, Date claimDate, Long servicePerson, Date claimStartDate,
-            Date claimEndDate, Double claimAmount, String particulars) {
+            Date claimEndDate, String particulars) {
         super();
         if (claimAmount != null) {
             this.claimNumber = claimNumber;
@@ -95,7 +95,7 @@ public class Claim {
         this.servicePerson = servicePerson;
         this.claimStartDate = claimStartDate;
         this.claimEndDate = claimEndDate;
-        this.claimAmount = claimAmount;
+//        this.claimAmount = claimAmount;
         this.particulars = particulars;
     }
    

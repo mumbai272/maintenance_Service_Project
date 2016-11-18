@@ -54,7 +54,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         Claim claim =
             new Claim(claimForm.getClaimNumber(), claimForm.getClaimDate(), getLoggedInUser()
                     .getUserId(), claimForm.getClaimStartDate(), claimForm.getClaimEndDate(),
-                claimForm.getClaimAmount(), claimForm.getParticulars());
+               claimForm.getParticulars());
         claim.setCompanyId(getLoggedInUser().getCompanyId());
         claim.setStatus(StatusType.ACTIVE.name());
         claim = claimRepository.save(claim);
@@ -72,7 +72,10 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new ConveyanceExpense(expense.getClaimId(), expense.getExpenseDate(),
                 expense.getTravelFrom(), expense.getTravelTo(), expense.getModeOfTransport(),
                 expense.getClaimAmount());
+       double claimAmount= claim.getClaimAmount()+expense.getClaimAmount();  
+       claim.setClaimAmount(claimAmount);
         expObject = conveyanceRepository.save(expObject);
+        claimRepository.save(claim);
         return expObject;
     }
 
@@ -87,7 +90,11 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new BusinessExpense(expense.getClaimId(), expense.getExpenseDate(), expense.getGuest(),
                 expense.getParticulars(), expense.getBillNumber(), expense.getBillDate(),
                 expense.getClaimAmount());
+        double claimAmount= claim.getClaimAmount()+expense.getClaimAmount();  
+        claim.setClaimAmount(claimAmount);
+
         expObject = businessRepository.save(expObject);
+        claimRepository.save(claim);
         return expObject;
     }
 
@@ -102,7 +109,11 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new MiscExpense(expense.getClaimId(), expense.getExpenseDate(),
                 expense.getParticulars(), expense.getBillNumber(), expense.getBillDate(),
                 expense.getClaimAmount());
+        double claimAmount= claim.getClaimAmount()+expense.getClaimAmount();  
+        claim.setClaimAmount(claimAmount);
+
         expObject = miscRepository.save(expObject);
+        claimRepository.save(claim);
         return expObject;
     }
 

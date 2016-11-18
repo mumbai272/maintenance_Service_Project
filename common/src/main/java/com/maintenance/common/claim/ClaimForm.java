@@ -14,7 +14,7 @@ public class ClaimForm {
 
     @NotBlank
     private Date claimDate;
-//
+
 //
 //    @NotBlank
 //    private Long servicePerson;
@@ -26,8 +26,8 @@ public class ClaimForm {
     @NotBlank
     private Date claimEndDate;
 
-    @NotBlank
-    private Double claimAmount;
+//    @NotBlank
+//    private Double claimAmount;
 
 
     @NotBlank
@@ -84,14 +84,14 @@ public class ClaimForm {
 	}
 
 
-	public Double getClaimAmount() {
-		return claimAmount;
-	}
-
-
-	public void setClaimAmount(Double claimAmount) {
-		this.claimAmount = claimAmount;
-	}
+//	public Double getClaimAmount() {
+//		return claimAmount;
+//	}
+//
+//
+//	public void setClaimAmount(Double claimAmount) {
+//		this.claimAmount = claimAmount;
+//	}
 
 
 	public String getParticulars() {
