@@ -1,5 +1,6 @@
 package com.rest.api;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -45,7 +46,7 @@ public class ClaimFormRestServiceImpl {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response claimForm(ClaimForm request, @Context MessageContext context) {
+    public Response claimForm(@Valid ClaimForm request, @Context MessageContext context) {
         logger.info("Start: /claim/form API invoked");
         ResourceCreateResponse response = new ResourceCreateResponse();
         Claim claim = claimServiceImpl.createClaim(request);
@@ -82,7 +83,7 @@ public class ClaimFormRestServiceImpl {
     @Path(value = "/claim")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response updateClaimForm(ClaimBO request) {
+    public Response updateClaimForm(@Valid ClaimBO request) {
         logger.info("Start: /claim update API invoked");
         BaseResponse response = new BaseResponse();
          claimServiceImpl.updateClaim(request);
@@ -120,7 +121,7 @@ public class ClaimFormRestServiceImpl {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response conveyanceExpense(ClaimConveyanceExpense request,
+    public Response conveyanceExpense(@Valid ClaimConveyanceExpense request,
             @Context MessageContext context) {
         logger.info("Start: /claim/conveyance/expense API invoked");
         ResourceCreateResponse response = new ResourceCreateResponse();
@@ -147,7 +148,7 @@ public class ClaimFormRestServiceImpl {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response businessDevelopmentExpense(ClaimBusinessExpense request,
+    public Response businessDevelopmentExpense(@Valid ClaimBusinessExpense request,
             @Context MessageContext context) {
         logger.info("Start: /claim/business/development/expense API invoked");
         ResourceCreateResponse response = new ResourceCreateResponse();
@@ -174,7 +175,7 @@ public class ClaimFormRestServiceImpl {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response miscExpense(ClaimMiscExpense request, @Context MessageContext context) {
+    public Response miscExpense(@Valid ClaimMiscExpense request, @Context MessageContext context) {
         logger.info("Start: /claim/misc/expense API invoked");
         ResourceCreateResponse response = new ResourceCreateResponse();
         MiscExpense e = claimServiceImpl.createMiscExpense(request);
