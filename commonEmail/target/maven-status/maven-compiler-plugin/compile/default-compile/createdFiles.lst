@@ -1,6 +1,0 @@
-com\maintenance\email\sender\EmailSenderImpl.class
-com\maintenance\email\MailConfig.class
-com\maintenance\email\sender\EmailSender.class
-com\maintenance\email\sender\EmailSenderImpl$1.class
-com\maintenance\email\EmailType.class
-com\maintenance\email\sender\EmailContent.class
