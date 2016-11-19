@@ -291,5 +291,17 @@ public class UserImpl {
     }
 
 
+    
+//    public String getPanNo() {
+//        return panNo;
+//    }
+//
+//
+//    
+//    public void setPanNo(String panNo) {
+//        this.panNo = panNo;
+//    }
+
+
 
 }

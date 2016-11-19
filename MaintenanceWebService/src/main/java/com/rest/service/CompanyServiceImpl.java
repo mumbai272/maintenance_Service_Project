@@ -4,7 +4,6 @@
 package com.rest.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,21 +15,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maintenance.Common.StatusType;
-import com.maintenance.Common.DTO.AddressDTO;
-import com.maintenance.Common.DTO.CompanyDTO;
+import com.maintenance.common.StatusType;
+import com.maintenance.common.DTO.AddressDTO;
+import com.maintenance.common.DTO.CompanyDTO;
+import com.maintenance.common.util.DateUtil;
 import com.rest.entity.Address;
 import com.rest.entity.Company;
 import com.rest.repository.AddressRepository;
 
 @Component
 @Transactional
-public class CompanyServiceImpl extends BaseServiceImpl{
+public class CompanyServiceImpl extends BaseServiceImpl {
+
     private static final Logger logger = Logger.getLogger(CompanyServiceImpl.class);
-   
+
     @Autowired
     private AddressRepository addressRepository;
-    
+
     @Autowired
     private AddressServiceImpl addressServiceImpl;
 
@@ -43,7 +44,7 @@ public class CompanyServiceImpl extends BaseServiceImpl{
      * @return
      */
     public List<CompanyDTO> getCompanyDeatils(Long companyId, Long clientId, Boolean fetchAddress) {
-        logger.info("inside getCompanyDeatils for companyId:"+companyId);
+        logger.info("inside getCompanyDeatils for companyId:" + companyId);
         Boolean fetchCompany = false;
         List<Company> companys = new ArrayList<Company>();
         if (clientId != null && companyId.equals(clientId)) {
@@ -72,16 +73,16 @@ public class CompanyServiceImpl extends BaseServiceImpl{
         logger.info("building company DTO");
         Map<Long, CompanyDTO> addressToCompanyDTOmap = new HashMap<Long, CompanyDTO>();
         List<Long> addressIds = new ArrayList<Long>();
-        List<CompanyDTO> companyDTOList=new ArrayList<CompanyDTO>();
+        List<CompanyDTO> companyDTOList = new ArrayList<CompanyDTO>();
         for (Company company : companys) {
             if (fetchCompany || !company.getCompanyId().equals(company.getClientId())) {
-                CompanyDTO companyDTO =
-                    new CompanyDTO(company.getCompanyId(), company.getClientId(),
-                        company.getShortDesc(), company.getDescription(), null);
+                CompanyDTO companyDTO = new CompanyDTO();
+                BeanUtils.copyProperties(company, companyDTO);
+                companyDTO.setClientName(company.getShortDesc());
                 if (fetchAddress && company.getAddressId() != null) {
                     addressIds.add(company.getAddressId());
                     addressToCompanyDTOmap.put(company.getAddressId(), companyDTO);
-                }else{
+                } else {
                     companyDTOList.add(companyDTO);
                 }
             }
@@ -110,27 +111,28 @@ public class CompanyServiceImpl extends BaseServiceImpl{
         return companyDTO;
     }
 
-   
+
 
     /**
      * 
      * @param companyDTO
-     * @return
+     * 
      */
-    @Transactional(readOnly = false)
-    public CompanyDTO createCompanyDeatils(CompanyDTO companyDTO) {
-        Company company =
-            new Company(companyDTO.getClientName(), companyDTO.getDescription(),
-                companyDTO.getCompanyId(), StatusType.ACTIVE.getValue(), null, new Date());
+    @Transactional(readOnly = false, rollbackFor = { Exception.class })
+    public void createCompanyDeatils(CompanyDTO companyDTO) {
+        Company company = new Company();
+        BeanUtils.copyProperties(companyDTO, company);
+        company.setShortDesc(companyDTO.getClientName());
+        company.setStatus(StatusType.ACTIVE.getValue());
+        company.setEntryBy(getLoggedInUser().getUserName());
+        company.setEntryDate(DateUtil.today());
         Address address = new Address();
-        BeanUtils.copyProperties(companyDTO.getAddress(), address);     
+        BeanUtils.copyProperties(companyDTO.getAddress(), address);
         addressRepository.save(address);
-        
         company.setAddressId(address.getAddressId());
         companyRepository.save(company);
-        return null;
     }
-   
+
 
 
 }

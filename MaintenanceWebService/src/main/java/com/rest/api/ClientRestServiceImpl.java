@@ -21,8 +21,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.maintenance.Common.DTO.CompanyDTO;
-import com.maintenance.Common.DTO.CompanyResponse;
+import com.maintenance.common.DTO.CompanyDTO;
+import com.maintenance.common.DTO.CompanyResponse;
 import com.maintenance.request.BaseResponse;
 import com.rest.service.CompanyServiceImpl;
 

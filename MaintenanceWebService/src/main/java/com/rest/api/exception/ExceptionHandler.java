@@ -24,7 +24,6 @@ public class ExceptionHandler implements ExceptionMapper<Exception> {
 
     private String content_type;
 
-    @Override
     public Response toResponse(final Exception exception) {
         logger.info("Handling Exception occured: " + exception);
         BaseResponse response = new BaseResponse();

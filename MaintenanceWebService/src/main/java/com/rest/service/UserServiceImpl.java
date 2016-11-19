@@ -19,14 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maintenance.Common.Constants;
-import com.maintenance.Common.RoleType;
-import com.maintenance.Common.StatusType;
-import com.maintenance.Common.UserAction;
-import com.maintenance.Common.UserContext;
-import com.maintenance.Common.UserContextRetriver;
-import com.maintenance.Common.DTO.AddressDTO;
-import com.maintenance.Common.exception.AuthorizationException;
+import com.maintenance.common.Constants;
+import com.maintenance.common.RoleType;
+import com.maintenance.common.StatusType;
+import com.maintenance.common.UserAction;
+import com.maintenance.common.UserContext;
+import com.maintenance.common.UserContextRetriver;
+import com.maintenance.common.DTO.AddressDTO;
+import com.maintenance.common.exception.AuthorizationException;
 import com.maintenance.email.EmailType;
 import com.maintenance.email.sender.EmailContent;
 import com.maintenance.email.sender.EmailSender;
@@ -47,7 +47,6 @@ import com.rest.entity.EmploymentDetails;
 import com.rest.entity.UserImpl;
 import com.rest.repository.AddressRepository;
 import com.rest.repository.EmploymentDetailsRepository;
-import com.rest.repository.UserRepository;
 
 
 /**
@@ -58,9 +57,6 @@ import com.rest.repository.UserRepository;
 public class UserServiceImpl extends BaseServiceImpl {
 
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private CompanyServiceImpl companyServiceImpl;
@@ -115,7 +111,7 @@ public class UserServiceImpl extends BaseServiceImpl {
 
     private boolean isValidUsername(String userName) {
         UserImpl user = userRepository.findByUserName(userName);
-        if (user == null) {
+        if (user != null) {
             throw new RuntimeException("Username is already registered");
         }
         return true;
@@ -131,7 +127,7 @@ public class UserServiceImpl extends BaseServiceImpl {
 
 
     public UserContext getUserContext(Long userId) {
-        UserImpl user = userRepository.findByUserIdAndStatus(userId, StatusType.ACTIVE.getValue());
+        UserImpl user = userRepository.findByUserIdAndStatusIn(userId, new String[]{StatusType.ACTIVE.getValue(),StatusType.NEW.getValue()});
         if (null == user) {
             throw new RuntimeException("User not found or not activated");
         }
@@ -145,9 +141,10 @@ public class UserServiceImpl extends BaseServiceImpl {
      * @param companyId
      * @param status
      * @param fetchAddress
+     * @param role 
      * @return
      */
-    public UserResponse getUser(Long companyId, String status, boolean fetchAddress) {
+    public UserResponse getUser(Long companyId, String status, boolean fetchAddress, Long role) {
         UserResponse userResponse = new UserResponse();
         List<Long> addressIds = null;
         Map<Long, UserDTO> addressIdToUserDTO = new HashMap<Long, UserDTO>();        
@@ -160,7 +157,9 @@ public class UserServiceImpl extends BaseServiceImpl {
         if (companyId == null) {
             companyIds = getClientCompanyIds(false);
         }       
-
+        if (companyIds == null) {
+            companyId = getLoggedInUser().getCompanyId();
+        }
         List<UserImpl> users = null;
         if (status.equalsIgnoreCase(StatusType.REGISTERED.getValue())) {
             users = userRepository.findByStatus(StatusType.REGISTERED.getValue());
@@ -168,6 +167,10 @@ public class UserServiceImpl extends BaseServiceImpl {
             users = userRepository.findByCompanyIdAndStatus(companyId, status);
         } else {
             users = userRepository.findByCompanyIdInAndStatus(companyIds, status);
+        }
+        if(role!=null &&  UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN ){
+            validateRoleTypeId(role);
+            users = userRepository.findByCompanyIdAndRoleTypeIdAndStatus(getLoggedInUser().getCompanyId(), role, status);
         }
         if (!CollectionUtils.isEmpty(users)) {
             addressIds = new ArrayList<Long>();
@@ -308,24 +311,28 @@ public class UserServiceImpl extends BaseServiceImpl {
     }
 
     private void updateUser(UserImpl user, UserUpdateDTO userDto) {
-       
-            if (userDto.getRoleId()!=null) {
+        if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN
+            || UserContextRetriver.getUsercontext().getRole() == RoleType.CLIENT_ADMIN) {
+            if (userDto.getRoleId() != null) {
                 RoleType role = validateRoleTypeId(userDto.getRoleId());
-                if (role != null ) {
+                if (role != null) {
                     user.setRoleTypeId(role.getId());
                 } else {
-                    throw new ValidationException("role",userDto.getRoleId().toString(), "Invalid role");
+                    throw new ValidationException("role", userDto.getRoleId().toString(),
+                        "Invalid role");
                 }
             }
+        }
         if (UserContextRetriver.getUsercontext().getRole() == RoleType.ADMIN) {
-            if (userDto.getCompanyId() != null
+            if (userDto.getCompanyId() != null && !userDto.getCompanyId().equals(user.getCompanyId())
                 && companyServiceImpl.validateCompany(userDto.getCompanyId())) {
                 user.setCompanyId(userDto.getCompanyId());
             }
 
         }
 
-        if (StringUtils.isNotBlank(userDto.getEmailId())) {
+        if (StringUtils.isNotBlank(userDto.getEmailId())
+            && !userDto.getEmailId().equalsIgnoreCase(user.getEmailId())) {
             if (!checkEmailIsRegisterd(userDto.getEmailId())) {
                 user.setEmailId(userDto.getEmailId());
             } else {
@@ -350,6 +357,7 @@ public class UserServiceImpl extends BaseServiceImpl {
         }
         if (getLoggedInUser().getUserId().equals(user.getUserId())
             && StringUtils.isNotBlank(userDto.getUserName())
+            && !userDto.getUserName().equalsIgnoreCase(user.getUserName())
             && isValidUsername(userDto.getUserName())) {
             user.setUserName(userDto.getUserName());
         }
@@ -446,6 +454,10 @@ public class UserServiceImpl extends BaseServiceImpl {
      * @param userId
      */
     public void rejectRegistration(UserRegistrationRejectRequest request) {
+        if(!getLoggedInUser().getRole().equals(RoleType.ADMIN)){
+            throw new AuthorizationException(UserAction.REJECT_USER.getValue(), UserContextRetriver
+                .getUsercontext().getUserName());
+        }
         UserImpl user = userRepository.findOne(request.getUserId());
         if (user == null) {
             throw new ValidationException("userId", request.getUserId().toString(), "Invalid value is passed");
@@ -459,6 +471,31 @@ public class UserServiceImpl extends BaseServiceImpl {
     
         emailSender.sendMailAsync(emailContent);
 
+    }
+
+    /**
+     * delete user, making the status as deleted.
+     * 
+     * @param userId
+     */
+    public void deleteUser(Long userId) {        
+        UserImpl user = userRepository.findOne(userId);
+        if (user == null) {
+            throw new ValidationException("userId", userId.toString(), "Invalid value is passed");
+        }
+        if(getLoggedInUser().getUserId().equals(userId)){
+            throw new ValidationException("userId", userId.toString(), "cannot delete own profile");
+        }
+        if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)
+            && (!user.getCompanyId().equals(getLoggedInUser().getCompanyId()) && getLoggedInUser()
+                    .getRole().equals(RoleType.CLIENT_ADMIN))){
+            throw new AuthorizationException(UserAction.DELETE_USER.getValue(), UserContextRetriver
+                .getUsercontext().getUserName());
+        }
+        user.setStatus(StatusType.DELETED.getValue());
+        user.getAuditData().setLastModifiedBy(getLoggedInUser().getUserId());
+        user.getAuditData().setLastModifiedDate(Calendar.getInstance());
+        userRepository.save(user);
     }
 
     

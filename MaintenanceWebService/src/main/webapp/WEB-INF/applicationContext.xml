@@ -44,13 +44,18 @@
 			<ref bean="userRestServiceImpl" />
 			<ref bean="maintenanceTypeRestService"/>
 			<ref bean="assetLogRestServiceImpl"/>
+			<ref bean="assetLogReportRestImpl"/>
 			<ref bean="companyAttributeRestServiceImpl"/>
+			<ref bean="claimFormRestServiceImpl"/>
+			<ref bean="fileRestServiceImpl"/>
+			<ref bean="jobsRestserviceImpl"/>
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>
-			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		      <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />		
+<!-- 			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" /> -->
 			<ref bean="sessionValidator" />
-			<!-- <bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" /> -->
+			<bean class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" />
 			<bean class="com.rest.api.exception.ValidationExceprionHandler" />
 			<bean class="com.rest.api.exception.RuntimeExceptionHandler" />
 			<bean class="com.rest.api.exception.ExceptionHandler"/>
@@ -97,7 +102,7 @@
 			<list>
 				<value>classpath:dbConnection.properties</value>
 				<value>classpath:ValidationMessages.properties</value>
-				<value>classpath:mail.properties</value>
+				<value>classpath:application.properties</value>
 			</list>
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true"/>		

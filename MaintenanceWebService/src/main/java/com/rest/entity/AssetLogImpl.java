@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -37,17 +39,17 @@ public class AssetLogImpl {
     @Column(name = "ASSET_ID", nullable=false)
     private Long assetId;
 
-    @Column(name = "LOG_ON", length = 50)
-    private String logOn;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LOG_DATETIME")
     private Calendar LogCreatedDate;
 
     @Column(name = "MAINT_TYPE_ID", nullable=false)
     private Long maintainanceType;
+    @ManyToOne()
+    @JoinColumn(name = "MAINT_TYPE_ID", insertable = false, updatable = false)
+    private MaintenanceType mType;
 
-    @Column(name = "ASSET_PROBLEM")
+    @Column(name = "ASSET_PROBLEM", length = 75)
     private String assetProblem;
 
     @Column(name = "CRITICALITY", length = 50)
@@ -109,18 +111,7 @@ public class AssetLogImpl {
         this.assetId = assetId;
     }
 
-    
-    public String getLogOn() {
-        return logOn;
-    }
-
-    
-    public void setLogOn(String logOn) {
-        this.logOn = logOn;
-    }
-
-    
-    public Calendar getLogCreatedDate() {
+   public Calendar getLogCreatedDate() {
         return LogCreatedDate;
     }
 
@@ -207,6 +198,18 @@ public class AssetLogImpl {
     
     public void setEntryDate(Calendar entryDate) {
         this.entryDate = entryDate;
+    }
+
+
+    
+    public MaintenanceType getmType() {
+        return mType;
+    }
+
+
+    
+    public void setmType(MaintenanceType mType) {
+        this.mType = mType;
     }
 
     

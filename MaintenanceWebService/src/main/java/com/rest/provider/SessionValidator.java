@@ -18,8 +18,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.maintenance.Common.Constants;
-import com.maintenance.Common.UserContextRetriver;
+import com.maintenance.common.Constants;
+import com.maintenance.common.UserContextRetriver;
 import com.rest.entity.SessionImpl;
 import com.rest.repository.SessionRepository;
 import com.rest.service.UserServiceImpl;
@@ -48,7 +48,7 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
     /**
      * executes before the rest layer
      */
-    @Override
+   
     public void filter(ContainerRequestContext requestContext) throws IOException {
         if (!excludeUrlList.contains(requestContext.getUriInfo().getPath())) {
 
@@ -86,7 +86,7 @@ public class SessionValidator implements ContainerRequestFilter, ContainerRespon
     /**
      * this executes after the excecution of rest layer
      */
-    @Override
+  
     public void filter(ContainerRequestContext requestContext,
             ContainerResponseContext responseContext) throws IOException {
         UserContextRetriver.remove();
