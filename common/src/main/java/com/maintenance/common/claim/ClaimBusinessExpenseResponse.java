@@ -14,16 +14,19 @@ import com.maintenance.request.BaseResponse;
 public class ClaimBusinessExpenseResponse extends BaseResponse {
 
     @XmlElement
-    List<ClaimBusinessExpense> expenses;
+    List<ClaimBusinessExpense> businessExpenses;
 
+    
+    public List<ClaimBusinessExpense> getBusinessExpenses() {
+        return businessExpenses;
+    }
 
-    public List<ClaimBusinessExpense> getExpenses() {
-        return expenses;
+    
+    public void setBusinessExpenses(List<ClaimBusinessExpense> businessExpenses) {
+        this.businessExpenses = businessExpenses;
     }
 
 
-    public void setExpenses(List<ClaimBusinessExpense> expenses) {
-        this.expenses = expenses;
-    }
+   
 
 }

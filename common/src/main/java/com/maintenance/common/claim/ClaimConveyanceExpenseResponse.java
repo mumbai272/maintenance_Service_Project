@@ -13,17 +13,20 @@ import com.maintenance.request.BaseResponse;
 @XmlRootElement
 public class ClaimConveyanceExpenseResponse extends BaseResponse {
     @XmlElement
-    List<ClaimConveyanceExpense> expenses;
+    List<ClaimConveyanceExpense> conveyanceExpenses;
 
     
-    public List<ClaimConveyanceExpense> getExpenses() {
-        return expenses;
+    public List<ClaimConveyanceExpense> getConveyanceExpenses() {
+        return conveyanceExpenses;
     }
 
     
-    public void setExpenses(List<ClaimConveyanceExpense> expenses) {
-        this.expenses = expenses;
+    public void setConveyanceExpenses(List<ClaimConveyanceExpense> conveyanceExpenses) {
+        this.conveyanceExpenses = conveyanceExpenses;
     }
+
+    
+   
     
     
 }

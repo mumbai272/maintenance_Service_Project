@@ -13,16 +13,17 @@ import com.maintenance.request.BaseResponse;
 @XmlRootElement
 public class ClaimMiscExpenseResponse extends BaseResponse {
     @XmlElement
-    List<ClaimMiscExpense> expenses;
+    List<ClaimMiscExpense> miscExpenses;
 
     
-    public List<ClaimMiscExpense> getExpenses() {
-        return expenses;
+    public List<ClaimMiscExpense> getMiscExpenses() {
+        return miscExpenses;
     }
 
     
-    public void setExpenses(List<ClaimMiscExpense> expenses) {
-        this.expenses = expenses;
+    public void setMiscExpenses(List<ClaimMiscExpense> miscExpenses) {
+        this.miscExpenses = miscExpenses;
     }
-    
+
+       
 }

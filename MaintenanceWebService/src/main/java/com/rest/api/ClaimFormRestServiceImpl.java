@@ -144,7 +144,7 @@ public class ClaimFormRestServiceImpl {
         ClaimConveyanceExpenseResponse response = new ClaimConveyanceExpenseResponse();
         List<ClaimConveyanceExpense> e = claimServiceImpl.getConveyanceExpenses(claimId);
         logger.info("End:GET /claim/conveyance/expense");
-        response.setExpenses(e);
+        response.setConveyanceExpenses(e);
         return Response.ok(response).build();
     }
     
@@ -185,7 +185,7 @@ public class ClaimFormRestServiceImpl {
         ClaimBusinessExpenseResponse response = new ClaimBusinessExpenseResponse();
         List<ClaimBusinessExpense> e = claimServiceImpl.getBusinessExpense(claimId);
         logger.info("End:GET /claim/business/development/expense/");
-        response.setExpenses(e);
+        response.setBusinessExpenses(e);
         return Response.ok(response).build();
     }
 
@@ -224,7 +224,7 @@ public class ClaimFormRestServiceImpl {
         ClaimMiscExpenseResponse response = new ClaimMiscExpenseResponse();
         List<ClaimMiscExpense> e = claimServiceImpl.getMiscExpense(claimId);
         logger.info("End:GET /claim/misc/expense/");
-        response.setExpenses(e);
+        response.setMiscExpenses(e);
         return Response.ok(response).build();
     }
     @Path(value = "/claim/misc/expense/{expenseId}")
