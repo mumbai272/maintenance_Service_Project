@@ -45,15 +45,16 @@ public class BusinessExpenseAdaptor extends BaseAdapter {
         View v= View.inflate(cxt, R.layout.business_tab_list, null);
 
         TextView part= (TextView) v.findViewById(R.id.part);
-        TextView  on= (TextView) v.findViewById(R.id.exp_on);
         TextView amt= (TextView) v.findViewById(R.id.amount);
         TextView bill_no=(TextView)v.findViewById(R.id.bill_no);
-        TextView  date= (TextView) v.findViewById(R.id.billed_on);
+        TextView  on= (TextView) v.findViewById(R.id.billed_on);
+
+        TextView  date= (TextView) v.findViewById(R.id.exp_on);
         Button delete= (Button) v.findViewById(R.id.delete);
 
         part.setText(bus_exp_list.get(i).getParticulars());
         bill_no.setText(bus_exp_list.get(i).getBillNumber());
-        on.setText(bus_exp_list.get(i).getExpenseDate());
+        on.setText(bus_exp_list.get(i).getBillDate());
         amt.setText(String.valueOf(bus_exp_list.get(i).getClaimAmount()));
         date.setText(bus_exp_list.get(i).getExpenseDate());
 

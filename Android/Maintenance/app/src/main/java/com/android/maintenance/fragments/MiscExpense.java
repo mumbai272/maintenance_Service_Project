@@ -8,10 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.android.maintenance.DTO.BusinessDevExpenseDTO;
 import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.activities.MiscExpensesActivity;
+import com.android.maintenance.adapters.BusinessExpenseAdaptor;
+import com.android.maintenance.adapters.MiscExpenseAdaptor;
 import com.android.maintenance.configuration.ConfigConstant;
 
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ public class MiscExpense extends android.support.v4.app.Fragment {
     Long ID;
     ArrayList<MiscExpenseDTO> misc_exp_list;
     ListView listView;
+    MiscExpenseAdaptor adapter;
     ImageButton button;
     @Override
     public void onCreate(Bundle state) {
@@ -36,9 +40,9 @@ public class MiscExpense extends android.support.v4.app.Fragment {
         HashMap<String, String> user = session.getUserDetails();
         role = user.get(SessionManager.KEY_ROLE);
 
-       final Bundle args = getArguments();
-       ID=args.getLong("ID");
-       /* misc_exp_list = ( ArrayList<MiscExpenseDTO>) args.getSerializable("");*/
+        final Bundle args = getArguments();
+        ID=args.getLong("Clim_ID");
+        misc_exp_list = ( ArrayList<MiscExpenseDTO>) args.getSerializable("");
     }
 
 
@@ -60,6 +64,9 @@ public class MiscExpense extends android.support.v4.app.Fragment {
             }
         });
 
+
+        adapter= new MiscExpenseAdaptor(getActivity().getApplicationContext(), misc_exp_list);
+        listView.setAdapter(adapter);
         return view;
     }
 }

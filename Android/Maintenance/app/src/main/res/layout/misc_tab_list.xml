@@ -66,8 +66,8 @@
         android:textSize="12dp"
         android:id="@+id/textView12"
         android:layout_marginEnd="47dp"
-        android:layout_toStartOf="@+id/delete"
-        android:layout_below="@+id/part" />
+        android:layout_below="@+id/part"
+        android:layout_toStartOf="@+id/delete" />
 
     <TextView
         android:layout_width="80dp"
@@ -125,4 +125,5 @@
         android:layout_alignTop="@+id/textView14"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/textView14" />
+
 </RelativeLayout>

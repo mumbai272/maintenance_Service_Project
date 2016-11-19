@@ -68,9 +68,9 @@ public class GetClaimDetails  extends AsyncTask<String, Void, String> {
         try {
             obj = new JSONObject(result);
             claimData = obj.getJSONObject("claim");
-        //    businessExpensesData = obj.getJSONArray("businessExpenses");
+            businessExpensesData = obj.getJSONArray("businessExpenses");
             conveyanceExpensesData = obj.getJSONArray("conveyanceExpenses");
-        //    miscExpenseDate = obj.getJSONArray("miscExpenses");
+             miscExpenseDate = obj.getJSONArray("miscExpenses");
         } catch (Exception e) {
             e.printStackTrace();
         }
