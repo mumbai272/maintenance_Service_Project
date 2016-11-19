@@ -178,6 +178,62 @@
          android:hint="@string/website"
          android:layout_below="@+id/edit_client_fax"
          android:layout_alignStart="@+id/edit_client_fax" />
+
+     <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tin_no"
+        android:ems="12"
+        android:hint="Tin No"
+        android:layout_below="@+id/edit_client_website"
+        android:layout_alignStart="@+id/edit_client_website" />
+
+
+   <EditText
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/pan_no"
+       android:ems="12"
+       android:hint="Pan No"
+       android:layout_below="@+id/tin_no"
+       android:layout_alignStart="@+id/tin_no" />
+
+   <EditText
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/cstNo"
+       android:ems="12"
+       android:hint="Cst No"
+       android:layout_below="@+id/pan_no"
+       android:layout_alignStart="@+id/pan_no" />
+
+   <EditText
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/servicetax"
+       android:ems="12"
+       android:hint="service Tax No"
+       android:layout_below="@+id/cstNo"
+       android:layout_alignStart="@+id/cstNo" />
+
+   <EditText
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/eccNo"
+       android:ems="12"
+       android:hint="Ecc No"
+       android:layout_below="@+id/servicetax"
+       android:layout_alignStart="@+id/servicetax" />
+
+   <EditText
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/cinNo"
+       android:ems="12"
+       android:hint="Cin No"
+       android:layout_below="@+id/eccNo"
+       android:layout_alignStart="@+id/eccNo" />
+
   </LinearLayout>
 
  </ScrollView>

@@ -1,16 +1,18 @@
 package com.android.maintenance.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -36,7 +38,6 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,18 +46,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class MachineRegister extends AppCompatActivity implements View.OnClickListener {
+public class MachineRegister extends Activity implements View.OnClickListener {
 
     private static String url = ConfigConstant.url;
-    private static String clientURL = url + "client/" + ConfigConstant.company_id;
-    private static String machintypeURL = url + "machine/machinetype?companyId=" + ConfigConstant.company_id;
-    private static String machinemadeURL= url + "machine/machinemake?companyId=" + ConfigConstant.company_id;
-    private static String machinemodelURL= url + "machine/machinemodel?companyId=" + ConfigConstant.company_id;
+    private static String clientURL = url + "client/";
+    private static String machintypeURL = url + "machine/machinetype?companyId=";
+    private static String machinemadeURL= url + "machine/machinemake?companyId=";
+    private static String machinemodelURL= url + "machine/machinemodel?companyId=";
     private static String assetclientregisterURL= url+"asset";
     private static final String TAG = "Mymessage";
     private static String token;
     private SessionManager session;
-
+    String client_idStr,company_idStr;
+    long client_id=0,company_id=0;
     private Map<Integer,String> clientAssetDTO;
     private Map<Integer,String> machine_type;
     private Map<Integer,String> machine_made;
@@ -74,7 +76,30 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
     Button add_Btn;
     String client,e_machine_type,e_machine_made,e_machine_model;
     String asset_no,asset_desc,mfg_sl_no,inst_sl_no,inst_date,mfg_date,usage,cost,location,isWarranty,warrantyStartDate,warrantyEndDate;
+    String radiowarrentyStr,radioactiveStr;
     Intent intent;
+    private ProgressDialog mProgress;
+    Context context=this;
+    String role;
+    private EmployeeMainActivity eActivity;
+    private MachineListActivity aActivity;
+    private UserMainActivity uActivity;
+
+    public MachineRegister(){
+
+    }
+
+    public MachineRegister(MachineListActivity activity) {
+        this.aActivity = activity;
+    }
+
+    public MachineRegister(UserMainActivity activity) {
+        this.uActivity = activity;
+    }
+
+    public MachineRegister(EmployeeMainActivity activity) {
+        this.eActivity = activity;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +108,13 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
         HashMap<String, String> user = session.getUserDetails();
 
         token=user.get(SessionManager.KEY_TOKEN);
-        Log.e("user_ id:","Token:"+token);
+        company_idStr = user.get("KEY_COMPANY_ID");
+        client_idStr = user.get("KEY_CLIENT_ID");
+        client_id=Long.parseLong(client_idStr);
+        company_id=Long.parseLong(company_idStr);
+        role=user.get(SessionManager.KEY_ROLE);
+        Log.e("company_id:"+company_id,"client_id:"+client_id);
+
         clientAssetDTO=new HashMap<Integer, String>();
         machine_type=new HashMap<Integer, String>();
         machine_made=new HashMap<Integer, String>();
@@ -113,20 +144,71 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
         radioactiveGroup= (RadioGroup)findViewById(R.id.active_radio_grp);
         radiowarrentyGroup =(RadioGroup) findViewById(R.id.warrenty_radio_grp);
         purchasecost =(EditText)findViewById(R.id.purchasecost);
-        //add_Btn=(Button)findViewById(R.id.registerbtn);
+        add_Btn=(Button)findViewById(R.id.registerbtn);
+
+
+        radioactiveGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i) {
+                    case R.id.active_radio_yes:
+                        radioactiveButton = (RadioButton) findViewById(i);
+                        break;
+                    case R.id.active_radio_no:
+                        radioactiveButton = (RadioButton) findViewById(i);
+                        break;
+                }
+            }
+        });
+
+        radiowarrentyGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i) {
+                    case R.id.radio_yes:
+                        radiowarrentyButton = (RadioButton) findViewById(i);
+                        break;
+                    case R.id.radio_no:
+                        radiowarrentyButton = (RadioButton) findViewById(i);
+                        break;
+                }
+            }
+        });
+
+        mProgress = new ProgressDialog(context);
+        mProgress.setTitle("Processing...");
+        mProgress.setMessage("Please wait...");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.mtoolbar);
+        toolbar.setTitle("Add Machine");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(role.equals(ConfigConstant.adminRole)) {
+                    intent = new Intent(MachineRegister.this, MachineListActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else if(role.equals(ConfigConstant.employeeRole)){
+                    intent = new Intent(MachineRegister.this, EmployeeMainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else if(role.equals(ConfigConstant.userRole)){
+                    intent = new Intent(MachineRegister.this, UserMainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
 
         dateFormatter = new SimpleDateFormat("yyy-MM-dd", Locale.US);
         findViewsById();
         setDateTimeField();
-
-    //    addButtonClick();
-
-    }
-
-    private void addButtonClick() {
         add_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 asset_no = assetNo.getText().toString();
                 asset_desc = assetDesc.getText().toString();
                 mfg_sl_no = mfgSLno.getText().toString();
@@ -138,46 +220,40 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
                 location = edit_location.getText().toString();
                 warrantyStartDate = warrenty_start.getText().toString();
                 warrantyEndDate = warrenty_end.getText().toString();
+                radiowarrentyStr=radiowarrentyButton.getText().toString();
+                radioactiveStr=radioactiveButton.getText().toString();
 
-                int activeORnot = radioactiveGroup.getCheckedRadioButtonId();
-                radioactiveButton = (RadioButton) findViewById(activeORnot);
-                Log.e("jnsd","activeORnot"+activeORnot);
-                Log.e("active value",""+radioactiveButton.getText());
-                int selectedId = radiowarrentyGroup.getCheckedRadioButtonId();
-                radiowarrentyButton = (RadioButton) findViewById(selectedId);
-                Log.e("jnsd","selectedId"+selectedId);
-                Log.e("active value",""+radiowarrentyButton.getText());
-
-                if(radioactiveButton.getText()=="Yes"){
-
+                if(radiowarrentyStr.equals("Yes")){
+                    radiowarrentyStr="T";
                 }else{
 
-                }
+                } radiowarrentyStr="T";
 
-                if(radiowarrentyButton.getText()=="Yes"){
-
+                if(radioactiveStr.equals("Yes")){
+                    radioactiveStr="T";
                 }else{
-
+                    radioactiveStr="F";
                 }
                 Date StartDate = null,EndDate = null;
                 try {
-                     StartDate = new SimpleDateFormat("yyyy-MM-dd").parse(warrantyStartDate);
-                     EndDate = new SimpleDateFormat("yyyy-MM-dd").parse(warrantyEndDate);
+                    StartDate = new SimpleDateFormat("yyyy-MM-dd").parse(warrantyStartDate);
+                    EndDate = new SimpleDateFormat("yyyy-MM-dd").parse(warrantyEndDate);
                 }catch (ParseException e){
                     e.printStackTrace();
                 }
 
 
                 if(Utility.isNotNull(asset_no)&&Utility.isNotNull(asset_desc)){
+                    mProgress.show();
                     try {
                         String json="";
-                        MachineRegisterDTO register= new MachineRegisterDTO(ConfigConstant.company_id,1,Integer.parseInt( hidden_machine_type.getText().toString() ),Integer.parseInt( hidden_machine_made.getText().toString() ),Integer.parseInt( hidden_machine_model.getText().toString() ),asset_no,asset_desc,mfg_sl_no,inst_sl_no,mfg_date,inst_date,Double.parseDouble(usage),location,Double.parseDouble(cost),"T",StartDate ,EndDate,"T","Active");
+                        MachineRegisterDTO register= new MachineRegisterDTO(company_id,client_id,Long.parseLong( hidden_machine_type.getText().toString() ),Long.parseLong( hidden_machine_made.getText().toString() ),Long.parseLong( hidden_machine_model.getText().toString() ),asset_no,asset_desc,mfg_sl_no,inst_sl_no,mfg_date,inst_date,Double.parseDouble(usage),location,Double.parseDouble(cost),radiowarrentyStr,StartDate ,EndDate,radioactiveStr,"Active");
                         ObjectMapper mapper = new ObjectMapper();
                         json = mapper.writeValueAsString(register);
                         new PostAssetClient().execute(json);
 
                     }catch (Exception e){
-                       e.printStackTrace();
+                        e.printStackTrace();
                     }
 
                 }else{
@@ -185,6 +261,7 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
+
     }
 
     private class GetClient extends AsyncTask<Void, Void, Void>  {
@@ -194,7 +271,7 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
 
             Log.e(TAG, "inside doInBackground");
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
-            String json = jsonParser.makeServiceGet(clientURL,token);
+            String json = jsonParser.makeServiceGet(clientURL+company_id,token);
 
             Log.e(" client Response: ", "> " + json);
 
@@ -376,7 +453,7 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
 
             Log.e(TAG, "inside for "+machintypeURL);
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
-            String json = jsonParser.makeServiceGet(machintypeURL, token);
+            String json = jsonParser.makeServiceGet(machintypeURL+company_id, token);
 
             Log.e("Machine type Response: ", "------- " + json);
 
@@ -463,7 +540,7 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
 
             Log.e(TAG, "inside doInBackground");
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
-            String json = jsonParser.makeServiceGet(machinemadeURL,token);
+            String json = jsonParser.makeServiceGet(machinemadeURL+company_id,token);
 
             Log.e("machine made Response: ", "****** " + json);
 
@@ -555,7 +632,7 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
 
             Log.e(TAG, "inside doInBackground");
             ServiceHandlerWS jsonParser = new ServiceHandlerWS();
-            String json = jsonParser.makeServiceGet(machinemodelURL,token);
+            String json = jsonParser.makeServiceGet(machinemodelURL+company_id,token);
 
             Log.e("Response: ", "$$$$$$$" + json);
 
@@ -651,10 +728,26 @@ public class MachineRegister extends AppCompatActivity implements View.OnClickLi
             Gson gson = new GsonBuilder().create();
             BaseResponseDTO clientResponse=gson.fromJson(result, BaseResponseDTO.class);
            if(clientResponse.getStatusCode()==1){
+                mProgress.dismiss();
+
                 Log.e("Success :",""+clientResponse.getMsg());
-                Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
+               if(role.equals(ConfigConstant.adminRole)){
+                intent = new Intent(MachineRegister.this,MachineListActivity.class);
+                startActivity(intent);
+                finish();
+               }else if(role.equals(ConfigConstant.userRole)){
+                   intent = new Intent(MachineRegister.this,UserMainActivity.class);
+                   startActivity(intent);
+                   finish();
+               }else if(role.equals(ConfigConstant.employeeRole)){
+                   intent = new Intent(MachineRegister.this,EmployeeMainActivity.class);
+                   startActivity(intent);
+                   finish();
+               }
+
             }else{
                 Log.e("ERROR :",""+clientResponse.getMsg());
+               mProgress.dismiss();
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }

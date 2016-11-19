@@ -12,4 +12,23 @@
     tools:context="com.android.maintenance.activities.EmployeeMainActivity"
     tools:showIn="@layout/app_bar_employee_main">
 
+    <ListView
+        android:id="@+id/list_emp_machines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_margin="10dp"
+        android:dividerHeight="3dp" />
+
+    <ImageButton
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:id="@+id/add_emp_machines"
+        android:clickable="true"
+        android:src="@drawable/plus"
+        android:background="@drawable/oval"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
+
 </RelativeLayout>

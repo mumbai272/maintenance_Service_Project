@@ -1,5 +1,6 @@
 package com.android.maintenance.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,23 +22,20 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 import com.android.maintenance.DTO.AddressDTO;
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.ClientDTO;
-import com.android.maintenance.DTO.MachineDetailDTO;
-import com.android.maintenance.DTO.UserDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.adapters.ClientListAdapter;
+import com.android.maintenance.asyncTask.GetClientList;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -56,6 +54,7 @@ public class AdminMainActivity extends AppCompatActivity
     ImageButton addButton;
     ClientListAdapter adapter;
     Context context = this;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +67,12 @@ public class AdminMainActivity extends AppCompatActivity
         Log.e("user_ id:" + userID, "Token:" + token);
         session.checkLogin();
 
+        mProgress = new ProgressDialog(context);
+        mProgress.setTitle("Processing...");
+        mProgress.setMessage("Please wait...");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
+
         clientList = new ArrayList<ClientDTO>();
         addButton = (ImageButton) findViewById(R.id.add_client);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +82,10 @@ public class AdminMainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        new GetClientList().execute();
+
+        GetClientList clients =  new GetClientList(this);
+        clients.execute();
+        mProgress.show();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -156,6 +164,10 @@ public class AdminMainActivity extends AppCompatActivity
             showMachineModel();
         } else if (id == R.id.nav_users) {
             navigateToUserList();
+        }else if (id == R.id.nav_logs) {
+            navigateToLogList();
+        }else if (id == R.id.nav_claim) {
+            navigateToClaimList();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -163,10 +175,16 @@ public class AdminMainActivity extends AppCompatActivity
         return true;
     }
 
-    private void showEmployeeList() {
-        intent = new Intent(AdminMainActivity.this,AdminEmployeeListActivity.class);
+    private void navigateToClaimList() {
+        intent =new Intent(AdminMainActivity.this,ClaimActivity.class);
         startActivity(intent);
     }
+
+    private void navigateToLogList() {
+        intent= new Intent(AdminMainActivity.this,LogListActivity.class);
+        startActivity(intent);
+    }
+
 
     private void showMachineMake() {
 
@@ -190,11 +208,23 @@ public class AdminMainActivity extends AppCompatActivity
     }
 
     private void showMachineListActivity(){
-        new GetMachineList().execute();
+        intent =new Intent(AdminMainActivity.this,MachineListActivity.class);
+        startActivity(intent);
+
+    }
+
+    private void showEmployeeList() {
+        intent =new Intent(AdminMainActivity.this,AdminEmployeeListActivity.class);
+        intent.putExtra("clientList",clientList);
+        startActivity(intent);
+
     }
 
     private void navigateToUserList() {
-        new GetUserApprovalList().execute();
+        intent =new Intent(AdminMainActivity.this,UserApprovalActivity.class);
+        intent.putExtra("clientList",clientList);
+        startActivity(intent);
+
     }
 
     private void showProfileActivity() {
@@ -223,7 +253,6 @@ public class AdminMainActivity extends AppCompatActivity
             gson = new GsonBuilder().create();
             BaseResponseDTO logoutResponse = gson.fromJson(result, BaseResponseDTO.class);
             if (logoutResponse.getStatusCode() == 1) {
-                Toast.makeText(getApplicationContext(), "Log out" + logoutResponse.getMsg(), Toast.LENGTH_LONG).show();
             } else if (logoutResponse.getStatusCode() == -1) {
                 Toast.makeText(getApplicationContext(), logoutResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
@@ -231,69 +260,11 @@ public class AdminMainActivity extends AppCompatActivity
 
     }
 
-    public class GetClientList extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... param) {
-            String result = "";
-            ServiceHandlerWS serviceGet = new ServiceHandlerWS();
-            Log.e("url", "" + ConfigConstant.url + "client/1?fetchAddress=true");
-            result = serviceGet.makeServiceGet(ConfigConstant.url + "client/1?fetchAddress=true", token);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            JSONObject obj;
-            JSONArray companyData = null, addressData = null;
-            gson = new GsonBuilder().create();
-            try {
-                obj = new JSONObject(result);
-                companyData = obj.getJSONArray("companys");
-            } catch (Exception e) {
-
-            }
-
-            BaseResponseDTO clientResponse = gson.fromJson(result, BaseResponseDTO.class);
-            if (clientResponse.getStatusCode() == 1) {
-                Toast.makeText(getApplicationContext(), clientResponse.getMsg(), Toast.LENGTH_LONG).show();
-                displayClientListView(companyData);
-            } else if (clientResponse.getStatusCode() == -1) {
-                Toast.makeText(getApplicationContext(), clientResponse.getMsg(), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
     public void displayClientListView(JSONArray companyData) {
-        String companyDataStr = companyData.toString();
-        Log.e("sds","companyDataStr:"+companyDataStr);
-        gson = new GsonBuilder().create();
-        Type type = new TypeToken<ArrayList<ClientDTO>>() {
-        }.getType();
-        clientList = gson.fromJson(companyDataStr, type);
-        Log.e("ds","userdto:"+clientList.size());
-
-        adapter=new ClientListAdapter(getApplicationContext(),clientList);
-        listView = (ListView) findViewById(R.id.listView_clients);
-        listView.setAdapter(adapter);
-        if (clientList.size() != 0) {
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Toast.makeText(getApplicationContext(), "Client ID:" + view.getTag(), Toast.LENGTH_SHORT).show();
-                    //navigate to detail page of approval
-                    int clientId = (int) view.getTag();
-                    Log.e("clientId:", "" + clientId);
-                    showClientDetail(clientList, clientId,1);
-                }
-            });
-
-        } else {
+        mProgress.dismiss();
+        //if companyData null
+        if(companyData==null){
+            Log.e("NO Clients","dsd");
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     context);
             alertDialogBuilder.setTitle("Clients");
@@ -307,11 +278,34 @@ public class AdminMainActivity extends AppCompatActivity
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+
+        }else {
+        String companyDataStr = companyData.toString();
+        Log.e("sds","companyDataStr:"+companyDataStr);
+        gson = new GsonBuilder().create();
+        Type type = new TypeToken<ArrayList<ClientDTO>>() {
+        }.getType();
+        clientList = gson.fromJson(companyDataStr, type);
+        Log.e("ds","userdto:"+clientList.size());
+
+        adapter=new ClientListAdapter(getApplicationContext(),clientList);
+        listView = (ListView) findViewById(R.id.listView_clients);
+        listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    //navigate to detail page of approval
+                    Long clientId = (Long) view.getTag();
+                    Log.e("clientId:", "" + clientId);
+                    showClientDetail(clientList, clientId,1);
+                }
+            });
+
         }
 
     }
 
-    public void showClientDetail(ArrayList<ClientDTO> clientList, int clientId,int format) {
+    public void showClientDetail(ArrayList<ClientDTO> clientList, Long clientId, int format) {
         ClientDTO client=null;
         AddressDTO address=null;
         ArrayList<ClientDTO> clients= new ArrayList<ClientDTO>();
@@ -321,13 +315,13 @@ public class AdminMainActivity extends AppCompatActivity
                 address= new AddressDTO(clientList.get(i).getAddress().getAddressDesc(),clientList.get(i).getAddress().getStreet1(),clientList.get(i).getAddress().getStreet2(),clientList.get(i).getAddress().getStreet3(),clientList.get(i).getAddress().getCountry(),clientList.get(i).getAddress().getState(),clientList.get(i).getAddress().getCity(),clientList.get(i).getAddress().getLocation(),clientList.get(i).getAddress().getZipCode(),clientList.get(i).getAddress().getMobileNo(),clientList.get(i).getAddress().getPhoneNo(),clientList.get(i).getAddress().getFaxNo(),clientList.get(i).getAddress().getMailId(),clientList.get(i).getAddress().getWebsite());
                 client= new ClientDTO(clientList.get(i).getCompanyId(),clientList.get(i).getClientId() ,clientList.get(i).getClientName(), clientList.get(i).getDescription(), address);
                 if(format==1){
-                intent =new Intent(AdminMainActivity.this, ClientDetailsActivity.class);
-                clients.add(client);
-                intent.putExtra("client_list", clients);
-                startActivity(intent);
-                finish();
+                    intent =new Intent(AdminMainActivity.this, ClientDetailsActivity.class);
+                    clients.add(client);
+                    intent.putExtra("client_list", clients);
+                    startActivity(intent);
+                    finish();
                 }else{
-                    intent =new Intent(this, ClientEditDetailsActivity.class);
+                    intent =new Intent(AdminMainActivity.this, ClientEditDetailsActivity.class);
                     clients.add(client);
                     intent.putExtra("client_list", clients);
                     startActivity(intent);
@@ -337,105 +331,4 @@ public class AdminMainActivity extends AppCompatActivity
         }
     }
 
-
-    public class GetUserApprovalList extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... param) {
-            String result = "";
-            ServiceHandlerWS servicepost = new ServiceHandlerWS();
-            Log.e("url", "" + ConfigConstant.url + "user?status=r");
-            result = servicepost.makeServiceGet(ConfigConstant.url + "user?status=r", token);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            JSONObject obj;
-            JSONArray dataUsers = null;
-            gson = new GsonBuilder().create();
-            try {
-                obj = new JSONObject(result);
-                dataUsers = obj.getJSONArray("users");
-                //  Log.e("users list",""+dataUsers);
-            } catch (Exception e) {
-
-            }
-
-            BaseResponseDTO approvalResponse = gson.fromJson(result, BaseResponseDTO.class);
-            if (approvalResponse.getStatusCode() == 1) {
-                Toast.makeText(getApplicationContext(), approvalResponse.getMsg(), Toast.LENGTH_LONG).show();
-                navigateToApprovalList(dataUsers);
-            } else if (approvalResponse.getStatusCode() == -1) {
-                Toast.makeText(getApplicationContext(), approvalResponse.getMsg(), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private void navigateToApprovalList(JSONArray users) {
-        String userStr = users.toString();
-        gson = new GsonBuilder().create();
-        Type type = new TypeToken<ArrayList<UserDTO>>() {
-        }.getType();
-        ArrayList<UserDTO> userList = gson.fromJson(userStr, type);
-        Log.e("", "userdto" + userList.size());
-        intent = new Intent(AdminMainActivity.this, UserApprovalActivity.class);
-        Bundle b=new Bundle();
-        b.putSerializable("userList", userList);
-        b.putSerializable("clientList",clientList);
-        intent.putExtras(b);
-        startActivity(intent);
-    }
-
-
-    public class GetMachineList extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... param) {
-            String result = "";
-            ServiceHandlerWS serviceGet = new ServiceHandlerWS();
-            Log.e("url", "" + ConfigConstant.url + "asset");
-            result = serviceGet.makeServiceGet(ConfigConstant.url + "asset", token);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            JSONObject obj;
-            JSONArray machineData = null;
-            gson = new GsonBuilder().create();
-            try {
-                obj = new JSONObject(result);
-                machineData = obj.getJSONArray("assets");
-            } catch (Exception e) {
-
-            }
-
-            BaseResponseDTO machineResponse = gson.fromJson(result, BaseResponseDTO.class);
-            if (machineResponse.getStatusCode() == 1) {
-                Toast.makeText(getApplicationContext(), machineResponse.getMsg(), Toast.LENGTH_LONG).show();
-                displayMachineListView(machineData);
-            } else if (machineResponse.getStatusCode() == -1) {
-                Toast.makeText(getApplicationContext(), machineResponse.getMsg(), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    public void displayMachineListView(JSONArray machineData) {
-
-        String machineStr = machineData.toString();
-        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        Type type = new TypeToken<ArrayList<MachineDetailDTO>>() {
-        }.getType();
-        ArrayList<MachineDetailDTO> machineList = gson.fromJson(machineStr, type);
-        Log.e("", "machine list:" + machineList.size());
-        intent = new Intent(AdminMainActivity.this, MachineListActivity.class);
-        intent.putExtra("machineList", machineList);
-        startActivity(intent);
-    }
 }

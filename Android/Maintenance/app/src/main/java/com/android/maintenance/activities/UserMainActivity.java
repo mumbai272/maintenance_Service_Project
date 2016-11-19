@@ -1,29 +1,43 @@
 package com.android.maintenance.activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
+import com.android.maintenance.DTO.MachineDetailDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
+import com.android.maintenance.adapters.MachineListAdapter;
+import com.android.maintenance.asyncTask.GetMachinesForUser;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserMainActivity extends AppCompatActivity
@@ -31,6 +45,12 @@ public class UserMainActivity extends AppCompatActivity
     Gson gson;
     private SessionManager session;
     public String token, userID;
+    Intent intent;
+    ImageButton addButton;
+    ListView listView;
+    Context context = this;
+    MachineListAdapter adapter;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +63,26 @@ public class UserMainActivity extends AppCompatActivity
         token = user.get(SessionManager.KEY_TOKEN);
         Log.e("user_ id:" + userID, "Token:" + token);
         session.checkLogin();
+
+        mProgress = new ProgressDialog(context);
+        mProgress.setTitle("Processing...");
+        mProgress.setMessage("Please wait...");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
+
+
+        addButton = (ImageButton) findViewById(R.id.add_machines);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(UserMainActivity.this, MachineRegister.class);
+                startActivity(intent);
+            }
+        });
+
+        GetMachinesForUser machineList=  new GetMachinesForUser(this);
+        machineList.execute();
+        mProgress.show();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -108,8 +148,7 @@ public class UserMainActivity extends AppCompatActivity
             logOut();
         } else if (id == R.id.nav_machines) {
             showMachineListActivity();
-        } else if (id == R.id.nav_users) {
-            navigateToUserList();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -122,11 +161,14 @@ public class UserMainActivity extends AppCompatActivity
     }
 
     private void showMachineListActivity() {
+        intent = new Intent(UserMainActivity.this, UserMainActivity.class);
+        startActivity(intent);
 
     }
 
     private void showProfileActivity() {
-
+        intent = new Intent(UserMainActivity.this, AdminProfileActivity.class);
+        startActivity(intent);
     }
 
     private void logOut() {
@@ -151,11 +193,52 @@ public class UserMainActivity extends AppCompatActivity
             gson = new GsonBuilder().create();
             BaseResponseDTO logoutResponse = gson.fromJson(result, BaseResponseDTO.class);
             if (logoutResponse.getStatusCode() == 1) {
-                Toast.makeText(getApplicationContext(), "Log out" + logoutResponse.getMsg(), Toast.LENGTH_LONG).show();
             } else if (logoutResponse.getStatusCode() == -1) {
                 Toast.makeText(getApplicationContext(), logoutResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }
+    }
 
+    public void displayClientListView(JSONArray machineData) {
+        mProgress.dismiss();
+        //if companyData null
+        if(machineData==null){
+            Log.e("NO Machimes","dsd");
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    context);
+            alertDialogBuilder.setTitle("Machines");
+            alertDialogBuilder
+                    .setMessage("NO Machines in the List.")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+        }else {
+        String machineStr = machineData.toString();
+        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        Type type = new TypeToken<ArrayList<MachineDetailDTO>>() {
+        }.getType();
+        ArrayList<MachineDetailDTO> machineList = gson.fromJson(machineStr, type);
+        Log.e("", "machine list:" + machineList.size());
+        listView=(ListView)findViewById(R.id.list_machines);
+        adapter=new MachineListAdapter(getApplicationContext(),machineList,token);
+        listView.setAdapter(adapter);
+        if(machineList.size() !=0) {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    //navigate to detail page of approval
+                    Long userId = (Long) view.getTag();
+                    Log.e("userId:", "" + userId);
+                }
+            });
+
+        }
+        }
     }
 }

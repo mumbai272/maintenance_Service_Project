@@ -1,5 +1,6 @@
 package com.android.maintenance.Utilities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 /**
  * Created by anand on 20-Sep-16.
  */
-public class SessionManager {
+public class SessionManager extends Activity{
 
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
@@ -25,7 +26,10 @@ public class SessionManager {
     public static final String KEY_LAST_NAME = "last_name";
     public static final String KEY_PHONE_NO = "phone";
     public static final String KEY_GENDER = "gender";
+    public static final String KEY_EMAIL = "email";
     public static final String KEY_ROLE = "role";
+    public static final String KEY_STATUS = "status";
+
 
     public static final String KEY_TOKEN = "token";
 
@@ -51,6 +55,28 @@ public class SessionManager {
         editor.putString(KEY_GENDER,gender);
         editor.putString(KEY_ROLE,role);
         editor.putString(KEY_TOKEN,token);
+
+        // commit changes
+        editor.commit();
+    }
+
+
+    public void createLoginSessionAdmin(Long user_id,String email, String user_name, String first_name, String last_name, String phone,String gender,String role, String token,Long clientId, Long companyId,String status){
+        // Storing login value as TRUE
+        Log.e("","Inside createLoginSession");
+        editor.putBoolean(IS_LOGIN, true);
+        editor.putLong("KEY_USER_ID", user_id);
+        editor.putString(KEY_USER_NAME, user_name);
+        editor.putString(KEY_FIRST_NAME,first_name);
+        editor.putString(KEY_LAST_NAME,last_name);
+        editor.putString(KEY_PHONE_NO,phone);
+        editor.putString(KEY_GENDER,gender);
+        editor.putString(KEY_ROLE,role);
+        editor.putString(KEY_EMAIL,email);
+        editor.putString(KEY_TOKEN,token);
+        editor.putLong("KEY_CLIENT_ID", clientId);
+        editor.putLong("KEY_COMPANY_ID", companyId);
+        editor.putString(KEY_STATUS,status);
         // commit changes
         editor.commit();
     }
@@ -82,15 +108,21 @@ public class SessionManager {
      * */
     public HashMap<String, String> getUserDetails(){
         long mVal = prefs.getLong("KEY_USER_ID", 0);
+        long mClient=prefs.getLong("KEY_CLIENT_ID",0);
+        long mCompany=prefs.getLong("KEY_COMPANY_ID",0);
         HashMap<String, String> user = new HashMap<String, String>();
         user.put(KEY_USER_NAME, prefs.getString(KEY_USER_NAME, null));
         user.put(KEY_FIRST_NAME, prefs.getString(KEY_FIRST_NAME, null));
         user.put(KEY_LAST_NAME, prefs.getString(KEY_LAST_NAME, null));
         user.put(KEY_GENDER, prefs.getString(KEY_GENDER, null));
         user.put(KEY_PHONE_NO, prefs.getString(KEY_PHONE_NO, null));
+        user.put(KEY_EMAIL,prefs.getString(KEY_EMAIL,null));
         user.put("KEY_USER_ID", Long.toString(mVal));
         user.put(KEY_TOKEN,prefs.getString(KEY_TOKEN, null));
         user.put(KEY_ROLE, prefs.getString(KEY_ROLE, null));
+        user.put("KEY_CLIENT_ID",Long.toString(mClient));
+        user.put(KEY_STATUS,prefs.getString(KEY_STATUS,null));
+        user.put("KEY_COMPANY_ID",Long.toString(mCompany));
         return user;
     }
 

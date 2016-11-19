@@ -19,8 +19,16 @@
             android:title="Machines" />
 
         <item
+            android:id="@+id/nav_logs"
+            android:title="Logs" />
+
+        <item
             android:id="@+id/employees"
             android:title="My Employees" />
+
+        <item
+            android:id="@+id/nav_claim"
+            android:title="Claim" />
 
         <item
             android:id="@+id/nav_machine_spare"
