@@ -128,6 +128,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         ClaimBO claimBO = new ClaimBO();
         BeanUtils.copyProperties(claim, claimBO);
         response.setClaim(claimBO);
+        
         List<ClaimConveyanceExpense> conveyanceExpenses = getConveyanceExpenses(claimId);
         response.setConveyanceExpenses(conveyanceExpenses);
         List<ClaimBusinessExpense> businessExpenses = getBusinessExpense(claimId);
