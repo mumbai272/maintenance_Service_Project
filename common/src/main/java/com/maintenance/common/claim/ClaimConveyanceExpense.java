@@ -21,11 +21,11 @@ public class ClaimConveyanceExpense {
     private Date expenseDate;
 
     @NotBlank
-    @Length(max=20)
+    @Length(max=25)
     private String travelFrom;
 
     @NotBlank
-    @Length(max=20)
+    @Length(max=25)
     private String travelTo;
 
     @NotBlank

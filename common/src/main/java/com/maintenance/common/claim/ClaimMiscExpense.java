@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 @XmlRootElement
@@ -17,6 +18,7 @@ public class ClaimMiscExpense {
     private Date expenseDate;
 
     @NotBlank
+    @Length(max=45)
     private String particulars;
 
     @NotBlank

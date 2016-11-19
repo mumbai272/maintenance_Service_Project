@@ -96,7 +96,7 @@ public class ClaimFormRestServiceImpl {
     @Path(value = "/claim/{claimId}")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response claimForm(@PathParam("claimId") Long claimId) {
+    public Response getDeatailclaim(@PathParam("claimId") Long claimId) {
         logger.info("Start: claim/{claimId} API invoked");
         ClaimDetailResponse response = claimServiceImpl.getClaimDetail(claimId);
         logger.info("End: claim/{claimId}");

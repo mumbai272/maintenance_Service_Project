@@ -32,7 +32,7 @@ public abstract class BaseServiceImpl {
     @Autowired
     protected CompanyRepository companyRepository;
     @Autowired
-    private UserRepository userRepository;
+    protected UserRepository userRepository;
 
     /**
      * validate company

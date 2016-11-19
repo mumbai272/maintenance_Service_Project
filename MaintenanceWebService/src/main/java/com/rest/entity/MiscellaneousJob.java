@@ -25,27 +25,21 @@ public class MiscellaneousJob {
     @Column(name = "JOB_ID")
     private Long jobId;
 
-    @Column(name = "COMPANY_ID", nullable = false)
+    @Column(name = "COMPANY_ID" , nullable = false)
     private Long companyId;
-
-    @Column(name = "CLIENT_ID", nullable = false)
+    
+    @Column(name = "CLIENT_ID")
     private Long clientId;
 
-    @Column(name = "JOB_NO", length = 50)
-    private String jobNo;
-
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "JOB_DATE", length = 50)
+    @Column(name = "JOB_DATE")
     private Calendar jobDate;
 
     @Column(name = "JOB_PURPOSE", length = 50)
     private String jobPurpose;
 
     @Column(name = "SER_PERS_ID")
-    private long serPerId;
-
-    @Column(name = "CLIENT_NAME", length = 50)
-    private String clientName;
+    private Long serPerId;
 
     @Column(name = "OTH_CLIENT_NAME", length = 50)
     private String otherClientName;
@@ -65,6 +59,13 @@ public class MiscellaneousJob {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ENTRY_DATE", length = 50)
     private Calendar entryDate;
+
+    @Column(name = "UPDATED_BY", length = 50)
+    private String updatedBy;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATE_DATE", length = 50)
+    private Calendar updateDate;
 
     
     public Long getJobId() {
@@ -96,17 +97,6 @@ public class MiscellaneousJob {
         this.clientId = clientId;
     }
 
-    
-    public String getJobNo() {
-        return jobNo;
-    }
-
-    
-    public void setJobNo(String jobNo) {
-        this.jobNo = jobNo;
-    }
-
-    
     public Calendar getJobDate() {
         return jobDate;
     }
@@ -127,23 +117,13 @@ public class MiscellaneousJob {
     }
 
     
-    public long getSerPerId() {
+    public Long getSerPerId() {
         return serPerId;
     }
 
     
-    public void setSerPerId(long serPerId) {
+    public void setSerPerId(Long serPerId) {
         this.serPerId = serPerId;
-    }
-
-    
-    public String getClientName() {
-        return clientName;
-    }
-
-    
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
     }
 
     
@@ -204,6 +184,30 @@ public class MiscellaneousJob {
     
     public void setEntryDate(Calendar entryDate) {
         this.entryDate = entryDate;
+    }
+
+
+    
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+
+    
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+
+    
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+
+    
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
     }
 
 }

@@ -47,7 +47,6 @@ import com.rest.entity.EmploymentDetails;
 import com.rest.entity.UserImpl;
 import com.rest.repository.AddressRepository;
 import com.rest.repository.EmploymentDetailsRepository;
-import com.rest.repository.UserRepository;
 
 
 /**
@@ -58,9 +57,6 @@ import com.rest.repository.UserRepository;
 public class UserServiceImpl extends BaseServiceImpl {
 
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private CompanyServiceImpl companyServiceImpl;
