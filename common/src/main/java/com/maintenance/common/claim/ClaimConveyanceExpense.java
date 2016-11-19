@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 @XmlRootElement
@@ -20,9 +21,11 @@ public class ClaimConveyanceExpense {
     private Date expenseDate;
 
     @NotBlank
+    @Length(max=20)
     private String travelFrom;
 
     @NotBlank
+    @Length(max=20)
     private String travelTo;
 
     @NotBlank
