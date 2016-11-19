@@ -1,5 +1,7 @@
 package com.rest.api;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -9,7 +11,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,10 +22,13 @@ import org.springframework.stereotype.Component;
 
 import com.maintenance.common.claim.ClaimBO;
 import com.maintenance.common.claim.ClaimBusinessExpense;
+import com.maintenance.common.claim.ClaimBusinessExpenseResponse;
 import com.maintenance.common.claim.ClaimConveyanceExpense;
+import com.maintenance.common.claim.ClaimConveyanceExpenseResponse;
 import com.maintenance.common.claim.ClaimDetailResponse;
 import com.maintenance.common.claim.ClaimForm;
 import com.maintenance.common.claim.ClaimMiscExpense;
+import com.maintenance.common.claim.ClaimMiscExpenseResponse;
 import com.maintenance.common.claim.ClaimResponse;
 import com.maintenance.request.BaseResponse;
 import com.maintenance.request.ResourceCreateResponse;
@@ -130,12 +134,26 @@ public class ClaimFormRestServiceImpl {
         response.setId(e.getExpenseId());
         return Response.ok(response).build();
     }
+    
+    @GET
+    @Path(value = "/claim/conveyance/expense/{claimId}")   
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response getConveyanceExpense(@PathParam("claimId") Long claimId) {
+        logger.info("Start:GET /claim/conveyance/expense/{claimId} API invoked");
+        ClaimConveyanceExpenseResponse response = new ClaimConveyanceExpenseResponse();
+        List<ClaimConveyanceExpense> e = claimServiceImpl.getConveyanceExpenses(claimId);
+        logger.info("End:GET /claim/conveyance/expense");
+        response.setExpenses(e);
+        return Response.ok(response).build();
+    }
+    
 
     @Path(value = "/claim/conveyance/expense/{expenseId}")
     @DELETE
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response deleteConveyanceExpense(@QueryParam("expenseId") Long expenseId) {
+    public Response deleteConveyanceExpense(@PathParam("expenseId") Long expenseId) {
         logger.info("Start: /claim/conveyance/expense/{expenseId} API invoked");
         BaseResponse response = new BaseResponse();
         claimServiceImpl.deleteConvenceExpense(expenseId);
@@ -157,12 +175,25 @@ public class ClaimFormRestServiceImpl {
         response.setId(e.getExpenseId());
         return Response.ok(response).build();
     }
+    
+    @GET
+    @Path(value = "/claim/business/development/expense/{claimId}")   
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response getBusinessDevelopmentExpense(@PathParam("claimId") Long claimId) {
+        logger.info("Start:GET /claim/business/development/expense/{claimId} API invoked");
+        ClaimBusinessExpenseResponse response = new ClaimBusinessExpenseResponse();
+        List<ClaimBusinessExpense> e = claimServiceImpl.getBusinessExpense(claimId);
+        logger.info("End:GET /claim/business/development/expense/");
+        response.setExpenses(e);
+        return Response.ok(response).build();
+    }
 
     @Path(value = "/claim/business/development/expense/{expenseId}")
     @DELETE
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response deleteBusinessDevelopmentExpense(@QueryParam("expenseId") Long expenseId) {
+    public Response deleteBusinessDevelopmentExpense(@PathParam("expenseId") Long expenseId) {
         logger.info("Start delete: /claim/business/development/expense API invoked");
         BaseResponse response = new BaseResponse();
         claimServiceImpl.deleteBusinessExpense(expenseId);
@@ -184,11 +215,23 @@ public class ClaimFormRestServiceImpl {
         return Response.ok(response).build();
     }
 
+    @GET
+    @Path(value = "/claim/misc/expense/{claimId}")   
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response getMiscExpense(@PathParam("claimId") Long claimId) {
+        logger.info("Start:GET /claim/misc/expense/{claimId} API invoked");
+        ClaimMiscExpenseResponse response = new ClaimMiscExpenseResponse();
+        List<ClaimMiscExpense> e = claimServiceImpl.getMiscExpense(claimId);
+        logger.info("End:GET /claim/misc/expense/");
+        response.setExpenses(e);
+        return Response.ok(response).build();
+    }
     @Path(value = "/claim/misc/expense/{expenseId}")
     @DELETE
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response deletemiscExpense(@QueryParam("expenseId") Long expenseId) {
+    public Response deletemiscExpense(@PathParam("expenseId") Long expenseId) {
         logger.info("Start delete: /claim/misc/expense/{expenseId} API invoked");
         BaseResponse response = new BaseResponse();
         claimServiceImpl.deletemiscExpense(expenseId);

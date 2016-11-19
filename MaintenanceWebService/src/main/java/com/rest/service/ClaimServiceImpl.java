@@ -137,7 +137,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         return response;
     }
 
-    private List<ClaimMiscExpense> getMiscExpense(Long claimId) {
+    public List<ClaimMiscExpense> getMiscExpense(Long claimId) {
         List<ClaimMiscExpense> boList = new ArrayList<ClaimMiscExpense>();
         List<MiscExpense> expenses = miscRepository.findByClaimId(claimId);
         if (!CollectionUtils.isEmpty(expenses)) {
@@ -150,7 +150,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         return boList;
     }
 
-    private List<ClaimConveyanceExpense> getConveyanceExpenses(Long claimId) {
+    public List<ClaimConveyanceExpense> getConveyanceExpenses(Long claimId) {
         List<ClaimConveyanceExpense> conveyanceExpenses = new ArrayList<ClaimConveyanceExpense>();
         List<ConveyanceExpense> expenses = conveyanceRepository.findByClaimId(claimId);
         if (!CollectionUtils.isEmpty(expenses)) {
@@ -163,7 +163,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         return conveyanceExpenses;
     }
 
-    private List<ClaimBusinessExpense> getBusinessExpense(Long claimId) {
+    public List<ClaimBusinessExpense> getBusinessExpense(Long claimId) {
         List<ClaimBusinessExpense> boList = new ArrayList<ClaimBusinessExpense>();
         List<BusinessExpense> expenses = businessRepository.findByClaimId(claimId);
         if (!CollectionUtils.isEmpty(expenses)) {
@@ -329,4 +329,5 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         }
         claimRepository.save(claim);
     }
+
 }
