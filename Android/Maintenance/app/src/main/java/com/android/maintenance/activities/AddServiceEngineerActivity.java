@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 import com.android.maintenance.DTO.ReportLogDTO;
 import com.android.maintenance.R;
-import com.android.maintenance.adapters.LogListAdapter;
 import com.android.maintenance.adapters.ServiceEngineerListAdaptor;
 import com.android.maintenance.asyncTask.GetAssetReportlog;
 import com.android.maintenance.configuration.ConfigConstant;
@@ -39,7 +38,7 @@ public class AddServiceEngineerActivity  extends Activity{
         setContentView(R.layout.add_service_engineer);
 
         logID=getIntent().getLongExtra("LogID",0);
-        listView=(ListView) findViewById(R.id.listView_reports);
+        listView=(ListView) findViewById(R.id.listView_serv_eng);
         button=(ImageButton)findViewById(R.id.add_serv_eng);
 
         button.setOnClickListener(new View.OnClickListener() {

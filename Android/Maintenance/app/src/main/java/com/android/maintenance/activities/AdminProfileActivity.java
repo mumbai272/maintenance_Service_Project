@@ -4,15 +4,12 @@ package com.android.maintenance.activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.UserDTO;
@@ -22,7 +19,6 @@ import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
-import com.android.maintenance.fragments.ProfilePager;
 import com.google.gson.Gson;
 
 import org.codehaus.jackson.map.ObjectMapper;

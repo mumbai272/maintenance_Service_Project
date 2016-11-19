@@ -9,8 +9,16 @@ public class ApplyClaimDTO implements Serializable{
 
     private String claimStartDate;
     private String claimEndDate;
-    private Double claimAmount;
     private String particulars;
+    private String claimDate;
+
+    public String getClaimDate() {
+        return claimDate;
+    }
+
+    public void setClaimDate(String claimDate) {
+        this.claimDate = claimDate;
+    }
 
     public String getClaimStartDate() {
         return claimStartDate;
@@ -28,13 +36,6 @@ public class ApplyClaimDTO implements Serializable{
         this.claimEndDate = claimEndDate;
     }
 
-    public Double getClaimAmount() {
-        return claimAmount;
-    }
-
-    public void setClaimAmount(Double claimAmount) {
-        this.claimAmount = claimAmount;
-    }
 
     public String getParticulars() {
         return particulars;

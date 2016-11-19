@@ -64,7 +64,7 @@ public class GetDeparymentList extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         JSONObject obj;
-        JSONArray attrData = null, addressData = null;
+        JSONArray attrData = null;
         gson = new GsonBuilder().create();
         try {
             obj = new JSONObject(result);

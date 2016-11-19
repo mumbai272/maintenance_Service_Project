@@ -139,19 +139,26 @@ public class EmployeeMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_profile) {
+        if (id == R.id.nav_profile_emp) {
             showProfileActivity();
-        } else if (id == R.id.nav_log_out) {
+        } else if (id == R.id.nav_log_out_emp) {
             logOut();
-        } else if (id == R.id.nav_machines) {
+        } else if (id == R.id.nav_machines_emp) {
             showMachineListActivity();
-        }else if (id == R.id.nav_logs) {
+        }else if (id == R.id.nav_logs_emp) {
             showWorkListActivity();
+        }else if (id == R.id.nav_claim_emp) {
+            showClaimActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showClaimActivity() {
+        intent =new Intent(EmployeeMainActivity.this,ClaimActivity.class);
+        startActivity(intent);
     }
 
     private void showWorkListActivity() {

@@ -8,10 +8,6 @@ import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.activities.AddEmployeeActivity;
-import com.android.maintenance.activities.AdminEmployeeListActivity;
-import com.android.maintenance.activities.AdminMainActivity;
-import com.android.maintenance.activities.EmployeeMainActivity;
-import com.android.maintenance.activities.UserApprovalActivity;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,7 +23,7 @@ import java.util.HashMap;
 public class GetDesignationList extends AsyncTask<String, Void, String> {
     Gson gson;
     private SessionManager session;
-    public String token, userID;
+    public String token, userID,cmpID;
     private AddEmployeeActivity mActivity;
 
     public GetDesignationList(AddEmployeeActivity activity) {
@@ -41,6 +37,7 @@ public class GetDesignationList extends AsyncTask<String, Void, String> {
         session = new SessionManager(mActivity);
         HashMap<String, String> user = session.getUserDetails();
         userID = user.get("KEY_USER_ID");
+        cmpID=user.get("KEY_COMPANY_ID");
         token = user.get(SessionManager.KEY_TOKEN);
         Log.e("user_ id:" + userID, "Token:" + token);
     }
@@ -50,8 +47,8 @@ public class GetDesignationList extends AsyncTask<String, Void, String> {
         String result = "";
 
         ServiceHandlerWS serviceGet = new ServiceHandlerWS();
-        Log.e("url", "" + ConfigConstant.url + "company/attributes/designation/"+ConfigConstant.company_id);
-        result = serviceGet.makeServiceGet(ConfigConstant.url + "company/attributes/designation/"+ConfigConstant.company_id, token);
+        Log.e("url", "" + ConfigConstant.url + "company/attributes/designation/"+cmpID);
+        result = serviceGet.makeServiceGet(ConfigConstant.url + "company/attributes/designation/"+cmpID, token);
         return result;
     }
 

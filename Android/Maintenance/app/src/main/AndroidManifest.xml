@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.maintenance">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -114,6 +116,13 @@
         <activity android:name=".activities.EmployeeWorkAssignListActivity"></activity>
         <activity android:name=".activities.TaskAndReportTabActivity"></activity>
         <activity android:name=".activities.CreateAssetReportActivity"></activity>
+        <activity android:name=".activities.StartStopActivity"></activity>
+        <activity android:name=".activities.ApplyCliamActivity"></activity>
+        <activity android:name=".activities.ClaimConveyanceExpenseActivity"></activity>
+        <activity android:name=".activities.BusinessDevelopmentExpenseActivity"></activity>
+        <activity android:name=".activities.MiscExpensesActivity"></activity>
+        <activity android:name=".activities.ClaimActivity"></activity>
+        <activity android:name=".activities.CliamDetailsActivity"></activity>
     </application>
 
 </manifest>

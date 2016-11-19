@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -76,6 +77,17 @@ public class AssignLogActivity extends Activity{
         HashMap<String, String> users = session.getUserDetails();
         token=users.get(SessionManager.KEY_TOKEN);
         cmp_id= users.get("KEY_COMPANY_ID");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_assign);
+        toolbar.setTitle("Assign Log");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(AssignLogActivity.this, LogListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         hour=(EditText)findViewById(R.id.work_hour);
         expire=(EditText)findViewById(R.id.expire_work);

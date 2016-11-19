@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Expense Date"
+        android:id="@+id/b_date"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Particulars"
+        android:id="@+id/misc_part"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/b_date" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Bill No"
+        android:id="@+id/bill_no_misc"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/misc_part"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Bill Date"
+        android:id="@+id/bill_date_misc"
+        android:layout_below="@+id/bill_no_misc"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Amount"
+        android:id="@+id/amt"
+        android:layout_below="@+id/bill_date_misc"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/bus_exp_date"
+        android:layout_alignBottom="@+id/b_date"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/particular_misc"
+        android:layout_above="@+id/bill_no_misc"
+        android:layout_alignStart="@+id/bus_exp_date" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/misc_bill_no_exp"
+        android:layout_above="@+id/bill_date_misc"
+        android:layout_alignStart="@+id/particular_misc" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/misc_bill_date_exp"
+        android:layout_above="@+id/amt"
+        android:layout_alignStart="@+id/misc_bill_no_exp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/misc_exp_amt"
+        android:layout_alignBottom="@+id/amt"
+        android:layout_alignStart="@+id/misc_bill_date_exp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white_color"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/mis_dev_exp"
+        android:layout_below="@+id/amt"
+        android:layout_marginTop="71dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/misc_exp_amt" />
+
+</RelativeLayout>

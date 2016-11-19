@@ -103,7 +103,7 @@ public class UserApprovalActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getApplicationContext(), "User ID:" + view.getTag(), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(), "User ID:" + view.getTag(), Toast.LENGTH_SHORT).show();
                         Long userId = (Long) view.getTag();
                         Log.e("userId:", "" + userId);
                         intent = new Intent(UserApprovalActivity.this, UserApprovalDetailsActivity.class);

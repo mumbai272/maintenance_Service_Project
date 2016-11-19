@@ -56,7 +56,7 @@ public class AssetLogActivity extends Activity {
     String m_type,token;;
     Long assetId,type_id;
     Gson gson;
-    String cmpID,clientId;
+    String cmpID,clientId,role;
     private ProgressDialog mProgress;
     ArrayAdapter<String> adapter;
     DatePickerDialog createDatePickerDialog;
@@ -68,6 +68,7 @@ public class AssetLogActivity extends Activity {
         session=new SessionManager(getApplicationContext());
         HashMap<String, String> user = session.getUserDetails();
         cmpID = user.get("KEY_COMPANY_ID");
+        role=user.get(SessionManager.KEY_ROLE);
         token=user.get(SessionManager.KEY_TOKEN);
         clientId = user.get("KEY_CLIENT_ID");
 
@@ -76,9 +77,18 @@ public class AssetLogActivity extends Activity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(AssetLogActivity.this, MachineListActivity.class);
-                startActivity(intent);
-                finish();
+                if(role.equals(ConfigConstant.adminRole)) {
+                    intent = new Intent(AssetLogActivity.this, MachineListActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else if(role.equals(ConfigConstant.employeeRole)){
+                    intent = new Intent(AssetLogActivity.this, EmployeeMainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else if(role.equals(ConfigConstant.userRole)){
+                    intent = new Intent(AssetLogActivity.this, UserMainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -233,8 +243,16 @@ public class AssetLogActivity extends Activity {
             BaseResponseDTO loginResponse=gson.fromJson(result, BaseResponseDTO.class);
             if(loginResponse.getStatusCode()==1){
                 Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();
-                intent=new Intent(AssetLogActivity.this,MachineListActivity.class);
-                startActivity(intent);
+                if(role.equals(ConfigConstant.adminRole)){
+                    intent=new Intent(AssetLogActivity.this,MachineListActivity.class);
+                    startActivity(intent);
+                }else if(role.equals(ConfigConstant.userRole)){
+                    intent=new Intent(AssetLogActivity.this,UserMainActivity.class);
+                    startActivity(intent);
+                }else if(role.equals(ConfigConstant.employeeRole)){
+                    intent=new Intent(AssetLogActivity.this,EmployeeMainActivity.class);
+                    startActivity(intent);
+                }
             }else if(loginResponse.getStatusCode()==-1){
                 Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();
             }

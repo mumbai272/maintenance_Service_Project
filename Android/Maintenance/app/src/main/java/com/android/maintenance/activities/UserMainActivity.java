@@ -203,12 +203,12 @@ public class UserMainActivity extends AppCompatActivity
         mProgress.dismiss();
         //if companyData null
         if(machineData==null){
-            Log.e("NO Clients","dsd");
+            Log.e("NO Machimes","dsd");
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     context);
-            alertDialogBuilder.setTitle("Clients");
+            alertDialogBuilder.setTitle("Machines");
             alertDialogBuilder
-                    .setMessage("NO Clients for in the List.")
+                    .setMessage("NO Machines in the List.")
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

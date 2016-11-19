@@ -17,13 +17,17 @@ import android.widget.Toast;
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.MachineDetailDTO;
 import com.android.maintenance.R;
+import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.activities.AssetLogActivity;
+import com.android.maintenance.activities.EmployeeMainActivity;
 import com.android.maintenance.activities.MachineListActivity;
+import com.android.maintenance.activities.UserMainActivity;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by anand on 25-Oct-16.
@@ -33,7 +37,8 @@ public class MachineListAdapter extends BaseAdapter {
     private Context cxt;
     Intent intent;
     private ArrayList<MachineDetailDTO> machineList;
-    String token;
+    String token,role;
+    private SessionManager session;
     Long assetId;
     MachineDetailDTO machine;
     Gson gson;
@@ -61,6 +66,12 @@ public class MachineListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
+        session = new SessionManager(cxt);
+        HashMap<String, String> user = session.getUserDetails();
+
+        token = user.get(SessionManager.KEY_TOKEN);
+
+        role=user.get(SessionManager.KEY_ROLE);
         View v= View.inflate(cxt, R.layout.machine_list_view_detail, null);
         TextView machine_title = (TextView) v.findViewById(R.id.machine_title);
         TextView address = (TextView) v.findViewById(R.id.machine_address);
@@ -134,8 +145,17 @@ public class MachineListAdapter extends BaseAdapter {
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-               intent= new Intent(cxt, MachineListActivity.class);
-                cxt.startActivity(intent);
+
+                if(role.equals(ConfigConstant.adminRole)){
+                    intent=new Intent(cxt,MachineListActivity.class);
+                    cxt.startActivity(intent);
+                }else if(role.equals(ConfigConstant.userRole)){
+                    intent=new Intent(cxt,UserMainActivity.class);
+                    cxt.startActivity(intent);
+                }else if(role.equals(ConfigConstant.employeeRole)){
+                    intent=new Intent(cxt,EmployeeMainActivity.class);
+                    cxt.startActivity(intent);
+                }
             } else if (machineResponse.getStatusCode() == -1) {
                 Toast.makeText(cxt, machineResponse.getMsg(), Toast.LENGTH_LONG).show();
             }

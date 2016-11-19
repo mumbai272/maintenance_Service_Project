@@ -182,6 +182,26 @@ public class ServiceHandlerWS {
         return result;
     }
 
+    public static String makeServicePutWithOutData(String url,String token){
+        String result = "";
+        try {
+            Log.e(TAG,"URL: "+url);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPut put = new HttpPut(url);
+            put.setHeader("Content-type", "application/json");
+            put.addHeader("token", token);
+            HttpResponse httpResponse = httpclient.execute(put);
+            result=EntityUtils.toString(httpResponse.getEntity());
+            //inputStream = httpResponse.getEntity().getContent();
+            // convert inputstream to string
+        }catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+       /* Log.i("JSONPOSTEND", "End of JSON data post methos...");*/
+        Log.e(TAG,"Response====="+result);
+        return result;
+    }
+
     public String makeServiceDetele(String url, String token) {
         String result = "";
         try {
@@ -201,5 +221,7 @@ public class ServiceHandlerWS {
         Log.e(TAG,"Response====="+result);
         return result;
     }
+
+
 
 }

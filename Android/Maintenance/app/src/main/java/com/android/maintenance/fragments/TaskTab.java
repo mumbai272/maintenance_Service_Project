@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -14,12 +15,12 @@ import android.widget.Toast;
 import com.android.maintenance.DTO.AssetLogDTO;
 import com.android.maintenance.DTO.AssignedUserDTO;
 import com.android.maintenance.DTO.BaseResponseDTO;
-import com.android.maintenance.DTO.EmployeeAssignedWorkDTO;
 import com.android.maintenance.DTO.GetAssignedAssetLogDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.activities.AssignLogActivity;
+import com.android.maintenance.activities.StartStopActivity;
 import com.android.maintenance.adapters.AssignedLogListAdapter;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
@@ -44,11 +45,17 @@ public class TaskTab extends android.support.v4.app.Fragment {
     AssetLogDTO log;
     AssignedLogListAdapter adapter;
     ListView listView;
+    String role;
+    private SessionManager session;
     ArrayList<GetAssignedAssetLogDTO> assignlogList;
 
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
+        session = new SessionManager(getActivity());
+        HashMap<String, String> user = session.getUserDetails();
+        role = user.get(SessionManager.KEY_ROLE);
+
         final Bundle args = getArguments();
         log= (AssetLogDTO) args.getSerializable("Log");
         new AssignedLogAdapter().execute(ConfigConstant.url+"asset/logs/assign/"+log.getLogId());
@@ -59,6 +66,10 @@ public class TaskTab extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.task_tab,container, false);
         listView = (ListView)view.findViewById(R.id.listView_tasks);
         ImageButton button = (ImageButton) view.findViewById(R.id.add_task);
+
+        if(role.equals(ConfigConstant.adminRole)){
+            button.setVisibility(View.VISIBLE);
+        }
         button.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -144,6 +155,16 @@ public class TaskTab extends android.support.v4.app.Fragment {
 
             adapter = new AssignedLogListAdapter(getActivity().getApplicationContext(), assignlogList);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Long assignId= (Long)view.getTag();
+                    intent=new Intent(getActivity(),StartStopActivity.class);
+                    intent.putExtra("assignId",assignId);
+                    intent.putExtra("assignList",assignlogList);
+                    startActivity(intent);
+                }
+            });
 
         }
     }

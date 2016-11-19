@@ -166,11 +166,18 @@ public class AdminMainActivity extends AppCompatActivity
             navigateToUserList();
         }else if (id == R.id.nav_logs) {
             navigateToLogList();
+        }else if (id == R.id.nav_claim) {
+            navigateToClaimList();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void navigateToClaimList() {
+        intent =new Intent(AdminMainActivity.this,ClaimActivity.class);
+        startActivity(intent);
     }
 
     private void navigateToLogList() {

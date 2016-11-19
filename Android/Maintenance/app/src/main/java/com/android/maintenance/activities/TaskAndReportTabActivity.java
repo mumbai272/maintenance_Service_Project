@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.maintenance.DTO.AssetLogDTO;
@@ -57,8 +56,8 @@ public class TaskAndReportTabActivity extends AppCompatActivity {
             }
         });
 
-        title=(TextView)findViewById(R.id.log_tle);
-        date=(TextView)findViewById(R.id.log_date);
+        title=(TextView)findViewById(R.id.text_part);
+        date=(TextView)findViewById(R.id.text_amount);
         m_id=(TextView)findViewById(R.id.log_m_id);
         log= new AssetLogDTO();
        // pos=getIntent().getIntExtra("pos",0);

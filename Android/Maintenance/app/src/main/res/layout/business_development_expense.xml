@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Expense Date"
+        android:id="@+id/b_date"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Guest"
+        android:id="@+id/exp_guest"
+        android:layout_below="@+id/b_date"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Particulars"
+        android:id="@+id/bus_part"
+        android:layout_below="@+id/exp_guest"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Bill No"
+        android:id="@+id/bill_no_bus"
+        android:layout_marginTop="35dp"
+       android:layout_below="@+id/bus_part"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Bill Date"
+        android:id="@+id/bill_date_bus"
+        android:layout_below="@+id/bill_no_bus"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Amount"
+        android:id="@+id/amt"
+        android:layout_below="@+id/bill_date_bus"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/bus_exp_date"
+        android:layout_above="@+id/exp_guest"
+        android:layout_toEndOf="@+id/b_date"
+        android:layout_marginStart="40dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/guest"
+        android:layout_alignBottom="@+id/exp_guest"
+        android:layout_alignStart="@+id/bus_exp_date" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/particular_bus"
+        android:layout_above="@+id/bill_no_bus"
+        android:layout_alignStart="@+id/guest" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/bus_bill_no_exp"
+        android:layout_above="@+id/bill_date_bus"
+        android:layout_alignStart="@+id/particular_bus" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/bus_bill_date_exp"
+        android:layout_above="@+id/amt"
+        android:layout_alignStart="@+id/bus_bill_no_exp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/bus_exp_amt"
+        android:layout_alignBottom="@+id/amt"
+        android:layout_alignStart="@+id/bus_bill_date_exp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white_color"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/busineess_dev_exp"
+        android:layout_below="@+id/amt"
+        android:layout_marginTop="71dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/bus_exp_amt" />
+</RelativeLayout>

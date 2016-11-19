@@ -23,9 +23,9 @@
         android:id="@+id/cli_end"
         android:layout_below="@+id/cli_sta"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="61dp" />
+        android:layout_marginTop="60dp" />
 
-    <TextView
+   <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -33,7 +33,7 @@
         android:id="@+id/clai_amount"
         android:layout_below="@+id/cli_end"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="52dp" />
+        android:layout_marginTop="52dp" />-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,18 +41,18 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Particulars"
         android:id="@+id/clai_part"
-        android:layout_below="@+id/clai_amount"
+        android:layout_below="@+id/cli_end"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="60dp" />
 
-    <EditText
+  <!--  <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/claim_am"
         android:layout_alignBottom="@+id/clai_amount"
-        android:layout_alignStart="@+id/end_date" />
+        android:layout_alignStart="@+id/end_date" />-->
 
     <EditText
         android:layout_width="wrap_content"
@@ -61,7 +61,6 @@
         android:ems="10"
         android:id="@+id/start_date"
         android:layout_above="@+id/cli_end"
-        android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/cli_sta" />
 
     <EditText
@@ -80,12 +79,12 @@
         android:ems="10"
         android:id="@+id/claim_part"
         android:layout_alignBottom="@+id/clai_part"
-        android:layout_alignStart="@+id/claim_am" />
+        android:layout_toEndOf="@+id/cli_end" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Apply for Claim"
+        android:text="Next"
         android:id="@+id/claim_btn"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/white_color"

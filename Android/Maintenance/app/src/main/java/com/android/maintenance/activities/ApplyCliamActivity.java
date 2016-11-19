@@ -2,6 +2,7 @@ package com.android.maintenance.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -13,17 +14,28 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.ApplyClaimDTO;
-import com.android.maintenance.DTO.BaseResponseDTO;
+import com.android.maintenance.DTO.BusinessDevExpenseDTO;
+import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
+import com.android.maintenance.DTO.ClaimResposnse;
+import com.android.maintenance.DTO.GetClaimListDTO;
+import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
+import com.android.maintenance.Utilities.Utility;
 import com.android.maintenance.WS.ServiceHandlerWS;
+import com.android.maintenance.asyncTask.GetClaimDetails;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -33,19 +45,30 @@ import java.util.Locale;
  */
 public class ApplyCliamActivity extends Activity {
 
-    EditText start,end,amount,part;
+    EditText start,end,part;
     String token;
+    Gson gson;
     String client_idStr,company_idStr;
     private SessionManager session;
-    String start_Str,end__Str,amount_Str,part_Str;
+    String start_Str,end__Str,part_Str;
     Button apply_Claim;
     DatePickerDialog endPickerDialog,startPickerDialog;
     SimpleDateFormat dateFormatter;
-
+    Intent intent;
+    Type type;
+    ApplyClaimDTO dto;
+    GetClaimListDTO claim;
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
+    ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.apply_cliam);
+
+        conven_exp_list=new ArrayList<ClaimConveyanceExpenseDTO>();
+        misc_exp_list=new ArrayList<MiscExpenseDTO>();
+        business_exp_list=new ArrayList<BusinessDevExpenseDTO>();
 
         session=new SessionManager(getApplicationContext());
         HashMap<String, String> user = session.getUserDetails();
@@ -56,7 +79,6 @@ public class ApplyCliamActivity extends Activity {
 
         start=(EditText)findViewById(R.id.start_date);
         end=(EditText)findViewById(R.id.end_date);
-        amount=(EditText)findViewById(R.id.claim_am);
         part=(EditText)findViewById(R.id.claim_part);
 
         dateFormatter = new SimpleDateFormat("yyy-MM-dd", Locale.US);
@@ -70,22 +92,24 @@ public class ApplyCliamActivity extends Activity {
             public void onClick(View view) {
                 start_Str=start.getText().toString();
                 end__Str=end.getText().toString();
-                amount_Str=amount.getText().toString();
                 part_Str=part.getText().toString();
-
+                if(Utility.isNotNull(part_Str)&& Utility.isNotNull(start_Str)&&  Utility.isNotNull(end__Str)){
                 try {
                     String json="";
-                    ApplyClaimDTO dto= new ApplyClaimDTO();
-                    dto.setClaimAmount(Double.parseDouble(amount_Str));
+                    dto= new ApplyClaimDTO();
                     dto.setClaimStartDate(start_Str);
                     dto.setClaimEndDate(end__Str);
                     dto.setParticulars(part_Str);
+                    dto.setClaimDate("2016-12-02");
                     ObjectMapper mapper = new ObjectMapper();
                     json = mapper.writeValueAsString(dto);
                     new ApplyCliam().execute(json);
 
                 }catch (Exception e){
                     e.printStackTrace();
+                }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Dont leave any fields blank",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -140,7 +164,9 @@ public class ApplyCliamActivity extends Activity {
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
-    private class ApplyCliam extends AsyncTask<String,Void,String> {
+
+
+    public class ApplyCliam extends AsyncTask<String,Void,String> {
 
 
         @Override
@@ -155,13 +181,60 @@ public class ApplyCliamActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
             Gson gson = new GsonBuilder().create();
-            BaseResponseDTO clientResponse=gson.fromJson(result, BaseResponseDTO.class);
+            ClaimResposnse clientResponse=gson.fromJson(result, ClaimResposnse.class);
             if(clientResponse.getStatusCode()==1){
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
+                getData(clientResponse);
             }else{
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }
 
     }
+
+    private void getData(ClaimResposnse clientResponse) {
+
+        GetClaimDetails details= new GetClaimDetails(this);
+        details.execute(ConfigConstant.url+"claim/"+clientResponse.getId());
+       /* intent=new Intent(ApplyCliamActivity.this,CliamDetailsActivity.class);
+        intent.putExtra("CLAIM_ID",clientResponse.getId());
+        startActivity(intent);*/
+    }
+
+    public void getclaimData(JSONObject claimData, JSONArray businessExpensesData, JSONArray conveyanceExpensesData, JSONArray miscExpenseData) {
+        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        String claimStr = claimData.toString();
+
+        claim=new GetClaimListDTO();
+        claim=gson.fromJson(claimStr, GetClaimListDTO.class);
+
+        if(businessExpensesData!=null) {
+            String businessExpensesStr=businessExpensesData.toString();
+            type = new TypeToken<ArrayList<BusinessDevExpenseDTO>>() {
+            }.getType();
+            business_exp_list = gson.fromJson(businessExpensesStr, type);
+        }
+
+        if( conveyanceExpensesData!=null) {
+            String conveyanceExpensesStr=conveyanceExpensesData.toString();
+            type = new TypeToken<ArrayList<ClaimConveyanceExpenseDTO>>() {
+            }.getType();
+            conven_exp_list = gson.fromJson(conveyanceExpensesStr, type);
+        }
+        if( miscExpenseData!=null){
+            String miscExpenseStr=miscExpenseData.toString();
+            type = new TypeToken<ArrayList<MiscExpenseDTO>>() {
+            }.getType();
+            misc_exp_list = gson.fromJson(miscExpenseStr, type);
+        }
+
+        intent=new Intent(ApplyCliamActivity.this,CliamDetailsActivity.class);
+        intent.putExtra("DTO",claim);
+        intent.putExtra("business_exp_list",business_exp_list);
+        intent.putExtra("conven_exp_list",conven_exp_list);
+        intent.putExtra("misc_exp_list",misc_exp_list);
+        startActivity(intent);
+
+    }
+
 }

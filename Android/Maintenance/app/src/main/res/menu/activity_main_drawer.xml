@@ -27,6 +27,10 @@
             android:title="My Employees" />
 
         <item
+            android:id="@+id/nav_claim"
+            android:title="Claim" />
+
+        <item
             android:id="@+id/nav_machine_spare"
             android:title="Machine Spare" />
 
