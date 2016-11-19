@@ -52,8 +52,8 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     @Transactional(readOnly = false)
     public Claim createClaim(ClaimForm claimForm) {
         Claim claim =
-            new Claim(claimForm.getClaimDate(), getLoggedInUser()
-                    .getUserId(), claimForm.getClaimStartDate(), claimForm.getClaimEndDate(),
+            new Claim(claimForm.getClaimDate(), getLoggedInUser().getUserId(),
+                claimForm.getClaimStartDate(), claimForm.getClaimEndDate(),
                 claimForm.getParticulars());
         claim.setClaimAmount(0d);
         claim.setCompanyId(getLoggedInUser().getCompanyId());
@@ -73,7 +73,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             new ConveyanceExpense(expense.getClaimId(), expense.getExpenseDate(),
                 expense.getTravelFrom(), expense.getTravelTo(), expense.getModeOfTransport(),
                 expense.getClaimAmount());
-       
+
         double claimAmount = claim.getClaimAmount() + expense.getClaimAmount();
         claim.setClaimAmount(claimAmount);
         expObject = conveyanceRepository.save(expObject);
@@ -128,56 +128,50 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         ClaimBO claimBO = new ClaimBO();
         BeanUtils.copyProperties(claim, claimBO);
         response.setClaim(claimBO);
-        List<ClaimConveyanceExpense> conveyanceExpenses =new ArrayList<ClaimConveyanceExpense>();
-        conveyanceExpenses = getConveyanceExpenses(claimId);
+        List<ClaimConveyanceExpense> conveyanceExpenses = getConveyanceExpenses(claimId);
         response.setConveyanceExpenses(conveyanceExpenses);
-        List<ClaimBusinessExpense> businessExpenses = new ArrayList<ClaimBusinessExpense>();
-        businessExpenses = getBusinessExpense(claimId);
+        List<ClaimBusinessExpense> businessExpenses = getBusinessExpense(claimId);
         response.setBusinessExpenses(businessExpenses);
-        List<ClaimMiscExpense> miscExpenses = new ArrayList<ClaimMiscExpense>();
-        miscExpenses = getMiscExpense(claimId);
+        List<ClaimMiscExpense> miscExpenses = getMiscExpense(claimId);
         response.setMiscExpenses(miscExpenses);
         return response;
     }
 
     private List<ClaimMiscExpense> getMiscExpense(Long claimId) {
-        List<MiscExpense> expenses = miscRepository.findByClaimId(claimId);
-        if (CollectionUtils.isEmpty(expenses)) {
-            return null;
-        }
         List<ClaimMiscExpense> boList = new ArrayList<ClaimMiscExpense>();
-        for (MiscExpense e : expenses) {
-            ClaimMiscExpense ex = new ClaimMiscExpense();
-            BeanUtils.copyProperties(e, ex);
-            boList.add(ex);
+        List<MiscExpense> expenses = miscRepository.findByClaimId(claimId);
+        if (!CollectionUtils.isEmpty(expenses)) {
+            for (MiscExpense e : expenses) {
+                ClaimMiscExpense ex = new ClaimMiscExpense();
+                BeanUtils.copyProperties(e, ex);
+                boList.add(ex);
+            }
         }
         return boList;
     }
 
     private List<ClaimConveyanceExpense> getConveyanceExpenses(Long claimId) {
-        List<ConveyanceExpense> expenses = conveyanceRepository.findByClaimId(claimId);
-        if (CollectionUtils.isEmpty(expenses)) {
-            return null;
-        }
         List<ClaimConveyanceExpense> conveyanceExpenses = new ArrayList<ClaimConveyanceExpense>();
-        for (ConveyanceExpense e : expenses) {
-            ClaimConveyanceExpense ex = new ClaimConveyanceExpense();
-            BeanUtils.copyProperties(e, ex);
-            conveyanceExpenses.add(ex);
+        List<ConveyanceExpense> expenses = conveyanceRepository.findByClaimId(claimId);
+        if (!CollectionUtils.isEmpty(expenses)) {
+            for (ConveyanceExpense e : expenses) {
+                ClaimConveyanceExpense ex = new ClaimConveyanceExpense();
+                BeanUtils.copyProperties(e, ex);
+                conveyanceExpenses.add(ex);
+            }
         }
         return conveyanceExpenses;
     }
 
     private List<ClaimBusinessExpense> getBusinessExpense(Long claimId) {
-        List<BusinessExpense> expenses = businessRepository.findByClaimId(claimId);
-        if (CollectionUtils.isEmpty(expenses)) {
-            return null;
-        }
         List<ClaimBusinessExpense> boList = new ArrayList<ClaimBusinessExpense>();
-        for (BusinessExpense e : expenses) {
-            ClaimBusinessExpense ex = new ClaimBusinessExpense();
-            BeanUtils.copyProperties(e, ex);
-            boList.add(ex);
+        List<BusinessExpense> expenses = businessRepository.findByClaimId(claimId);
+        if (!CollectionUtils.isEmpty(expenses)) {
+            for (BusinessExpense e : expenses) {
+                ClaimBusinessExpense ex = new ClaimBusinessExpense();
+                BeanUtils.copyProperties(e, ex);
+                boList.add(ex);
+            }
         }
         return boList;
     }
@@ -292,7 +286,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
         }
         if (claim.getServicePerson().equals(getLoggedInUser().getUserId())
             && claim.getStatus().equalsIgnoreCase(StatusType.ACTIVE.name())) {
-            
+
             if (request.getClaimDate() != null) {
                 claim.setClaimDate(request.getClaimDate());
             }
