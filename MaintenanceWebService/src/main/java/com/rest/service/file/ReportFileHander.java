@@ -34,7 +34,7 @@ public class ReportFileHander extends BaseServiceImpl implements FileTypeHandler
             throw new RuntimeException("Report is not generated");
         }
         StringBuilder fileName = new StringBuilder(settingConfig.getRootFolder());
-        fileName.append(File.separator).append(getLoggedInUser().getCompanyId()).append(FileType.REPORT.getFilePath()).
+        fileName.append(File.separator).append(report.getAssetLog().getClientId()).append(FileType.REPORT.getFilePath()).
         append(File.separator).append(report.getLogId()).append(File.separator)
                 .append(report.getReportGenarated());
         File file = new File(fileName.toString());

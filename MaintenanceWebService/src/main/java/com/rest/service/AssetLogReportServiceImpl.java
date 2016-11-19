@@ -478,7 +478,7 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
         StringBuilder fileName = new StringBuilder("invoice_");
         fileName.append(reportId).append(".pdf");
         StringBuilder filePath = new StringBuilder(settingConfig.getRootFolder());
-        filePath.append(File.separator).append(getLoggedInUser().getCompanyId())
+        filePath.append(File.separator).append(report.getAssetLog().getClientId())
                 .append(FileType.REPORT.getFilePath()).append(File.separator)
                 .append(report.getLogId()).append(File.separator).append(fileName);
 
