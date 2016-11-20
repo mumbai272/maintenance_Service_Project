@@ -180,6 +180,7 @@ public class ClaimServiceImpl extends BaseServiceImpl {
     public ClaimResponse getClaim() {
         ClaimResponse response = new ClaimResponse();
         List<Claim> claims = null;
+        List<ClaimBO> boList = new ArrayList<ClaimBO>();
         if (getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
             claims =
                 claimRepository.findByCompanyIdAndStatus(getLoggedInUser().getCompanyId(),
@@ -192,7 +193,6 @@ public class ClaimServiceImpl extends BaseServiceImpl {
             claims = claimRepository.findByServicePerson(getLoggedInUser().getUserId());
         }
         if (!CollectionUtils.isEmpty(claims)) {
-            List<ClaimBO> boList = new ArrayList<ClaimBO>();
             for (Claim claim : claims) {
                 ClaimBO claimBO = new ClaimBO();
                 BeanUtils.copyProperties(claim, claimBO);
