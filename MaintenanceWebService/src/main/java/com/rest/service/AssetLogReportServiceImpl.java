@@ -267,7 +267,7 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
     @Transactional(rollbackFor = { Exception.class })
     public ResourceCreateResponse createAssetReportSpare(ReportSpareCreateBO request) {
         ResourceCreateResponse response = new ResourceCreateResponse();
-        getReport(request.getReportId());
+       AssetReport report= getReport(request.getReportId());
         AssetReportSpare spare =
             assetReportSpareRepository.findByReportIdAndSpareNo(request.getReportId(),
                 request.getSpareNo());
@@ -283,6 +283,9 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
             rSpare.setAmount(request.getRate() * request.getQuantity());
             rSpare = assetReportSpareRepository.save(rSpare);
             response.setId(rSpare.getSpareId());
+            if (!report.getStatus().equalsIgnoreCase(StatusType.ACTIVE.name())) {
+                assetReportRepository.updateStatus(StatusType.ACTIVE.name(), spare.getReportId());
+            }
         } catch (ConstraintViolationException e) {
             throw new RuntimeException("Already have data for spare");
         }
@@ -359,6 +362,8 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
             throw new RuntimeException("spare detail does not exists");
         }
         assetReportSpareRepository.delete(spare);
+        assetReportRepository.updateStatus(StatusType.ACTIVE.name(), spare.getReportId());
+
     }
 
     public void createAssetReportCharges(ReportChargesCreate request) {
