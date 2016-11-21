@@ -33,9 +33,12 @@ public class GoogleMapService {
 	                //"status":"ZERO_RESULTS"
 	                String status=(String) json.get("status");
 	                if(status.equals("ZERO_RESULTS")){
-	                    throw new RuntimeException("invalid coordinate passed");
+	                    throw new RuntimeException("no result found for passed coordinate");
 	                }
 	                JSONArray a=(JSONArray)json.get("results");
+	                if(a.size()==0){
+	                       throw new RuntimeException("no result found for passed coordinate");
+	                }
 	                JSONObject o=(JSONObject)a.get(0);
 	                address=(String)o.get("formatted_address");
                 } catch(ParseException e) {
