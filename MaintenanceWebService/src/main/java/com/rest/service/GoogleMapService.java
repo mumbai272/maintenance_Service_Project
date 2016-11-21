@@ -30,16 +30,25 @@ public class GoogleMapService {
 					InputStream is = (InputStream)response.getEntity();
 					s = IOUtils.toString(is);
 	                JSONObject json = (JSONObject)new JSONParser().parse(s);
+	                //"status":"ZERO_RESULTS"
+	                String status=(String) json.get("status");
+	                if(status.equals("ZERO_RESULTS")){
+	                    throw new RuntimeException("invalid coordinate passed");
+	                }
 	                JSONArray a=(JSONArray)json.get("results");
 	                JSONObject o=(JSONObject)a.get(0);
 	                address=(String)o.get("formatted_address");
                 } catch(ParseException e) {
 	                // TODO Auto-generated catch block
 	                e.printStackTrace();
+	                throw new RuntimeException("Not able to parse", e);
                 } catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}				
+	                   throw new RuntimeException("Io exception", e);
+
+				}		
+				    
 			
 			
 			finally{
