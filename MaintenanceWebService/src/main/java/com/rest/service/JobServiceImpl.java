@@ -102,6 +102,9 @@ public class JobServiceImpl extends BaseServiceImpl {
             LogStatus status = LogStatus.valueOf(request.getStatus().toUpperCase());
             job.setStatus(status.name());
         }
+        job.setUpdateDate(DateUtil.today());
+        job.setUpdatedBy(getLoggedInUser().getUserName());
+        miscellaneousJobRepository.save(job);
     }
 
     public List<JobBO> getJob() {
