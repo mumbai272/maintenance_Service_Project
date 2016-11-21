@@ -457,14 +457,14 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
 
     public ReportCharges getAssetReportCharges(Long reportId) {
         AssetReportCharges charges = assetReportChargesRepository.findOne(reportId);
-        if (charges == null) {
-            throw new RuntimeException("charge detail does not exists");
-        }
+        
         ReportCharges bo = new ReportCharges();
-        BeanUtils.copyProperties(charges, bo);
-        if (charges.getInvoiceDate() != null) {
-            bo.setInvoiceDate(DateUtil.formate(charges.getInvoiceDate().getTime(), null));
-        }
+		if (charges != null) {
+			BeanUtils.copyProperties(charges, bo);
+			if (charges.getInvoiceDate() != null) {
+				bo.setInvoiceDate(DateUtil.formate(charges.getInvoiceDate().getTime(), null));
+			}
+		}
         return bo;
     }
 
