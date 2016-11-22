@@ -284,7 +284,7 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
             rSpare = assetReportSpareRepository.save(rSpare);
             response.setId(rSpare.getSpareId());
             if (!report.getStatus().equalsIgnoreCase(StatusType.ACTIVE.name())) {
-                assetReportRepository.updateStatus(StatusType.ACTIVE.name(), spare.getReportId());
+                assetReportRepository.updateStatus(StatusType.ACTIVE.name(), rSpare.getReportId());
             }
         } catch (ConstraintViolationException e) {
             throw new RuntimeException("Already have data for spare");
