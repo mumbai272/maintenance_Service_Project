@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.maintenance.DTO.AssetLogDTO;
+import com.android.maintenance.DTO.CreateAssetReportDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.configuration.ConfigConstant;
@@ -26,7 +27,8 @@ public class TaskAndReportTabActivity extends AppCompatActivity {
     Intent intent;
     AssetLogDTO log;
     String role;
-    int pos;
+    Long report_ID;
+    CreateAssetReportDTO dto;
     private SessionManager session;
     TextView title,date, m_id;
     public static TaskAndReportTabActivity instance;
@@ -62,10 +64,15 @@ public class TaskAndReportTabActivity extends AppCompatActivity {
         log= new AssetLogDTO();
        // pos=getIntent().getIntExtra("pos",0);
         log= (AssetLogDTO) getIntent().getSerializableExtra("Log");
+        dto=(CreateAssetReportDTO)getIntent().getSerializableExtra("reportDTO");
+        report_ID=getIntent().getLongExtra("reportID",0);
+
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("Log",log);
-        //bundle.putInt("pos",pos);
+        bundle.putSerializable("reportDTO",dto);
+        bundle.putLong("reportID",report_ID);
+
         title.setText(log.getMaintainanceType());
         m_id.setText(log.getAssetId().toString());
         date.setText(log.getLogCreatedDate());

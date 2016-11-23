@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
+import com.android.maintenance.activities.AddNewSerActivity;
 import com.android.maintenance.activities.AdminEmployeeListActivity;
 import com.android.maintenance.activities.AssignLogActivity;
 import com.android.maintenance.configuration.ConfigConstant;
@@ -27,6 +28,7 @@ public class GetEmployeeList extends AsyncTask<String, Void, String> {
     public String token, userID;
     private AdminEmployeeListActivity mActivity;
     private AssignLogActivity bActivity;
+    AddNewSerActivity cActivity;
 
     public GetEmployeeList(AdminEmployeeListActivity activity) {
         this.mActivity = activity;
@@ -36,6 +38,10 @@ public class GetEmployeeList extends AsyncTask<String, Void, String> {
         this.bActivity = activity;
     }
 
+    public GetEmployeeList(AddNewSerActivity addNewSerActivity) {
+        this.cActivity=addNewSerActivity;
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -43,6 +49,8 @@ public class GetEmployeeList extends AsyncTask<String, Void, String> {
             session = new SessionManager(mActivity);
         }else if(bActivity instanceof AssignLogActivity){
             session = new SessionManager(bActivity);
+        }else if(cActivity instanceof AddNewSerActivity){
+            session=new SessionManager(cActivity);
         }
 
         HashMap<String, String> user = session.getUserDetails();
@@ -79,6 +87,8 @@ public class GetEmployeeList extends AsyncTask<String, Void, String> {
                 mActivity.displayEmpList(dataUsers);
             }else if(bActivity instanceof AssignLogActivity){
                 bActivity.displayEmpList(dataUsers);
+            }else if(cActivity instanceof AddNewSerActivity){
+                cActivity.displayEmpList(dataUsers);
             }
 
         } else if (employeeResponse.getStatusCode() == -1) {

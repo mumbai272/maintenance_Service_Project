@@ -3,7 +3,7 @@
     <color name="colorPrimary">#303F9F</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="button_color">#33CAFF</color>
-    <color name="colorAccent">#BDC9FC</color>
+    <!--<color name="colorAccent">#BDC9FC</color>-->
     <color name="light_gray">#d1d1d1</color>
     <color name="white_color">#ffffff</color>
    <!-- <color name="orange_color">#</color>-->

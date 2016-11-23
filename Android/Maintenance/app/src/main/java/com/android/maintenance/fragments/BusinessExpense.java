@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.android.maintenance.DTO.BusinessDevExpenseDTO;
+import com.android.maintenance.DTO.GetClaimListDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.activities.BusinessDevelopmentExpenseActivity;
@@ -31,8 +32,9 @@ public class BusinessExpense extends android.support.v4.app.Fragment {
     ArrayList<BusinessDevExpenseDTO> bus_exp_list;
     ListView listView;
     BusinessExpenseAdaptor adapter;
-    Long ID;
+    GetClaimListDTO claim;
     ImageButton button;
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -41,7 +43,7 @@ public class BusinessExpense extends android.support.v4.app.Fragment {
         role = user.get(SessionManager.KEY_ROLE);
 
         final Bundle args = getArguments();
-        ID=args.getLong("Clim_ID");
+        claim= (GetClaimListDTO) args.getSerializable("ClimDTO");
         bus_exp_list= ( ArrayList<BusinessDevExpenseDTO>) args.getSerializable("business_exp_list");
     }
 
@@ -50,14 +52,15 @@ public class BusinessExpense extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.business_expense_tab,container, false);
         listView= (ListView)view.findViewById(R.id.bus_listView);
         button=(ImageButton)view.findViewById(R.id.add_bus_exp);
-        if(role.equals(ConfigConstant.employeeRole)){
+
+        if(role.equals(ConfigConstant.employeeRole)&&claim.getStatus().equalsIgnoreCase("ACTIVE")){
             button.setVisibility(View.VISIBLE);
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intent=new Intent(getActivity(), BusinessDevelopmentExpenseActivity.class);
-                intent.putExtra("ID",ID);
+                intent.putExtra("ID",claim.getClaimId());
                 startActivity(intent);
             }
         });

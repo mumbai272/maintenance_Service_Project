@@ -66,13 +66,7 @@ public class ClaimActivity extends Activity{
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(role.equals(ConfigConstant.employeeRole)) {
-                    intent = new Intent(ClaimActivity.this, EmployeeMainActivity.class);
-                    startActivity(intent);
-                }else if(role.equals(ConfigConstant.adminRole)){
-                    intent = new Intent(ClaimActivity.this, AdminMainActivity.class);
-                    startActivity(intent);
-                }
+                finish();
             }
         });
 
@@ -115,7 +109,7 @@ public class ClaimActivity extends Activity{
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Long C_ID = (Long) view.getTag();
-                    Log.e("userId:", "" + C_ID);
+                    Log.e("claim id:", "" + C_ID);
                     getDetails(C_ID);
                     /**/
                 }
@@ -123,7 +117,7 @@ public class ClaimActivity extends Activity{
         }
     }
 
-    private void getDetails(Long c_id) {
+    public void getDetails(Long c_id) {
 
         GetClaimDetails details= new GetClaimDetails(this);
         details.execute(ConfigConstant.url+"claim/"+c_id);

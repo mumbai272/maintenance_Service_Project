@@ -7,8 +7,10 @@ import android.widget.Toast;
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
+import com.android.maintenance.activities.AccountantMainActivity;
 import com.android.maintenance.activities.ApplyCliamActivity;
 import com.android.maintenance.activities.ClaimActivity;
+import com.android.maintenance.activities.ClaimConveyanceExpenseActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -27,9 +29,14 @@ public class GetClaimDetails  extends AsyncTask<String, Void, String> {
     public String token, clientID;
     ClaimActivity mActivity;
     ApplyCliamActivity bActivity;
+    AccountantMainActivity cActivity;
 
     public GetClaimDetails(ClaimActivity activity) {
         this.mActivity = activity;
+    }
+
+    public GetClaimDetails(AccountantMainActivity activity) {
+        this.cActivity = activity;
     }
 
     public GetClaimDetails(ApplyCliamActivity activity) {
@@ -44,6 +51,8 @@ public class GetClaimDetails  extends AsyncTask<String, Void, String> {
             session = new SessionManager(mActivity);
         }else if(bActivity instanceof ApplyCliamActivity){
             session = new SessionManager(bActivity);
+        }else if(cActivity instanceof AccountantMainActivity){
+            session = new SessionManager(cActivity);
         }
 
         HashMap<String, String> user = session.getUserDetails();
@@ -70,7 +79,7 @@ public class GetClaimDetails  extends AsyncTask<String, Void, String> {
             claimData = obj.getJSONObject("claim");
             businessExpensesData = obj.getJSONArray("businessExpenses");
             conveyanceExpensesData = obj.getJSONArray("conveyanceExpenses");
-             miscExpenseDate = obj.getJSONArray("miscExpenses");
+            miscExpenseDate = obj.getJSONArray("miscExpenses");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,14 +91,16 @@ public class GetClaimDetails  extends AsyncTask<String, Void, String> {
                 mActivity.getclaimData(claimData, businessExpensesData, conveyanceExpensesData, miscExpenseDate);
             }else if(bActivity instanceof ApplyCliamActivity){
                 bActivity.getclaimData(claimData, businessExpensesData, conveyanceExpensesData, miscExpenseDate);
+            }else if(cActivity instanceof AccountantMainActivity){
+               cActivity.getclaimData(claimData, businessExpensesData, conveyanceExpensesData, miscExpenseDate);
             }
-
         } else if (clientResponse.getStatusCode() == -1) {
-
             if(mActivity instanceof ClaimActivity){
                 Toast.makeText(mActivity, clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }else if(bActivity instanceof ApplyCliamActivity){
                 Toast.makeText(bActivity, clientResponse.getMsg(), Toast.LENGTH_LONG).show();
+            }else if(cActivity instanceof AccountantMainActivity){
+                Toast.makeText(cActivity, clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }
     }

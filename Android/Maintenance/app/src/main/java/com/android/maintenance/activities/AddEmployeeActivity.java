@@ -74,7 +74,7 @@ public class AddEmployeeActivity extends Activity{
     private ProgressDialog mProgress;
     DatePickerDialog joinDatePickerDialog;
     String emp_nameStr,emp_mailStr,emp_noStr,emp_rateStr,emp_joinStr;
-    String[] role_array={"User","Service Engineer"};
+    String[] role_array={"User","Service Engineer","Accountant"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +97,7 @@ public class AddEmployeeActivity extends Activity{
         setDesignationSpinner();
         setDepartmentSpinner();
         setRoleSpinner();
-        setClientSpinner();
+        //setClientSpinner();
         emp_name =(EditText) findViewById(R.id.edit_emp_name);
         emp_mail =(EditText) findViewById(R.id.edit_emp_mail);
         emp_no = (EditText) findViewById(R.id.edit_emp_no);
@@ -137,7 +137,7 @@ public class AddEmployeeActivity extends Activity{
                         empoyee.setEmailId(emp_mailStr);
                         empoyee.setName(emp_nameStr);
                         empoyee.setPhoneno(emp_noStr);
-                        empoyee.setCompanyId(id_client);
+                        empoyee.setCompanyId(Long.parseLong(cmp_id));
                         empoyee.setRoleTypeId(role_long);
                         json=mapper.writeValueAsString(empoyee);
                         new AddEmployee().execute(json);
@@ -192,7 +192,7 @@ public class AddEmployeeActivity extends Activity{
         emp_join.requestFocus();
     }
 
-    private void setClientSpinner() {
+   /* private void setClientSpinner() {
         List<String> lables = new ArrayList<String>();
         for (int i=0; i< clientList.size();i++) {
             lables.add(clientList.get(i).getClientName());
@@ -221,7 +221,7 @@ public class AddEmployeeActivity extends Activity{
 
             }
         });
-    }
+    }*/
 
     private void setRoleSpinner() {
         List<String> roleStr= new ArrayList<String>();
@@ -243,6 +243,8 @@ public class AddEmployeeActivity extends Activity{
                     role_long=2L;
                 }else if(role=="Service Engineer"){
                     role_long=3L;
+                }else if(role=="Accountant"){
+                    role_long=4L;
                 }
             }
 

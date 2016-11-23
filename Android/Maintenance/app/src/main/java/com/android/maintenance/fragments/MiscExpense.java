@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.android.maintenance.DTO.BusinessDevExpenseDTO;
+import com.android.maintenance.DTO.GetClaimListDTO;
 import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.activities.MiscExpensesActivity;
-import com.android.maintenance.adapters.BusinessExpenseAdaptor;
 import com.android.maintenance.adapters.MiscExpenseAdaptor;
 import com.android.maintenance.configuration.ConfigConstant;
 
@@ -28,7 +27,7 @@ public class MiscExpense extends android.support.v4.app.Fragment {
     private SessionManager session;
     String role;
     Intent intent;
-    Long ID;
+    GetClaimListDTO claim;
     ArrayList<MiscExpenseDTO> misc_exp_list;
     ListView listView;
     MiscExpenseAdaptor adapter;
@@ -41,8 +40,8 @@ public class MiscExpense extends android.support.v4.app.Fragment {
         role = user.get(SessionManager.KEY_ROLE);
 
         final Bundle args = getArguments();
-        ID=args.getLong("Clim_ID");
-        misc_exp_list = ( ArrayList<MiscExpenseDTO>) args.getSerializable("");
+        claim= (GetClaimListDTO) args.getSerializable("ClimDTO");
+        misc_exp_list = ( ArrayList<MiscExpenseDTO>) args.getSerializable("misc_exp_list");
     }
 
 
@@ -51,7 +50,7 @@ public class MiscExpense extends android.support.v4.app.Fragment {
 
         listView= (ListView)view.findViewById(R.id.misc_listView);
         button=(ImageButton)view.findViewById(R.id.add_misc_expense);
-        if(role.equals(ConfigConstant.employeeRole)){
+        if(role.equals(ConfigConstant.employeeRole)&& claim.getStatus().equalsIgnoreCase("ACTIVE")){
             button.setVisibility(View.VISIBLE);
         }
 
@@ -59,7 +58,7 @@ public class MiscExpense extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View view) {
                 intent=new Intent(getActivity(), MiscExpensesActivity.class);
-                intent.putExtra("ID",ID);
+                intent.putExtra("ID",claim.getClaimId());
                 startActivity(intent);
             }
         });

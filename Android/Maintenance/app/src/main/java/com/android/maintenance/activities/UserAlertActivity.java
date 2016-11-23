@@ -17,24 +17,6 @@ public class UserAlertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_alert);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_DeviceDefault_Light_Dialog));
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View f = factory.inflate(R.layout.user_update, null);
-
-        builder.setTitle("Please update your information");
-        builder.setView(f);
-
-        Button submit = (Button) f.findViewById(R.id.submit);
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-             }
-            });
-
-            builder.show();
-        }
+    }
 
 }

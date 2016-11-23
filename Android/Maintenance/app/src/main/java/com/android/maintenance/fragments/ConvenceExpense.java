@@ -9,10 +9,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
+import com.android.maintenance.DTO.GetClaimListDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.activities.ClaimConveyanceExpenseActivity;
-import com.android.maintenance.activities.MiscExpensesActivity;
 import com.android.maintenance.adapters.ConvayanseExpenseAdaptor;
 import com.android.maintenance.configuration.ConfigConstant;
 
@@ -29,7 +29,7 @@ public class ConvenceExpense extends android.support.v4.app.Fragment {
     Intent intent;
     ListView listView;
     ConvayanseExpenseAdaptor adapter;
-    Long ID;
+    GetClaimListDTO claim;
 
     ImageButton button;
     ArrayList<ClaimConveyanceExpenseDTO> conv_exp_list;
@@ -41,7 +41,7 @@ public class ConvenceExpense extends android.support.v4.app.Fragment {
         role = user.get(SessionManager.KEY_ROLE);
 
         final Bundle args = getArguments();
-        ID=args.getLong("Clim_ID");
+        claim= (GetClaimListDTO) args.getSerializable("ClimDTO");
         conv_exp_list= ( ArrayList<ClaimConveyanceExpenseDTO>) args.getSerializable("conven_exp_list");
     }
 
@@ -50,7 +50,7 @@ public class ConvenceExpense extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.convayanse_expense_tab,container, false);
         listView= (ListView)view.findViewById(R.id.con_listView);
         button=(ImageButton)view.findViewById(R.id.add_canv_exp);
-        if(role.equals(ConfigConstant.employeeRole)){
+        if(role.equals(ConfigConstant.employeeRole) && claim.getStatus().equalsIgnoreCase("ACTIVE")){
             button.setVisibility(View.VISIBLE);
         }
 
@@ -58,11 +58,11 @@ public class ConvenceExpense extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View view) {
                 intent=new Intent(getActivity(), ClaimConveyanceExpenseActivity.class);
-                intent.putExtra("ID",ID);
+                intent.putExtra("ID",claim.getClaimId());
+                intent.putExtra("conv_exp_list",conv_exp_list);
                 startActivity(intent);
             }
         });
-
 
         adapter= new ConvayanseExpenseAdaptor(getActivity().getApplicationContext(), conv_exp_list);
         listView.setAdapter(adapter);

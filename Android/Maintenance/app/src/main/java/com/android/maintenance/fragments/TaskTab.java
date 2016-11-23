@@ -40,7 +40,8 @@ import java.util.HashMap;
  */
 public class TaskTab extends android.support.v4.app.Fragment {
 
-
+    Gson gson;
+    public String token, clientID;
     Intent intent;
     AssetLogDTO log;
     AssignedLogListAdapter adapter;
@@ -54,11 +55,14 @@ public class TaskTab extends android.support.v4.app.Fragment {
         super.onCreate(state);
         session = new SessionManager(getActivity());
         HashMap<String, String> user = session.getUserDetails();
+        clientID = user.get("KEY_CLIENT_ID");
+        token = user.get(SessionManager.KEY_TOKEN);
         role = user.get(SessionManager.KEY_ROLE);
 
         final Bundle args = getArguments();
         log= (AssetLogDTO) args.getSerializable("Log");
-        new AssignedLogAdapter().execute(ConfigConstant.url+"asset/logs/assign/"+log.getLogId());
+
+        new AssignedLog().execute(ConfigConstant.url+"asset/logs/assign/"+log.getLogId());
     }
 
 
@@ -85,18 +89,11 @@ public class TaskTab extends android.support.v4.app.Fragment {
 
 
 
-    private class AssignedLogAdapter extends AsyncTask<String, Void, String> {
-        Gson gson;
-        private SessionManager session;
-        public String token, clientID;
+    private class AssignedLog extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            session = new SessionManager(getActivity());
-            HashMap<String, String> user = session.getUserDetails();
-            clientID = user.get("KEY_CLIENT_ID");
-            token = user.get(SessionManager.KEY_TOKEN);
         }
 
         @Override

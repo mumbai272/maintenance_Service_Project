@@ -61,4 +61,5 @@
     <string name="client_approval_list_headertxt">Client Approval List</string>
     <string name="title_activity_user_main">UserMainActivity</string>
     <string name="title_activity_employee_main">EmployeeMainActivity</string>
+    <string name="title_activity_accountant_main">AccountantMainActivity</string>
 </resources>

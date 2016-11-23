@@ -111,6 +111,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(new Intent(LoginActivity.this, UserMainActivity.class));
                     finish();
                 }
+            }else if(roleStr.equals(ConfigConstant.accountantRole)){
+                if(status.equals("N")) {
+                    intent = new Intent(LoginActivity.this, AccountantMainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    startActivity(new Intent(LoginActivity.this, AccountantMainActivity.class));
+                    finish();
+                }
             }
         }
     }
@@ -143,14 +152,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                      finish();
                  }
 
-             }else if(role.equals(ConfigConstant.employeeRole)){
+             }else if(role.equals(ConfigConstant.accountantRole)){
                  if(user.getStatus().equals("N")){
                      companyStr = companyjson.toString();
                      company = gson.fromJson(companyStr, CompanyDTO.class);
                      session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
                      intent = new Intent(LoginActivity.this, AdminProfileActivity.class);
-                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                     intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
+                     startActivity(intent);
+                     finish();
+                 }else{
+                     companyStr = companyjson.toString();
+                     company = gson.fromJson(companyStr, CompanyDTO.class);
+                     session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+                     intent = new Intent(LoginActivity.this, AccountantMainActivity.class);
+                     startActivity(intent);
+                     finish();
+                 }
+             } else if(role.equals(ConfigConstant.employeeRole)){
+                 if(user.getStatus().equals("N")){
+                     companyStr = companyjson.toString();
+                     company = gson.fromJson(companyStr, CompanyDTO.class);
+                     session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+                     intent = new Intent(LoginActivity.this, AdminProfileActivity.class);
                      startActivity(intent);
                      finish();
                  }else{
@@ -158,8 +181,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                      company = gson.fromJson(companyStr, CompanyDTO.class);
                  session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
                  intent = new Intent(LoginActivity.this, EmployeeMainActivity.class);
-                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                 intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
                  startActivity(intent);
                  finish();
                  }
@@ -171,8 +192,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Log.e("", "created session");
             session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
             intent = new Intent(LoginActivity.this, AdminMainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
             startActivity(intent);
             finish();
         }

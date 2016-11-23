@@ -170,9 +170,7 @@ public class BusinessDevelopmentExpenseActivity extends Activity {
             ClaimResposnse clientResponse=gson.fromJson(result, ClaimResposnse.class);
             if(clientResponse.getStatusCode()==1){
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
-                intent=new Intent(BusinessDevelopmentExpenseActivity.this,MiscExpensesActivity .class);
-                intent.putExtra("ID",ID);
-                startActivity(intent);
+              finish();
             }else{
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }

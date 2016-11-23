@@ -233,7 +233,7 @@ public class AssetLogActivity extends Activity {
             String result="";
             ServiceHandlerWS servicepost= new ServiceHandlerWS();
             Log.e("param",""+param[0]);
-            result= servicepost.makeServicePostWithToken(ConfigConstant.url+"asset/logs",param[0],token);
+            result= servicepost.makeServicePostWithToken(ConfigConstant.url+"assetlog/report/spare",param[0],token);
             return result;
         }
 

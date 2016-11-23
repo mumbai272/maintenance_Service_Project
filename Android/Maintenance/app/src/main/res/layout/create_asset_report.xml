@@ -4,23 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/view">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_cre_rep"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ScrollView"
         android:layout_width="fill_parent"
@@ -37,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Client"
+                android:text="Report Name"
                 android:id="@+id/txt_client"
                 android:layout_marginTop="73dp"
                 android:layout_alignParentTop="true"
@@ -142,14 +125,16 @@
                 android:layout_alignEnd="@+id/text_pa" />
 
 
-
-            <Spinner
-                android:layout_width="fill_parent"
+            <EditText
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/cli_spin"
-                android:layout_marginRight="10dp"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/reportname"
                 android:layout_above="@+id/edit_c_person"
                 android:layout_toEndOf="@+id/text_pa" />
+
+
 
 
             <EditText
@@ -159,7 +144,7 @@
                 android:ems="10"
                 android:id="@+id/edit_c_person"
                 android:layout_alignBottom="@+id/txt_contact"
-                android:layout_alignEnd="@+id/cli_spin" />
+                android:layout_alignEnd="@+id/reportname" />
 
 
             <RadioGroup
@@ -241,7 +226,7 @@
                 android:id="@+id/edit_eng_remark"
                 android:layout_alignTop="@+id/text_remark"
                 android:layout_alignStart="@+id/edit_followup_Action"
-                android:layout_alignEnd="@+id/cli_spin" />
+                android:layout_alignEnd="@+id/reportname" />
 
 
 
@@ -264,7 +249,7 @@
                 android:ems="10"
                 android:id="@+id/edit_clie_followup_action"
                 android:layout_alignBottom="@+id/c_f_action"
-                android:layout_alignEnd="@+id/cli_spin" />
+                android:layout_alignEnd="@+id/reportname" />
 
 
 
@@ -298,13 +283,11 @@
             android:textColor="@color/white_color"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:text="Next"
+            android:text="Add"
             android:id="@+id/crt_report_btn"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="0dp"/>
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

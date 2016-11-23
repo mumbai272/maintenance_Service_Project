@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Sprare Name"
+        android:id="@+id/textView31"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Spare No"
+        android:id="@+id/textView32"
+        android:layout_below="@+id/textView31"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Chargable"
+        android:id="@+id/textView33"
+        android:layout_below="@+id/textView32"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Rate"
+        android:id="@+id/textView34"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/textView33"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Qty"
+        android:layout_marginTop="35dp"
+        android:id="@+id/textView35"
+        android:layout_below="@+id/textView34"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Other Amount"
+        android:layout_marginTop="35dp"
+        android:id="@+id/textView37"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView35" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="DC No"
+        android:id="@+id/textView38"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/textView37"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="DC Date"
+        android:id="@+id/textView39"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/textView38"
+        android:layout_alignParentStart="true" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:textColor="@color/white_color"
+        android:background="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:id="@+id/add_spr"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radio_charge"
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_above="@+id/textView34"
+        android:layout_alignStart="@+id/sp_no">
+
+
+        <RadioButton
+            android:id="@+id/radio_no"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_height="28dp"
+            android:text="No" />
+
+        <RadioButton android:id="@+id/radio_yes"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="28dp"
+            android:text="Yes"
+            android:layout_weight="0.48" />
+    </RadioGroup>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:id="@+id/sp_name"
+        android:layout_above="@+id/textView32"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/sp_no"
+        android:layout_above="@+id/textView33"
+        android:layout_alignStart="@+id/sp_name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/sp_rate"
+        android:layout_above="@+id/textView35"
+        android:layout_alignEnd="@+id/sp_no" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/qty"
+        android:layout_below="@+id/sp_rate"
+        android:layout_alignStart="@+id/sp_rate" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/otr_amt"
+        android:layout_alignBottom="@+id/textView37"
+        android:layout_alignStart="@+id/qty" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/dc_no"
+        android:layout_above="@+id/textView39"
+        android:layout_alignStart="@+id/otr_amt" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/dc_date"
+        android:layout_alignTop="@+id/textView38"
+        android:layout_alignStart="@+id/dc_no"
+        android:layout_alignBottom="@+id/textView39" />
+
+</RelativeLayout>

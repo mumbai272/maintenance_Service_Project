@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
+import com.android.maintenance.activities.AccountantMainActivity;
 import com.android.maintenance.activities.ApplyCliamActivity;
 import com.android.maintenance.activities.ClaimActivity;
 import com.google.gson.Gson;
@@ -27,15 +28,23 @@ public class GetClaimList extends AsyncTask<String, Void, String> {
     private SessionManager session;
     public String token, clientID;
     ClaimActivity mActivity;
-
+    AccountantMainActivity aActivity;
     public GetClaimList(ClaimActivity activity) {
         this.mActivity = activity;
+    }
+
+    public GetClaimList(AccountantMainActivity activity) {
+        this.aActivity = activity;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        session = new SessionManager(mActivity);
+        if(mActivity instanceof ClaimActivity) {
+            session = new SessionManager(mActivity);
+        }else if(aActivity instanceof  AccountantMainActivity){
+            session=new SessionManager(aActivity);
+        }
         HashMap<String, String> user = session.getUserDetails();
         clientID = user.get("KEY_CLIENT_ID");
         token = user.get(SessionManager.KEY_TOKEN);
@@ -65,7 +74,11 @@ public class GetClaimList extends AsyncTask<String, Void, String> {
 
         BaseResponseDTO assetLogResponse = gson.fromJson(result, BaseResponseDTO.class);
         if (assetLogResponse.getStatusCode() == 1) {
-            mActivity.displayclaimList(assignData);
+            if(mActivity instanceof ClaimActivity){
+                mActivity.displayclaimList(assignData);
+            }else if(aActivity instanceof AccountantMainActivity){
+                aActivity.displayclaimList(assignData);
+            }
         } else if (assetLogResponse.getStatusCode() == -1) {
             Toast.makeText(mActivity, assetLogResponse.getMsg(), Toast.LENGTH_LONG).show();
         }

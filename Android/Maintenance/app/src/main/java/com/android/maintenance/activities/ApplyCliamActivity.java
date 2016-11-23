@@ -37,6 +37,7 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -55,6 +56,7 @@ public class ApplyCliamActivity extends Activity {
     DatePickerDialog endPickerDialog,startPickerDialog;
     SimpleDateFormat dateFormatter;
     Intent intent;
+    String today;
     Type type;
     ApplyClaimDTO dto;
     GetClaimListDTO claim;
@@ -86,7 +88,7 @@ public class ApplyCliamActivity extends Activity {
         setDateTimeField();
 
         apply_Claim=(Button)findViewById(R.id.claim_btn);
-
+        today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         apply_Claim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +102,7 @@ public class ApplyCliamActivity extends Activity {
                     dto.setClaimStartDate(start_Str);
                     dto.setClaimEndDate(end__Str);
                     dto.setParticulars(part_Str);
-                    dto.setClaimDate("2016-12-02");
+                    dto.setClaimDate(today);
                     ObjectMapper mapper = new ObjectMapper();
                     json = mapper.writeValueAsString(dto);
                     new ApplyCliam().execute(json);

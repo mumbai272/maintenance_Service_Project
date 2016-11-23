@@ -138,8 +138,7 @@ public class MachineListAdapter extends BaseAdapter {
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                intent= new Intent(cxt, MachineListActivity.class);
-                                cxt.startActivity(intent);
+
 
                             }
                         });

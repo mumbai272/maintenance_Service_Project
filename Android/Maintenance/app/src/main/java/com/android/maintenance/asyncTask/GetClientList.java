@@ -1,9 +1,11 @@
 package com.android.maintenance.asyncTask;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.android.maintenance.activities.ClientEditDetailsActivity;
 import com.android.maintenance.activities.CreateAssetReportActivity;
 import com.android.maintenance.adapters.ClientListAdapter;
 import com.android.maintenance.configuration.ConfigConstant;
+import com.android.maintenance.fragments.ReportTab;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -44,21 +47,20 @@ public class GetClientList extends AsyncTask<String, Void, String> {
     private AdminMainActivity mActivity;
     private CreateAssetReportActivity cActivity;
 
-    public GetClientList(CreateAssetReportActivity activity) {
-        this.cActivity = activity;
-    }
+
+
 
 
     public GetClientList(AdminMainActivity activity) {
         this.mActivity = activity;
     }
+
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         if(mActivity instanceof AdminMainActivity){
             session = new SessionManager(mActivity);
-        }else  if(cActivity instanceof CreateAssetReportActivity){
-            session = new SessionManager(cActivity);
         }
 
         HashMap<String, String> user = session.getUserDetails();
@@ -94,8 +96,6 @@ public class GetClientList extends AsyncTask<String, Void, String> {
         if (clientResponse.getStatusCode() == 1) {
             if(mActivity instanceof AdminMainActivity){
                 mActivity.displayClientListView(companyData);
-            }else  if(cActivity instanceof CreateAssetReportActivity){
-                cActivity.displayClientListView(companyData);
             }
 
         } else if (clientResponse.getStatusCode() == -1) {

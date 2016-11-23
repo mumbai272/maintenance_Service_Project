@@ -153,6 +153,9 @@ public class AdminProfileActivity extends AppCompatActivity {
                 }else if(role.equals(ConfigConstant.employeeRole)){
                     intent = new Intent(AdminProfileActivity.this, EmployeeMainActivity.class);
                     startActivity(intent);
+                }else if(role.equals(ConfigConstant.accountantRole)){
+                    intent = new Intent(AdminProfileActivity.this, AccountantMainActivity.class);
+                    startActivity(intent);
                 }
                 //new session
 

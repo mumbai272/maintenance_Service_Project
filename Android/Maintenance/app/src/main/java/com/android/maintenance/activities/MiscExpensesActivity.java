@@ -157,7 +157,7 @@ public class MiscExpensesActivity extends Activity {
             String result="";
             ServiceHandlerWS servicepost= new ServiceHandlerWS();
             Log.e("","this input post"+param[0]);
-            result= servicepost.makeServicePostWithToken(ConfigConstant.url+"/claim/misc/expense",param[0],token);
+            result= servicepost.makeServicePostWithToken(ConfigConstant.url+"claim/misc/expense",param[0],token);
             return result;
         }
 
@@ -167,8 +167,7 @@ public class MiscExpensesActivity extends Activity {
             ClaimResposnse clientResponse=gson.fromJson(result, ClaimResposnse.class);
             if(clientResponse.getStatusCode()==1){
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
-                intent= new Intent(MiscExpensesActivity.this,ClaimActivity.class);
-                startActivity(intent);
+               finish();
 
             }else{
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();

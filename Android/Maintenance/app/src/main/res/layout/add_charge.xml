@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Invoice Name"
+        android:layout_marginTop="25dp"
+        android:id="@+id/textView42" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Invoice Date"
+        android:layout_marginTop="25dp"
+        android:id="@+id/textView43"
+        android:layout_below="@+id/textView42"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Service Charges"
+        android:layout_marginTop="25dp"
+        android:id="@+id/textView44"
+        android:layout_below="@+id/textView43"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="After office Hour Charges"
+        android:id="@+id/textView45"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/textView44"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textView47" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Holiday Charges"
+        android:layout_marginTop="25dp"
+        android:id="@+id/textView46"
+        android:layout_below="@+id/textView45"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="To and Fro Charges"
+        android:id="@+id/textView47"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/textView46"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Tax Type"
+        android:id="@+id/textView48"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/textView47"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView49"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/textView48"
+        android:layout_alignParentStart="true"
+        android:text="Tax Percentage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Spare Tax Type"
+        android:id="@+id/textView50"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/textView49"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Spare Tax Percetage"
+        android:id="@+id/textView51"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/textView50"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white_color"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/add_charge"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/invoice_name"
+        android:layout_above="@+id/textView43"
+        android:layout_toEndOf="@+id/textView45" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/invoice_date"
+        android:layout_above="@+id/textView44"
+        android:layout_alignStart="@+id/invoice_name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/service_ch"
+        android:layout_above="@+id/textView45"
+        android:layout_alignStart="@+id/invoice_date" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/after_charge"
+        android:layout_alignBottom="@+id/textView45"
+        android:layout_toEndOf="@+id/textView45" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/holidat_charge"
+        android:layout_above="@+id/textView47"
+        android:layout_toEndOf="@+id/textView45" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/tonfor_ch"
+        android:layout_above="@+id/textView48"
+        android:layout_toEndOf="@+id/textView47" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tax_type_spinner"
+        android:layout_alignEnd="@+id/tonfor_ch"
+        android:layout_alignBottom="@+id/textView48"
+        android:layout_toEndOf="@+id/textView47"
+        android:layout_alignTop="@+id/textView48" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/tax_per"
+        android:layout_above="@+id/textView50"
+        android:layout_alignStart="@+id/tax_type_spinner" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spare_tax_type_spinner"
+        android:layout_above="@+id/textView51"
+        android:layout_alignStart="@+id/tax_per"
+        android:layout_alignTop="@+id/textView50"
+        android:layout_alignEnd="@+id/tax_per" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/spare_tax_per"
+        android:layout_alignBottom="@+id/textView51"
+        android:layout_toEndOf="@+id/textView51" />
+</RelativeLayout>

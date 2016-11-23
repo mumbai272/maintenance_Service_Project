@@ -68,7 +68,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_alignEnd="@+id/emp_designation" />
 
-            <TextView
+           <!-- <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -76,7 +76,7 @@
                 android:id="@+id/client"
                 android:layout_below="@+id/emp_department"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Role"
                 android:id="@+id/roles"
-                android:layout_below="@+id/client"
+                android:layout_below="@+id/emp_department"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="30dp" />
 
@@ -97,7 +97,7 @@
                 android:id="@+id/mobile"
                 android:layout_marginTop="30dp"
                 android:layout_below="@+id/roles"
-                android:layout_alignStart="@+id/client" />
+                android:layout_alignStart="@+id/emp_department" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -155,19 +155,19 @@
                 android:layout_alignBottom="@+id/emp_department"
                 android:layout_alignStart="@+id/emp_design" />
 
-            <Spinner
+          <!--  <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/emp_client"
                 android:layout_above="@+id/roles"
-                android:layout_alignStart="@+id/emp_depart" />
+                android:layout_alignStart="@+id/emp_depart" />-->
 
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/emp_role"
                 android:layout_above="@+id/mobile"
-                android:layout_alignStart="@+id/emp_client" />
+                android:layout_alignStart="@+id/emp_depart" />
 
             <EditText
                 android:layout_width="fill_parent"

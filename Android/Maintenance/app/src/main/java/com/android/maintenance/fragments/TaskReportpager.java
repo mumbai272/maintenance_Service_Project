@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  */
 public class TaskReportpager extends FragmentStatePagerAdapter {
     private final Bundle fragmentBundle;
+
     public TaskReportpager(FragmentManager fm,Bundle bundle) {
         super(fm);
         fragmentBundle=bundle;

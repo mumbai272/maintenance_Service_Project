@@ -14,19 +14,29 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
+import com.android.maintenance.DTO.BusinessDevExpenseDTO;
 import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
 import com.android.maintenance.DTO.ClaimResposnse;
+import com.android.maintenance.DTO.GetClaimListDTO;
+import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.Utilities.Utility;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
+import com.android.maintenance.fragments.ConvenceExpense;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -44,6 +54,15 @@ public class ClaimConveyanceExpenseActivity extends Activity {
     DatePickerDialog startPickerDialog;
     SimpleDateFormat dateFormatter;
     Intent intent;
+    GetClaimListDTO claim;
+    Type type;
+    Gson gson;
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
+    ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
+    ClaimConveyanceExpenseDTO dto;
+
+    ArrayList<ClaimConveyanceExpenseDTO> conv_exp_list;
     Long ID;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +74,7 @@ public class ClaimConveyanceExpenseActivity extends Activity {
         token=user.get(SessionManager.KEY_TOKEN);
 
         ID=getIntent().getLongExtra("ID",1);
+        conv_exp_list= (ArrayList<ClaimConveyanceExpenseDTO>) getIntent().getSerializableExtra("conv_exp_list");
         date=(EditText)findViewById(R.id.exp_date);
         t_from=(EditText)findViewById(R.id.tr_from);
         t_to=(EditText)findViewById(R.id.tr_to);
@@ -77,7 +97,7 @@ public class ClaimConveyanceExpenseActivity extends Activity {
                 if(Utility.isNotNull(date_Str)&&Utility.isNotNull(t_from__Str)&&Utility.isNotNull(t_to_Str)&&Utility.isNotNull(transport_type_Str)&&Utility.isNotNull(exp_amount_Str)) {
                     try {
                         String json = "";
-                        ClaimConveyanceExpenseDTO dto = new ClaimConveyanceExpenseDTO();
+                        dto= new ClaimConveyanceExpenseDTO();
                         dto.setClaimId(ID);
                         dto.setClaimAmount(Double.parseDouble(exp_amount_Str));
                         dto.setExpenseDate(date_Str);
@@ -129,6 +149,8 @@ public class ClaimConveyanceExpenseActivity extends Activity {
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
     }
+
+
     private class ClaimConveyanceExpense extends AsyncTask<String,Void,String> {
 
 
@@ -147,10 +169,12 @@ public class ClaimConveyanceExpenseActivity extends Activity {
             ClaimResposnse clientResponse=gson.fromJson(result, ClaimResposnse.class);
             if(clientResponse.getStatusCode()==1){
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
-                finish();
+               finish();
+
             }else{
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }
     }
+
 }

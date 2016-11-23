@@ -8,6 +8,7 @@ import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.activities.AddEmployeeActivity;
+import com.android.maintenance.activities.AddNewChargeActivity;
 import com.android.maintenance.activities.AssetLogActivity;
 import com.android.maintenance.activities.AssignLogActivity;
 import com.android.maintenance.configuration.ConfigConstant;
@@ -28,12 +29,17 @@ public class GetDeparymentList extends AsyncTask<String, Void, String> {
     public String token, userID;
     private AssignLogActivity bActivity;
     private AddEmployeeActivity mActivity;
+    private AddNewChargeActivity cActivity;
 
     public GetDeparymentList(AddEmployeeActivity activity) {
         this.mActivity = activity;
     }
     public GetDeparymentList(AssignLogActivity activity) {
         this.bActivity = activity;
+    }
+
+    public GetDeparymentList(AddNewChargeActivity addNewChargeActivity) {
+        this.cActivity=addNewChargeActivity;
     }
 
     @Override
@@ -43,6 +49,8 @@ public class GetDeparymentList extends AsyncTask<String, Void, String> {
             session = new SessionManager(mActivity);
         }else if(bActivity instanceof AssignLogActivity){
             session = new SessionManager(bActivity);
+        }else if(cActivity instanceof AddNewChargeActivity){
+            session = new SessionManager(cActivity);
         }
 
         HashMap<String, String> user = session.getUserDetails();
@@ -79,6 +87,8 @@ public class GetDeparymentList extends AsyncTask<String, Void, String> {
                 mActivity.getDepartList(attrData);
             }else if(bActivity instanceof AssignLogActivity){
                 bActivity.getWorkTypeList(attrData);
+            }else if(cActivity instanceof AddNewChargeActivity){
+                cActivity.getWorkTypeList(attrData);
             }
 
         } else if (clientResponse.getStatusCode() == -1) {
