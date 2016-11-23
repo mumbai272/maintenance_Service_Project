@@ -26,6 +26,10 @@ public class AssetLogAssignmentBO implements Serializable {
     private Double plannedHours;
 
     private String status;
+    private String startAddress;
+    private String startDateTime;
+    private String endAddress;
+    private String endDateTime;
 
 
     public String getStatus() {
@@ -89,5 +93,47 @@ public class AssetLogAssignmentBO implements Serializable {
         this.assignId = assignId;
     }
 
+
+	public String getStartAddress() {
+		return startAddress;
+	}
+
+
+	public void setStartAddress(String startAddress) {
+		this.startAddress = startAddress;
+	}
+
+
+	public String getStartDateTime() {
+		return startDateTime;
+	}
+
+
+	public void setStartDateTime(String startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+
+
+	public String getEndAddress() {
+		return endAddress;
+	}
+
+
+	public void setEndAddress(String endAddress) {
+		this.endAddress = endAddress;
+	}
+
+
+	public String getEndDateTime() {
+		return endDateTime;
+	}
+
+
+	public void setEndDateTime(String endDateTime) {
+		this.endDateTime = endDateTime;
+	}
+
+
+	
 
 }

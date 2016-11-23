@@ -31,7 +31,7 @@ public class JobServiceImpl extends BaseServiceImpl {
     private MiscellaneousJobRepository miscellaneousJobRepository;
 
     public void createJob(JobCreateRequest request) {
-        if(getLoggedInUser().getRole().getId()!=RoleType.ADMIN.getId()){
+        if (getLoggedInUser().getRole().getId() != RoleType.ADMIN.getId()) {
             throw new RuntimeException("User is not have permission to create the Job");
         }
         validateCompany(request.getCompanyId());
@@ -40,8 +40,7 @@ public class JobServiceImpl extends BaseServiceImpl {
                 StatusType.ACTIVE.getValue());
         if (user == null) {
             throw new RuntimeException("service person User is invalid");
-        }
-        else if(user != null && user.getRoleTypeId()!=RoleType.SERVICE_ENGINEER.getId()){
+        } else if (user != null && user.getRoleTypeId() != RoleType.SERVICE_ENGINEER.getId()) {
             throw new RuntimeException("User is not service person");
         }
         if (request.getClientId() != null) {
@@ -102,18 +101,21 @@ public class JobServiceImpl extends BaseServiceImpl {
             LogStatus status = LogStatus.valueOf(request.getStatus().toUpperCase());
             job.setStatus(status.name());
         }
+        job.setUpdateDate(DateUtil.today());
+        job.setUpdatedBy(getLoggedInUser().getUserName());
+        miscellaneousJobRepository.save(job);
     }
 
     public List<JobBO> getJob() {
-//        if (StringUtils.isNotBlank(status)) {
-//            LogStatus.valueOf(status.toUpperCase());
-//        }
+        // if (StringUtils.isNotBlank(status)) {
+        // LogStatus.valueOf(status.toUpperCase());
+        // }
         List<JobBO> jobBOs = new ArrayList<JobBO>();
         List<MiscellaneousJob> jobs = new ArrayList<MiscellaneousJob>();
         if (getLoggedInUser().getRole().equals(RoleType.SERVICE_ENGINEER)) {
             jobs = miscellaneousJobRepository.findBySerPerId(getLoggedInUser().getUserId());
-        }else if(getLoggedInUser().getRole().equals(RoleType.ADMIN)){
-            jobs=miscellaneousJobRepository.findByCompanyId(getLoggedInUser().getCompanyId());
+        } else if (getLoggedInUser().getRole().equals(RoleType.ADMIN)) {
+            jobs = miscellaneousJobRepository.findByCompanyId(getLoggedInUser().getCompanyId());
         }
         if (CollectionUtils.isNotEmpty(jobs)) {
             for (MiscellaneousJob miscellaneousJob : jobs) {

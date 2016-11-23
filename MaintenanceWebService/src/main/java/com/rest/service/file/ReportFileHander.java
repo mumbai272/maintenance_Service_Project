@@ -24,7 +24,7 @@ public class ReportFileHander extends BaseServiceImpl implements FileTypeHandler
     @Autowired
     private AssetReportRepository assetReportRepository;
 
-    @Override
+    
     public File getFile(Long id) {
         AssetReport report = assetReportRepository.findOne(id);
         if (report == null) {
