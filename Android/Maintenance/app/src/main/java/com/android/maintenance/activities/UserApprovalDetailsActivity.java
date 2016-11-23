@@ -36,7 +36,6 @@ import com.google.gson.GsonBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,9 +48,9 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
     Context context = this;
     Intent intent;
     Gson gson;
-    Long userId,clientid,role_long;
+    Long userId,clientid;
     Button approve,reject;
-    Spinner client_name,role_spinner;
+    Spinner client_name;
     TextView user_name,user_email,user_mobile,user_client;
     ArrayList<UserDTO> userList;
     ArrayList<ClientDTO> clienList;
@@ -62,7 +61,7 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
     EditText clie_str1,clie_str2,clie_str3,clie_location,clie_city,clie_state,clie_country,clie_zip,clie_phone,clie_mobile,clie_fax,clie_email,clie_website;
 
     String client,role;
-    String[] role_array={"Admin","User","Service Engineer"};
+    String[] role_array={"User"};
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +83,7 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
             }
         });
 
-        role_spinner= (Spinner)findViewById(R.id.spinner_role);
+        /*role_spinner= (Spinner)findViewById(R.id.spinner_role);*/
         user_name = (TextView) findViewById(R.id.approval_user_data);
         user_email = (TextView) findViewById(R.id.approval_email_data);
         user_mobile = (TextView) findViewById(R.id.approval_mobileno_data);
@@ -139,12 +138,12 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
-        setRoleSpinner();
+        //setRoleSpinner();
         setClientSpinner();
 
     }
 
-    private void setRoleSpinner() {
+    /*private void setRoleSpinner() {
         List<String> roleStr= new ArrayList<String>();
         roleStr= Arrays.asList(role_array);
 
@@ -173,7 +172,7 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
 
         });
         Log.e("","item set");
-    }
+    }*/
 
 
     @Override
@@ -183,7 +182,7 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
                 try {
                 String json="";
                 ObjectMapper mapper = new ObjectMapper();
-                ApproveUserDTO approveUserDTO= new ApproveUserDTO(userId,role_long,clientid);
+                ApproveUserDTO approveUserDTO= new ApproveUserDTO(userId,2L,clientid);
                 json=mapper.writeValueAsString(approveUserDTO);
                 mProgress.show();
                 new ApproveUser().execute(json);
@@ -364,6 +363,7 @@ public class UserApprovalDetailsActivity extends Activity implements View.OnClic
 
         @Override
         protected void onPostExecute(String result) {
+            gson=new Gson();
             BaseResponseDTO rejectResponse = gson.fromJson(result, BaseResponseDTO.class);
             if (rejectResponse.getStatusCode() == 1) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(

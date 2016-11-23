@@ -61,7 +61,6 @@ public class ReportTab extends Fragment {
     ReportSpareResponseDTO  reportSpareResponseDTO;
     private ArrayList<ReportLogDTO> reportLogList;
     public String token, clientID;
-    private ProgressDialog mProgress;
 
     @Override
     public void onCreate(Bundle state) {
@@ -72,9 +71,7 @@ public class ReportTab extends Fragment {
         token = user.get(SessionManager.KEY_TOKEN);
         reportLogList=new ArrayList<ReportLogDTO>();
         final Bundle args = getArguments();
-        rptID=args.getLong("reportID");
         log= (AssetLogDTO) args.getSerializable("Log");
-        crtDTO= (CreateAssetReportDTO) args.getSerializable("reportDTO");
 
       //  get report
         Log.e("Before Report","Test");
@@ -86,28 +83,10 @@ public class ReportTab extends Fragment {
         View view = inflater.inflate(R.layout.report_tab,container, false);
         listView=(ListView)view.findViewById(R.id.report_list_view);
          addreportbtn = (ImageButton) view.findViewById(R.id.add_report);
-        addreportbtn.setOnClickListener(new View.OnClickListener() {
+          addreportbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-               /* setClientSpinner();
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog));
-                LayoutInflater factory = LayoutInflater.from(getActivity());
-                final View f = factory.inflate(R.layout.create_asset_report, null);
-
-                builder.setTitle("Create asset report");
-                builder.setView(f);
-
-                Button submit = (Button) f.findViewById(R.id.submit);
-
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                    }
-                });
-                builder.show();*/
                 intent= new Intent(getActivity(), CreateAssetReportActivity.class);
                 intent.putExtra("Log",log);
                 startActivity(intent);

@@ -64,14 +64,14 @@ public class TaskAndReportTabActivity extends AppCompatActivity {
         log= new AssetLogDTO();
        // pos=getIntent().getIntExtra("pos",0);
         log= (AssetLogDTO) getIntent().getSerializableExtra("Log");
-        dto=(CreateAssetReportDTO)getIntent().getSerializableExtra("reportDTO");
+      /*  dto=(CreateAssetReportDTO)getIntent().getSerializableExtra("reportDTO");
         report_ID=getIntent().getLongExtra("reportID",0);
-
+*/
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("Log",log);
-        bundle.putSerializable("reportDTO",dto);
-        bundle.putLong("reportID",report_ID);
+       /* bundle.putSerializable("reportDTO",dto);
+        bundle.putLong("reportID",report_ID);*/
 
         title.setText(log.getMaintainanceType());
         m_id.setText(log.getAssetId().toString());

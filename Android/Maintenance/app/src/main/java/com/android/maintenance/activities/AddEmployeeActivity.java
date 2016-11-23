@@ -355,7 +355,7 @@ public class AddEmployeeActivity extends Activity{
             String result = "";
             ServiceHandlerWS servicePost = new ServiceHandlerWS();
             Log.e("url", "" + ConfigConstant.url + "user");
-            result = servicePost.makeServicePostWithOutData(param[0],token);
+            result = servicePost.makeServicePostWithToken(ConfigConstant.url+"user",param[0],token);
             return result;
         }
 

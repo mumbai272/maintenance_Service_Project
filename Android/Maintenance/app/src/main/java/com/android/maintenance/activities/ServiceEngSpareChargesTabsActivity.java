@@ -2,6 +2,7 @@ package com.android.maintenance.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.android.maintenance.DTO.AssetReportDTO;
 import com.android.maintenance.DTO.BaseResponseDTO;
+import com.android.maintenance.DTO.LoginResponseDTO;
 import com.android.maintenance.DTO.ReportChargesDTO;
 import com.android.maintenance.DTO.ReportLogDTO;
 import com.android.maintenance.DTO.ReportSpareResponseDTO;
@@ -23,7 +25,12 @@ import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.android.maintenance.fragments.SpareChargepager;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -70,6 +77,15 @@ public class ServiceEngSpareChargesTabsActivity  extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new GeneratePDF().execute(ConfigConstant.url+"assetlog/report/"+assetReportDTO.getReportId());
+            }
+        });
+        if(assetReportDTO.getStatus().equalsIgnoreCase("DONE")){
+            download.setVisibility(View.VISIBLE);
+        }
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DownloadPdfFile().execute(ConfigConstant.url+"file/report/"+assetReportDTO.getReportId(),assetReportDTO.getReportNo());
             }
         });
 
@@ -126,7 +142,7 @@ public class ServiceEngSpareChargesTabsActivity  extends AppCompatActivity {
             String result="";
             ServiceHandlerWS servicepost= new ServiceHandlerWS();
             // Log.e(TAG,"this input post"+param[0]);
-            result= servicepost.makeServicePostWithToken(param[0],null,token);
+            result= servicepost.makeServicePostWithOutData(param[0],token);
             return result;
         }
 
@@ -137,6 +153,51 @@ public class ServiceEngSpareChargesTabsActivity  extends AppCompatActivity {
             if(loginResponse.getStatusCode()==1){
                 Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();
                 finish();
+            }else if(loginResponse.getStatusCode()==-1){
+
+                Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class DownloadPdfFile extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... param) {
+            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+            File folder = new File(extStorageDirectory, "Reports");
+            folder.mkdir();
+
+            File pdfFile = new File(folder, param[1]);
+
+            try{
+                pdfFile.createNewFile();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+          //  FileDownloader.downloadFile(fileUrl, pdfFile);
+         //   return null;
+         //   String result="";
+
+            ServiceHandlerWS servicepost= new ServiceHandlerWS();
+            // Log.e(TAG,"this input post"+param[0]);
+            servicepost.makeServicePostWithOutData(param[0],token);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            BaseResponseDTO<LoginResponseDTO> loginResponse=gson.fromJson(result, BaseResponseDTO.class);
+            if(loginResponse.getStatusCode()==1){
+                Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();
+
             }else if(loginResponse.getStatusCode()==-1){
 
                 Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();

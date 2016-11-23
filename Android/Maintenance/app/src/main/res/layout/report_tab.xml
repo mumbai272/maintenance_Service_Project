@@ -8,7 +8,7 @@
     android:weightSum="1">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   <!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,9 +18,10 @@
         android:id="@+id/test"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_above="@+id/add_report">-->
 
-        <ListView
+      <!--  <ListView
             android:id="@+id/report_list_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,10 +29,50 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:dividerHeight="5dp" />
+            android:dividerHeight="5dp" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/report_layout"
+        android:background=""
+        android:layout_height="80dp">
 
 
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/report_name"
+            android:textColor="@color/black_color"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="29dp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/status"
+            android:textColor="@color/black_color"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:layout_alignTop="@+id/report_name"
+            android:layout_toEndOf="@+id/report_name" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/download"
+            android:visibility="invisible"
+            android:src="@drawable/download_24"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/status"
+            android:layout_marginStart="10dp" />
     </RelativeLayout>
+
+
+   <!-- </RelativeLayout>-->
 
     <ImageButton
         android:layout_width="65dp"

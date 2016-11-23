@@ -21,6 +21,7 @@ import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.activities.AssignLogActivity;
 import com.android.maintenance.activities.StartStopActivity;
+import com.android.maintenance.activities.TaskAndReportTabActivity;
 import com.android.maintenance.adapters.AssignedLogListAdapter;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
@@ -79,8 +80,8 @@ public class TaskTab extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v)
             {
-                intent= new Intent(getActivity(),AssignLogActivity.class);
-                intent.putExtra("logId",log.getLogId());
+                intent= new Intent(getActivity(),TaskAndReportTabActivity.class);
+                intent.putExtra("Log",log);
                 startActivity(intent);
             }
         });

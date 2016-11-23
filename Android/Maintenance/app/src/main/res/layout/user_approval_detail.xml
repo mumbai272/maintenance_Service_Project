@@ -86,7 +86,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginLeft="30dp"/>
 
-            <TextView
+           <!-- <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -94,7 +94,7 @@
                 android:id="@+id/select_role"
                 android:layout_below="@+id/select_client"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"/>
+                android:layout_marginLeft="30dp"/>-->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                     android:text="Street1 :"
                     android:layout_marginTop="30dp"
                     android:layout_marginLeft="30dp"
-                    android:layout_below="@+id/select_role"/>
+                    android:layout_below="@+id/select_client"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -257,9 +257,9 @@
                     android:id="@+id/approval_mobileno_data"
                     android:textAlignment="textStart"
                     android:layout_alignBottom="@+id/approval_mobile_no"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignStart="@+id/approval_user_data"
-                    android:layout_alignTop="@+id/approval_mobile_no" />
+                    android:layout_alignTop="@+id/approval_mobile_no"
+                    android:layout_alignEnd="@+id/approval_user_data" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -268,24 +268,24 @@
                     android:id="@+id/approval_client_data"
                     android:textAlignment="textStart"
                     android:layout_alignTop="@+id/approval_client"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignStart="@+id/approval_mobileno_data" />
+                    android:layout_alignStart="@+id/approval_mobileno_data"
+                    android:layout_alignEnd="@+id/approval_user_data" />
 
                 <Spinner
                     android:id="@+id/spinner_client_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/select_client"
-                    android:layout_alignStart="@+id/spinner_role"
-                    android:layout_alignEnd="@+id/spinner_role" />
+                    android:layout_alignStart="@+id/reject_button"
+                    android:layout_alignEnd="@+id/stree1" />
 
-                 <Spinner
+                <!-- <Spinner
                      android:id="@+id/spinner_role"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:layout_alignTop="@+id/select_role"
+                     android:layout_alignTop="@+id/select_client"
                      android:layout_alignStart="@+id/stree1"
-                     android:layout_alignEnd="@+id/edit_location" />
+                     android:layout_alignEnd="@+id/edit_location" />-->
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -321,8 +321,8 @@
                     android:id="@+id/edit_location"
                     android:layout_above="@+id/city"
                     android:layout_alignStart="@+id/street3"
-                    android:layout_alignEnd="@+id/reject_button"
-                    android:layout_below="@+id/street3" />
+                    android:layout_below="@+id/street3"
+                    android:layout_alignEnd="@+id/street3" />
 
                 <EditText
                     android:layout_width="wrap_content"
