@@ -34,4 +34,7 @@ public interface UserRepository extends CrudRepository<UserImpl, Long> {
     List<UserImpl> findByCompanyIdAndRoleTypeId(Long companyId, Long role);
 
     List<UserImpl> findByCompanyIdAndRoleTypeIdAndStatus(Long companyId, Long role, String status);
+	
+	UserImpl findByRoleTypeId(Long id);
+
 }
