@@ -12,7 +12,7 @@ public enum EmailType {
     REGISTRATION_REJECTION( "Registration rejected", "html", "Registration rejected",
             "/velocityTemplate/registrationRejectedHtml.vm"), 
     REGISTRATION_REQUEST("Registration request", "html", "Registration requested",
-            "/velocityTemplate/registrationRejectedHtml.vm");
+            "/velocityTemplate/registrationRequestHtml.vm");
 
     private String name;
 
