@@ -74,7 +74,7 @@ public class AddEmployeeActivity extends Activity{
     private ProgressDialog mProgress;
     DatePickerDialog joinDatePickerDialog;
     String emp_nameStr,emp_mailStr,emp_noStr,emp_rateStr,emp_joinStr;
-    String[] role_array={"User","Service Engineer","Accountant"};
+    String[] role_array={"Service Engineer","Accountant"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -355,7 +355,7 @@ public class AddEmployeeActivity extends Activity{
             String result = "";
             ServiceHandlerWS servicePost = new ServiceHandlerWS();
             Log.e("url", "" + ConfigConstant.url + "user");
-            result = servicePost.makeServicePostWithToken(ConfigConstant.url + "user",param[0],token);
+            result = servicePost.makeServicePostWithOutData(param[0],token);
             return result;
         }
 
