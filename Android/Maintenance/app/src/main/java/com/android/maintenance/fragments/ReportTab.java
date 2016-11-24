@@ -61,6 +61,7 @@ public class ReportTab extends Fragment {
     ReportSpareResponseDTO  reportSpareResponseDTO;
     private ArrayList<ReportLogDTO> reportLogList;
     public String token, clientID;
+    private ProgressDialog mProgress;
 
     @Override
     public void onCreate(Bundle state) {
@@ -71,9 +72,11 @@ public class ReportTab extends Fragment {
         token = user.get(SessionManager.KEY_TOKEN);
         reportLogList=new ArrayList<ReportLogDTO>();
         final Bundle args = getArguments();
+        rptID=args.getLong("reportID");
         log= (AssetLogDTO) args.getSerializable("Log");
+        crtDTO= (CreateAssetReportDTO) args.getSerializable("reportDTO");
 
-      //  get report
+        //  get report
         Log.e("Before Report","Test");
         new GetReport().execute(ConfigConstant.url+"assetlog/report/"+log.getLogId());
 
@@ -82,11 +85,29 @@ public class ReportTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.report_tab,container, false);
         listView=(ListView)view.findViewById(R.id.report_list_view);
-         addreportbtn = (ImageButton) view.findViewById(R.id.add_report);
-          addreportbtn.setOnClickListener(new View.OnClickListener() {
+        addreportbtn = (ImageButton) view.findViewById(R.id.add_report);
+        addreportbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
+               /* setClientSpinner();
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog));
+                LayoutInflater factory = LayoutInflater.from(getActivity());
+                final View f = factory.inflate(R.layout.create_asset_report, null);
+
+                builder.setTitle("Create asset report");
+                builder.setView(f);
+
+                Button submit = (Button) f.findViewById(R.id.submit);
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                    }
+                });
+                builder.show();*/
                 intent= new Intent(getActivity(), CreateAssetReportActivity.class);
                 intent.putExtra("Log",log);
                 startActivity(intent);
@@ -172,7 +193,7 @@ public class ReportTab extends Fragment {
             String reportChargeStr = reportCharge.toString();
             reportChargesDTO= gson.fromJson(reportChargeStr, type);
         }
-       list=new ArrayList<AssetReportDTO>();
+        list=new ArrayList<AssetReportDTO>();
         list.add(assetReportDTO);
         if(list.size()>0){
             addreportbtn.setVisibility(View.GONE);
@@ -184,7 +205,7 @@ public class ReportTab extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Long assignId= (Long)view.getTag();
 
-               intent=new Intent(getActivity(),ServiceEngSpareChargesTabsActivity.class);
+                intent=new Intent(getActivity(),ServiceEngSpareChargesTabsActivity.class);
                 intent.putExtra("assetReportDTO",assetReportDTO);
                 intent.putExtra("reportChargesDTO",reportChargesDTO);
                 intent.putExtra("reportLogList", reportLogList);

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +60,17 @@ public class AddmachineSpareActivity extends Activity {
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.spare_toolbar);
+        toolbar.setTitle("Create Machine Spare");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              /*  intent = new Intent(AdminEmployeeListActivity.this, AdminMainActivity.class);
+                startActivity(intent);*/
+                finish();
+            }
+        });
+
         machine = (EditText) findViewById(R.id.machine_spare_name);
         description = (EditText) findViewById(R.id.machine_spare_desc);
         rate =(EditText)findViewById(R.id.spare_rate);
@@ -103,8 +115,8 @@ public class AddmachineSpareActivity extends Activity {
         protected String doInBackground(String... param) {
             String result = "";
             ServiceHandlerWS servicePost = new ServiceHandlerWS();
-            Log.e("url", "" + ConfigConstant.url + "machine/machinemodel");
-            result = servicePost.makeServicePostWithToken(ConfigConstant.url + "machine/machinemodel",param[0],token);
+            Log.e("url", "" + ConfigConstant.url + "machine/machinespare");
+            result = servicePost.makeServicePostWithToken(ConfigConstant.url + "machine/machinespare",param[0],token);
             return result;
         }
 

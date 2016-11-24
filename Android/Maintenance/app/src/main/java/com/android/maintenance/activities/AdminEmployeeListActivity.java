@@ -93,8 +93,8 @@ public class AdminEmployeeListActivity extends Activity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(AdminEmployeeListActivity.this, AdminMainActivity.class);
-                startActivity(intent);
+              /*  intent = new Intent(AdminEmployeeListActivity.this, AdminMainActivity.class);
+                startActivity(intent);*/
                 finish();
             }
         });

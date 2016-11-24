@@ -85,7 +85,7 @@ public class SpareListAdapter extends BaseAdapter{
         ImageButton delete= (ImageButton) v.findViewById(R.id.delete_spare);
 
         part.setText(reportSpareResponseDTO.getSpares().get(i).getSpaceName());
-        amt.setText(reportSpareResponseDTO.getSpareTotal().toString());
+        amt.setText(reportSpareResponseDTO.getSpares().get(i).getAmount().toString());
 
 
         /*if(role.equals(ConfigConstant.employeeRole)&& role.equalsIgnoreCase("ACTIVE")){

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
@@ -55,10 +56,10 @@ public class MachineRegister extends Activity implements View.OnClickListener {
     private static String machinemodelURL= url + "machine/machinemodel?companyId=";
     private static String assetclientregisterURL= url+"asset";
     private static final String TAG = "Mymessage";
-    private static String token;
+    String token;
     private SessionManager session;
     String client_idStr,company_idStr;
-    long client_id=0,company_id=0;
+    long client_id,company_id;
     private Map<Integer,String> clientAssetDTO;
     private Map<Integer,String> machine_type;
     private Map<Integer,String> machine_made;
@@ -84,6 +85,7 @@ public class MachineRegister extends Activity implements View.OnClickListener {
     private EmployeeMainActivity eActivity;
     private MachineListActivity aActivity;
     private UserMainActivity uActivity;
+    TextView textView;
 
     public MachineRegister(){
 
@@ -110,9 +112,9 @@ public class MachineRegister extends Activity implements View.OnClickListener {
         token=user.get(SessionManager.KEY_TOKEN);
         company_idStr = user.get("KEY_COMPANY_ID");
         client_idStr = user.get("KEY_CLIENT_ID");
+        role=user.get(SessionManager.KEY_ROLE);
         client_id=Long.parseLong(client_idStr);
         company_id=Long.parseLong(company_idStr);
-        role=user.get(SessionManager.KEY_ROLE);
         Log.e("company_id:"+company_id,"client_id:"+client_id);
 
         clientAssetDTO=new HashMap<Integer, String>();
@@ -126,6 +128,7 @@ public class MachineRegister extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.machine_register);
 
+        textView=(TextView)findViewById(R.id.cleint_id);
         assetNo=(EditText)findViewById(R.id.editText_asset_no);
         assetDesc=(EditText)findViewById(R.id.editText_asset_desc);
         mfgSLno=(EditText)findViewById(R.id.editText_mfg_sl_no);
@@ -145,6 +148,11 @@ public class MachineRegister extends Activity implements View.OnClickListener {
         radiowarrentyGroup =(RadioGroup) findViewById(R.id.warrenty_radio_grp);
         purchasecost =(EditText)findViewById(R.id.purchasecost);
         add_Btn=(Button)findViewById(R.id.registerbtn);
+
+        if(role.equals(ConfigConstant.adminRole)){
+            textView.setVisibility(View.VISIBLE);
+            spinner_client.setVisibility(View.VISIBLE);
+        }
 
 
         radioactiveGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -244,10 +252,16 @@ public class MachineRegister extends Activity implements View.OnClickListener {
 
 
                 if(Utility.isNotNull(asset_no)&&Utility.isNotNull(asset_desc)){
+                    Long client_ID;
                     mProgress.show();
                     try {
                         String json="";
-                        MachineRegisterDTO register= new MachineRegisterDTO(company_id,client_id,Long.parseLong( hidden_machine_type.getText().toString() ),Long.parseLong( hidden_machine_made.getText().toString() ),Long.parseLong( hidden_machine_model.getText().toString() ),asset_no,asset_desc,mfg_sl_no,inst_sl_no,mfg_date,inst_date,Double.parseDouble(usage),location,Double.parseDouble(cost),radiowarrentyStr,StartDate ,EndDate,radioactiveStr,"Active");
+                        if(role.equals(ConfigConstant.adminRole)){
+                            client_ID =Long.parseLong(hidden_client_id.getText().toString());
+                        }else  {
+                            client_ID=client_id;
+                        }
+                        MachineRegisterDTO register= new MachineRegisterDTO(company_id,client_ID,Long.parseLong( hidden_machine_type.getText().toString() ),Long.parseLong( hidden_machine_made.getText().toString() ),Long.parseLong( hidden_machine_model.getText().toString() ),asset_no,asset_desc,mfg_sl_no,inst_sl_no,mfg_date,inst_date,Double.parseDouble(usage),location,Double.parseDouble(cost),radiowarrentyStr,StartDate ,EndDate,radioactiveStr,"Active");
                         ObjectMapper mapper = new ObjectMapper();
                         json = mapper.writeValueAsString(register);
                         new PostAssetClient().execute(json);

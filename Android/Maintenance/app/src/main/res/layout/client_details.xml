@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_clie_details"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -22,294 +22,295 @@
 
     </android.support.design.widget.AppBarLayout>
 
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="20dp"
-    android:weightSum="1">
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Client Name"
-        android:id="@+id/clientname"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="44dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Client Code"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/clientname"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Address"
-        android:id="@+id/address_desc"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/clientname"
-        android:layout_alignStart="@+id/clientname" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="client Name"
+                android:id="@+id/address_desc"
+                android:layout_marginBottom="50dp"
+                android:layout_below="@+id/clientname"
+                android:layout_alignStart="@+id/clientname" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Location"
-        android:id="@+id/location"
-        android:layout_below="@+id/address_desc"
-        android:layout_alignStart="@+id/address_desc" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Location"
+                android:id="@+id/location"
+                android:layout_marginBottom="50dp"
+                android:layout_below="@+id/address_desc"
+                android:layout_alignStart="@+id/address_desc" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Street1"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/street1"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/location"
-        android:layout_alignStart="@+id/location" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Street1"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/street1"
+                android:layout_below="@+id/location"
+                android:layout_alignStart="@+id/location" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Street2"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/street2"
-        android:layout_below="@+id/street1"
-        android:layout_alignStart="@+id/street1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Street2"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/street2"
+                android:layout_below="@+id/street1"
+                android:layout_alignStart="@+id/street1" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Street3"
-        android:id="@+id/street3"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/street2"
-        android:layout_alignStart="@+id/street2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Street3"
+                android:id="@+id/street3"
+                android:layout_marginBottom="30dp"
+                android:layout_below="@+id/street2"
+                android:layout_alignStart="@+id/street2" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="City"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/city"
-        android:layout_below="@+id/street3"
-        android:layout_alignStart="@+id/street3" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="City"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/city"
+                android:layout_below="@+id/street3"
+                android:layout_alignStart="@+id/street3" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="State"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/state"
-        android:layout_below="@+id/city"
-        android:layout_alignStart="@+id/city" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="State"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/state"
+                android:layout_below="@+id/city"
+                android:layout_alignStart="@+id/city" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Country"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/country"
-        android:layout_below="@+id/state"
-        android:layout_alignStart="@+id/state" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Country"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/country"
+                android:layout_below="@+id/state"
+                android:layout_alignStart="@+id/state" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Zip"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/zip"
-        android:layout_below="@+id/country"
-        android:layout_alignStart="@+id/country" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Zip"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/zip"
+                android:layout_below="@+id/country"
+                android:layout_alignStart="@+id/country" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Phone"
-        android:id="@+id/phone"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/zip"
-        android:layout_alignStart="@+id/zip" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Phone"
+                android:id="@+id/phone"
+                android:layout_marginBottom="30dp"
+                android:layout_below="@+id/zip"
+                android:layout_alignStart="@+id/zip" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Mobile"
-        android:id="@+id/mobile"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/phone"
-        android:layout_alignStart="@+id/phone" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Mobile"
+                android:id="@+id/mobile"
+                android:layout_marginBottom="30dp"
+                android:layout_below="@+id/phone"
+                android:layout_alignStart="@+id/phone" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Fax"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/fax"
-        android:layout_below="@+id/mobile"
-        android:layout_alignStart="@+id/mobile" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Fax"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/fax"
+                android:layout_below="@+id/mobile"
+                android:layout_alignStart="@+id/mobile" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Email"
-        android:id="@+id/mail"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/fax"
-        android:layout_alignStart="@+id/mobile" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Email"
+                android:id="@+id/mail"
+                android:layout_marginBottom="45dp"
+                android:layout_below="@+id/fax"
+                android:layout_alignStart="@+id/mobile" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Website"
-        android:id="@+id/website"
-        android:layout_below="@+id/mail"
-        android:layout_alignStart="@+id/mobile" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Website"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/website"
+                android:layout_below="@+id/mail"
+                android:layout_alignStart="@+id/mobile" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_name"
-        android:layout_marginStart="18dp"
-        android:layout_alignTop="@+id/clientname"
-        android:layout_toEndOf="@+id/clientname" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_name"
+                android:layout_marginStart="18dp"
+                android:layout_alignTop="@+id/clientname"
+                android:layout_toEndOf="@+id/clientname" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_address"
-        android:layout_below="@+id/clientname"
-        android:layout_alignStart="@+id/clie_name" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_address"
+                android:layout_below="@+id/clientname"
+                android:layout_alignStart="@+id/clie_name"
+                android:layout_above="@+id/clie_location" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_location"
-        android:layout_alignBaseline="@+id/location"
-        android:layout_alignBottom="@+id/location"
-        android:layout_alignStart="@+id/clie_address" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_location"
+                android:layout_alignStart="@+id/clie_address"
+                android:layout_above="@+id/clie_str1"
+                android:layout_alignTop="@+id/location" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_str1"
-        android:layout_alignBottom="@+id/street1"
-        android:layout_alignStart="@+id/clie_location" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_str1"
+                android:layout_alignBottom="@+id/street1"
+                android:layout_alignStart="@+id/clie_location" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_str2"
-        android:layout_alignBaseline="@+id/street2"
-        android:layout_alignBottom="@+id/street2"
-        android:layout_alignStart="@+id/clie_str1" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_str2"
+                android:layout_alignBaseline="@+id/street2"
+                android:layout_alignBottom="@+id/street2"
+                android:layout_alignStart="@+id/clie_str1" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_str3"
-        android:layout_alignTop="@+id/street3"
-        android:layout_alignStart="@+id/clie_str2" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_str3"
+                android:layout_alignTop="@+id/street3"
+                android:layout_alignStart="@+id/clie_str2" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_city"
-        android:layout_alignTop="@+id/city"
-        android:layout_alignStart="@+id/clie_str3" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_city"
+                android:layout_alignTop="@+id/city"
+                android:layout_alignStart="@+id/clie_str3" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_state"
-        android:layout_alignBottom="@+id/state"
-        android:layout_alignStart="@+id/clie_city" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_state"
+                android:layout_alignBottom="@+id/state"
+                android:layout_alignStart="@+id/clie_city" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_country"
-        android:layout_alignBaseline="@+id/country"
-        android:layout_alignBottom="@+id/country"
-        android:layout_alignStart="@+id/clie_state" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_country"
+                android:layout_alignBaseline="@+id/country"
+                android:layout_alignBottom="@+id/country"
+                android:layout_alignStart="@+id/clie_state" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_zip"
-        android:layout_alignBaseline="@+id/zip"
-        android:layout_alignBottom="@+id/zip"
-        android:layout_alignStart="@+id/clie_country" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_zip"
+                android:layout_alignBaseline="@+id/zip"
+                android:layout_alignBottom="@+id/zip"
+                android:layout_alignStart="@+id/clie_country" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_phone"
-        android:layout_below="@+id/zip"
-        android:layout_alignStart="@+id/clie_zip" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_phone"
+                android:layout_below="@+id/zip"
+                android:layout_alignStart="@+id/clie_zip" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_mobile"
-        android:layout_alignBottom="@+id/mobile"
-        android:layout_alignStart="@+id/clie_phone" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_mobile"
+                android:layout_alignBottom="@+id/mobile"
+                android:layout_alignStart="@+id/clie_phone" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_fax"
-        android:layout_alignBaseline="@+id/fax"
-        android:layout_alignBottom="@+id/fax"
-        android:layout_alignStart="@+id/clie_mobile" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_fax"
+                android:layout_alignBaseline="@+id/fax"
+                android:layout_alignBottom="@+id/fax"
+                android:layout_alignStart="@+id/clie_mobile" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_mail"
-        android:layout_alignBaseline="@+id/mail"
-        android:layout_alignBottom="@+id/mail"
-        android:layout_alignStart="@+id/clie_fax" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_mail"
+                android:layout_alignStart="@+id/clie_fax"
+                android:layout_above="@+id/clie_website"
+                android:layout_below="@+id/fax" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/clie_website"
-        android:layout_alignBottom="@+id/website"
-        android:layout_alignStart="@+id/clie_mail" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/clie_website"
+                android:layout_alignBottom="@+id/website"
+                android:layout_alignStart="@+id/clie_mail" />
 
-</RelativeLayout>
+        </RelativeLayout>
 
-</ScrollView>
+    </ScrollView>
 </RelativeLayout>

@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/client_id"
+        android:visibility="gone"
         android:id="@+id/cleint_id"
         android:textStyle="bold"
         android:layout_marginTop="29dp"
@@ -350,6 +351,7 @@
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:visibility="gone"
         android:layout_alignStart="@+id/editText_asset_no"
         android:layout_above="@+id/asset_type"
         android:textAlignment="center"/>

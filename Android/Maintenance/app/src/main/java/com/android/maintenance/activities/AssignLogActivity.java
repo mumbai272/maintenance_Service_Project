@@ -28,7 +28,6 @@ import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.asyncTask.GetDeparymentList;
 import com.android.maintenance.asyncTask.GetEmployeeList;
 import com.android.maintenance.configuration.ConfigConstant;
-import com.android.maintenance.fragments.TaskTab;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

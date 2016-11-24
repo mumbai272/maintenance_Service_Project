@@ -50,7 +50,7 @@ public class ClientRegistration extends AppCompatActivity {
         name=(EditText) findViewById(R.id.edit_client_name);
         email=(EditText) findViewById(R.id.edit_client_email);
         description=(EditText) findViewById(R.id.edit_client_desc);
-        address=(EditText) findViewById(R.id.edit_client_address);
+        /*address=(EditText) findViewById(R.id.edit_client_address);*/
         street1=(EditText) findViewById(R.id.edit_client_street1);
         street2=(EditText) findViewById(R.id.edit_client_street2);
         street3=(EditText) findViewById(R.id.edit_client_street3);
@@ -95,7 +95,7 @@ public class ClientRegistration extends AppCompatActivity {
                 strname= name.getText().toString();
                 stremail=email.getText().toString();
                 strdescription=description.getText().toString();
-                straddress=address.getText().toString();
+                /*straddress=address.getText().toString();*/
                 strstreet1=street1.getText().toString();
                 strstreet2=street2.getText().toString();
                 strstreet3=street3.getText().toString();
@@ -111,7 +111,7 @@ public class ClientRegistration extends AppCompatActivity {
                 ObjectMapper mapper = new ObjectMapper();
                 try{
                     String json="";
-                    AddressDTO addressDTO= new AddressDTO(straddress,strstreet1,strstreet2,strstreet3,strcountry,strstate,strcity,strlocation,strzip,strphone,strmobile,strfax,strwebsite,stremail);
+                    AddressDTO addressDTO= new AddressDTO(strdescription,strstreet1,strstreet2,strstreet3,strcountry,strstate,strcity,strlocation,strzip,strphone,strmobile,strfax,strwebsite,stremail);
                     AddClientDTO client= new AddClientDTO(Long.parseLong(companyId), strname,strdescription,addressDTO,tinStr,cstNoStr,serviceTaxNOStr,eccNoStr,cinNoStr,panStr);
                     json=mapper.writeValueAsString(client);
                     Log.e("this is","json data"+json);
@@ -144,20 +144,20 @@ public class ClientRegistration extends AppCompatActivity {
             Log.e("result data",":"+clientOutput.toString());
             if(clientOutput.getStatusCode()==1){
                 mProgress.dismiss();
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                    alertDialogBuilder.setTitle("Success");
-                    alertDialogBuilder
-                            .setMessage(clientOutput.getMsg())
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    intent= new Intent(ClientRegistration.this,AdminMainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                  alertDialog.show();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Success");
+                alertDialogBuilder
+                        .setMessage(clientOutput.getMsg())
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                intent= new Intent(ClientRegistration.this,AdminMainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }else{
                 Log.e("ERROR :",""+clientOutput.getMsg());
                 mProgress.dismiss();

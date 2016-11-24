@@ -50,8 +50,8 @@ public class EmployeeWorkAssignListActivity extends Activity{
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(EmployeeWorkAssignListActivity.this, EmployeeMainActivity.class);
-                startActivity(intent);
+              /*  intent = new Intent(EmployeeWorkAssignListActivity.this, EmployeeMainActivity.class);
+                startActivity(intent);*/
                 finish();
             }
         });

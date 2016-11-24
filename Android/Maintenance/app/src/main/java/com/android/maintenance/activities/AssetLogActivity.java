@@ -78,16 +78,15 @@ public class AssetLogActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(role.equals(ConfigConstant.adminRole)) {
-                    intent = new Intent(AssetLogActivity.this, MachineListActivity.class);
-                    startActivity(intent);
+
                     finish();
                 }else if(role.equals(ConfigConstant.employeeRole)){
-                    intent = new Intent(AssetLogActivity.this, EmployeeMainActivity.class);
-                    startActivity(intent);
+
                     finish();
                 }else if(role.equals(ConfigConstant.userRole)){
-                    intent = new Intent(AssetLogActivity.this, UserMainActivity.class);
-                    startActivity(intent);
+                  /*  intent = new Intent(AssetLogActivity.this, UserMainActivity.class);
+                    startActivity(intent);*/
+                    finish();
                 }
             }
         });
@@ -215,6 +214,7 @@ public class AssetLogActivity extends Activity {
                 for(int i=0;i<typeList.size();i++){
                     if(typeList.get(i).getTypeCode()==m_type){
                         type_id=typeList.get(i).getTypeId();
+                        Log.e("slected:"+m_type," ID:"+type_id);
                     }
                 }
             }
@@ -233,7 +233,7 @@ public class AssetLogActivity extends Activity {
             String result="";
             ServiceHandlerWS servicepost= new ServiceHandlerWS();
             Log.e("param",""+param[0]);
-            result= servicepost.makeServicePostWithToken(ConfigConstant.url+"assetlog/report/spare",param[0],token);
+            result= servicepost.makeServicePostWithToken(ConfigConstant.url+"asset/logs",param[0],token);
             return result;
         }
 

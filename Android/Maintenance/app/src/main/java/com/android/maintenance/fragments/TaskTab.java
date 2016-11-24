@@ -80,7 +80,7 @@ public class TaskTab extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v)
             {
-                intent= new Intent(getActivity(),TaskAndReportTabActivity.class);
+                intent= new Intent(getActivity(),AssignLogActivity.class);
                 intent.putExtra("Log",log);
                 startActivity(intent);
             }

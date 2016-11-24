@@ -65,6 +65,7 @@ public class MachineListActivity extends Activity {
                 intent = new Intent(MachineListActivity.this,MachineRegister.class);
                 startActivity(intent);
                 finish();
+
             }
         });
 
@@ -84,8 +85,8 @@ public class MachineListActivity extends Activity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(MachineListActivity.this, AdminMainActivity.class);
-                startActivity(intent);
+              /*  intent = new Intent(MachineListActivity.this, AdminMainActivity.class);
+                startActivity(intent);*/
                 finish();
             }
         });

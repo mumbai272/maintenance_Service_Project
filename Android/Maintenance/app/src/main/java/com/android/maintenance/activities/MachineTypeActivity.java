@@ -51,6 +51,8 @@ public class MachineTypeActivity extends AppCompatActivity {
         add = (ImageButton) findViewById(R.id.add_machine_type);
         listView = (ListView) findViewById(R.id.list_machine_type);
 
+
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

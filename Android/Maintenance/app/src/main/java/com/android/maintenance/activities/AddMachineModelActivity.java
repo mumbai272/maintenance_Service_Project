@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +52,18 @@ public class AddMachineModelActivity extends Activity {
         userID = user.get("KEY_USER_ID");
         token = user.get(SessionManager.KEY_TOKEN);
         companyId=user.get("KEY_COMPANY_ID");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.model_toolbar);
+        toolbar.setTitle("Create Machine Model");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              /*  intent = new Intent(AdminEmployeeListActivity.this, AdminMainActivity.class);
+                startActivity(intent);*/
+                finish();
+            }
+        });
+
 
         mProgress = new ProgressDialog(context);
         mProgress.setTitle("Processing...");

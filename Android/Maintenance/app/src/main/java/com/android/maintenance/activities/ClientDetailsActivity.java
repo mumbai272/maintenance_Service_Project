@@ -41,7 +41,7 @@ public class ClientDetailsActivity extends Activity {
         clie_email = (TextView) findViewById(R.id.clie_mail);
         clie_website = (TextView) findViewById(R.id.clie_website);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_clie_details);
         toolbar.setTitle("Client Details");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

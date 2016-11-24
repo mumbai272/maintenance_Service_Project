@@ -51,8 +51,8 @@ public class UserApprovalActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(UserApprovalActivity.this, AdminMainActivity.class);
-                startActivity(intent);
+            /*    intent = new Intent(UserApprovalActivity.this, AdminMainActivity.class);
+                startActivity(intent);*/
                 finish();
             }
         });

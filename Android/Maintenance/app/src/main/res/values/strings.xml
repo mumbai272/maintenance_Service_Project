@@ -13,19 +13,19 @@
     <string name="client_asset_registration">Client Asset Registration</string>
     <string name="add">ADD</string>
     <string name="client_registration">Add Client</string>
-    <string name="client_name">Client Name</string>
-    <string name="description">Description</string>
-    <string name="country">Country</string>
-    <string name="state">State</string>
-    <string name="city">City</string>
+    <string name="client_name">Client Code*</string>
+    <string name="description">Client Name*</string>
+    <string name="country">Country*</string>
+    <string name="state">State*</string>
+    <string name="city">City*</string>
     <string name="location">Location</string>
     <string name="zip_code">Zip Code</string>
-    <string name="phone_no">Phone NO</string>
-    <string name="mobile_no">Mobile NO</string>
+    <string name="phone_no">Phone No</string>
+    <string name="mobile_no">Mobile No*</string>
     <string name="fax">Fax</string>
     <string name="addess">Addess</string>
-    <string name="street_1">Street 1</string>
-    <string name="street_2">Street 2</string>
+    <string name="street_1">Street 1*</string>
+    <string name="street_2">Street 2*</string>
     <string name="street_3">Street 3</string>
     <string name="client_register">Client Register</string>
     <string name="sign_in">Sign In</string>
@@ -52,7 +52,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="reset_password">Reset password</string>
-    <string name="client_email">Email</string>
+    <string name="client_email">Email*</string>
     <string name="website">Website</string>
     <string name="title_activity_client_main">"Client "</string>
 

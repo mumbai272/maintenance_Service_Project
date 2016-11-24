@@ -79,7 +79,7 @@ public class GetMaintainanceType extends AsyncTask<String, Void, String> {
                 }.getType();
                 typeList=new ArrayList<MaintenanceTypeDTO>();
                 typeList= gson.fromJson(TypeDataStr, type);
-                Log.e("ds","userdto:"+typeList.size());
+                Log.e("ds","typeList:"+typeList.size());
                 activity.getTypeList(typeList);
             }
         } else if (typeResponse.getStatusCode() == -1) {
