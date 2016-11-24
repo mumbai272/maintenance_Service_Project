@@ -12,11 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
+import com.android.maintenance.DTO.BusinessDevExpenseDTO;
+import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
+import com.android.maintenance.DTO.GetClaimListDTO;
 import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.activities.ClaimActivity;
+import com.android.maintenance.activities.CliamDetailsActivity;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 
@@ -28,17 +32,22 @@ import java.util.HashMap;
  */
 public class MiscExpenseAdaptor extends BaseAdapter {
     Context cxt;
-    ArrayList<MiscExpenseDTO> misc_exp_list=null;
-    MiscExpenseDTO dto;
+    GetClaimListDTO claim;
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
+    ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
     Long id;
     Intent intent;
     String token,role;
     private SessionManager session;
     Gson gson;
 
-    public MiscExpenseAdaptor(Context cxt, ArrayList<MiscExpenseDTO> list) {
+    public MiscExpenseAdaptor(Context cxt, ArrayList<MiscExpenseDTO> list, ArrayList<BusinessDevExpenseDTO> business_exp_list, ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list, GetClaimListDTO claim) {
         this.cxt = cxt;
-        this.misc_exp_list = list;
+        this.conven_exp_list=conven_exp_list;
+        this.misc_exp_list=list;
+        this.business_exp_list=business_exp_list;
+        this.claim=claim;
     }
 
 
@@ -90,9 +99,8 @@ public class MiscExpenseAdaptor extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dto=new MiscExpenseDTO();
-                dto= misc_exp_list.get(i);
-                id=dto.getExpenseId();
+
+                id=misc_exp_list.get(i).getExpenseId();
                 new Delete().execute(ConfigConstant.url+"claim/misc/expense/"+id);
             }
         });
@@ -123,10 +131,13 @@ public class MiscExpenseAdaptor extends BaseAdapter {
             gson = new Gson();
             BaseResponseDTO machineResponse = gson.fromJson(result, BaseResponseDTO.class);
             if (machineResponse.getStatusCode() == 1) {
-                intent=new Intent(cxt,ClaimActivity.class);
+                intent=new Intent(cxt,CliamDetailsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("ClimDTO",claim);
+                intent.putExtra("business_exp_list", business_exp_list);
+                intent.putExtra("conven_exp_list", conven_exp_list);
+                intent.putExtra("misc_exp_list", misc_exp_list);
                 cxt.startActivity(intent);
-
 
             } else if (machineResponse.getStatusCode() == -1) {
                 Toast.makeText(cxt, machineResponse.getMsg(), Toast.LENGTH_LONG).show();

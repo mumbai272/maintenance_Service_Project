@@ -157,7 +157,7 @@ public class ReportTab extends Fragment {
                 displayReport(assetReport,reportLog,spares,reportCharge);
             } else if (reportResponse.getStatusCode() == -1) {
 
-                Toast.makeText(getActivity(), reportResponse.getMsg(), Toast.LENGTH_LONG).show();
+          //      Toast.makeText(getActivity(), reportResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -203,7 +203,6 @@ public class ReportTab extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Long assignId= (Long)view.getTag();
 
                 intent=new Intent(getActivity(),ServiceEngSpareChargesTabsActivity.class);
                 intent.putExtra("assetReportDTO",assetReportDTO);

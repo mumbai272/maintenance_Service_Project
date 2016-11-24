@@ -61,7 +61,6 @@ public class TaskAndReportTabActivity extends AppCompatActivity {
         title=(TextView)findViewById(R.id.text_part);
         date=(TextView)findViewById(R.id.text_amount);
         m_id=(TextView)findViewById(R.id.log_m_id);
-        log= new AssetLogDTO();
        // pos=getIntent().getIntExtra("pos",0);
         log= (AssetLogDTO) getIntent().getSerializableExtra("Log");
       /*  dto=(CreateAssetReportDTO)getIntent().getSerializableExtra("reportDTO");
@@ -76,8 +75,10 @@ public class TaskAndReportTabActivity extends AppCompatActivity {
         title.setText(log.getMaintainanceType());
         m_id.setText(log.getAssetId().toString());
         date.setText(log.getLogCreatedDate());
+
         tabLayout = (TabLayout) findViewById(R.id.task_report_tabLayout);
         viewPager = (ViewPager) findViewById(R.id.task_report__pager);
+
         TaskReportpager pager = new TaskReportpager(getSupportFragmentManager(),bundle);
 
         viewPager.setAdapter(pager);

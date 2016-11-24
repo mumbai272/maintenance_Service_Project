@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.AssetReportDTO;
@@ -21,7 +22,6 @@ import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.activities.AddNewSpareActivity;
-import com.android.maintenance.adapters.EngListAdapter;
 import com.android.maintenance.adapters.SpareListAdapter;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
@@ -49,6 +49,7 @@ public class Spare_Tab extends android.support.v4.app.Fragment {
     Gson gson;
     ListView listView;
     ImageButton add;
+    TextView sum,sumText;
     ReportChargesDTO reportChargesDTO;
     ReportSpareResponseDTO reportSpareResponseDTO;
     AssetReportDTO assetReportDTO;
@@ -76,6 +77,8 @@ public class Spare_Tab extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.spare_tab,container, false);
         listView=(ListView)view.findViewById(R.id.spare_list);
         add=(ImageButton)view.findViewById(R.id.add_spare);
+        sumText=(TextView)view.findViewById(R.id.sumtext);
+        sum=(TextView)view.findViewById(R.id.sum);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +151,10 @@ public class Spare_Tab extends android.support.v4.app.Fragment {
             reportSpareResponseDTO.setSpareTotal(total);
             Log.e("", "Log list:" + reportLogList.size());
         }
-
+        if(reportSpareResponseDTO.getSpareTotal()>0){
+            sum.setVisibility(View.VISIBLE);
+            sumText.setVisibility(View.VISIBLE);
+        }
        // reportSpareDTOList=new  ArrayList<ReportSpareDTO>();
 
        // reportSpareDTOList= (ArrayList<ReportSpareDTO>) reportSpareResponseDTO.getSpares();

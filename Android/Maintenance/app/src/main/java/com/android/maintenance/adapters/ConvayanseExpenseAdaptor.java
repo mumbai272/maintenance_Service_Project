@@ -8,15 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
+import com.android.maintenance.DTO.BusinessDevExpenseDTO;
 import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
+import com.android.maintenance.DTO.GetClaimListDTO;
+import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
-import com.android.maintenance.activities.ClaimActivity;
+import com.android.maintenance.activities.CliamDetailsActivity;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 
@@ -28,28 +32,35 @@ import java.util.HashMap;
  */
 public class ConvayanseExpenseAdaptor extends BaseAdapter {
     Context context;
-    ArrayList<ClaimConveyanceExpenseDTO> conv_exp_list=null;
-    ClaimConveyanceExpenseDTO dto;
+    GetClaimListDTO claim;
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
+    ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
     Long id;
     Gson gson;
     private SessionManager session;
     Intent intent;
     String token,role;
 
-    public ConvayanseExpenseAdaptor(Context cxt,  ArrayList<ClaimConveyanceExpenseDTO> list) {
-        this.context = cxt;
-        this.conv_exp_list = list;
+
+
+    public ConvayanseExpenseAdaptor(Context applicationContext, ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list, ArrayList<MiscExpenseDTO> misc_exp_list, ArrayList<BusinessDevExpenseDTO> business_exp_list, GetClaimListDTO claim) {
+        this.context=applicationContext;
+        this.conven_exp_list=conven_exp_list;
+        this.misc_exp_list=misc_exp_list;
+        this.business_exp_list=business_exp_list;
+        this.claim=claim;
     }
 
 
     @Override
     public int getCount() {
-        return conv_exp_list.size();
+        return conven_exp_list.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return conv_exp_list.get(i);
+        return conven_exp_list.get(i);
     }
 
     @Override
@@ -73,10 +84,10 @@ public class ConvayanseExpenseAdaptor extends BaseAdapter {
         TextView  date= (TextView) v.findViewById(R.id.date_on);
         Button delete= (Button) v.findViewById(R.id.delete);
 
-        part.setText(conv_exp_list.get(i).getTravelFrom()+ " To "+conv_exp_list.get(i).getTravelTo());
-        by.setText(conv_exp_list.get(i).getModeOfTransport());
-        amt.setText(String.valueOf(conv_exp_list.get(i).getClaimAmount()));
-        date.setText(conv_exp_list.get(i).getExpenseDate());
+        part.setText(conven_exp_list.get(i).getTravelFrom()+ " To "+conven_exp_list.get(i).getTravelTo());
+        by.setText(conven_exp_list.get(i).getModeOfTransport());
+        amt.setText(String.valueOf(conven_exp_list.get(i).getClaimAmount()));
+        date.setText(conven_exp_list.get(i).getExpenseDate());
 
         if(role.equals(ConfigConstant.employeeRole)&& role.equalsIgnoreCase("ACTIVE")){
             delete.setVisibility(View.VISIBLE);
@@ -85,14 +96,12 @@ public class ConvayanseExpenseAdaptor extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dto=new ClaimConveyanceExpenseDTO();
-                dto= conv_exp_list.get(i);
-                id=dto.getExpenseId();
+              id=conven_exp_list.get(i).getClaimId();
                 new Delete().execute(ConfigConstant.url+"claim/conveyance/expense/"+id);
             }
         });
 
-        v.setTag(conv_exp_list.get(i).getExpenseId());
+        v.setTag(conven_exp_list.get(i).getExpenseId());
         return v;
     }
 
@@ -118,8 +127,12 @@ public class ConvayanseExpenseAdaptor extends BaseAdapter {
             BaseResponseDTO machineResponse = gson.fromJson(result, BaseResponseDTO.class);
             if (machineResponse.getStatusCode() == 1) {
 
-                intent=new Intent(context,ClaimActivity.class);
+                intent=new Intent(context,CliamDetailsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("ClimDTO",claim);
+                intent.putExtra("business_exp_list", business_exp_list);
+                intent.putExtra("conven_exp_list", conven_exp_list);
+                intent.putExtra("misc_exp_list", misc_exp_list);
                 context.startActivity(intent);
 
             } else if (machineResponse.getStatusCode() == -1) {

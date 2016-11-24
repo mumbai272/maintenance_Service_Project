@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.android.maintenance.DTO.BusinessDevExpenseDTO;
+import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
 import com.android.maintenance.DTO.GetClaimListDTO;
 import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
@@ -28,7 +30,9 @@ public class MiscExpense extends android.support.v4.app.Fragment {
     String role;
     Intent intent;
     GetClaimListDTO claim;
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
     ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
     ListView listView;
     MiscExpenseAdaptor adapter;
     ImageButton button;
@@ -41,7 +45,9 @@ public class MiscExpense extends android.support.v4.app.Fragment {
 
         final Bundle args = getArguments();
         claim= (GetClaimListDTO) args.getSerializable("ClimDTO");
-        misc_exp_list = ( ArrayList<MiscExpenseDTO>) args.getSerializable("misc_exp_list");
+        business_exp_list= (ArrayList<BusinessDevExpenseDTO>) args.getSerializable("business_exp_list");
+        misc_exp_list= (ArrayList<MiscExpenseDTO>) args.getSerializable("misc_exp_list");
+        conven_exp_list= ( ArrayList<ClaimConveyanceExpenseDTO>) args.getSerializable("conven_exp_list");
     }
 
 
@@ -64,7 +70,7 @@ public class MiscExpense extends android.support.v4.app.Fragment {
         });
 
 
-        adapter= new MiscExpenseAdaptor(getActivity().getApplicationContext(), misc_exp_list);
+        adapter= new MiscExpenseAdaptor(getActivity().getApplicationContext(), misc_exp_list,business_exp_list,conven_exp_list,claim);
         listView.setAdapter(adapter);
         return view;
     }

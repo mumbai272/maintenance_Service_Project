@@ -42,17 +42,15 @@ public class Charge_Tab extends android.support.v4.app.Fragment {
 
     private SessionManager session;
     String role,token;
-    ArrayList<ReportChargesDTO> list;
-    ChargeListAdapter adapter;
     Intent intent;
     Gson gson;
-    ListView listView;
     ImageButton add,delete;
     ReportChargesDTO reportChargesDTO;
     ReportSpareResponseDTO reportSpareResponseDTO;
     AssetReportDTO assetReportDTO;
     ArrayList<ReportLogDTO> reportLogList;
     RelativeLayout layout;
+    Double spare_amount;
     TextView part,by,amt,taxtype,spareTax;
     @Override
     public void onCreate(Bundle state) {
@@ -67,7 +65,7 @@ public class Charge_Tab extends android.support.v4.app.Fragment {
         reportLogList= (ArrayList<ReportLogDTO>) args.getSerializable("reportLogList");
         reportChargesDTO= (ReportChargesDTO) args.getSerializable("reportChargesDTO");
         reportSpareResponseDTO= (ReportSpareResponseDTO) args.getSerializable("reportSpareResponseDTO");
-
+        spare_amount=args.getDouble("spare_Amount");
         new GetCharges().execute(ConfigConstant.url+"assetlog/report/charges/"+assetReportDTO.getReportId());
     }
 

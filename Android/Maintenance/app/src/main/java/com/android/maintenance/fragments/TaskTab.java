@@ -122,7 +122,7 @@ public class TaskTab extends android.support.v4.app.Fragment {
             if (assetLogResponse.getStatusCode() == 1) {
                 displayAssignedLogList(logData);
             } else if (assetLogResponse.getStatusCode() == -1) {
-                Toast.makeText(getActivity(), assetLogResponse.getMsg(), Toast.LENGTH_LONG).show();
+          //      Toast.makeText(getActivity(), assetLogResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }
         }

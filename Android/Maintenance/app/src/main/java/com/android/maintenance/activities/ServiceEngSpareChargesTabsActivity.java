@@ -104,9 +104,12 @@ public class ServiceEngSpareChargesTabsActivity  extends AppCompatActivity {
 
         Bundle b=new Bundle();
         b.putSerializable("assetReportDTO",assetReportDTO);
-        b.putSerializable("reportChargesDTO",reportChargesDTO);
         b.putSerializable("reportSpareResponseDTO",reportSpareResponseDTO);
         b.putSerializable("reportLogList",reportLogList);
+        b.putSerializable("reportChargesDTO",reportChargesDTO);
+        if(reportChargesDTO.getSpareAmount()!=reportSpareResponseDTO.getSpareTotal()){
+            b.putSerializable("spare_Amount",reportSpareResponseDTO.getSpareTotal());
+        }
 
         if(assetReportDTO.getStatus().equalsIgnoreCase("DONE")){
             download.setVisibility(View.VISIBLE);

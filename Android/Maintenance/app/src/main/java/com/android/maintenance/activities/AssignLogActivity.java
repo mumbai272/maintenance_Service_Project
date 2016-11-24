@@ -58,8 +58,7 @@ public class AssignLogActivity extends Activity{
     Long id_user;
     String cmp_id,token,id_type;
     Intent intent;
-    ArrayList<AssetLogDTO> logList;
-    Long logID;
+    AssetLogDTO log;
     ArrayAdapter adapter;
     Button assignBtn;
     Gson gson;
@@ -67,10 +66,7 @@ public class AssignLogActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assign_log);
 
-
-        logList=new ArrayList<AssetLogDTO>();
-        //logList=(ArrayList<AssetLogDTO>)getIntent().getSerializableExtra("list");
-        logID=getIntent().getLongExtra("logId",0);
+         log= (AssetLogDTO) getIntent().getSerializableExtra("Log");
 
         session=new SessionManager(getApplicationContext());
         HashMap<String, String> users = session.getUserDetails();
@@ -105,7 +101,7 @@ public class AssignLogActivity extends Activity{
 
 
                 AssignAssetLogDTO dto= new AssignAssetLogDTO();
-                dto.setLogId(logID);
+                dto.setLogId(log.getLogId());
                 dto.setAssignedTo(id_user);
                 dto.setWorkType(id_type);
                 dto.setPlannedHours(Double.parseDouble(hour.getText().toString()));
@@ -265,7 +261,8 @@ public class AssignLogActivity extends Activity{
             BaseResponseDTO loginResponse=gson.fromJson(result, BaseResponseDTO.class);
             if(loginResponse.getStatusCode()==1){
             //    Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();
-                intent= new Intent(getApplicationContext(), LogListActivity.class);
+                intent= new Intent(getApplicationContext(), TaskAndReportTabActivity.class);
+                intent.putExtra("Log",log);
                 startActivity(intent);
             }else if(loginResponse.getStatusCode()==-1){
 

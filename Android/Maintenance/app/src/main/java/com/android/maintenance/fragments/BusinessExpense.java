@@ -9,7 +9,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.android.maintenance.DTO.BusinessDevExpenseDTO;
+import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
 import com.android.maintenance.DTO.GetClaimListDTO;
+import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.activities.BusinessDevelopmentExpenseActivity;
@@ -29,11 +31,13 @@ public class BusinessExpense extends android.support.v4.app.Fragment {
     private SessionManager session;
     String role;
     Intent intent;
-    ArrayList<BusinessDevExpenseDTO> bus_exp_list;
     ListView listView;
     BusinessExpenseAdaptor adapter;
-    GetClaimListDTO claim;
     ImageButton button;
+    GetClaimListDTO claim;
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
+    ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
 
     @Override
     public void onCreate(Bundle state) {
@@ -44,7 +48,9 @@ public class BusinessExpense extends android.support.v4.app.Fragment {
 
         final Bundle args = getArguments();
         claim= (GetClaimListDTO) args.getSerializable("ClimDTO");
-        bus_exp_list= ( ArrayList<BusinessDevExpenseDTO>) args.getSerializable("business_exp_list");
+        misc_exp_list= (ArrayList<MiscExpenseDTO>) args.getSerializable("misc_exp_list");
+        conven_exp_list= ( ArrayList<ClaimConveyanceExpenseDTO>) args.getSerializable("conven_exp_list");
+        business_exp_list= ( ArrayList<BusinessDevExpenseDTO>) args.getSerializable("business_exp_list");
     }
 
 
@@ -60,12 +66,15 @@ public class BusinessExpense extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View view) {
                 intent=new Intent(getActivity(), BusinessDevelopmentExpenseActivity.class);
-                intent.putExtra("ID",claim.getClaimId());
+                intent.putExtra("ClimDTO",claim);
+                intent.putExtra("business_exp_list", business_exp_list);
+                intent.putExtra("conven_exp_list", conven_exp_list);
+                intent.putExtra("misc_exp_list", misc_exp_list);
                 startActivity(intent);
             }
         });
 
-        adapter= new BusinessExpenseAdaptor(getActivity().getApplicationContext(), bus_exp_list);
+        adapter= new BusinessExpenseAdaptor(getActivity().getApplicationContext(), business_exp_list,conven_exp_list,misc_exp_list,claim);
         listView.setAdapter(adapter);
 
         return view;

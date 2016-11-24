@@ -15,7 +15,10 @@ import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.BusinessDevExpenseDTO;
+import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
 import com.android.maintenance.DTO.ClaimResposnse;
+import com.android.maintenance.DTO.GetClaimListDTO;
+import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.Utilities.Utility;
@@ -27,6 +30,7 @@ import com.google.gson.GsonBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -45,6 +49,10 @@ public class BusinessDevelopmentExpenseActivity extends Activity {
     SimpleDateFormat dateFormatter;
     Intent intent;
     Long ID;
+    GetClaimListDTO claim;
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
+    ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +62,10 @@ public class BusinessDevelopmentExpenseActivity extends Activity {
         HashMap<String, String> user = session.getUserDetails();
         token = user.get(SessionManager.KEY_TOKEN);
 
-        ID=getIntent().getLongExtra("ID",1);
+        claim= (GetClaimListDTO) getIntent().getSerializableExtra("ClimDTO");
+        business_exp_list= (ArrayList<BusinessDevExpenseDTO>) getIntent().getSerializableExtra("business_exp_list");
+        misc_exp_list= (ArrayList<MiscExpenseDTO>) getIntent().getSerializableExtra("misc_exp_list");
+        conven_exp_list= ( ArrayList<ClaimConveyanceExpenseDTO>) getIntent().getSerializableExtra("conven_exp_list");
 
         guest=(EditText)findViewById(R.id.guest);
         date=(EditText)findViewById(R.id.bus_exp_date);
@@ -169,8 +180,12 @@ public class BusinessDevelopmentExpenseActivity extends Activity {
             Gson gson = new GsonBuilder().create();
             ClaimResposnse clientResponse=gson.fromJson(result, ClaimResposnse.class);
             if(clientResponse.getStatusCode()==1){
-                Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
-              finish();
+                intent=new Intent(BusinessDevelopmentExpenseActivity.this,CliamDetailsActivity.class);
+                intent.putExtra("ClimDTO",claim);
+                intent.putExtra("business_exp_list", business_exp_list);
+                intent.putExtra("conven_exp_list", conven_exp_list);
+                intent.putExtra("misc_exp_list", misc_exp_list);
+                startActivity(intent);
             }else{
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
             }

@@ -13,10 +13,14 @@ import android.widget.Toast;
 
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.DTO.BusinessDevExpenseDTO;
+import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
+import com.android.maintenance.DTO.GetClaimListDTO;
+import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
 import com.android.maintenance.activities.ClaimActivity;
+import com.android.maintenance.activities.CliamDetailsActivity;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 
@@ -28,34 +32,40 @@ import java.util.HashMap;
  */
 public class BusinessExpenseAdaptor extends BaseAdapter {
     Context cxt;
-    ArrayList<BusinessDevExpenseDTO> bus_exp_list=null;
-    BusinessDevExpenseDTO dto;
     Long id;
     Intent intent;
     String token,role;
     private SessionManager session;
     Gson gson;
+    GetClaimListDTO claim;
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
+    ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
 
-    public BusinessExpenseAdaptor(Context cxt,  ArrayList<BusinessDevExpenseDTO> list) {
-        this.cxt = cxt;
-        this.bus_exp_list = list;
+
+    public BusinessExpenseAdaptor(Context applicationContext, ArrayList<BusinessDevExpenseDTO> business_exp_list, ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list, ArrayList<MiscExpenseDTO> misc_exp_list, GetClaimListDTO claim) {
+        this.cxt=applicationContext;
+        this.conven_exp_list=conven_exp_list;
+        this.misc_exp_list=misc_exp_list;
+        this.business_exp_list=business_exp_list;
+        this.claim=claim;
     }
 
 
     @Override
     public int getCount() {
-        return bus_exp_list.size();
+        return business_exp_list.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return bus_exp_list.get(i);
+        return business_exp_list.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        if(bus_exp_list!=null) {
-            return bus_exp_list.size();
+        if(business_exp_list!=null) {
+            return business_exp_list.size();
         }else{
             return 0;
         }
@@ -79,11 +89,11 @@ public class BusinessExpenseAdaptor extends BaseAdapter {
         TextView  date= (TextView) v.findViewById(R.id.exp_on);
         Button delete= (Button) v.findViewById(R.id.delete);
 
-        part.setText(bus_exp_list.get(i).getParticulars());
-        bill_no.setText(bus_exp_list.get(i).getBillNumber());
-        on.setText(bus_exp_list.get(i).getBillDate());
-        amt.setText(String.valueOf(bus_exp_list.get(i).getClaimAmount()));
-        date.setText(bus_exp_list.get(i).getExpenseDate());
+        part.setText(business_exp_list.get(i).getParticulars());
+        bill_no.setText(business_exp_list.get(i).getBillNumber());
+        on.setText(business_exp_list.get(i).getBillDate());
+        amt.setText(String.valueOf(business_exp_list.get(i).getClaimAmount()));
+        date.setText(business_exp_list.get(i).getExpenseDate());
 
         if(role.equals(ConfigConstant.employeeRole)&&role.equalsIgnoreCase("ACTIVE")){
             delete.setVisibility(View.VISIBLE);
@@ -92,14 +102,12 @@ public class BusinessExpenseAdaptor extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dto=new BusinessDevExpenseDTO();
-                dto= bus_exp_list.get(i);
-                id=dto.getExpenseId();
+                id=business_exp_list.get(i).getExpenseId();
               new Delete().execute(ConfigConstant.url+"claim/business/development/expense/"+id);
             }
         });
 
-        v.setTag(bus_exp_list.get(i).getExpenseId());
+        v.setTag(business_exp_list.get(i).getExpenseId());
 
 
 
@@ -127,8 +135,12 @@ public class BusinessExpenseAdaptor extends BaseAdapter {
             gson= new Gson();
             BaseResponseDTO machineResponse = gson.fromJson(result, BaseResponseDTO.class);
             if (machineResponse.getStatusCode() == 1) {
-                intent=new Intent(cxt,ClaimActivity.class);
+                intent=new Intent(cxt,CliamDetailsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("ClimDTO",claim);
+                intent.putExtra("business_exp_list", business_exp_list);
+                intent.putExtra("conven_exp_list", conven_exp_list);
+                intent.putExtra("misc_exp_list", misc_exp_list);
                 cxt.startActivity(intent);
 
             } else if (machineResponse.getStatusCode() == -1) {

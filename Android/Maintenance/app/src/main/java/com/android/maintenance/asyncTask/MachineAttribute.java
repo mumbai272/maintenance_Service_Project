@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.android.maintenance.DTO.BaseResponseDTO;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
+import com.android.maintenance.activities.AddNewSpareActivity;
 import com.android.maintenance.activities.MachineMakeActivity;
 import com.android.maintenance.activities.MachineModelActivity;
 import com.android.maintenance.activities.MachineSpareActivity;
@@ -31,8 +32,14 @@ public class MachineAttribute extends AsyncTask<String, Void, String> {
     MachineModelActivity aActivity;
     MachineTypeActivity tActivity;
     MachineSpareActivity sActivity;
+    AddNewSpareActivity nActivity;
+
     public MachineAttribute(MachineMakeActivity activity) {
         this.mActivity = activity;
+    }
+
+    public MachineAttribute(AddNewSpareActivity activity) {
+        this.nActivity = activity;
     }
 
     public MachineAttribute(MachineModelActivity activity) {
@@ -58,6 +65,8 @@ public class MachineAttribute extends AsyncTask<String, Void, String> {
             session = new SessionManager(tActivity);
         }else if(sActivity instanceof MachineSpareActivity){
             session = new SessionManager(sActivity);
+        }else if(nActivity instanceof AddNewSpareActivity){
+            session = new SessionManager(nActivity);
         }
         HashMap<String, String> user = session.getUserDetails();
         userID = user.get("KEY_USER_ID");
@@ -108,6 +117,8 @@ public class MachineAttribute extends AsyncTask<String, Void, String> {
                 tActivity.displayMachineType(machineAttr);
             }else if(sActivity instanceof MachineSpareActivity){
                 sActivity.displayMachineSpare(machineAttr);
+            }else if(nActivity instanceof AddNewSpareActivity){
+                nActivity.displayMachineSpare(machineAttr);
             }
         } else if (machineAttributeResp.getStatusCode() == -1) {
             Toast.makeText(mActivity, machineAttributeResp.getMsg(), Toast.LENGTH_LONG).show();

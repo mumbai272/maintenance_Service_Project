@@ -7,32 +7,41 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.maintenance.DTO.AddSpareDTO;
 import com.android.maintenance.DTO.AssetReportDTO;
 import com.android.maintenance.DTO.BaseResponseDTO;
+import com.android.maintenance.DTO.GetMachineAttributeDTO;
 import com.android.maintenance.DTO.ReportChargesDTO;
 import com.android.maintenance.DTO.ReportLogDTO;
 import com.android.maintenance.DTO.ReportSpareResponseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.WS.ServiceHandlerWS;
+import com.android.maintenance.asyncTask.MachineAttribute;
 import com.android.maintenance.configuration.ConfigConstant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONArray;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -40,7 +49,7 @@ import java.util.Locale;
  */
 public class AddNewSpareActivity extends Activity {
 
-    String token;
+    String token,comp_id;
     String radio_val;
     Intent intent;
     Gson gson;
@@ -53,8 +62,13 @@ public class AddNewSpareActivity extends Activity {
     ArrayList<ReportLogDTO> reportLogList;
     RadioGroup chargebleGrp;
     RadioButton chargeble_btn;
-    EditText sp_name,sp_no,rate,qty,other,dc_no,dc_date;
+    EditText sp_name,rate,qty,other,dc_no,dc_date;
     Button add;
+    String spareName;
+    Spinner sp_no;
+    ArrayAdapter adapter;
+    Long sp_ID;
+    ArrayList<GetMachineAttributeDTO> machineAttrList;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +78,7 @@ public class AddNewSpareActivity extends Activity {
         session=new SessionManager(getApplicationContext());
         HashMap<String, String> users = session.getUserDetails();
         token=users.get(SessionManager.KEY_TOKEN);
+        comp_id= users.get("KEY_COMPANY_ID");
 
         reportLogList=new ArrayList<ReportLogDTO>();
         reportLogList= (ArrayList<ReportLogDTO>) getIntent().getSerializableExtra("reportLogList");
@@ -71,8 +86,9 @@ public class AddNewSpareActivity extends Activity {
         reportChargesDTO=(ReportChargesDTO) getIntent().getSerializableExtra("reportChargesDTO");
         reportSpareResponseDTO=(ReportSpareResponseDTO) getIntent().getSerializableExtra("reportSpareResponseDTO");
 
-        sp_name=(EditText)findViewById(R.id.sp_name);
-        sp_no=(EditText)findViewById(R.id.sp_no);
+        //sp_name=(EditText)findViewById(R.id.sp_name);
+        sp_no=(Spinner)findViewById(R.id.sp_no);
+       // sp_no=(EditText)findViewById(R.id.sp_no);
         rate=(EditText)findViewById(R.id.sp_rate);
         qty=(EditText)findViewById(R.id.qty);
         other=(EditText)findViewById(R.id.otr_amt);
@@ -80,6 +96,8 @@ public class AddNewSpareActivity extends Activity {
         dc_date=(EditText)findViewById(R.id.dc_date);
         add=(Button)findViewById(R.id.add_spr);
         chargebleGrp=(RadioGroup)findViewById(R.id.radio_charge);
+
+        setSpinnerForSpareName();
 
         chargebleGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -106,8 +124,8 @@ public class AddNewSpareActivity extends Activity {
                 dto.setReportId(assetReportDTO.getReportId());
                 dto.setDcdateTime(dc_date.getText().toString());
                 dto.setDcNo(dc_no.getText().toString());
-                dto.setSpaceName(sp_name.getText().toString());
-                dto.setSpareNo(Long.parseLong(sp_no.getText().toString()));
+                dto.setSpaceName(spareName);
+                dto.setSpareNo(sp_ID);
                 dto.setOtherAmout(Double.parseDouble(other.getText().toString()));
                 dto.setQuantity(Double.parseDouble(qty.getText().toString()));
                 dto.setRate(Double.parseDouble(rate.getText().toString()));
@@ -135,6 +153,12 @@ public class AddNewSpareActivity extends Activity {
 
     }
 
+    private void setSpinnerForSpareName() {
+        MachineAttribute attribute= new MachineAttribute(this);
+        attribute.execute(ConfigConstant.url+"machine/machinespare?companyId="+ Long.parseLong(comp_id));
+    }
+
+
     private void setDateTimeField() {
 
         dc_date.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +184,44 @@ public class AddNewSpareActivity extends Activity {
 
         dc_date.setInputType(InputType.TYPE_NULL);
         dc_date.requestFocus();
+    }
+
+    public void displayMachineSpare(JSONArray machineAttr) {
+        String machineData = machineAttr.toString();
+        gson = new Gson();
+        Type type = new TypeToken<ArrayList<GetMachineAttributeDTO>>() {
+        }.getType();
+        machineAttrList= new ArrayList<GetMachineAttributeDTO>();
+        machineAttrList = gson.fromJson(machineData, type);
+        List<String> spares= new ArrayList<String>();
+        for(int i=0;i<machineAttrList.size();i++){
+            spares.add (machineAttrList.get(i).getMachineName());
+        }
+        adapter= new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, spares);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // attaching data adapter to spinner
+        sp_no.setAdapter(adapter);
+        sp_no.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spareName=adapterView.getItemAtPosition(i).toString();
+
+                for(int j=0;j<machineAttrList.size();j++){
+                    if(spareName==machineAttrList.get(j).getMachineName()){
+                        sp_ID=machineAttrList.get(j).getMachineId();
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
     }
 
     private class AddSpare extends AsyncTask<String,Void,String> {

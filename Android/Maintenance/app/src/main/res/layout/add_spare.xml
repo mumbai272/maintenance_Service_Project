@@ -10,6 +10,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Sprare Name"
         android:id="@+id/textView31"
+        android:visibility="gone"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="35dp" />
@@ -18,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Spare No"
+        android:text="Spare Name"
         android:id="@+id/textView32"
         android:layout_below="@+id/textView31"
         android:layout_alignParentStart="true"
@@ -105,7 +106,7 @@
         android:weightSum="1"
         android:orientation="horizontal"
         android:layout_above="@+id/textView34"
-        android:layout_alignStart="@+id/sp_no">
+        android:layout_alignStart="@+id/sp_rate">
 
 
         <RadioButton
@@ -130,18 +131,17 @@
         android:inputType="textPersonName"
         android:layout_marginLeft="10dp"
         android:ems="10"
+        android:visibility="gone"
         android:id="@+id/sp_name"
         android:layout_above="@+id/textView32"
         android:layout_alignParentEnd="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
+    <Spinner
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
         android:id="@+id/sp_no"
-        android:layout_above="@+id/textView33"
-        android:layout_alignStart="@+id/sp_name" />
+        android:layout_alignTop="@+id/textView32"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"

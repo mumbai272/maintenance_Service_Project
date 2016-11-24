@@ -52,11 +52,12 @@ public class CliamDetailsActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     TextView part,s_date,e_date,amt,approved;
+    GetClaimListDTO claim;
     ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
     ArrayList<MiscExpenseDTO> misc_exp_list;
     ArrayList<BusinessDevExpenseDTO> business_exp_list;
     Button approve;
-    GetClaimListDTO claim;
+
     AlertDialog.Builder alertDialogBuilder;
 
     public static CliamDetailsActivity instance;

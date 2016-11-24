@@ -54,15 +54,13 @@ public class ClaimConveyanceExpenseActivity extends Activity {
     DatePickerDialog startPickerDialog;
     SimpleDateFormat dateFormatter;
     Intent intent;
-    GetClaimListDTO claim;
     Type type;
     Gson gson;
+    ClaimConveyanceExpenseDTO dto;
+    GetClaimListDTO claim;
     ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
     ArrayList<MiscExpenseDTO> misc_exp_list;
     ArrayList<BusinessDevExpenseDTO> business_exp_list;
-    ClaimConveyanceExpenseDTO dto;
-
-    ArrayList<ClaimConveyanceExpenseDTO> conv_exp_list;
     Long ID;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +71,10 @@ public class ClaimConveyanceExpenseActivity extends Activity {
         HashMap<String, String> user = session.getUserDetails();
         token=user.get(SessionManager.KEY_TOKEN);
 
-        ID=getIntent().getLongExtra("ID",1);
-        conv_exp_list= (ArrayList<ClaimConveyanceExpenseDTO>) getIntent().getSerializableExtra("conv_exp_list");
+        claim= (GetClaimListDTO) getIntent().getSerializableExtra("ClimDTO");
+        business_exp_list= (ArrayList<BusinessDevExpenseDTO>) getIntent().getSerializableExtra("business_exp_list");
+        misc_exp_list= (ArrayList<MiscExpenseDTO>) getIntent().getSerializableExtra("misc_exp_list");
+        conven_exp_list= ( ArrayList<ClaimConveyanceExpenseDTO>) getIntent().getSerializableExtra("conven_exp_list");
         date=(EditText)findViewById(R.id.exp_date);
         t_from=(EditText)findViewById(R.id.tr_from);
         t_to=(EditText)findViewById(R.id.tr_to);
@@ -169,7 +169,13 @@ public class ClaimConveyanceExpenseActivity extends Activity {
             ClaimResposnse clientResponse=gson.fromJson(result, ClaimResposnse.class);
             if(clientResponse.getStatusCode()==1){
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();
-               finish();
+
+                intent=new Intent(ClaimConveyanceExpenseActivity.this,CliamDetailsActivity.class);
+                intent.putExtra("ClimDTO",claim);
+                intent.putExtra("business_exp_list", business_exp_list);
+                intent.putExtra("conven_exp_list", conven_exp_list);
+                intent.putExtra("misc_exp_list", misc_exp_list);
+                startActivity(intent);
 
             }else{
                 Toast.makeText(getApplicationContext(),clientResponse.getMsg(), Toast.LENGTH_LONG).show();

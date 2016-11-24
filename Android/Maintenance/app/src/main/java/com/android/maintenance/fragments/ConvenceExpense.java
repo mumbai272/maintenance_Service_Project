@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.android.maintenance.DTO.BusinessDevExpenseDTO;
 import com.android.maintenance.DTO.ClaimConveyanceExpenseDTO;
 import com.android.maintenance.DTO.GetClaimListDTO;
+import com.android.maintenance.DTO.MiscExpenseDTO;
 import com.android.maintenance.R;
 import com.android.maintenance.Utilities.SessionManager;
 import com.android.maintenance.activities.ClaimConveyanceExpenseActivity;
@@ -30,9 +32,11 @@ public class ConvenceExpense extends android.support.v4.app.Fragment {
     ListView listView;
     ConvayanseExpenseAdaptor adapter;
     GetClaimListDTO claim;
-
+    ArrayList<ClaimConveyanceExpenseDTO> conven_exp_list;
+    ArrayList<MiscExpenseDTO> misc_exp_list;
+    ArrayList<BusinessDevExpenseDTO> business_exp_list;
     ImageButton button;
-    ArrayList<ClaimConveyanceExpenseDTO> conv_exp_list;
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -42,7 +46,9 @@ public class ConvenceExpense extends android.support.v4.app.Fragment {
 
         final Bundle args = getArguments();
         claim= (GetClaimListDTO) args.getSerializable("ClimDTO");
-        conv_exp_list= ( ArrayList<ClaimConveyanceExpenseDTO>) args.getSerializable("conven_exp_list");
+        business_exp_list= (ArrayList<BusinessDevExpenseDTO>) args.getSerializable("business_exp_list");
+        misc_exp_list= (ArrayList<MiscExpenseDTO>) args.getSerializable("misc_exp_list");
+        conven_exp_list= ( ArrayList<ClaimConveyanceExpenseDTO>) args.getSerializable("conven_exp_list");
     }
 
 
@@ -58,13 +64,15 @@ public class ConvenceExpense extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View view) {
                 intent=new Intent(getActivity(), ClaimConveyanceExpenseActivity.class);
-                intent.putExtra("ID",claim.getClaimId());
-                intent.putExtra("conv_exp_list",conv_exp_list);
+                intent.putExtra("ClimDTO",claim);
+                intent.putExtra("business_exp_list", business_exp_list);
+                intent.putExtra("conven_exp_list", conven_exp_list);
+                intent.putExtra("misc_exp_list", misc_exp_list);
                 startActivity(intent);
             }
         });
 
-        adapter= new ConvayanseExpenseAdaptor(getActivity().getApplicationContext(), conv_exp_list);
+        adapter= new ConvayanseExpenseAdaptor(getActivity().getApplicationContext(), conven_exp_list,misc_exp_list,business_exp_list,claim);
         listView.setAdapter(adapter);
         return view;
 
