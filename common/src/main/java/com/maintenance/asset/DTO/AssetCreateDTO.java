@@ -21,9 +21,9 @@ public class AssetCreateDTO implements Serializable {
 
     @NotNull
     private Long machineType;
-
+    @NotNull
     private Long machineMake;
-
+    @NotNull
     private Long machineModel;
 
     @NotNull
