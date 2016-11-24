@@ -21,8 +21,10 @@ public class AssetCreateDTO implements Serializable {
 
     @NotNull
     private Long machineType;
+
     @NotNull
     private Long machineMake;
+
     @NotNull
     private Long machineModel;
 
@@ -39,23 +41,23 @@ public class AssetCreateDTO implements Serializable {
     private Date dataOfMfg;
 
     private Date installDate;
-    
+
     private Double assetUsage;
-    
+
     private String assetImage;
-    
+
     private String location;
-    
+
     private Double purchaseCost;
-    
+
     private String isWarranty;
-    
+
     private Date warrantyStartDate;
-    
+
     private Date warrantyEndDate;
-    
+
     private String isActive;
-    
+
     private String status;
 
     public AssetCreateDTO() {
@@ -173,109 +175,109 @@ public class AssetCreateDTO implements Serializable {
     }
 
 
-    
+
     public Double getAssetUsage() {
         return assetUsage;
     }
 
 
-    
+
     public void setAssetUsage(Double assetUsage) {
         this.assetUsage = assetUsage;
     }
 
 
-    
+
     public String getAssetImage() {
         return assetImage;
     }
 
 
-    
+
     public void setAssetImage(String assetImage) {
         this.assetImage = assetImage;
     }
 
 
-    
+
     public String getLocation() {
         return location;
     }
 
 
-    
+
     public void setLocation(String location) {
         this.location = location;
     }
 
 
-    
+
     public Double getPurchaseCost() {
         return purchaseCost;
     }
 
 
-    
+
     public void setPurchaseCost(Double purchaseCost) {
         this.purchaseCost = purchaseCost;
     }
 
 
-    
+
     public String getIsWarranty() {
         return isWarranty;
     }
 
 
-    
+
     public void setIsWarranty(String isWarranty) {
         this.isWarranty = isWarranty;
     }
 
 
-    
+
     public Date getWarrantyStartDate() {
         return warrantyStartDate;
     }
 
 
-    
+
     public void setWarrantyStartDate(Date warrantyStartDate) {
         this.warrantyStartDate = warrantyStartDate;
     }
 
 
-    
+
     public Date getWarrantyEndDate() {
         return warrantyEndDate;
     }
 
 
-    
+
     public void setWarrantyEndDate(Date warrantyEndDate) {
         this.warrantyEndDate = warrantyEndDate;
     }
 
 
-    
+
     public String getIsActive() {
         return isActive;
     }
 
 
-    
+
     public void setIsActive(String isActive) {
         this.isActive = isActive;
     }
 
 
-    
+
     public String getStatus() {
         return status;
     }
 
 
-    
+
     public void setStatus(String status) {
         this.status = status;
     }
