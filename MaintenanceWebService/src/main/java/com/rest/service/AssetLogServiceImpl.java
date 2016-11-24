@@ -36,6 +36,7 @@ import com.rest.entity.UserImpl;
 import com.rest.repository.AssetLogAssignmentRepository;
 import com.rest.repository.AssetLogAssignmentTrackRepository;
 import com.rest.repository.AssetLogRepository;
+import com.rest.repository.AssetMasterRepository;
 import com.rest.repository.MaintenanceTypeRepository;
 
 /**
@@ -50,6 +51,8 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
     @Autowired
     private AssetLogRepository assetLogRepository;
+    @Autowired
+    private AssetMasterRepository assetMasterRepository;
 
     @Autowired
     private AssetLogAssignmentRepository assetLogAssignmentRepository;
@@ -149,7 +152,9 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         if (CollectionUtils.isNotEmpty(assetImplLogs)) {
             for (AssetLogImpl assetLogImpl : assetImplLogs) {
                 AssetLog assetLog = new AssetLog();
+                assetLog.setClientCode(companyRepository.findCompanyNameByClientId(assetLogImpl.getClientId()));
                 BeanUtils.copyProperties(assetLogImpl, assetLog);
+                assetLog.setMachineName(assetMasterRepository.fingMachineNameByAssetId(assetLogImpl.getAssetId()));
                 assetLog.setMaintainanceType(assetLogImpl.getmType().getTypeCode());
                 assetLog.setLogCreatedDate(DateUtil.formate(assetLogImpl.getLogCreatedDate()
                         .getTime(), null));
