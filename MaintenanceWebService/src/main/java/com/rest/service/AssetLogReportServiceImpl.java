@@ -247,6 +247,8 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
             if (assetReportLog.getTravelTime() != null) {
                 bo.setTravelTime(DateUtil.formate(assetReportLog.getTravelTime(), "hh:mm:ss"));
             }
+            bo.setServiceEngineerName(userRepository.findNameById(assetReportLog
+                    .getServiceEngineer()));
             rlogBOList.add(bo);
         }
         return rlogBOList;
@@ -267,7 +269,7 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
     @Transactional(rollbackFor = { Exception.class })
     public ResourceCreateResponse createAssetReportSpare(ReportSpareCreateBO request) {
         ResourceCreateResponse response = new ResourceCreateResponse();
-       AssetReport report= getReport(request.getReportId());
+        AssetReport report = getReport(request.getReportId());
         AssetReportSpare spare =
             assetReportSpareRepository.findByReportIdAndSpareNo(request.getReportId(),
                 request.getSpareNo());
@@ -457,14 +459,14 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
 
     public ReportCharges getAssetReportCharges(Long reportId) {
         AssetReportCharges charges = assetReportChargesRepository.findOne(reportId);
-        
+
         ReportCharges bo = new ReportCharges();
-		if (charges != null) {
-			BeanUtils.copyProperties(charges, bo);
-			if (charges.getInvoiceDate() != null) {
-				bo.setInvoiceDate(DateUtil.formate(charges.getInvoiceDate().getTime(), null));
-			}
-		}
+        if (charges != null) {
+            BeanUtils.copyProperties(charges, bo);
+            if (charges.getInvoiceDate() != null) {
+                bo.setInvoiceDate(DateUtil.formate(charges.getInvoiceDate().getTime(), null));
+            }
+        }
         return bo;
     }
 

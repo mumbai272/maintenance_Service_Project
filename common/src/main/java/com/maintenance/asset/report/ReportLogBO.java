@@ -15,6 +15,7 @@ public class ReportLogBO implements Serializable{
     
     @NotNull
     private Long serviceEngineer;
+    private String serviceEngineerName;
 
     private String dateTime;
 
@@ -120,6 +121,20 @@ public class ReportLogBO implements Serializable{
 
     public void setActionToTake(String actionToTake) {
         this.actionToTake = actionToTake;
+    }
+
+
+
+    
+    public String getServiceEngineerName() {
+        return serviceEngineerName;
+    }
+
+
+
+    
+    public void setServiceEngineerName(String serviceEngineerName) {
+        this.serviceEngineerName = serviceEngineerName;
     }
 
 
