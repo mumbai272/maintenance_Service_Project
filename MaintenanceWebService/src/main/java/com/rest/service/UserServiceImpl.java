@@ -100,6 +100,15 @@ public class UserServiceImpl extends BaseServiceImpl {
         AuditData auditData = new AuditData(user.getUserId(), Calendar.getInstance());
         user.setAuditData(auditData);
         userRepository.save(user);
+		UserImpl adminUser=userRepository.findByRoleTypeId(RoleType.ADMIN.getId());
+        EmailContent emailContent = new EmailContent(EmailType.REGISTRATION_REQUEST);
+        emailContent.addTo(adminUser.getEmailId());
+        emailContent.addModel("name", user.getFirstName());
+        emailContent.addModel("clientName", registrationRequest.getName());
+        emailContent.addModel("emailId", registrationRequest.getEmailId());
+        emailContent.addModel("phoneNO", registrationRequest.getPhoneno());
+        emailContent.addModel("CompanyName", registrationRequest.getClient());
+        emailSender.sendMailAsync(emailContent);
     }
 
     private void checkUserNameOrEmailId(String userName, String emailId) {
