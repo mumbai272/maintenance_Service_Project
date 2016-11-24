@@ -68,6 +68,7 @@ public class AddMachineMakeActivity extends Activity {
             public void onClick(View v) {
               /*  intent = new Intent(AdminEmployeeListActivity.this, AdminMainActivity.class);
                 startActivity(intent);*/
+                finish();
             }
         });
 
