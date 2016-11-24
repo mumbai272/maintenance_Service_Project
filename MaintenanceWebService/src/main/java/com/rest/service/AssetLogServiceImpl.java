@@ -157,7 +157,7 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
                 assetLog.setMachineName(assetMasterRepository.fingMachineNameByAssetId(assetLogImpl.getAssetId()));
                 assetLog.setMaintainanceType(assetLogImpl.getmType().getTypeCode());
                 assetLog.setLogCreatedDate(DateUtil.formate(assetLogImpl.getLogCreatedDate()
-                        .getTime(), null));
+                        .getTime(), "dd/MM/yyyy"));
                 assetLogs.add(assetLog);
             }
         }

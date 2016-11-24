@@ -18,10 +18,10 @@ public class UserEmploymentDTO implements Serializable {
     @NotNull
     private Long department;
 
-    @NotNull
+//    @NotNull
     private Double hourRate;
 
-    @NotNull
+//    @NotNull
     private Date joiningDay;
 
 
