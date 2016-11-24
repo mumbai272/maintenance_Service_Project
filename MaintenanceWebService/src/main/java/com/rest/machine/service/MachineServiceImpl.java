@@ -88,7 +88,7 @@ public class MachineServiceImpl extends BaseServiceImpl {
         BeanUtils.copyProperties(machineDto, entity);
         entity.setType(machineTypeEnum.getValue());
         if (machineTypeEnum == MachineTypeEnum.MACHINESPARE) {
-            double rate =machineDto.getRate()==null?0.0:machineDto.getRate();
+            double rate = machineDto.getRate() == null ? 0.0 : machineDto.getRate();
             entity.setRate(rate);
         }else{
             entity.setRate(null);
