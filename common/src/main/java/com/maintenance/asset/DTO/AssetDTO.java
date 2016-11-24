@@ -18,7 +18,9 @@ public class AssetDTO implements Serializable {
     
     private Long companyId;
     
-    private Long clientId;   
+    private Long clientId;
+    
+    private String clientCode;  
     
     private MachineDTO machineType;
 
@@ -374,6 +376,18 @@ public class AssetDTO implements Serializable {
     
     public void setAssetId(Long assetId) {
         this.assetId = assetId;
+    }
+
+
+    
+    public String getClientCode() {
+        return clientCode;
+    }
+
+
+    
+    public void setClientCode(String clientCode) {
+        this.clientCode = clientCode;
     }
     
     

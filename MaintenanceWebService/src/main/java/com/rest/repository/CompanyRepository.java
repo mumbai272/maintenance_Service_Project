@@ -20,6 +20,9 @@ public interface CompanyRepository extends CrudRepository<Company, Long> {
     @Query("select clientId from Company where companyId=:companyId and status=:status ")
     List<Long> findClientIdByCompanyIdAndStatus(@Param("companyId") Long companyId,
             @Param("status") String status);
+    
+    @Query("select ShortDesc from Company where clientId=:companyId")
+    String findCompanyNameByClientId(@Param("companyId") Long companyId);
 
 
 }

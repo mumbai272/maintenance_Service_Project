@@ -76,6 +76,7 @@ public class AssetServiceImpl extends BaseServiceImpl {
     public AssetResponse getAssets(String status) {
         logger.info("Getting the assets for the status :" + status);
         AssetResponse response = new AssetResponse();
+        String clientCode=null;
         List<AssetMaster> assets = null;
         if (RoleType.ADMIN.equals(UserContextRetriver.getUsercontext().getRole())) {
             assets =
@@ -90,6 +91,10 @@ public class AssetServiceImpl extends BaseServiceImpl {
             for (AssetMaster asset : assets) {
                 AssetDTO assetDto = new AssetDTO();
                 BeanUtils.copyProperties(asset, assetDto);
+                clientCode = companyRepository.findCompanyNameByClientId(asset.getClientId());
+                if(clientCode==null){
+                    assetDto.setClientCode(clientCode);
+                }
                 assetDto.setMachineMake(buildMachinDto(asset.getMachineMake()));
                 assetDto.setMachineModel(buildMachinDto(asset.getMachineModel()));
                 assetDto.setMachineType(buildMachinDto(asset.getMachineType()));
