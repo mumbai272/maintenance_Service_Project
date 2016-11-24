@@ -92,7 +92,7 @@ public class AssetServiceImpl extends BaseServiceImpl {
                 AssetDTO assetDto = new AssetDTO();
                 BeanUtils.copyProperties(asset, assetDto);
                 clientCode = companyRepository.findCompanyNameByClientId(asset.getClientId());
-                if(clientCode==null){
+                if(clientCode!=null){
                     assetDto.setClientCode(clientCode);
                 }
                 assetDto.setMachineMake(buildMachinDto(asset.getMachineMake()));
