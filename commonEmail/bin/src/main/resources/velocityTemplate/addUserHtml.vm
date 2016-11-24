@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <h3>Hi ${name},</h3>
+        <p>
+            You are invited to login into Maintenance app.
+            Log in with below credential and update your profile.
+        </p>
+        <h3>
+          Your Credentials
+        </h3>
+        <p>
+           Username: ${username}<br/>
+           Password: ${password}
+        </p>
+        <p>
+       Regards,<br/>
+       Admin
+       </p>
+    </body>
+
+</html>
