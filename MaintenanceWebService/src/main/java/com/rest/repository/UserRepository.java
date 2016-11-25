@@ -41,8 +41,8 @@ public interface UserRepository extends CrudRepository<UserImpl, Long> {
 
     UserImpl findByRoleTypeId(Long id);
     
-    @Query("select emailId from UserImpl where  roleTypeId=:role and status=:status")
-    Set<String> findEmailIdByRoleTypeIdAndStatus(
+    @Query("select emailId from UserImpl where companyId=:companyId and roleTypeId=:role and status=:status")
+    Set<String> findEmailIdByCompanyIdAndRoleTypeIdAndStatus(@Param("companyId") Long companyId,
             @Param("role") Long role, @Param("status") String status);
 
 

@@ -92,7 +92,9 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         assetlog.setEntryDate(Calendar.getInstance());
         assetlog.setStatus(LogStatus.NEW.name());
          assetLogRepository.save(assetlog);
-         Set<String>  adminUsersEmailIds=  userRepository.findEmailIdByRoleTypeIdAndStatus(RoleType.ADMIN.getId(), StatusType.ACTIVE.getValue());
+        Set<String> adminUsersEmailIds =
+            userRepository.findEmailIdByCompanyIdAndRoleTypeIdAndStatus(asset.getCompanyId(),
+                RoleType.ADMIN.getId(), StatusType.ACTIVE.getValue());
          EmailContent emailContent = new EmailContent(EmailType.ASSET_LOG_CREATED);
          emailContent.setTo(adminUsersEmailIds);
          
