@@ -13,6 +13,7 @@ public class UserContext {
     private String email;
 
     private Long companyId;
+    private String companyName;
 
     private RoleType role;
 
@@ -69,6 +70,16 @@ public class UserContext {
     
     public void setRole(RoleType role) {
         this.role = role;
+    }
+
+    
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
 

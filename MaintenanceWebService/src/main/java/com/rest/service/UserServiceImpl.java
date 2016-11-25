@@ -140,8 +140,10 @@ public class UserServiceImpl extends BaseServiceImpl {
         if (null == user) {
             throw new RuntimeException("User not found or not activated");
         }
-        return new UserContext(user.getUserId(), user.getUserName(), user.getEmailId(),
+        UserContext context=new UserContext(user.getUserId(), user.getUserName(), user.getEmailId(),
             user.getCompanyId(), RoleType.getRoleType(user.getRoleTypeId()));
+        context.setCompanyName(user.getCompany().getShortDesc());
+        return context;
     }
 
     /**

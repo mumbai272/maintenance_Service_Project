@@ -1,0 +1,30 @@
+<html>
+    <body>
+        <h3>Hi Administrator,</h3>
+        <p>
+           New Log has been reported.
+          </p>
+        <h3>
+          Log Details
+          <hr\>
+        </h3>
+        <p>
+          Problem: ${assetProblem}
+        </p>
+        <p>
+         Client Name: ${ClientName}
+        </p>
+        <p>
+          Asset: ${asset}
+        </p>
+         <p>
+          Work Type: ${maintenanceType}
+        </p>
+        <p>
+        <br/>
+       Regards,<br/>
+       ${name}
+       </p>
+    </body>
+
+</html>

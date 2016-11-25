@@ -4,6 +4,7 @@
 package com.rest.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -39,6 +40,11 @@ public interface UserRepository extends CrudRepository<UserImpl, Long> {
     List<UserImpl> findByCompanyIdAndRoleTypeIdAndStatus(Long companyId, Long role, String status);
 
     UserImpl findByRoleTypeId(Long id);
+    
+    @Query("select emailId from UserImpl where  roleTypeId=:role and status=:status")
+    Set<String> findEmailIdByRoleTypeIdAndStatus(
+            @Param("role") Long role, @Param("status") String status);
+
 
     @Query("select firstName from UserImpl where userId=:userId")
     String findNameById(@Param("userId") Long userId);

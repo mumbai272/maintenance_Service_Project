@@ -6,6 +6,7 @@ package com.rest.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,10 +28,14 @@ import com.maintenance.common.StatusType;
 import com.maintenance.common.UserContextRetriver;
 import com.maintenance.common.exception.AuthorizationException;
 import com.maintenance.common.util.DateUtil;
+import com.maintenance.email.EmailType;
+import com.maintenance.email.sender.EmailContent;
+import com.maintenance.email.sender.EmailSender;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetLogAssignment;
 import com.rest.entity.AssetLogAssignmentTracker;
 import com.rest.entity.AssetLogImpl;
+import com.rest.entity.AssetMaster;
 import com.rest.entity.MaintenanceType;
 import com.rest.entity.UserImpl;
 import com.rest.repository.AssetLogAssignmentRepository;
@@ -62,9 +67,18 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
 
     @Autowired
     private AssetLogAssignmentTrackRepository assetLogAssignmentTrackRepository;
+    
+    @Autowired
+    private EmailSender emailSender;
 
     @Transactional(rollbackFor = { Exception.class })
     public void createAssetLog(AssetLogCreateRequest assetlogDTO) {
+        AssetMaster asset=assetMasterRepository.findOne(assetlogDTO.getAssetId());
+        if(asset==null){
+            throw new RuntimeException("Asset does not exist");
+        }else if (asset!=null && !asset.getStatus().equalsIgnoreCase(StatusType.ACTIVE.getValue())) {
+            throw new RuntimeException("Asset is not active"); 
+        }
         MaintenanceType maintenanceType =
             maintenanceTypeRepository.findByTypeIdAndStatus(assetlogDTO.getMaintainanceType(),
                 StatusType.ACTIVE.getValue());
@@ -77,8 +91,17 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         assetlog.setEntryBy(UserContextRetriver.getUsercontext().getUserId());
         assetlog.setEntryDate(Calendar.getInstance());
         assetlog.setStatus(LogStatus.NEW.name());
-        assetLogRepository.save(assetlog);
-
+         assetLogRepository.save(assetlog);
+         Set<String>  adminUsersEmailIds=  userRepository.findEmailIdByRoleTypeIdAndStatus(RoleType.ADMIN.getId(), StatusType.ACTIVE.getValue());
+         EmailContent emailContent = new EmailContent(EmailType.ASSET_LOG_CREATED);
+         emailContent.setTo(adminUsersEmailIds);
+         
+         emailContent.addModel("name",getLoggedInUser().getUserName());
+         emailContent.addModel("ClientName", getLoggedInUser().getCompanyName());
+         emailContent.addModel("assetProblem", assetlog.getAssetProblem());
+         emailContent.addModel("asset", asset.getAssetDescription());
+         emailContent.addModel("maintenanceType", maintenanceType.getTypeCode());       
+         emailSender.sendMailAsync(emailContent);
     }
 
     public void updateAssetLog(AssetLogUpdateRequest request) {

@@ -11,7 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.helpers.FileUtils;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -42,8 +41,11 @@ public class GenerateInvoice extends BaseServiceImpl {
         Document doc = new Document();
         PdfWriter docWriter = null;
         initializeFonts();
-        File file=new File(pdfFilename);
-        FileUtils.mkDir(file.getParentFile());
+        File file = new File(pdfFilename);
+//        FileUtils.mkDir(file.getParentFile()
+        if(!file.getParentFile().exists() || !file.getParentFile().isDirectory()){
+           file.getParentFile().mkdirs();
+        }
         try {
             String path = pdfFilename;
             docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));

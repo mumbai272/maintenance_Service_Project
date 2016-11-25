@@ -12,7 +12,9 @@ public enum EmailType {
     REGISTRATION_REJECTION( "Registration rejected", "html", "Registration rejected",
             "/velocityTemplate/registrationRejectedHtml.vm"), 
     REGISTRATION_REQUEST("Registration request", "html", "Registration requested",
-            "/velocityTemplate/registrationRequestHtml.vm");
+            "/velocityTemplate/registrationRequestHtml.vm"), 
+    ASSET_LOG_CREATED("Asset log created", "html", "Asset log created",
+            "/velocityTemplate/assetlogcreatedHtml.vm");
 
     private String name;
 
