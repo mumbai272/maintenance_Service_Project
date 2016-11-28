@@ -47,7 +47,7 @@ public class AssetReportLog {
     private Calendar timeOut;
 
     @Column(name = "TRAVEL_TIME")
-    private Time travelTime;
+    private String travelTime;
 
 
     @Column(name = "STATUS", length = 50)
@@ -110,12 +110,12 @@ public class AssetReportLog {
     }
 
 
-    public Time getTravelTime() {
+    public String getTravelTime() {
         return travelTime;
     }
 
 
-    public void setTravelTime(Time travelTime) {
+    public void setTravelTime(String travelTime) {
         this.travelTime = travelTime;
     }
 

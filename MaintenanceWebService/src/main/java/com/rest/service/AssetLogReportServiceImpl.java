@@ -4,6 +4,7 @@
 package com.rest.service;
 
 import java.io.File;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,7 +172,7 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
                 r_log.setTimeOut(DateUtil.parse(request.getTimeOut(), null));
             }
             if (StringUtils.isNotBlank(request.getTravelTime())) {
-                r_log.setTravelTime(DateUtil.parseTime(request.getTravelTime()));
+                r_log.setTravelTime(ValidateTime(request.getTravelTime()));
             }
             assetReportLogRepository.save(r_log);
         } catch (ConstraintViolationException e) {
@@ -179,6 +180,16 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
         }
 
 
+    }
+    private String ValidateTime(String time) {   
+    	if(StringUtils.isEmpty(time)){
+    		return "00:00";
+    	}
+        if(!time.matches("[0-9][0-9]:[0-5][0-9]")){
+            throw new RuntimeException("invalid formate for time. pass hh:mm");
+        }
+        
+        return time;
     }
 
     private AssetLogImpl validateAssetLog(Long logId) {
@@ -223,7 +234,7 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
             r_log.setStatus(request.getStatus());
         }
         if (StringUtils.isNotBlank(request.getTravelTime())) {
-            r_log.setTravelTime(DateUtil.parseTime(request.getTravelTime()));
+            r_log.setTravelTime(ValidateTime(request.getTravelTime()));
         }
         assetReportLogRepository.save(r_log);
     }
@@ -245,7 +256,7 @@ public class AssetLogReportServiceImpl extends BaseServiceImpl {
                 bo.setDateTime(DateUtil.formate(assetReportLog.getDateTime().getTime(), null));
             }
             if (assetReportLog.getTravelTime() != null) {
-                bo.setTravelTime(DateUtil.formate(assetReportLog.getTravelTime(), "hh:mm:ss"));
+                bo.setTravelTime(assetReportLog.getTravelTime());
             }
             bo.setServiceEngineerName(userRepository.findNameById(assetReportLog
                     .getServiceEngineer()));
