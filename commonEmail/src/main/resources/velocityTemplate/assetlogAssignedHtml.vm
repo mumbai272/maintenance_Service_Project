@@ -1,0 +1,32 @@
+<html>
+    <body>
+        <h3>Hi {assignedTo},</h3>
+        <p>
+           New Log has been Assigned to you.
+          </p>
+        <h3>
+          Log Details
+          <hr\>
+        </h3>
+        <table>
+        <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        </tr>
+        <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        </tr>
+        </table>
+       
+        <br/>
+       Regards,<br/>
+       ${name}
+       </p>
+    </body>
+
+</htm
