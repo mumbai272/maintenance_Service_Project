@@ -212,17 +212,17 @@ public class AssetLogServiceImpl extends BaseServiceImpl {
         log.setStatus(LogStatus.INPROGRESS.name());
         assetLogRepository.save(log);
         Set<String> clientAdminUser =
-                userRepository.findEmailIdByCompanyIdAndRoleTypeIdAndStatus(log.getCompanyId(),
+                userRepository.findEmailIdByCompanyIdAndRoleTypeIdAndStatus(log.getClientId(),
                     RoleType.CLIENT_ADMIN.getId(), StatusType.ACTIVE.getValue());
-//        EmailContent emailContent = new EmailContent(EmailType.ASSET_LOG_ASSIGNED);
-//        emailContent.addTo(user.getEmailId());
-//        emailContent.setCc(clientAdminUser);
-//        emailContent.addModel("log_id",log.getLogId());
-//        emailContent.addModel("log_problem", log.getAssetProblem());   
-//        emailContent.addModel("assignedTo", user.getFirstName());
-//        emailContent.addModel("client", log.getClientId()); 
-//        emailContent.addModel("maintenanceType", log.getMaintainanceType());
-//        emailSender.sendMailAsync(emailContent);
+        EmailContent emailContent = new EmailContent(EmailType.ASSET_LOG_ASSIGNED);
+        emailContent.addTo(user.getEmailId());
+        emailContent.setCc(clientAdminUser);
+        emailContent.addModel("log_id",log.getLogId());
+        emailContent.addModel("log_problem", log.getAssetProblem());   
+        emailContent.addModel("assignedTo", user.getFirstName());
+        emailContent.addModel("client", log.getClientId()); 
+        emailContent.addModel("maintenanceType", log.getmType().getTypeCode());
+        emailSender.sendMailAsync(emailContent);
     }
 
     private AssetLogImpl validateAssetLog(Long logId) {

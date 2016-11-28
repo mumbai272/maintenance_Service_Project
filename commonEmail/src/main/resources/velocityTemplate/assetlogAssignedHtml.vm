@@ -1,6 +1,14 @@
 <html>
+<head>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+</head>
     <body>
-        <h3>Hi {assignedTo},</h3>
+        <h3>Hi ${assignedTo},</h3>
         <p>
            New Log has been Assigned to you.
           </p>
@@ -8,24 +16,26 @@
           Log Details
           <hr\>
         </h3>
-        <table>
-        <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        </tr>
-        <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        </tr>
+        <table cellspace="2px" style="width:100%">
+            <tr bgcolor="#003366">
+                <th style="color:#ffffff">Log Id</th>
+                <th  style="color:#ffffff">Problem</th>
+                <th  style="color:#ffffff">Assigned To</th>
+                <th  style="color:#ffffff">ClientId</th>
+                <th  style="color:#ffffff">Maintenance Type</th>
+            </tr>
+            <tr>
+                <td>${log_id}</td>
+                <td>${log_problem}</td>       
+                <td>${assignedTo}</td>
+                <td>${client}</td>
+                <td>${maintenanceType}</td>
+            </tr>
         </table>
        
         <br/>
        Regards,<br/>
-       ${name}
+       Admins
        </p>
     </body>
 
