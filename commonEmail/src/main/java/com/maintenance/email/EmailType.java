@@ -14,7 +14,9 @@ public enum EmailType {
     REGISTRATION_REQUEST("Registration request", "html", "Registration requested",
             "/velocityTemplate/registrationRequestHtml.vm"), 
     ASSET_LOG_CREATED("Asset log created", "html", "Asset log created",
-            "/velocityTemplate/assetlogcreatedHtml.vm");
+            "/velocityTemplate/assetlogcreatedHtml.vm"),
+    ASSET_LOG_ASSIGNED("Asset log Assigned", "html", "Asset log Assigned",
+            "/velocityTemplate/assetlogAssignedHtml.vm");
 
     private String name;
 
