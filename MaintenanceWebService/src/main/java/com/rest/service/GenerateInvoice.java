@@ -50,10 +50,10 @@ public class GenerateInvoice extends BaseServiceImpl {
            file.getParentFile().mkdirs();
         }
         if(!file.exists()){
-            logger.info("file not exist");
+        	logger.info("creting invoice file");
+            file=new File(pdfFilename);           
         }else{
-            logger.info("creting invoice file");
-            file=new File(pdfFilename);
+        	 logger.info("file not exist");
         }
         try {
             docWriter = PdfWriter.getInstance(doc, new FileOutputStream(file));
