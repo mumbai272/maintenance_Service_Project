@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -28,6 +29,7 @@ import com.rest.entity.AssetReportCharges;
 
 
 public class GenerateInvoice extends BaseServiceImpl {
+    private static Logger logger = Logger.getLogger(GenerateInvoice.class);
 
     private static BaseFont bfBold;
 
@@ -44,11 +46,17 @@ public class GenerateInvoice extends BaseServiceImpl {
         File file = new File(pdfFilename);
 //        FileUtils.mkDir(file.getParentFile()
         if(!file.getParentFile().exists() || !file.getParentFile().isDirectory()){
+            logger.info("createing folder");
            file.getParentFile().mkdirs();
         }
+        if(!file.exists()){
+            logger.info("file not exist");
+        }else{
+            logger.info("creting invoice file");
+            file=new File(pdfFilename);
+        }
         try {
-            String path = pdfFilename;
-            docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
+            docWriter = PdfWriter.getInstance(doc, new FileOutputStream(file));
             doc.addAuthor(author);
             doc.addCreationDate();
             doc.addCreator(author);
