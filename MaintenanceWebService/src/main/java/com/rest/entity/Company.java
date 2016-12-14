@@ -64,9 +64,17 @@ public class Company {
     @Column(name = "ENTRY_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar entryDate;
+    
+    @Column(name = "UPDATE_BY", length = 50)
+    private String updateBy;
+
+    @Column(name = "UPDATE_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar updateDate;
 
     @Column(name = "ADDRESS_ID", unique = true)
     private Long addressId;
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ADDRESS_ID", insertable = false, updatable = false)
@@ -257,6 +265,30 @@ public class Company {
     
     public void setPanNo(String panNo) {
         this.panNo = panNo;
+    }
+
+
+    
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+
+    
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+
+    
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+
+    
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
     }
 
 

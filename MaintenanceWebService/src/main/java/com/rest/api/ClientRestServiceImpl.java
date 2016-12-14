@@ -6,10 +6,13 @@ package com.rest.api;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -21,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.maintenance.common.DTO.ComapanyUpdateDTO;
 import com.maintenance.common.DTO.CompanyDTO;
 import com.maintenance.common.DTO.CompanyResponse;
 import com.maintenance.request.BaseResponse;
@@ -81,6 +85,33 @@ public class ClientRestServiceImpl {
         companyServiceImpl.createCompanyDeatils(companyDTO);
         response.setMsg("Successfully created");
         response.setStatusCode(1);
+
+        return Response.ok(response).build();
+    }
+    
+    
+    @Path(value = "/client")
+    @PUT
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response updateComapny(@Valid @NotNull ComapanyUpdateDTO companyDTO) {
+        BaseResponse response = new BaseResponse();
+        companyServiceImpl.updateCompanyDeatils(companyDTO);
+        response.setMsg("Successfully updated");
+        response.setStatusCode(BaseResponse.SUCCESS_CODE);
+
+        return Response.ok(response).build();
+    }
+    
+    @Path(value = "/client/{clientId}")
+    @DELETE
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response deleteComapny(@PathParam("clientId")Long clientId) {
+        BaseResponse response = new BaseResponse();
+        companyServiceImpl.deleteCompanyDeatils(clientId);
+        response.setMsg("Successfully deleted");
+        response.setStatusCode(BaseResponse.SUCCESS_CODE);
 
         return Response.ok(response).build();
     }

@@ -171,7 +171,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         logger.info("forgot password for emailID:" + request.getEmailId());
         BaseResponse response = new BaseResponse();
         userServiceImpl.forgotPassword(request);
-        response.setMsg("New password is sent to yout emailId successful");
+        response.setMsg("New password is sent to your emailId successful");
         return Response.ok(response).build();
     }
 

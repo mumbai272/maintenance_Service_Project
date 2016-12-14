@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.common.util.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.maintenance.common.StatusType;
 import com.maintenance.common.DTO.AddressDTO;
+import com.maintenance.common.DTO.ComapanyUpdateDTO;
 import com.maintenance.common.DTO.CompanyDTO;
 import com.maintenance.common.util.DateUtil;
 import com.rest.entity.Address;
@@ -130,6 +132,70 @@ public class CompanyServiceImpl extends BaseServiceImpl {
         BeanUtils.copyProperties(companyDTO.getAddress(), address);
         addressRepository.save(address);
         company.setAddressId(address.getAddressId());
+        companyRepository.save(company);
+    }
+
+    @Transactional(readOnly = false, rollbackFor = { Exception.class })
+    public void updateCompanyDeatils(ComapanyUpdateDTO companyDTO) {
+
+        Company company =
+            companyRepository.findByClientIdAndStatus(companyDTO.getClientId(),
+                StatusType.ACTIVE.getValue());
+        if (company == null) {
+            throw new RuntimeException("invalid client does not exists");
+        }
+
+        logger.info("UPDATING FOR THE CLIENT ID:" + companyDTO.getClientId());
+        if (StringUtils.isNotBlank(companyDTO.getClientName())) {
+            company.setShortDesc(companyDTO.getClientName());
+        }
+        if (StringUtils.isNotBlank(companyDTO.getCinNo())) {
+            company.setCinNo(companyDTO.getCinNo());
+        }
+        if (StringUtils.isNotBlank(companyDTO.getCstNo())) {
+            company.setCstNo(companyDTO.getCstNo());
+        }
+        if (StringUtils.isNotBlank(companyDTO.getDescription())) {
+            company.setDescription(companyDTO.getDescription());
+        }
+        if (StringUtils.isNotBlank(companyDTO.getEccNo())) {
+            company.setEccNo(companyDTO.getEccNo());
+        }
+        if (StringUtils.isNotBlank(companyDTO.getPanNo())) {
+            company.setPanNo(companyDTO.getPanNo());
+        }
+
+        if (StringUtils.isNotBlank(companyDTO.getServiceTaxNO())) {
+            company.setServiceTaxNO(companyDTO.getServiceTaxNO());
+        }
+        if (StringUtils.isNotBlank(companyDTO.getTinNo())) {
+            company.setTinNo(companyDTO.getTinNo());
+        }
+
+        company.setUpdateBy(getLoggedInUser().getUserName());
+        company.setUpdateDate(DateUtil.today());
+
+        companyRepository.save(company);
+
+    }
+
+    /**
+     * delete the client
+     * 
+     * @param clientId
+     */
+    @Transactional(readOnly = false, rollbackFor = { Exception.class })
+    public void deleteCompanyDeatils(Long clientId) {
+        Company company =
+            companyRepository.findByClientIdAndStatus(clientId, StatusType.ACTIVE.getValue());
+        if (company == null) {
+            throw new RuntimeException("invalid client does not exists");
+        }
+        logger.info("DELETE FOR THE CLIENT ID:" + clientId);
+        company.setStatus(StatusType.DELETED.getValue());
+        company.setUpdateBy(getLoggedInUser().getUserName());
+        company.setUpdateDate(DateUtil.today());
+
         companyRepository.save(company);
     }
 
