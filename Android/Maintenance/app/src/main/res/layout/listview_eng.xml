@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:background="#F2F2F2"
+    android:padding="8dp"
+    android:weightSum="1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Time In"
+        android:textStyle="bold"
+        android:textColor="#00134D"
+        android:id="@+id/textView27"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Time Out"
+        android:textStyle="bold"
+        android:textColor="#00134D"
+        android:id="@+id/textView28"
+        android:layout_below="@+id/textView27"
+        android:layout_toStartOf="@+id/eng_ser" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/time_in"
+        android:textColor="@color/black_color"
+        android:layout_above="@+id/textView28"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textView28" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/time_out"
+        android:textColor="@color/black_color"
+        android:layout_below="@+id/time_in"
+        android:layout_alignStart="@+id/time_in"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Engineer "
+        android:textStyle="bold"
+        android:textColor="#00134D"
+        android:id="@+id/textView29"
+        android:layout_below="@+id/textView28"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/eng_ser"
+        android:textColor="@color/black_color"
+        android:layout_below="@+id/time_out"
+        android:layout_toEndOf="@+id/textView29" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/delete_ser"
+        android:src="@drawable/delete"
+        android:layout_marginEnd="31dp"
+        android:layout_alignTop="@+id/time_out"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

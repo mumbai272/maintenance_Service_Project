@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/view">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_start_stop"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:id="@+id/start"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white_color"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        android:layout_below="@+id/exp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Work Type"
+        android:id="@+id/tyep"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="73dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Planned Hours"
+        android:id="@+id/hr"
+        android:layout_below="@+id/tyep"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="51dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Expire Service DateTime"
+        android:id="@+id/exp"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/hr" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white_color"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/stop"
+        android:visibility="invisible"
+        android:layout_below="@+id/start"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/type_e"
+            android:paddingLeft="5dp"
+            android:textAlignment="center"
+            android:layout_above="@+id/hr"
+            android:layout_alignEnd="@+id/start"
+            android:layout_alignTop="@+id/tyep"
+            android:layout_toEndOf="@+id/hr" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/hr_e"
+            android:paddingLeft="5dp"
+            android:textAlignment="center"
+            android:layout_alignBottom="@+id/hr"
+            android:layout_alignEnd="@+id/type_e"
+            android:layout_alignTop="@+id/hr"
+            android:layout_toEndOf="@+id/hr" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/exp_e"
+            android:paddingLeft="5dp"
+            android:textAlignment="center"
+            android:layout_alignBottom="@+id/exp"
+            android:layout_alignTop="@+id/exp"
+            android:layout_alignEnd="@+id/hr_e"
+            android:layout_toEndOf="@+id/exp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="JOB COMPLETED"
+            android:visibility="invisible"
+            android:id="@+id/complte"
+            android:layout_below="@+id/exp"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

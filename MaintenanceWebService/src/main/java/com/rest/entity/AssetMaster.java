@@ -3,7 +3,7 @@
 //============================================================
 package com.rest.entity;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,17 +35,28 @@ public class AssetMaster {
     @Column(name = "CLIENT_ID", nullable = false)
     private Long clientId;
 
+//    @ManyToOne
+//    @JoinColumn(name = "ASSET_TYPE", nullable = false, insertable = false, updatable = false)
+//    private MachineType machineType;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "MAKE_ID", insertable = false, updatable = false)
+//    private MachineMake machineMake;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "MODEL_ID", insertable = false, updatable = false)
+//    private MachineModel machineModel;
     @ManyToOne
     @JoinColumn(name = "ASSET_TYPE", nullable = false, insertable = false, updatable = false)
-    private MachineType machineType;
+    private MachineAttribute machineType;
 
     @ManyToOne
     @JoinColumn(name = "MAKE_ID", insertable = false, updatable = false)
-    private MachineMake machineMake;
+    private MachineAttribute machineMake;
 
     @ManyToOne
     @JoinColumn(name = "MODEL_ID", insertable = false, updatable = false)
-    private MachineModel machineModel;
+    private MachineAttribute machineModel;
 
 
     @Column(name = "ASSET_TYPE", nullable = false)
@@ -70,13 +81,13 @@ public class AssetMaster {
     @Column(name = "INST_SL_NO", length = 50)
     private String instSLNo;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_MFG")
-    private Date dataOfMfg;
+    private Calendar dataOfMfg;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_INSTALL")
-    private Date installDate;
+    private Calendar installDate;
 
     @Column(name = "UOM_ID")
     private Long uomId;
@@ -99,13 +110,13 @@ public class AssetMaster {
     @Column(name = "IS_WARRANTY", length = 1)
     private String isWarranty;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "WARRANTY_SDATE")
-    private Date warrantyStartDate;
+    private Calendar warrantyStartDate;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "WARRANTY_EDATE")
-    private Date warrantyEndDate;
+    private Calendar warrantyEndDate;
 
     @Column(name = "RATING_UID")
     private String rating;
@@ -119,23 +130,23 @@ public class AssetMaster {
     @Column(name = "ENTRY_BY", length = 50)
     private String entryBy;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ENTRY_DATE")
-    private Date entryDate;
+    private Calendar entryDate;
 
     @Column(name = "MOD_BY", length = 50)
     private String modifiedBy;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "MOD_DATE")
-    private Date modifiedDate;
+    private Calendar modifiedDate;
 
     @Column(name = "AUTH_BY", length = 50)
     private String authenticatedBy;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "AUTH_DATE")
-    private Date authenticateDate;
+    private Calendar authenticateDate;
 
     public AssetMaster() {
         super();
@@ -172,38 +183,74 @@ public class AssetMaster {
     }
 
 
-    public MachineType getMachineType() {
-        return machineType;
-    }
-
-
-    public void setMachineType(MachineType machineType) {
-        this.machineType = machineType;
-    }
-
-
-    public MachineMake getMachineMake() {
-        return machineMake;
-    }
-
-
-    public void setMachineMake(MachineMake machineMake) {
-        this.machineMake = machineMake;
-    }
-
-
-    public MachineModel getMachineModel() {
-        return machineModel;
-    }
-
-
-    public void setMachineModel(MachineModel machineModel) {
-        this.machineModel = machineModel;
-    }
+//    public MachineType getMachineType() {
+//        return machineType;
+//    }
+//
+//
+//    public void setMachineType(MachineType machineType) {
+//        this.machineType = machineType;
+//    }
+//
+//
+//    public MachineMake getMachineMake() {
+//        return machineMake;
+//    }
+//
+//
+//    public void setMachineMake(MachineMake machineMake) {
+//        this.machineMake = machineMake;
+//    }
+//
+//
+//    public MachineModel getMachineModel() {
+//        return machineModel;
+//    }
+//
+//
+//    public void setMachineModel(MachineModel machineModel) {
+//        this.machineModel = machineModel;
+//    }
 
 
     public String getAssetNo() {
         return assetNo;
+    }
+
+
+    
+    public MachineAttribute getMachineType() {
+        return machineType;
+    }
+
+
+    
+    public void setMachineType(MachineAttribute machineType) {
+        this.machineType = machineType;
+    }
+
+
+    
+    public MachineAttribute getMachineMake() {
+        return machineMake;
+    }
+
+
+    
+    public void setMachineMake(MachineAttribute machineMake) {
+        this.machineMake = machineMake;
+    }
+
+
+    
+    public MachineAttribute getMachineModel() {
+        return machineModel;
+    }
+
+
+    
+    public void setMachineModel(MachineAttribute machineModel) {
+        this.machineModel = machineModel;
     }
 
 
@@ -242,239 +289,279 @@ public class AssetMaster {
     }
 
 
-    public Date getDataOfMfg() {
-        return dataOfMfg;
-    }
-
-
-    public void setDataOfMfg(Date dataOfMfg) {
-        this.dataOfMfg = dataOfMfg;
-    }
-
-
-    public Date getInstallDate() {
-        return installDate;
-    }
-
-
-    public void setInstallDate(Date installDate) {
-        this.installDate = installDate;
-    }
-
-
-    public Long getUomId() {
-        return uomId;
-    }
-
-
-    public void setUomId(Long uomId) {
-        this.uomId = uomId;
-    }
-
-
-    public Long getTimeUnit() {
-        return timeUnit;
-    }
-
-
-    public void setTimeUnit(Long timeUnit) {
-        this.timeUnit = timeUnit;
-    }
-
-
-    public Double getAssetUsage() {
-        return assetUsage;
-    }
-
-
-    public void setAssetUsage(Double assetUsage) {
-        this.assetUsage = assetUsage;
-    }
-
-
-    public String getAssetImage() {
-        return assetImage;
-    }
-
-
-    public void setAssetImage(String assetImage) {
-        this.assetImage = assetImage;
-    }
-
-
-    public String getLocation() {
-        return location;
-    }
-
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-
-    public Double getPurchaseCost() {
-        return purchaseCost;
-    }
-
-
-    public void setPurchaseCost(Double purchaseCost) {
-        this.purchaseCost = purchaseCost;
-    }
-
-
-    public String getIsWarranty() {
-        return isWarranty;
-    }
-
-
-    public void setIsWarranty(String isWarranty) {
-        this.isWarranty = isWarranty;
-    }
-
-
-    public Date getWarrantyStartDate() {
-        return warrantyStartDate;
-    }
-
-
-    public void setWarrantyStartDate(Date warrantyStartDate) {
-        this.warrantyStartDate = warrantyStartDate;
-    }
-
-
-    public Date getWarrantyEndDate() {
-        return warrantyEndDate;
-    }
-
-
-    public void setWarrantyEndDate(Date warrantyEndDate) {
-        this.warrantyEndDate = warrantyEndDate;
-    }
-
-
-    public String getRating() {
-        return rating;
-    }
-
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-
-    public String getIsActive() {
-        return isActive;
-    }
-
-
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
-    }
-
-
-    public String getStatus() {
-        return status;
-    }
-
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-
-    public String getEntryBy() {
-        return entryBy;
-    }
-
-
-    public void setEntryBy(String entryBy) {
-        this.entryBy = entryBy;
-    }
-
-
-    public Date getEntryDate() {
-        return entryDate;
-    }
-
-
-    public void setEntryDate(Date entryDate) {
-        this.entryDate = entryDate;
-    }
-
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-
-    public String getAuthenticatedBy() {
-        return authenticatedBy;
-    }
-
-
-    public void setAuthenticatedBy(String authenticatedBy) {
-        this.authenticatedBy = authenticatedBy;
-    }
-
-
-    public Date getAuthenticateDate() {
-        return authenticateDate;
-    }
-
-
-    public void setAuthenticateDate(Date authenticateDate) {
-        this.authenticateDate = authenticateDate;
-    }
-
-
-
+    
     public Long getMachineTypeId() {
         return machineTypeId;
     }
 
 
-
+    
     public void setMachineTypeId(Long machineTypeId) {
         this.machineTypeId = machineTypeId;
     }
 
 
-
+    
     public Long getMachineMakeId() {
         return machineMakeId;
     }
 
 
-
+    
     public void setMachineMakeId(Long machineMakeId) {
         this.machineMakeId = machineMakeId;
     }
 
 
-
+    
     public Long getMachineModelId() {
         return machineModelId;
     }
 
 
-
+    
     public void setMachineModelId(Long machineModelId) {
         this.machineModelId = machineModelId;
+    }
+
+
+    
+    public Calendar getDataOfMfg() {
+        return dataOfMfg;
+    }
+
+
+    
+    public void setDataOfMfg(Calendar dataOfMfg) {
+        this.dataOfMfg = dataOfMfg;
+    }
+
+
+    
+    public Calendar getInstallDate() {
+        return installDate;
+    }
+
+
+    
+    public void setInstallDate(Calendar installDate) {
+        this.installDate = installDate;
+    }
+
+
+    
+    public Long getUomId() {
+        return uomId;
+    }
+
+
+    
+    public void setUomId(Long uomId) {
+        this.uomId = uomId;
+    }
+
+
+    
+    public Long getTimeUnit() {
+        return timeUnit;
+    }
+
+
+    
+    public void setTimeUnit(Long timeUnit) {
+        this.timeUnit = timeUnit;
+    }
+
+
+    
+    public Double getAssetUsage() {
+        return assetUsage;
+    }
+
+
+    
+    public void setAssetUsage(Double assetUsage) {
+        this.assetUsage = assetUsage;
+    }
+
+
+    
+    public String getAssetImage() {
+        return assetImage;
+    }
+
+
+    
+    public void setAssetImage(String assetImage) {
+        this.assetImage = assetImage;
+    }
+
+
+    
+    public String getLocation() {
+        return location;
+    }
+
+
+    
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
+    
+    public Double getPurchaseCost() {
+        return purchaseCost;
+    }
+
+
+    
+    public void setPurchaseCost(Double purchaseCost) {
+        this.purchaseCost = purchaseCost;
+    }
+
+
+    
+    public String getIsWarranty() {
+        return isWarranty;
+    }
+
+
+    
+    public void setIsWarranty(String isWarranty) {
+        this.isWarranty = isWarranty;
+    }
+
+
+    
+    public Calendar getWarrantyStartDate() {
+        return warrantyStartDate;
+    }
+
+
+    
+    public void setWarrantyStartDate(Calendar warrantyStartDate) {
+        this.warrantyStartDate = warrantyStartDate;
+    }
+
+
+    
+    public Calendar getWarrantyEndDate() {
+        return warrantyEndDate;
+    }
+
+
+    
+    public void setWarrantyEndDate(Calendar warrantyEndDate) {
+        this.warrantyEndDate = warrantyEndDate;
+    }
+
+
+    
+    public String getRating() {
+        return rating;
+    }
+
+
+    
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+
+    
+    public String getIsActive() {
+        return isActive;
+    }
+
+
+    
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
+
+
+    
+    public String getStatus() {
+        return status;
+    }
+
+
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
+    
+    public String getEntryBy() {
+        return entryBy;
+    }
+
+
+    
+    public void setEntryBy(String entryBy) {
+        this.entryBy = entryBy;
+    }
+
+
+    
+    public Calendar getEntryDate() {
+        return entryDate;
+    }
+
+
+    
+    public void setEntryDate(Calendar entryDate) {
+        this.entryDate = entryDate;
+    }
+
+
+    
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+
+    
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+
+    
+    public Calendar getModifiedDate() {
+        return modifiedDate;
+    }
+
+
+    
+    public void setModifiedDate(Calendar modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+
+    
+    public String getAuthenticatedBy() {
+        return authenticatedBy;
+    }
+
+
+    
+    public void setAuthenticatedBy(String authenticatedBy) {
+        this.authenticatedBy = authenticatedBy;
+    }
+
+
+    
+    public Calendar getAuthenticateDate() {
+        return authenticateDate;
+    }
+
+
+    
+    public void setAuthenticateDate(Calendar authenticateDate) {
+        this.authenticateDate = authenticateDate;
     }
 
 

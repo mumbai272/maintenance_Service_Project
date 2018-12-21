@@ -4,7 +4,6 @@
 package com.rest.entity;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,10 +16,10 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 /**
  * 
- * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com>
- * Created on Oct 9, 2016
+ * @author Vinayak Mumbai <vinayak.s.mumbai@gmail.com> Created on Oct 9, 2016
  */
 @Entity
 @Table(name = "CS_ASSET_LOG_ASSIGN")
@@ -40,20 +39,27 @@ public class AssetLogAssignment {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ASSIGN_DATE")
-    private Date assignDate;
+    private Calendar assignDate;
 
     @Column(name = "ASSIGNED_TO", nullable = false)
     private Long assignedTo;
 
+    @ManyToOne
+    @JoinColumn(name = "ASSIGNED_TO", nullable = false, insertable = false, updatable = false)
+    private UserImpl assignedUser;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXP_SERVICE_DTIME")
-    private Date expServiceDateTime;
+    private Calendar expServiceDateTime;
 
     @Column(name = "WORK_TYPE")
     private String workType;
 
     @Column(name = "PLANNED_HOURS")
     private Double plannedHours;
+
+    @Column(name = "STATUS", length = 50)
+    private String status;
 
     @Column(name = "ENTRY_BY", length = 50)
     private String entryBy;
@@ -93,12 +99,12 @@ public class AssetLogAssignment {
     }
 
 
-    public Date getAssignDate() {
+    public Calendar getAssignDate() {
         return assignDate;
     }
 
 
-    public void setAssignDate(Date assignDate) {
+    public void setAssignDate(Calendar assignDate) {
         this.assignDate = assignDate;
     }
 
@@ -113,12 +119,12 @@ public class AssetLogAssignment {
     }
 
 
-    public Date getExpServiceDateTime() {
+    public Calendar getExpServiceDateTime() {
         return expServiceDateTime;
     }
 
 
-    public void setExpServiceDateTime(Date expServiceDateTime) {
+    public void setExpServiceDateTime(Calendar expServiceDateTime) {
         this.expServiceDateTime = expServiceDateTime;
     }
 
@@ -143,6 +149,18 @@ public class AssetLogAssignment {
     }
 
 
+
+    public String getStatus() {
+        return status;
+    }
+
+
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
     public String getEntryBy() {
         return entryBy;
     }
@@ -160,6 +178,18 @@ public class AssetLogAssignment {
 
     public void setEntryDate(Calendar entryDate) {
         this.entryDate = entryDate;
+    }
+
+
+    
+    public UserImpl getAssignedUser() {
+        return assignedUser;
+    }
+
+
+    
+    public void setAssignedUser(UserImpl assignedUser) {
+        this.assignedUser = assignedUser;
     }
 
 

@@ -1,116 +1,454 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:weightSum="1">
+<android.support.design.widget.AppBarLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/AppTheme.AppBarOverlay"
+    android:id="@+id/view"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+</android.support.design.widget.AppBarLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/approval_ScrollScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:layout_below="@+id/view">
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="User Name :"
-            android:id="@+id/approval_user"
-            android:layout_below="@+id/approval_email"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text=" Email :"
-            android:id="@+id/approval_email"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="User Name :"
+                    android:id="@+id/approval_user"
+                    android:layout_below="@+id/approval_email"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Mobile Number :"
-            android:id="@+id/approval_mobile_no"
-            android:layout_below="@+id/approval_user"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text=" Email :"
+                    android:id="@+id/approval_email"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Client Name :"
-            android:id="@+id/approval_client"
-            android:layout_below="@+id/approval_mobile_no"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Mobile Number :"
+                    android:id="@+id/approval_mobile_no"
+                    android:layout_below="@+id/approval_user"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/approval_email_data"
-            android:textAlignment="textStart"
-            android:layout_alignTop="@+id/approval_email"
-            android:layout_alignStart="@+id/reject_button"
-            android:layout_alignBottom="@+id/approval_email"
-            android:layout_alignParentEnd="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Client Name :"
+                    android:id="@+id/approval_client"
+                    android:layout_below="@+id/approval_mobile_no"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/approval_user_data"
-            android:textAlignment="textStart"
-            android:layout_alignTop="@+id/approval_user"
-            android:layout_alignStart="@+id/reject_button"
-            android:layout_alignEnd="@+id/approval_email_data" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Select Client :"
+                    android:id="@+id/select_client"
+                    android:layout_below="@+id/approval_client"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/approval_mobileno_data"
-            android:textAlignment="textStart"
-            android:layout_alignStart="@+id/reject_button"
-            android:layout_alignBottom="@+id/approval_mobile_no"
-            android:layout_alignTop="@+id/approval_mobile_no"
-            android:layout_alignParentEnd="true" />
+           <!-- <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Select Role :"
+                android:id="@+id/select_role"
+                android:layout_below="@+id/select_client"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="30dp"/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/approval_client_data"
-            android:textAlignment="textStart"
-            android:layout_alignStart="@+id/reject_button"
-            android:layout_alignTop="@+id/approval_client"
-            android:layout_alignParentEnd="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/client_street1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Street1 :"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_below="@+id/select_client"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/client_street2"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Street2 :"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_below="@+id/client_street1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/client_street3"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Street3 :"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_below="@+id/client_street2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/location"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Location :"
+                    android:layout_below="@+id/client_street3" />
 
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:text="Reject"
-            android:textColor="@color/white_color"
-            android:background="@color/red_color"
-            android:id="@+id/reject_button"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="72dp"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/approve_button"
-            android:layout_marginStart="54dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/city"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="City :"
+                    android:layout_below="@+id/location" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/state"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="State :"
+                    android:layout_below="@+id/city" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/country"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Country :"
+                    android:layout_below="@+id/state" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/zip"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Zip Code :"
+                    android:layout_below="@+id/country" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/phone"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Phone NO :"
+                    android:layout_below="@+id/zip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/mobile"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Mobile NO :"
+                    android:layout_below="@+id/phone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fax"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Fax NO :"
+                    android:layout_below="@+id/mobile" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/email"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Email :"
+                    android:layout_below="@+id/fax"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/website"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Web Site :"
+                    android:layout_below="@+id/email" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/approval_email_data"
+                    android:textAlignment="textStart"
+                    android:layout_alignBottom="@+id/approval_email"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="25dp"
+                    android:layout_alignTop="@+id/approval_email"
+                    android:layout_toEndOf="@+id/approval_mobile_no" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/approval_user_data"
+                    android:textAlignment="textStart"
+                    android:ems="10"
+                    android:layout_alignTop="@+id/approval_user"
+                    android:layout_alignEnd="@+id/approval_email_data"
+                    android:layout_toEndOf="@+id/approval_mobile_no" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/approval_mobileno_data"
+                    android:textAlignment="textStart"
+                    android:layout_alignBottom="@+id/approval_mobile_no"
+                    android:layout_alignStart="@+id/approval_user_data"
+                    android:layout_alignTop="@+id/approval_mobile_no"
+                    android:layout_alignEnd="@+id/approval_user_data" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/approval_client_data"
+                    android:textAlignment="textStart"
+                    android:layout_alignTop="@+id/approval_client"
+                    android:layout_alignStart="@+id/approval_mobileno_data"
+                    android:layout_alignEnd="@+id/approval_user_data" />
+
+                <Spinner
+                    android:id="@+id/spinner_client_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/select_client"
+                    android:layout_alignStart="@+id/reject_button"
+                    android:layout_alignEnd="@+id/stree1" />
+
+                <!-- <Spinner
+                     android:id="@+id/spinner_role"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_alignTop="@+id/select_client"
+                     android:layout_alignStart="@+id/stree1"
+                     android:layout_alignEnd="@+id/edit_location" />-->
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stree1"
+                    android:layout_alignBottom="@+id/client_street1"
+                    android:layout_alignEnd="@+id/approval_user_data"
+                    android:layout_alignStart="@+id/approval_client_data" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/steet2"
+                    android:layout_below="@+id/stree1"
+                    android:layout_alignEnd="@+id/approval_user_data"
+                    android:layout_alignStart="@+id/stree1"
+                    android:layout_above="@+id/client_street3" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/street3"
+                    android:layout_below="@+id/steet2"
+                    android:layout_alignEnd="@+id/approval_user_data"
+                    android:layout_alignStart="@+id/steet2"
+                    android:layout_above="@+id/location" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_location"
+                    android:layout_above="@+id/city"
+                    android:layout_alignStart="@+id/street3"
+                    android:layout_below="@+id/street3"
+                    android:layout_alignEnd="@+id/street3" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_city"
+                    android:layout_above="@+id/state"
+                    android:layout_alignStart="@+id/edit_location"
+                    android:layout_alignEnd="@+id/edit_location" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_state"
+                    android:layout_above="@+id/country"
+                    android:layout_alignStart="@+id/edit_city"
+                    android:layout_alignEnd="@+id/edit_city"
+                    android:layout_below="@+id/edit_city" />
+
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/edit_zip"
+                    android:layout_alignEnd="@+id/approval_user_data"
+                    android:layout_above="@+id/edit_phone"
+                    android:layout_below="@+id/country"
+                    android:layout_toEndOf="@+id/approve_button" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/edit_phone"
+                    android:layout_alignBottom="@+id/phone"
+                    android:layout_alignEnd="@+id/approval_user_data"
+                    android:layout_alignStart="@+id/edit_zip"
+                    android:layout_below="@+id/zip" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/edit_mobile"
+                    android:layout_alignBottom="@+id/mobile"
+                    android:layout_alignEnd="@+id/approval_user_data"
+                    android:layout_alignStart="@+id/edit_phone"
+                    android:layout_below="@+id/phone" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/edit_fax"
+                    android:layout_below="@+id/edit_mobile"
+                    android:layout_alignEnd="@+id/approval_user_data"
+                    android:layout_above="@+id/email"
+                    android:layout_alignStart="@+id/edit_mobile" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:ems="10"
+                    android:id="@+id/edit_email"
+                    android:layout_below="@+id/edit_fax"
+                    android:layout_alignEnd="@+id/approval_user_data"
+                    android:layout_above="@+id/website"
+                    android:layout_alignStart="@+id/edit_fax" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_website"
+                    android:layout_above="@+id/approve_button"
+                    android:layout_alignStart="@+id/edit_email"
+                    android:layout_alignEnd="@+id/edit_email" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Approve"
+            android:layout_marginRight="2dp"
             android:textColor="@color/white_color"
             android:background="@color/colorPrimaryDark"
             android:id="@+id/approve_button"
-            android:layout_alignTop="@+id/reject_button"
             android:layout_alignEnd="@+id/approval_mobile_no"
-            android:layout_alignStart="@+id/approval_client" />
+            android:layout_alignStart="@+id/approval_client"
+            android:layout_below="@+id/website"
+            android:layout_marginTop="20dp"/>
 
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Reject"
+            android:layout_marginLeft="2dp"
+            android:textColor="@color/white_color"
+            android:background="@color/red_color"
+            android:id="@+id/reject_button"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="72dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/approve_button" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hidden_client"
+        android:inputType="number"
+        android:visibility="gone" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_country"
+        android:layout_above="@+id/zip"
+        android:layout_alignEnd="@+id/edit_state"
+        android:layout_toEndOf="@+id/approve_button"
+        android:layout_below="@+id/state" />
+</RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

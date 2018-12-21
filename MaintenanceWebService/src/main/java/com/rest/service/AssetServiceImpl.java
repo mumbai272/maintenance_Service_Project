@@ -3,6 +3,7 @@
 //============================================================
 package com.rest.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,21 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maintenance.Common.RoleType;
-import com.maintenance.Common.StatusType;
-import com.maintenance.Common.UserContextRetriver;
 import com.maintenance.asset.DTO.AssetCreateDTO;
 import com.maintenance.asset.DTO.AssetDTO;
 import com.maintenance.asset.DTO.AssetResponse;
 import com.maintenance.asset.DTO.AssetUpdateDTO;
+import com.maintenance.common.RoleType;
+import com.maintenance.common.StatusType;
+import com.maintenance.common.UserAction;
+import com.maintenance.common.UserContextRetriver;
+import com.maintenance.common.exception.AuthorizationException;
 import com.maintenance.machine.DTO.MachineDTO;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.AssetMaster;
 import com.rest.repository.AssetMasterRepository;
 import com.rest.repository.MachineAttributeRepository;
-import com.rest.repository.MachineMakeRepository;
-import com.rest.repository.MachineModelRepository;
-import com.rest.repository.MachineTypeRepository;
 
 @Component
 @Transactional
@@ -38,39 +38,45 @@ public class AssetServiceImpl extends BaseServiceImpl {
     @Autowired
     private AssetMasterRepository assetMasterRepository;
 
-    @Autowired
-    private MachineMakeRepository machineMakeRepository;
+    // @Autowired
+    // private MachineMakeRepository machineMakeRepository;
+    //
+    // @Autowired
+    // private MachineModelRepository machineModelRepository;
+    //
+    // @Autowired
+    // private MachineTypeRepository machineTypeRepository;
 
-    @Autowired
-    private MachineModelRepository machineModelRepository;
-
-    @Autowired
-    private MachineTypeRepository machineTypeRepository;
-    
     @Autowired
     private MachineAttributeRepository machineAttributeRepository;
-
+    @Transactional(rollbackFor={Exception.class})
     public void saveAsset(AssetCreateDTO assetDto) {
         logger.info("saving the asset for Client :" + assetDto.getClientId());
         AssetMaster asset = new AssetMaster();
         BeanUtils.copyProperties(assetDto, asset);
         asset.setStatus(StatusType.ACTIVE.getValue());
-        if(assetDto.getMachineMake()!=null && machineMakeRepository.findOne(assetDto.getMachineMake())!=null){
+        if (assetDto.getMachineMake() != null
+            && machineAttributeRepository.findOne(assetDto.getMachineMake()) != null) {
             asset.setMachineMakeId(assetDto.getMachineMake());
         }
         if (assetDto.getMachineModel() != null
-            && machineModelRepository.findOne(assetDto.getMachineModel()) != null) {
+            && machineAttributeRepository.findOne(assetDto.getMachineModel()) != null) {
             asset.setMachineModelId(assetDto.getMachineModel());
         }
-        if (machineTypeRepository.findOne(assetDto.getMachineType()) != null) {
+        if (machineAttributeRepository.findOne(assetDto.getMachineType()) != null) {
             asset.setMachineTypeId(assetDto.getMachineType());
         }
+        asset.setEntryBy(getLoggedInUser().getUserName());
+        asset.setEntryDate(Calendar.getInstance());
+        asset.setAuthenticatedBy(getLoggedInUser().getUserName());
+        asset.setAuthenticateDate(Calendar.getInstance());
         assetMasterRepository.save(asset);
     }
 
     public AssetResponse getAssets(String status) {
         logger.info("Getting the assets for the status :" + status);
         AssetResponse response = new AssetResponse();
+        String clientCode=null;
         List<AssetMaster> assets = null;
         if (RoleType.ADMIN.equals(UserContextRetriver.getUsercontext().getRole())) {
             assets =
@@ -85,6 +91,10 @@ public class AssetServiceImpl extends BaseServiceImpl {
             for (AssetMaster asset : assets) {
                 AssetDTO assetDto = new AssetDTO();
                 BeanUtils.copyProperties(asset, assetDto);
+                clientCode = companyRepository.findCompanyNameByClientId(asset.getClientId());
+                if(clientCode!=null){
+                    assetDto.setClientCode(clientCode);
+                }
                 assetDto.setMachineMake(buildMachinDto(asset.getMachineMake()));
                 assetDto.setMachineModel(buildMachinDto(asset.getMachineModel()));
                 assetDto.setMachineType(buildMachinDto(asset.getMachineType()));
@@ -112,20 +122,20 @@ public class AssetServiceImpl extends BaseServiceImpl {
             if (StringUtils.isNotBlank(assetDto.getStatus()) && isValidStatus(assetDto.getStatus())) {
                 asset.setStatus(assetDto.getStatus());
             }
-            if (assetDto.getClientId() != null && validateCompany(assetDto.getClientId() )) {
+            if (assetDto.getClientId() != null && validateCompany(assetDto.getClientId())) {
                 asset.setClientId(assetDto.getClientId());
             }
         }
         if (assetDto.getMachineMakeId() != null
-            && machineMakeRepository.findOne(assetDto.getMachineMakeId()) != null) {
+            && machineAttributeRepository.findOne(assetDto.getMachineMakeId()) != null) {
             asset.setMachineMakeId(assetDto.getMachineMakeId());
         }
         if (assetDto.getMachineModelId() != null
-            && machineModelRepository.findOne(assetDto.getMachineModelId()) != null) {
+            && machineAttributeRepository.findOne(assetDto.getMachineModelId()) != null) {
             asset.setMachineModelId(assetDto.getMachineModelId());
         }
         if (assetDto.getMachineTypeId() != null
-            && machineTypeRepository.findOne(assetDto.getMachineTypeId()) != null) {
+            && machineAttributeRepository.findOne(assetDto.getMachineTypeId()) != null) {
             asset.setMachineTypeId(assetDto.getMachineTypeId());
         }
         if (StringUtils.isNotBlank(assetDto.getAssetDescription())) {
@@ -134,39 +144,41 @@ public class AssetServiceImpl extends BaseServiceImpl {
         if (StringUtils.isNotBlank(assetDto.getAssetNo())) {
             asset.setAssetNo(assetDto.getAssetNo());
         }
-         if(StringUtils.isNotBlank(assetDto.getInstSLNo())){
-        asset.setInstSLNo(assetDto.getInstSLNo());
-         }
-         if(StringUtils.isNotBlank(assetDto.getIsActive())){
-             asset.setIsActive(assetDto.getIsActive());
-         }
-         if(StringUtils.isNotBlank(assetDto.getIsWarranty())){
-             asset.setIsWarranty(assetDto.getIsWarranty());
-         }
-         if(assetDto.getWarrantyEndDate()!=null){
-             asset.setWarrantyEndDate(assetDto.getWarrantyEndDate());
-         }
-         if(assetDto.getWarrantyStartDate()!=null){
-             asset.setWarrantyStartDate(assetDto.getWarrantyStartDate());
-         }
-         if(StringUtils.isNotBlank(assetDto.getManifactureSLNo())){
-             asset.setManifactureSLNo(assetDto.getManifactureSLNo());
-         }
-         if(StringUtils.isNotBlank(assetDto.getLocation())){
-             asset.setLocation(assetDto.getLocation());
-         }
-         if(assetDto.getAssetUsage()!=null){
-             asset.setAssetUsage(assetDto.getAssetUsage());
-         }
-         if(assetDto.getInstallDate()!=null){
-             asset.setInstallDate(assetDto.getInstallDate());
-         }
-         if(assetDto.getDataOfMfg()!=null){
-             asset.setDataOfMfg(assetDto.getDataOfMfg()); 
-         }
-         if(assetDto.getPurchaseCost()!=null){
-             asset.setPurchaseCost(assetDto.getPurchaseCost()); 
-         }
+        if (StringUtils.isNotBlank(assetDto.getInstSLNo())) {
+            asset.setInstSLNo(assetDto.getInstSLNo());
+        }
+        if (StringUtils.isNotBlank(assetDto.getIsActive())) {
+            asset.setIsActive(assetDto.getIsActive());
+        }
+        if (StringUtils.isNotBlank(assetDto.getIsWarranty())) {
+            asset.setIsWarranty(assetDto.getIsWarranty());
+        }
+        if (assetDto.getWarrantyEndDate() != null) {
+            asset.setWarrantyEndDate(assetDto.getWarrantyEndDate());
+        }
+        if (assetDto.getWarrantyStartDate() != null) {
+            asset.setWarrantyStartDate(assetDto.getWarrantyStartDate());
+        }
+        if (StringUtils.isNotBlank(assetDto.getManifactureSLNo())) {
+            asset.setManifactureSLNo(assetDto.getManifactureSLNo());
+        }
+        if (StringUtils.isNotBlank(assetDto.getLocation())) {
+            asset.setLocation(assetDto.getLocation());
+        }
+        if (assetDto.getAssetUsage() != null) {
+            asset.setAssetUsage(assetDto.getAssetUsage());
+        }
+        if (assetDto.getInstallDate() != null) {
+            asset.setInstallDate(assetDto.getInstallDate());
+        }
+        if (assetDto.getDataOfMfg() != null) {
+            asset.setDataOfMfg(assetDto.getDataOfMfg());
+        }
+        if (assetDto.getPurchaseCost() != null) {
+            asset.setPurchaseCost(assetDto.getPurchaseCost());
+        }
+        asset.setModifiedBy(getLoggedInUser().getUserName());
+        asset.setModifiedDate(Calendar.getInstance());
         assetMasterRepository.save(asset);
 
 
@@ -175,22 +187,41 @@ public class AssetServiceImpl extends BaseServiceImpl {
     }
 
     private void validateMachineType(Long typeId) {
-        if (typeId != null && machineTypeRepository.findOne(typeId) == null) {
+        if (typeId != null && machineAttributeRepository.findOne(typeId) == null) {
             throw new ValidationException("machineMake", typeId.toString(), "Invalid value passed");
         }
     }
 
     private void validateMachineModel(Long modelId) {
-        if (modelId != null && machineModelRepository.findOne(modelId) == null) {
+        if (modelId != null && machineAttributeRepository.findOne(modelId) == null) {
             throw new ValidationException("machineModel", modelId.toString(),
                 "Invalid value passed");
         }
     }
 
     private void validateMachineMake(Long makeId) {
-        if (makeId != null && machineMakeRepository.findOne(makeId) == null) {
+        if (makeId != null && machineAttributeRepository.findOne(makeId) == null) {
             throw new ValidationException("machineModel", makeId.toString(), "Invalid value passed");
         }
+    }
+
+    /**
+     * 
+     * @param assetId
+     */
+    @Transactional(rollbackFor={Exception.class})
+    public void deleteAsset(Long assetId) {
+        AssetMaster asset = assetMasterRepository.findOne(assetId);
+        if (!getLoggedInUser().getRole().equals(RoleType.ADMIN)
+            && (!asset.getClientId().equals(getLoggedInUser().getCompanyId()) && getLoggedInUser()
+                    .getRole().equals(RoleType.CLIENT_ADMIN))) {
+            throw new AuthorizationException(UserAction.DELETE_ASSET.getValue(),
+                UserContextRetriver.getUsercontext().getUserName());
+        }
+        asset.setStatus(StatusType.DELETED.getValue());
+        asset.setModifiedBy(getLoggedInUser().getUserName());
+        asset.setModifiedDate(Calendar.getInstance());
+        assetMasterRepository.save(asset);
     }
 
 

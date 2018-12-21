@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.android.maintenance.DTO.ClientDTO;
 import com.android.maintenance.DTO.UserDTO;
 import com.android.maintenance.R;
 

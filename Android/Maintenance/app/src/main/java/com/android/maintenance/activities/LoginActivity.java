@@ -30,6 +30,8 @@ import com.google.gson.GsonBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 
 /**
  * Created by anand on 16-Sep-16.
@@ -45,13 +47,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String email,password;
     TextView forgot_password_text,error_str;
     Intent intent;
+    UserDTO userDTO;
     Context context = this;
+    public String token, userID,roleStr,status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         session=new SessionManager(this);
+
         forgot_password_text=(TextView) findViewById(R.id.forgotpassword);
         emailET=(EditText)findViewById(R.id.email);
         pwdET=(EditText)findViewById(R.id.password);
@@ -62,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginBTN.setOnClickListener(this);
         forgot_password_text.setOnClickListener(this);
 
-        Toast.makeText(getApplicationContext(), "User LoginActivity Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "User LoginActivity Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
 
         mProgress = new ProgressDialog(context);
         mProgress.setTitle("Processing...");
@@ -71,25 +76,125 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mProgress.setIndeterminate(true);
 
         if(session.isLoggedIn()){
-            startActivity(new Intent(LoginActivity.this,AdminMainActivity.class));
-            finish();
+            HashMap<String, String> user = session.getUserDetails();
+            userID = user.get("KEY_USER_ID");
+            token = user.get(SessionManager.KEY_TOKEN);
+            roleStr= user.get(SessionManager.KEY_ROLE);
+            status=user.get(SessionManager.KEY_STATUS);
+           // userDTO= new UserDTO(Long.parseLong(userID),user.get(SessionManager.KEY_USER_NAME),user.get(SessionManager.KEY_FIRST_NAME),"",user.get(SessionManager.KEY_PHONE_NO),user.get(SessionManager.KEY_EMAIL),user.get(SessionManager.KEY_LAST_NAME),user.get(SessionManager.KEY_ROLE),user.get(SessionManager.KEY_GENDER),"" ,status);
+            if(roleStr.equals(ConfigConstant.adminRole)){
+                if(status.equals("N")) {
+                    intent = new Intent(LoginActivity.this, AdminProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+                    finish();
+                }
+            }else if(roleStr.equals(ConfigConstant.employeeRole)){
+                if(status.equals("N")) {
+                    intent = new Intent(LoginActivity.this, AdminProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    startActivity(new Intent(LoginActivity.this, EmployeeMainActivity.class));
+                    finish();
+                }
+            }else if(roleStr.equals(ConfigConstant.userRole)){
+                if(status.equals("N")) {
+                    intent = new Intent(LoginActivity.this, AdminProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    startActivity(new Intent(LoginActivity.this, UserMainActivity.class));
+                    finish();
+                }
+            }else if(roleStr.equals(ConfigConstant.accountantRole)){
+                if(status.equals("N")) {
+                    intent = new Intent(LoginActivity.this, AccountantMainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    startActivity(new Intent(LoginActivity.this, AccountantMainActivity.class));
+                    finish();
+                }
+            }
         }
     }
 
-    private void updateUI(JSONObject userjson,JSONObject companyjson,String token){
+    public void updateUI(JSONObject userjson,JSONObject companyjson,String token) {
         //create session for new logged in user
         Gson gson = new GsonBuilder().create();
-        String userStr=userjson.toString();
-        UserDTO user=gson.fromJson(userStr, UserDTO.class);
-        String companyStr=companyjson.toString();
-        CompanyDTO company= gson.fromJson(companyStr,CompanyDTO.class);
+        String userStr = userjson.toString();
+        UserDTO user = gson.fromJson(userStr, UserDTO.class);
+        String companyStr = null;
+        CompanyDTO company;
+        String role=user.getRole();
+        Log.e("Role",":"+user.getRole());
+            // intent = new Intent();
 
-        Log.e("userId:"+user.getUserId(),"token:"+token);
-        session.createLoginSession(user.getUserId(),user.getUserName(),user.getFirstName(),user.getLastName(),user.getPhoneno(),user.getGender(),user.getRole(),token);
-        Log.e("","created session");
-        intent=new Intent(LoginActivity.this,AdminMainActivity.class);
-        startActivity(intent);
-        finish();
+             if(role.equals(ConfigConstant.userRole)) {
+                 if(user.getStatus().equals("N")){
+                     companyStr = companyjson.toString();
+                     company = gson.fromJson(companyStr, CompanyDTO.class);
+                     session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+                     intent = new Intent(LoginActivity.this, AdminProfileActivity.class);
+                     startActivity(intent);
+                     finish();
+                 }else{
+                     companyStr = companyjson.toString();
+                     company = gson.fromJson(companyStr, CompanyDTO.class);
+                     session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+                     intent = new Intent(LoginActivity.this, UserMainActivity.class);
+                     startActivity(intent);
+                     finish();
+                 }
+
+             }else if(role.equals(ConfigConstant.accountantRole)){
+                 if(user.getStatus().equals("N")){
+                     companyStr = companyjson.toString();
+                     company = gson.fromJson(companyStr, CompanyDTO.class);
+                     session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+                     intent = new Intent(LoginActivity.this, AdminProfileActivity.class);
+                     startActivity(intent);
+                     finish();
+                 }else{
+                     companyStr = companyjson.toString();
+                     company = gson.fromJson(companyStr, CompanyDTO.class);
+                     session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+                     intent = new Intent(LoginActivity.this, AccountantMainActivity.class);
+                     startActivity(intent);
+                     finish();
+                 }
+             } else if(role.equals(ConfigConstant.employeeRole)){
+                 if(user.getStatus().equals("N")){
+                     companyStr = companyjson.toString();
+                     company = gson.fromJson(companyStr, CompanyDTO.class);
+                     session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+                     intent = new Intent(LoginActivity.this, AdminProfileActivity.class);
+                     startActivity(intent);
+                     finish();
+                 }else{
+                     companyStr = companyjson.toString();
+                     company = gson.fromJson(companyStr, CompanyDTO.class);
+                 session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+                 intent = new Intent(LoginActivity.this, EmployeeMainActivity.class);
+                 startActivity(intent);
+                 finish();
+                 }
+             } else if(role.equals(ConfigConstant.adminRole)){
+            //
+            companyStr = companyjson.toString();
+            company = gson.fromJson(companyStr, CompanyDTO.class);
+            Log.e("userId:" + user.getUserId(), "token:" + token);
+            Log.e("", "created session");
+            session.createLoginSessionAdmin(user.getUserId(),user.getEmailId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getPhoneno(), user.getGender(), user.getRole(), token,company.getClientId(),company.getCompanyId(),user.getStatus());
+            intent = new Intent(LoginActivity.this, AdminMainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
 
@@ -170,10 +275,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String datatoken = null;
             Gson gson = new GsonBuilder().create();
             try {
-                 obj = new JSONObject(result).getJSONObject("data");
+                 obj = new JSONObject(result);
                  datauser = obj.getJSONObject("user");
-                 datacompany= obj.getJSONObject("company");
                  datatoken = obj.getString("token");
+                 datacompany= obj.getJSONObject("company");
+
 
             }catch (Exception e){
 
@@ -186,7 +292,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }else if(loginResponse.getStatusCode()==-1){
                 mProgress.dismiss();
                 error_str.setText(loginResponse.getMsg());
-
                 Toast.makeText(getApplicationContext(),loginResponse.getMsg(), Toast.LENGTH_LONG).show();
             }
         }

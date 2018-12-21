@@ -5,10 +5,12 @@ package com.rest.api;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -19,7 +21,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.maintenance.Common.StatusType;
+import com.maintenance.common.StatusType;
 import com.maintenance.request.BaseResponse;
 import com.maintenance.user.UserCreateRequest;
 import com.maintenance.user.UserPasswordRequest;
@@ -90,7 +92,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response userRegistrationRequest(@QueryParam("companyId") Long companyId,
-            @QueryParam("status") String status, @QueryParam("fetchAddress") boolean fetchAddress) {
+            @QueryParam("status") String status, @QueryParam("fetchAddress") boolean fetchAddress,@QueryParam("role") Long role) {
         UserResponse response = new UserResponse();
         logger.info("getting users for the companyId:" + companyId);
         if (StringUtils.isBlank(status)) {
@@ -98,7 +100,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         } else {
             validStatus(status);
         }
-        response = userServiceImpl.getUser(companyId, status, fetchAddress);
+        response = userServiceImpl.getUser(companyId, status, fetchAddress,role);
         return Response.ok(response).build();
     }
 
@@ -126,7 +128,7 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
      * @return Response
      */
     @POST
-    @Path("/reject/{userId}")
+    @Path("/reject")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response userRegistrationReject(@Valid UserRegistrationRejectRequest request) {
@@ -169,7 +171,19 @@ public class UserRestServiceImpl extends BaseRestServiceImpl {
         logger.info("forgot password for emailID:" + request.getEmailId());
         BaseResponse response = new BaseResponse();
         userServiceImpl.forgotPassword(request);
-        response.setMsg("New password is sent to yout emailId successful");
+        response.setMsg("New password is sent to your emailId successful");
+        return Response.ok(response).build();
+    }
+
+    @DELETE
+    @Path("/{userId}")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response deleteUser(@PathParam("userId") Long userId) {
+        logger.info("deleting user:" + userId);
+        BaseResponse response = new BaseResponse();
+        userServiceImpl.deleteUser(userId);
+        response.setMsg("User delete successful");
         return Response.ok(response).build();
     }
 

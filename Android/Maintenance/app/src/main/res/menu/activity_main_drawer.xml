@@ -7,29 +7,44 @@
         android:title="Profile" />
 
         <item
-            android:id="@+id/nav_add_client"
-            android:title="Add Client" />
+            android:id="@+id/nav_client"
+            android:title="Clients" />
 
         <item
-            android:id="@+id/nav_client_approval"
-            android:title="Client Approval" />
+            android:id="@+id/nav_users"
+            android:title="Users" />
 
         <item
-            android:id="@+id/nav_machineRegister"
-            android:title="Machine Register" />
+            android:id="@+id/nav_machines"
+            android:title="Machines" />
 
         <item
-            android:id="@+id/nav_machineType"
-            android:title="Machine Type" />
+            android:id="@+id/nav_logs"
+            android:title="Logs" />
 
         <item
-            android:id="@+id/nav_machineModel"
+            android:id="@+id/employees"
+            android:title="My Employees" />
+
+        <item
+            android:id="@+id/nav_claim"
+            android:title="Claim" />
+
+        <item
+            android:id="@+id/nav_machine_spare"
+            android:title="Machine Spare" />
+
+        <item
+            android:id="@+id/nav_machine_model"
             android:title="Machine Model" />
 
         <item
-            android:id="@+id/nav_machineMake"
-            android:title="Machine Make" />
+            android:id="@+id/nav_machinetype"
+            android:title="Machine Type" />
 
+        <item
+            android:id="@+id/nav_machinemake"
+            android:title="Machine Make" />
 
         <item
             android:id="@+id/nav_log_out"

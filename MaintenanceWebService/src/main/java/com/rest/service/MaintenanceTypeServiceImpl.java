@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maintenance.Common.StatusType;
+import com.maintenance.common.StatusType;
 import com.maintenance.maintenance.MaintenanceTypeDTO;
 import com.maintenance.maintenance.MaintenanceTypeResponse;
 import com.rest.entity.MaintenanceType;

@@ -14,4 +14,6 @@ import com.rest.entity.MaintenanceType;
 public interface MaintenanceTypeRepository extends CrudRepository<MaintenanceType, Long> {
 
 public List<MaintenanceType> findByCompanyIdAndStatus(Long companyId, String status);
+public MaintenanceType findByTypeIdAndStatus(Long typeId, String status);
+
 }

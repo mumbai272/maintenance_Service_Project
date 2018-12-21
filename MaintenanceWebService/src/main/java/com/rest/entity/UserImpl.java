@@ -14,10 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "USERS",uniqueConstraints=@UniqueConstraint(columnNames={"ADDRESS_ID"},name="ADDRESS_ID_unique"))
+@Table(name = "USERS")
 public class UserImpl {
 
     @Id
@@ -290,6 +289,18 @@ public class UserImpl {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+
+    
+//    public String getPanNo() {
+//        return panNo;
+//    }
+//
+//
+//    
+//    public void setPanNo(String panNo) {
+//        this.panNo = panNo;
+//    }
 
 
 

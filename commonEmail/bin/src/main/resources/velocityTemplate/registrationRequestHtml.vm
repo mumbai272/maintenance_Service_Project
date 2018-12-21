@@ -1,0 +1,30 @@
+<html>
+    <body>
+        <h3>Hi ${name},</h3>
+        <p>
+           New client requested for registration.
+          </p>
+        <h3>
+          Client Details
+          <hr\>
+        </h3>
+        <p>
+          Name: ${clientName}
+        </p>
+        <p>
+         EmailId: ${emailId}
+        </p>
+        <p>
+          Phone no: ${phoneNO}
+        </p>
+         <p>
+          Company name: ${CompanyName}
+        </p>
+        <p>
+        <br/>
+       Regards,<br/>
+       Admin
+       </p>
+    </body>
+
+</html>

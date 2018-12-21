@@ -16,10 +16,15 @@ import com.rest.entity.Company;
 public interface CompanyRepository extends CrudRepository<Company, Long> {
 
     List<Company> findByCompanyId(Long companyId);
+    
+    Company findByClientIdAndStatus(Long clientId,String status);
 
     @Query("select clientId from Company where companyId=:companyId and status=:status ")
     List<Long> findClientIdByCompanyIdAndStatus(@Param("companyId") Long companyId,
             @Param("status") String status);
+    
+    @Query("select ShortDesc from Company where clientId=:companyId")
+    String findCompanyNameByClientId(@Param("companyId") Long companyId);
 
 
 }

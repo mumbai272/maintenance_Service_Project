@@ -5,18 +5,21 @@ package com.rest.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.common.util.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.maintenance.Common.RoleType;
-import com.maintenance.Common.StatusType;
-import com.maintenance.Common.UserContext;
-import com.maintenance.Common.UserContextRetriver;
-import com.maintenance.Common.exception.AuthorizationException;
+import com.maintenance.common.RoleType;
+import com.maintenance.common.StatusType;
+import com.maintenance.common.UserContext;
+import com.maintenance.common.UserContextRetriver;
+import com.maintenance.common.exception.AuthorizationException;
 import com.rest.api.exception.ValidationException;
 import com.rest.entity.Company;
+import com.rest.entity.UserImpl;
 import com.rest.repository.CompanyRepository;
+import com.rest.repository.UserRepository;
 
 
 /**
@@ -28,6 +31,8 @@ public abstract class BaseServiceImpl {
 
     @Autowired
     protected CompanyRepository companyRepository;
+    @Autowired
+    protected UserRepository userRepository;
 
     /**
      * validate company
@@ -39,7 +44,7 @@ public abstract class BaseServiceImpl {
         logger.info("validating the company for companyId:" + companyId);
         Company company = companyRepository.findOne(companyId);
         if (company == null) {
-            throw new ValidationException("companyId", companyId.toString(), "Invalid role");
+            throw new ValidationException("companyId", companyId.toString(), "Invalid value");
         }
 
         return true;
@@ -102,4 +107,14 @@ public abstract class BaseServiceImpl {
         return roleType;
 
     }
+    protected UserImpl validateUser(Long userId,String fieledName) {
+        UserImpl user= userRepository.findByUserIdAndStatus(userId, StatusType.ACTIVE.getValue());
+          if(user==null){
+              if(StringUtils.isBlank(fieledName)){
+                  fieledName="UserId";
+              }
+              throw new ValidationException(fieledName, userId.toString(), "invalid value is passed");
+          }
+          return user;
+      }
 }

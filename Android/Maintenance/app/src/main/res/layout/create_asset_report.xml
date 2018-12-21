@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/btn_layout"
+        android:layout_below="@+id/view">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Report Name"
+                android:id="@+id/txt_client"
+                android:layout_marginTop="73dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentStart="true" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Contact Person"
+                android:layout_marginTop="25dp"
+                android:id="@+id/txt_contact"
+                android:layout_below="@+id/txt_client"
+                android:layout_alignStart="@+id/txt_client" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/txt_wrty"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="25dp"
+                android:layout_below="@+id/txt_contact"
+                android:layout_alignStart="@+id/txt_contact"
+                android:text="Warrenty" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Chargable"
+                android:layout_below="@+id/txt_wrty"
+                android:layout_marginTop="25dp"
+                android:id="@+id/text_chargable"
+                android:layout_alignStart="@+id/txt_wrty"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Problem Attended"
+                android:layout_marginTop="25dp"
+                android:id="@+id/text_pa"
+                android:layout_below="@+id/text_chargable"
+                android:layout_alignStart="@+id/text_chargable" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Service Details"
+                android:id="@+id/txt_ser_det"
+                android:layout_marginTop="25dp"
+                android:layout_below="@+id/text_pa"
+                android:layout_alignStart="@+id/text_chargable"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Service Engineer Remarks"
+                android:id="@+id/text_remark"
+                android:layout_marginTop="25dp"
+                android:layout_below="@+id/txt_ser_det"
+                android:layout_alignStart="@+id/text_pa"
+                android:layout_alignEnd="@+id/text_pa" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Follow Up Action"
+                android:id="@+id/text_f_action"
+                android:layout_marginTop="25dp"
+                android:layout_below="@+id/text_remark"
+                android:layout_alignStart="@+id/text_remark"
+                android:layout_alignEnd="@+id/text_pa" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Client Remarks"
+                android:id="@+id/text_cli_remark"
+                android:layout_marginTop="25dp"
+                android:layout_below="@+id/c_f_action"
+                android:layout_alignStart="@+id/c_f_action" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Client Follow up Action"
+                android:id="@+id/c_f_action"
+                android:layout_marginTop="25dp"
+                android:layout_below="@+id/text_f_action"
+                android:layout_alignStart="@+id/text_remark"
+                android:layout_alignEnd="@+id/text_pa" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/reportname"
+                android:layout_above="@+id/edit_c_person"
+                android:layout_toEndOf="@+id/text_pa" />
+
+
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edit_c_person"
+                android:layout_alignBottom="@+id/txt_contact"
+                android:layout_alignEnd="@+id/reportname" />
+
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_wrty"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                android:layout_alignBottom="@+id/txt_wrty"
+                android:layout_alignStart="@+id/edit_c_person"
+                android:layout_alignEnd="@+id/edit_c_person">
+                <RadioButton android:id="@+id/wrty_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:layout_weight="0.29"/>
+                <RadioButton android:id="@+id/wrty_no"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:layout_weight="0.41" />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_chargable"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                android:layout_alignBottom="@+id/text_chargable"
+                android:layout_alignStart="@+id/radio_wrty"
+                android:layout_alignEnd="@+id/radio_wrty">
+                <RadioButton android:id="@+id/ch_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:layout_weight="0.29"/>
+                <RadioButton android:id="@+id/ch_no"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:layout_weight="0.41" />
+
+            </RadioGroup>
+
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/edit_p_attanded"
+                android:layout_alignBottom="@+id/text_pa"
+                android:layout_alignStart="@+id/radio_chargable" />
+
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/edit_ser_det"
+                android:layout_alignBottom="@+id/txt_ser_det"
+                android:layout_toEndOf="@+id/text_pa"
+                android:layout_alignStart="@+id/edit_p_attanded" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/edit_eng_remark"
+                android:layout_alignTop="@+id/text_remark"
+                android:layout_alignStart="@+id/edit_followup_Action"
+                android:layout_alignEnd="@+id/reportname" />
+
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/edit_followup_Action"
+                android:layout_alignBottom="@+id/text_f_action"
+                android:layout_alignStart="@+id/edit_ser_det" />
+
+
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/edit_clie_followup_action"
+                android:layout_alignBottom="@+id/c_f_action"
+                android:layout_alignEnd="@+id/reportname" />
+
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/edit_clie_remark"
+                android:layout_alignBottom="@+id/text_cli_remark"
+                android:layout_alignStart="@+id/edit_clie_followup_action" />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#689F38"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginBottom="0dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white_color"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="Add"
+            android:id="@+id/crt_report_btn"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="0dp"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
+

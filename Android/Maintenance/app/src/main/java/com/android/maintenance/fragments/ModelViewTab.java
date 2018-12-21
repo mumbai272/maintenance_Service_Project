@@ -16,4 +16,5 @@ public class ModelViewTab extends android.support.v4.app.Fragment {
 
         return inflater.inflate(R.layout.model_viewtab, container, false);
     }
+
 }

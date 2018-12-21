@@ -40,7 +40,7 @@ public class Address {
     @Column(name = "CITY", length = 50)
     private String city;
 
-    @Column(name = "LOCATION", length = 50)
+    @Column(name = "LOCATION", length = 50, nullable=false)
     private String location;
 
     @Column(name = "ZIP_CODE", length = 50)
@@ -55,10 +55,10 @@ public class Address {
     @Column(name = "FAX_NO", length = 50)
     private String faxNo;
 
-    @Column(name = "WEBSITE", length = 50,unique=true)
+    @Column(name = "WEBSITE", length = 50)
     private String website;
 
-    @Column(name = "MAIL_ID", length = 100, unique=true)
+    @Column(name = "MAIL_ID", length = 100)
     private String mailId;
 
 //    @Column(name = "Linke_Id")

@@ -5,11 +5,11 @@ package com.rest.api;
 
 import org.apache.log4j.Logger;
 
-import com.maintenance.Common.RoleType;
-import com.maintenance.Common.StatusType;
-import com.maintenance.Common.UserContext;
-import com.maintenance.Common.UserContextRetriver;
-import com.maintenance.Common.exception.AuthorizationException;
+import com.maintenance.common.RoleType;
+import com.maintenance.common.StatusType;
+import com.maintenance.common.UserContext;
+import com.maintenance.common.UserContextRetriver;
+import com.maintenance.common.exception.AuthorizationException;
 import com.rest.api.exception.ValidationException;
 
 

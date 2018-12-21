@@ -19,18 +19,25 @@ import android.util.Log;
 
 import com.android.maintenance.Utilities.SessionManager;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderIterator;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.RequestLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 public class ServiceHandlerWS {
@@ -129,6 +136,29 @@ public class ServiceHandlerWS {
         return result;
     }
 
+    public static String makeServicePostWithToken(String url, String data,String token ){
+        String result = "";
+        try {
+            Log.e(TAG,"URL: "+url);
+            Log.e(TAG,"data: "+data);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost post = new HttpPost(url);
+            post.setHeader("Content-type", "application/json");
+            post.addHeader("token", token);
+            StringEntity se = new StringEntity(data);
+            post.setEntity(se);
+            HttpResponse httpResponse = httpclient.execute(post);
+            result=EntityUtils.toString(httpResponse.getEntity());
+            //inputStream = httpResponse.getEntity().getContent();
+            // convert inputstream to string
+        }catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+       /* Log.i("JSONPOSTEND", "End of JSON data post methos...");*/
+        Log.e(TAG,"Response====="+result);
+        return result;
+    }
+
     public static String makeServicePut(String url, String data,String token){
         String result = "";
         try {
@@ -150,5 +180,67 @@ public class ServiceHandlerWS {
        /* Log.i("JSONPOSTEND", "End of JSON data post methos...");*/
         Log.e(TAG,"Response====="+result);
         return result;
+    }
+
+    public static String makeServicePutWithOutData(String url,String token){
+        String result = "";
+        try {
+            Log.e(TAG,"URL: "+url);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPut put = new HttpPut(url);
+            put.setHeader("Content-type", "application/json");
+            put.addHeader("token", token);
+            HttpResponse httpResponse = httpclient.execute(put);
+            result=EntityUtils.toString(httpResponse.getEntity());
+            //inputStream = httpResponse.getEntity().getContent();
+            // convert inputstream to string
+        }catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+       /* Log.i("JSONPOSTEND", "End of JSON data post methos...");*/
+        Log.e(TAG,"Response====="+result);
+        return result;
+    }
+
+    public String makeServiceDetele(String url, String token) {
+        String result = "";
+        try {
+            Log.e(TAG,"URL: "+url);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpDelete delete = new HttpDelete(url);
+            delete.setHeader("Content-type", "application/json");
+            delete.addHeader("token", token);
+
+            HttpResponse httpResponse = httpclient.execute(delete);
+            result=EntityUtils.toString(httpResponse.getEntity());
+            //inputStream = httpResponse.getEntity().getContent();
+            // convert inputstream to string
+        }catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+        Log.e(TAG,"Response====="+result);
+        return result;
+    }
+
+
+    public String makeServicePostWithOutData(String url, String token) {
+        String result = "";
+        try {
+            Log.e(TAG,"URL: "+url);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost post = new HttpPost(url);
+            post.setHeader("Content-type", "application/json");
+            post.addHeader("token", token);
+            HttpResponse httpResponse = httpclient.execute(post);
+            result=EntityUtils.toString(httpResponse.getEntity());
+            //inputStream = httpResponse.getEntity().getContent();
+            // convert inputstream to string
+        }catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+       /* Log.i("JSONPOSTEND", "End of JSON data post methos...");*/
+        Log.e(TAG,"Response====="+result);
+        return result;
+
     }
 }

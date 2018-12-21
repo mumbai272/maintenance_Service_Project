@@ -1,9 +1,11 @@
 package com.android.maintenance.DTO;
 
+import java.io.Serializable;
+
 /**
  * Created by anand on 15-Sep-16.
  */
-public class AddressDTO {
+public class AddressDTO implements Serializable {
 
     private String addressDesc;
     private String street1;
@@ -19,6 +21,21 @@ public class AddressDTO {
     private String faxNo;
     private String website;
     private String mailId;
+
+
+    public AddressDTO(String addressDesc, String country, String state, String city, String location, String zipCode, String mobileNo, String phoneNo, String faxNo, String mailId, String website) {
+        this.addressDesc = addressDesc;
+        this.country = country;
+        this.state = state;
+        this.city = city;
+        this.location = location;
+        this.zipCode = zipCode;
+        this.mobileNo = mobileNo;
+        this.phoneNo = phoneNo;
+        this.faxNo = faxNo;
+        this.mailId = mailId;
+        this.website = website;
+    }
 
     public AddressDTO(String addressDesc, String street1, String street2, String street3, String country, String state, String city, String location, String zipCode, String phoneNo, String mobileNo, String faxNo, String website, String mailId) {
         this.addressDesc = addressDesc;

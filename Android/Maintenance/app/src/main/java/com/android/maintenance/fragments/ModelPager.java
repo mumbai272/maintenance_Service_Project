@@ -3,6 +3,7 @@ package com.android.maintenance.fragments;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 /**
  * Created by anand on 28-Sep-16.
@@ -19,9 +20,11 @@ public class ModelPager extends FragmentStatePagerAdapter {
         switch (position){
             case 0:
                 frag=new ModelAddTab();
+                Log.e("step2:","dfd");
                 break;
             case 1:
                 frag=new ModelViewTab();
+                Log.e("step: 3",":dfd");
                 break;
         }
         return frag;

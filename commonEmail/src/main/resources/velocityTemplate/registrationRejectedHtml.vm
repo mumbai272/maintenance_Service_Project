@@ -1,0 +1,19 @@
+<html>
+    <body>
+        <h3>Hi ${name},</h3>
+        <p>
+            Your request for registration has been rejected by admin.
+          </p>
+        <h3>
+          Comments for Admin
+        </h3>
+        <p>
+          ${comments}
+        </p>
+        <p>
+       Regards,<br/>
+       Admin
+       </p>
+    </body>
+
+</html>

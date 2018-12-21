@@ -60,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
                 phonenoStr=phoneno.getText().toString();
                 clientNameStr=clientName.getText().toString();
                 nameStr=userName.getText().toString();
+
                     if(Utility.isNotNull(userNameStr)&&Utility.isNotNull(emailIdStr)&&Utility.isNotNull(passwordStr)&&Utility.isNotNull(nameStr)&&Utility.isNotNull(clientNameStr)&&Utility.isNotNull(phonenoStr)){
                     mProgress.show();
                     ObjectMapper mapper = new ObjectMapper();

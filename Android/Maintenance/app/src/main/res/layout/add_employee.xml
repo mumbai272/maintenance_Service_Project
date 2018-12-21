@@ -1,0 +1,227 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:weightSum="1">
+    <android.support.design.widget.AppBarLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/view"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/add_emp_ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/view"
+        android:layout_above="@+id/add_emp_btn">
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:weightSum="1">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Employee Name*"
+                android:id="@+id/emp_name"
+                android:layout_marginTop="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Designation*"
+                android:id="@+id/emp_designation"
+                android:layout_below="@+id/emp_name"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Department*"
+                android:id="@+id/emp_department"
+                android:layout_below="@+id/emp_designation"
+                android:layout_marginTop="30dp"
+                android:layout_alignEnd="@+id/emp_designation" />
+
+           <!-- <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Client"
+                android:id="@+id/client"
+                android:layout_below="@+id/emp_department"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Role*"
+                android:id="@+id/roles"
+                android:layout_below="@+id/emp_department"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Mobile No*"
+                android:id="@+id/mobile"
+                android:layout_marginTop="30dp"
+                android:layout_below="@+id/roles"
+                android:layout_alignStart="@+id/emp_department" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Email*"
+                android:id="@+id/emp_email"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/mobile"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Hour Rate*"
+                android:id="@+id/emp_rate"
+                android:layout_below="@id/emp_email"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp"
+               />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Date of Join*"
+                android:id="@+id/emp_join_date"
+                android:layout_below="@id/emp_rate"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edit_emp_name"
+                android:layout_alignBottom="@+id/emp_name"
+                android:layout_toEndOf="@+id/emp_name"
+                android:layout_marginStart="40dp" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_design"
+                android:layout_alignBottom="@+id/emp_designation"
+                android:layout_alignStart="@+id/edit_emp_name" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_depart"
+                android:layout_alignBottom="@+id/emp_department"
+                android:layout_alignStart="@+id/emp_design" />
+
+          <!--  <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_client"
+                android:layout_above="@+id/roles"
+                android:layout_alignStart="@+id/emp_depart" />-->
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emp_role"
+                android:layout_above="@+id/mobile"
+                android:layout_alignStart="@+id/emp_depart" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/edit_emp_no"
+                android:layout_alignBottom="@+id/mobile"
+                android:layout_alignStart="@+id/emp_role" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/edit_emp_mail"
+                android:layout_alignBottom="@+id/emp_email"
+                android:layout_alignStart="@+id/edit_emp_no" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/edit_emp_rate"
+                android:layout_alignBottom="@+id/emp_rate"
+                android:layout_alignStart="@+id/edit_emp_mail" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/emp_join"
+                android:layout_alignBottom="@+id/emp_join_date"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@+id/edit_emp_rate" />
+
+        </RelativeLayout>
+
+
+     </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:textSize="20dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white_color"
+        android:textStyle="bold"
+        android:id="@+id/add_emp_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
