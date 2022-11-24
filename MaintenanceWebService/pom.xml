@@ -11,7 +11,7 @@
 		<spring_verson>4.2.4.RELEASE</spring_verson>
 		<aspectj.version>1.7.4</aspectj.version>
 		<apache_cxf>3.1.4</apache_cxf>
-		<hibernate.version>4.3.11.Final</hibernate.version>
+		<hibernate.version>5.3.20.Final</hibernate.version>
 		<servlet.version>2.5</servlet.version>
 		<version>0.0.1-SNAPSHOT</version>
 	</properties>
