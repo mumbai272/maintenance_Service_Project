@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java-mail>1.5.0-b01</java-mail>
 		<velocity>1.7</velocity>
-		<spring_verson>4.2.4.RELEASE</spring_verson>
+		<spring_verson>5.2.20.RELEASE</spring_verson>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
