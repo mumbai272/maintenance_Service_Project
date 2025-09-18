@@ -8,7 +8,7 @@
 	<name>MaintenanceWebService</name>
 	<description>MaintenanceWebService Rest service</description>
 	<properties>
-		<spring_verson>4.2.4.RELEASE</spring_verson>
+		<spring_verson>6.2.11</spring_verson>
 		<aspectj.version>1.7.4</aspectj.version>
 		<apache_cxf>3.1.4</apache_cxf>
 		<hibernate.version>4.3.11.Final</hibernate.version>
@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>1.9.1.RELEASE</version>
+			<version>3.4.10</version>
 		</dependency>
 
 		<!-- aspectj -->
